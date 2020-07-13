@@ -10,8 +10,8 @@ COPY ./backend/requirements.yml /backend/requirements.yml
 
 RUN /opt/conda/bin/conda env create -f /backend/requirements.yml
 
-ENV PATH /opt/conda/envs/backend_luna/bin:$PATH
-RUN echo "source activate backend_luna" >~/.bashrc
+ENV PATH /opt/conda/envs/backend_techa/bin:$PATH
+RUN echo "source activate backend_techa" >~/.bashrc
 
 RUN mkdir -p /scripts
 COPY ./scripts /scripts
