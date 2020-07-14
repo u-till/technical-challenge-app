@@ -11,16 +11,6 @@ class User(AbstractUser):
 
     email = models.EmailField(unique=True)
 
-    #username = models.CharField(max_length=30)
-
-    #first_name = models.CharField(max_length=30)
-
-    #last_name = models.CharField(max_length=30)
-
-    #password = models.CharField(max_length=200)
-
-    #is_staff = models.BooleanField(default=False)
-
     updated = models.DateTimeField(auto_now_add=True)
 
     registration = models.OneToOneField(to=Registration, on_delete=models.CASCADE, related_name='user_registration', null=True, blank=True)
