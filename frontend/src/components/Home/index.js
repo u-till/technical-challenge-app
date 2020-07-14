@@ -2,15 +2,29 @@ import React from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
+import Header from '../Shared/Header';
+import { PageContent } from '../../style/page-layout';
 
 
 
-const Home = (props) => {
+//////////
+// STYLE
+//////////
 
+
+//////////
+// REACT
+//////////
+const Home = () => {
   return (
-<h1>Welcome</h1>
-  );
-};
+      <div>
+          <Header></Header>
+          <PageContent>
+              
+          </PageContent>
+      </div>
+  )
+}
 
 
 export default Home;
