@@ -1,6 +1,7 @@
-from rest_framework.generics import CreateAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAdminUser
 
+from question.models import Question
 from question.serializers import QuestionSerializer
 
 
@@ -17,3 +18,16 @@ class CreateQuestion(CreateAPIView):
             points_value = 10
         serializer.save(question_creator=self.request.user, points_value=points_value)
         return serializer
+
+
+class ListQuestions(ListAPIView):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
+    permission_classes = [IsAdminUser]
+
+
+class RetrieveUpdateDestroyQuestion(RetrieveUpdateDestroyAPIView):
+    serializer_class = QuestionSerializer
+    queryset = Question.objects.all()
+    lookup_field = 'id'
+    permission_classes = [IsAdminUser]

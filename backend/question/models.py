@@ -2,6 +2,8 @@ from django.db import models
 
 from django.conf import settings
 
+from program.models import Program
+
 
 class Question(models.Model):
     DIFFICULTY = [
@@ -18,7 +20,11 @@ class Question(models.Model):
 
     created = models.DateTimeField(auto_now_add=True)
 
+    updated = models.DateTimeField(auto_now_add=True)
+
     question_creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='fk_question_creator', null=True, blank=True)
+
+    program = models.ManyToManyField(to=Program, related_name='question_program')
 
     def __str__(self):
         return f'{self.pk}: {self.instructions}'
