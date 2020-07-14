@@ -24,6 +24,7 @@ urlpatterns = [
     path('api/docs/', include_docs_urls(title='Technical Challenge API', public=True, permission_classes=[])),
     path('api/registration/', include('registration.urls')),
     path('api/users/', include('user.urls')),
+    path('api/questions/', include('question.urls')),
     path('api/auth/token/', jwt_views.TokenObtainPairView.as_view()),
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view()),
     path('api/auth/token/verify/', jwt_views.TokenVerifyView.as_view()),

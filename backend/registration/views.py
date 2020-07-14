@@ -1,6 +1,6 @@
 from random import randint
 from django.core.mail import send_mail
-from rest_framework.generics import GenericAPIView, CreateAPIView, UpdateAPIView
+from rest_framework.generics import GenericAPIView, CreateAPIView
 from rest_framework.permissions import IsAdminUser
 from rest_framework.response import Response
 
@@ -31,7 +31,6 @@ class RegistrationEmail(GenericAPIView):
 
 
 class RegistrationValidation(CreateAPIView):
-
     serializer_class = ValidationUserSerializer
 
     def post(self, request, *args, **kwargs):
