@@ -1,6 +1,5 @@
 from rest_framework import serializers
 
-from program.serializers import ProgramSerializer
 from question.models import Question
 
 
