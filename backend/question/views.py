@@ -31,3 +31,7 @@ class ListQuestions(ListAPIView):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
     permission_classes = [IsAdminUser]
+
+
+
+

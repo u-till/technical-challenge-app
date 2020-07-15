@@ -22,7 +22,7 @@ class Question(models.Model):
 
     updated = models.DateTimeField(auto_now_add=True)
 
-    question_creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.CASCADE, related_name='fk_question_creator', null=True, blank=True)
+    question_creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='fk_question_creator', null=True, blank=True)
 
     program = models.ManyToManyField(to=Program, related_name='question_program')
 
