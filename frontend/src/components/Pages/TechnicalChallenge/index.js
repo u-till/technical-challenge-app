@@ -1,10 +1,9 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 import { rem } from "polished";
 
-import Header from '../Shared/Header';
-import { StartButton } from '../../style/GlobalButtons';
-
+import Header from "../../Shared/Navigation";
+import { StartButton } from "../../../style/GlobalButtons";
 
 //////////
 // STYLE
@@ -19,14 +18,13 @@ const TechChallengeCont = styled.div`
 // REACT
 //////////
 const TechnicalChallenge = () => {
-    return (
-      <>
+  return (
+    <>
       <Header></Header>
       <StartButton>Start</StartButton>
       <TechChallengeCont></TechChallengeCont>
     </>
-    );
-  };
-  
-  export default TechnicalChallenge;
-  
+  );
+};
+
+export default TechnicalChallenge;

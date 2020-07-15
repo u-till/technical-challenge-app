@@ -8,7 +8,7 @@ export const GlobalStyle = createGlobalStyle`
     padding: 0;
     font-size: ${rem("16px")};
     /* font-family: "HelveticaNeue-Light", "Helvetica Neue Light", "Helvetica Neue", Helvetica, Arial, "Lucida Grande", sans-serif;      */
-    font-family: 'Helvetica', sans-serif;
+    font-family: Roboto, sans-serif;
     box-sizing: border-box;
     }
     button:focus {

@@ -2,29 +2,33 @@ import { rem } from "polished";
 import styled from "styled-components";
 
 export const BaseButton = styled.button`
-    width: 74px;
-    height: 30px;
-    border-radius: 40px;
-    border: none;
-    background: #EF485C;
-    font-family: Roboto;
-    color: #ffffff;
-    cursor: pointer;
+  padding: 8px 20px 8px 20px;
+  border-radius: 40px;
+  border: none;
+  color: #ffffff;
+  cursor: pointer;
 `;
 
-export const Button = styled(BaseButton)`
+export const RedButton = styled(BaseButton)`
+  background-color: #ef485c;
+  :hover {
+    background-color: #f37786;
+  }
+`;
 
+export const BlueButton = styled(BaseButton)`
+  background-color: #00bae5;
+  :hover {
+    background-color: #05d0ff;
+  }
 `;
 
 export const StartButton = styled.button`
-    width: 230px;
-    height: 80.01px;
-    background: #EF485C;
-    border-radius: 40px;
-    color: #ffffff;
+  width: 230px;
+  height: 80.01px;
+  background: #ef485c;
+  border-radius: 40px;
+  color: #ffffff;
 `;
 
-const BigLoginButton = styled.button`
-
-`;
-
+const BigLoginButton = styled.button``;
