@@ -1,6 +1,4 @@
 from rest_framework import serializers
-
-from registration.models import Registration
 from user.models import User
 
 
@@ -29,11 +27,13 @@ class ValidationUserSerializer(UserSerializer):
 
     def validate(self, data):
         try:
-            target_profile = Registration.objects.get(email=data.get('email'))
-        except Registration.DoesNotExist:
+            target_profile = User.objects.get(email=data.get('email'))
+        except User.DoesNotExist:
             raise serializers.ValidationError({"detail": "Your email doesn't match any profile or is invalid."})
         if data.get('code') != target_profile.code:
             raise serializers.ValidationError({"detail": "Your validation code is incorrect"})
         if data.get('password') != data.get('password_repeat'):
             raise serializers.ValidationError({"detail": "Password and Password Repeat do not match"})
+        if data.get('password') == "Propulsion2020":
+            raise serializers.ValidationError({"detail": "You need to change your password"})
         return data
