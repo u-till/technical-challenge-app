@@ -11,8 +11,8 @@ import Header from "../../Shared/Navigation";
 //////////
 // REACT
 //////////
-const Users = () => {
+const FinishedChallenge = () => {
   return <Header></Header>;
 };
 
-export default Users;
+export default FinishedChallenge;

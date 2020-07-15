@@ -17,7 +17,7 @@ const TechChallengeCont = styled.div`
 //////////
 // REACT
 //////////
-const TechnicalChallenge = () => {
+const StartChallenge = () => {
   return (
     <>
       <Header></Header>
@@ -27,4 +27,4 @@ const TechnicalChallenge = () => {
   );
 };
 
-export default TechnicalChallenge;
+export default StartChallenge;

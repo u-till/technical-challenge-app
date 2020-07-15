@@ -8,6 +8,7 @@ dependencies:
       - django==3.0.8
       - djangorestframework==3.11.0
       - djangorestframework-simplejwt==4.4.0
+      - Pillow==7.1.2
       - coreapi==2.3.3
       - markdown==3.2.2
       - Pillow==7.1.2
