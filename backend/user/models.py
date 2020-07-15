@@ -14,7 +14,6 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
-
     email = models.EmailField(unique=True)
 
     updated = models.DateTimeField(auto_now_add=True)
