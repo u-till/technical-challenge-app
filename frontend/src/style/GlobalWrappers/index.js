@@ -3,7 +3,7 @@ import styled from "styled-components";
 import { Link } from "react-router-dom";
 
 export const PageContainer = styled.div`
-  padding: 70px 5% 70px 5%;
+  padding: 70px 5% 90px 5%;
   display: flex;
   justify-content: center;
 `;

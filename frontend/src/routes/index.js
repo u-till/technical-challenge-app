@@ -1,14 +1,15 @@
 import React from "react";
 import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "../components/Pages/Home";
-import ChallengeTitle from "../components/Pages/ChallengeTitle";
+import ChallengeTitle from "../components/Pages/Challenge";
 import Login from "../components/Pages/Authentication/Login";
 import Registration from "../components/Pages/Authentication/Registration";
-import Users from "../components/Pages/Users";
-import Questions from "../components/Pages/Questions";
-import TechnicalChallenge from "../components/Pages/TechnicalChallenge";
-import Done from "../components/Pages/Done";
+import ManageUsers from "../components/Pages/ManageUsers";
+import ManageQuestions from "../components/Pages/ManageQuestions";
+import StartChallenge from "../components/Pages/StartChallenge";
+import FinishedChallenge from "../components/Pages/FinishedChallenge";
 import Navigation from "../components/Shared/Navigation";
+import Challenge from "../components/Pages/Challenge";
 
 const Routes = () => {
   return (
@@ -17,17 +18,17 @@ const Routes = () => {
         <Switch>
           <Navigation>
             <Route exact path="/" component={Home} />
-            <Route exact path="/challengetitle" component={ChallengeTitle} />
             <Route exact path="/login" component={Login} />
             <Route exact path="/registration" component={Registration} />
+            <Route exact path="/startchallenge" component={StartChallenge} />
+            <Route exact path="/challenge" component={Challenge} />
             <Route
               exact
-              path="/technicalchallenge"
-              component={TechnicalChallenge}
+              path="/finishedchallenge"
+              component={FinishedChallenge}
             />
-            <Route exact path="/users" component={Users} />
-            <Route exact path="/questions" component={Questions} />
-            <Route exact path="/done" component={Done} />
+            <Route exact path="/manageusers" component={ManageUsers} />
+            <Route exact path="/managequestions" component={ManageQuestions} />
           </Navigation>
         </Switch>
       </Router>

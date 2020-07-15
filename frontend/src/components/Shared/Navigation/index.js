@@ -14,11 +14,12 @@ import avatar from "../../../assets/images/user.png";
 
 const Wrapper = styled.div`
   padding-top: 70px; /* Needs to be exactly the same height as the Header, offsets content because it's fixed */
+  height: 100vh;
 `;
 
 /* -----------HEADER------------------ */
 const Header = styled.div`
-  border-bottom: solid 1px rgba(221, 221, 221, 0.67);
+  border-bottom: solid 1px #dddddd;
   width: 100%;
   height: 70px;
   display: flex;
