@@ -2,6 +2,7 @@ name: backend_techa
 dependencies:
   - python=3.8
   - psycopg2
+  - pip
   - pip:
       - flake8
       - django==3.0.8
@@ -9,7 +10,7 @@ dependencies:
       - djangorestframework-simplejwt==4.4.0
       - coreapi==2.3.3
       - markdown==3.2.2
+      - Pillow==7.1.2
       - gunicorn==20.0.4
       - django-cors-headers==3.4.0
       - django-filter==2.1.0
-      - Pillow
