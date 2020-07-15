@@ -12,6 +12,8 @@ class Question(models.Model):
         ('H', 'Hard')
     ]
 
+    name = models.CharField(max_length=100, default="Question")
+
     instructions = models.CharField(max_length=2500)
 
     difficulty = models.CharField(max_length=1, choices=DIFFICULTY)

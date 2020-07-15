@@ -1,3 +1,4 @@
+from rest_framework import filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAdminUser
 
@@ -31,6 +32,9 @@ class ListQuestions(ListAPIView):
     serializer_class = QuestionSerializer
     queryset = Question.objects.all()
     permission_classes = [IsAdminUser]
+
+    search_fields = ['name', 'instructions', 'difficulty']
+    filter_backends = (filters.SearchFilter,)
 
 
 
