@@ -52,7 +52,7 @@ INSTALLED_APPS = [
     'question',
     'challenge',
     'tip',
-    'user',
+    'user'
 
 ]
 
@@ -172,7 +172,7 @@ REST_FRAMEWORK = {
         'rest_framework_simplejwt.authentication.JWTAuthentication',
     ],
     'DEFAULT_PERMISSION_CLASSES': [
-        'rest_framework.permissions.AllowAny',
+        'rest_framework.permissions.IsAdminUser',
     ],
     'DEFAULT_SCHEMA_CLASS': 'rest_framework.schemas.coreapi.AutoSchema',
 }
