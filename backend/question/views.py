@@ -52,6 +52,8 @@ class ListQuestions(ListAPIView):
     """
     get:
     Returns the list of all questions.
+
+    Search can be made by name, instructions or difficulty.
     """
 
     permission_classes = [IsAuthenticated]

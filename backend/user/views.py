@@ -29,11 +29,13 @@ class CreateUser(CreateAPIView):
 
 class UserValidation(UpdateAPIView):
     """
-     post:
+     patch:
      A user can validate the profile.
 
      The password needs to be change.
      """
+
+    http_method_names = ['patch']
 
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
@@ -56,6 +58,8 @@ class ListUsers(ListAPIView):
     """
      get:
      Returns the list of all users.
+
+     Search can be made by first_name, last_name or username
      """
 
     queryset = User.objects.all()
