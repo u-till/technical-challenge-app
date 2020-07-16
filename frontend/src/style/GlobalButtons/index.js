@@ -23,6 +23,28 @@ export const BlueButton = styled(BaseButton)`
   }
 `;
 
+export const EditButton = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`;
+
+export const AddButton = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`;
+
 export const StartButton = styled.button`
   width: 230px;
   height: 80.01px;
