@@ -2,253 +2,257 @@ import React from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
-import Header from "../../Shared/Navigation";
-import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
-import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import { BlueButton, RedButton } from "../../../style/GlobalButtons";
-
 import {
-  Container as ResizeContainer,
-  Section,
-  Bar,
-} from "react-simple-resizer";
+  BaseContainer,
+  InputAndLabelContainer,
+  PageContainer,
+} from "../../../style/GlobalWrappers";
+import { BaseInput } from "../../../style/GlobalInputs";
+import { RedButton } from "../../../style/GlobalButtons";
+import { BlueButton } from "../../../style/GlobalButtons";
 
 //////////
 // STYLE
 //////////
-
-const ChallengeContainer = styled.div`
-  width: 100vw;
-  height: 100%;
-  padding-bottom: 70px;
+const Questionstext = styled.p`
+  padding-top: 70px;
+  font-size: 48px;
+  padding-left: 110px;
 `;
 
-const StyledResizeContainer = styled(ResizeContainer)`
-  height: 100%;
+const Questionscontainer = styled.div`
+  margin-top: 20px;
+  display: flex;
+  justify-content: center;
 `;
 
-const StyledResizeBar = styled(Bar)`
-  width: 8px;
-  background: #888888;
-  cursor: col-resize;
+const Questionscontainerone = styled(BaseContainer)`
+  width: 644px;
+  height: 700px;
+  margin: 20px;
+  display: flex;
+  flex-wrap: wrap;
+  background-color: #ffffff;
 `;
 
-const DescriptionColumn = styled(Section)`
-  background-color: #f2f2f2;
-  overflow-y: auto !important;
-  padding: 8px;
+const Containerinputs = styled.div`
+  margin-top: 31px;
+  display: flex;
+  padding-left: 20px;
 `;
 
-const DescriptionContainer = styled(BaseContainer)`
-  padding: 16px;
+const Namelabel = styled.label``;
+
+const Nameinput = styled(BaseInput)`
+  width: 213px;
+  height: 6px;
+`;
+
+const Pointslabel = styled.label`
+  margin-left: 100px;
+`;
+
+const Pointsinput = styled(BaseInput)`
+  width: 108px;
+  height: 6px;
+`;
+
+const Difficultylabel = styled.label``;
+
+const Difficultyinput = styled(BaseInput)`
+  width: 142px;
+  height: 6px;
+`;
+
+const InsCatContainer = styled.div`
+  display: flex;
+  padding-left: 20px;
+`;
+
+const Intructiontext = styled.p``;
+
+const Instruction = styled.div`
+  width: 425px;
+  height: 129px;
+  background: #b8b8b8;
+`;
+const Categorytext = styled.p`
+  padding-left: 20px;
+`;
+
+const Category = styled.section`
+  width: 158px;
+  height: 129px;
+  margin-left: 20px;
+  background: #b8b8b8;
+  overflow: auto;
+`;
+
+const Testtipscontainer = styled.div`
+  display: flex;
+  margin-left: 20px;
+`;
+
+const Testfiletext = styled.p``;
+
+const Testfile = styled.div`
+  width: 213px;
+  height: 330px;
+  background: #b8b8b8;
+`;
+
+const Tipstext = styled.p`
+  padding-left: 20px;
+`;
+
+const Tips = styled.div`
+  width: 370px;
+  height: 330px;
+  background: #b8b8b8;
+  margin-left: 20px;
+  display: flex;
+  justify-content: space-evenly;
+  flex-direction: column;
+  align-items: center;
+  overflow: hidden;
+  overflow-y: scroll;
+`;
+
+const Insidetipdiv = styled.div`
+  width: 354px;
+  height: 109px;
+  background: #ededed;
+  padding-top: 20px;
+`;
+
+const Buttoncontainer = styled.div`
+  padding-left: 20px;
+`;
+
+const Deletebutton = styled(RedButton)`
+  width: 74px;
+  height: 30px;
+`;
+
+const Savebutton = styled(BlueButton)`
+  width: 74px;
+  height: 30px;
+  margin-left: 455px;
+`;
+
+const Firstcontainer = styled.div`
+  display: flex;
+  justify-content: space-around;
+`;
+
+const Plusicon = styled.image``;
+
+const Sorttext = styled.p``;
+
+const Dateinput = styled(BaseInput)`
+  width: 96px;
+  height: 30px;
+`;
+
+const Searchinput = styled(BaseInput)`
+  width: 250px;
+  height: 30px;
+`;
+
+const Questionswrapper = styled.div`
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  justify-content: space-evenly;
+  padding-left: 20px;
 `;
 
-const DescriptionHeader = styled.div`
-  height: 72px;
-  display: flex;
-  width: 100%;
-  justify-content: space-between;
-  align-items: flex-end;
-  padding-bottom: 8px;
-  margin-bottom: 8px;
-  border-bottom: 1px solid #dddddd;
-  h1,
-  h2 {
-    display: inline-flex;
-    padding-bottom: 0;
-  }
-  h2 {
-    padding-bottom: 4px;
-  }
+const Question = styled.div`
+  width: 605px;
+  height: 197px;
+  background: #b8b8b8;
 `;
 
-const InputColumn = styled(Section)`
-  background-color: #fff;
-`;
-
-const OutputColumn = styled(Section)`
-  background-color: #fff;
-`;
-
-/// Footer
-
-const Footer = styled.div`
-  width: 100%;
-  height: 70px;
-  padding: 0 ${rem("30px")} 0 ${rem("30px")};
-
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  z-index: 1000;
-  background-color: white;
-  justify-content: space-between;
-  flex-direction: row;
-  border-top: solid 1px #dddddd;
-`;
-
-///Footer Left
-const FooterSectionLeft = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 48%;
-`;
-
-const PrevNextButton = styled(BlueButton)``;
-
-const StepSelectorContainer = styled.div`
-  width: 100%;
-  min-width: 400px;
-  display: flex;
-  justify-content: space-between;
-  //
-`;
-
-const StepSelectorLine = styled.div`
-  width: 100%;
-  min-width: 400px;
-  margin: 0 30px 0 30px;
-  position: relative;
-  z-index: 1;
-
-  &:before {
-    border-top: 5px solid #000;
-    content: "";
-
-    margin: 0 auto; /* this centers the line to the full width specified */
-    position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-    top: 42%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 95%;
-    z-index: -1;
-  }
-
-  span {
-    /* to hide the lines from behind the text, you have to set the background color the same as the container */
-    background: #fff;
-    padding: 0 15px;
-  }
-`;
-
-const StepSelectorBtn = styled.button`
-  width: 28px;
-  height: 28px;
-  border-radius: 100%;
-  background-color: #fff;
-  border: 3px solid #000;
-  curson: pointer;
-  :hover {
-    background-color: #05d0ff;
-  }
-`;
-
-const StepSelectorBtnActive = styled(StepSelectorBtn)`
-  background-color: #00bae5;
-  :hover {
-    background-color: #05d0ff;
-  }
-`;
-
-///Footer Right
-const FooterSectionRight = styled.div`
-  min-width: 20%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-`;
-
-const Timer = styled.div`
-  margin: 0 16px 0 16px;
-  p {
-    font-size: 20px;
-    font-weight: bold;
-  }
-`;
-
-const DoneButton = styled(RedButton)``;
+const QuestionsCont = styled.p``;
 
 //////////
 // REACT
 //////////
-const Challenge = () => {
+const Questions = () => {
   return (
     <>
-      <ChallengeContainer>
-        <StyledResizeContainer>
-          <DescriptionColumn>
-            <DescriptionContainer>
-              <DescriptionHeader>
-                <div>
-                  <Styledh1>Challenge Title</Styledh1>
-                </div>
-                <div>
-                  <Styledh2>Nr. 3</Styledh2>
-                </div>
-              </DescriptionHeader>
-              <div>
-                <p>
-                  Contrary to popular belief, Lorem Ipsum is not simply random
-                  text. It has roots in a piece of classical Latin literature
-                  from 45 BC, making it over 2000 years old. Richard McClintock,
-                  a Latin professor at Hampden-Sydney College in Virginia,
-                  looked up one of the more obscure Latin words, consectetur,
-                  from a Lorem Ipsum passage, and going through the cites of the
-                  word in classical literature, discovered the undoubtable
-                  source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-                  "de Finibus Bonorum et Malorum" (The Extremes of Good and
-                  Evil) by Cicero, written in 45 BC. This book is a treatise on
-                  the theory of ethics, very popular during the Renaissance. The
-                  first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-                  comes from a line in section 1.10.32. The standard chunk of
-                  Lorem Ipsum used since the 1500s is reproduced below for those
-                  interested. Sections 1.10.32 and 1.10.33 from "de Finibus
-                  Bonorum et Malorum" by Cicero are also reproduced in their
-                  exact original form, accompanied by English versions from the
-                  1914 translation by H. Rackham.
-                </p>
-              </div>
-            </DescriptionContainer>
-          </DescriptionColumn>
-          <StyledResizeBar />
-          <InputColumn>
-            <p></p>
-          </InputColumn>
-          <StyledResizeBar />
-          <OutputColumn>
-            <p></p>
-          </OutputColumn>
-        </StyledResizeContainer>
-      </ChallengeContainer>
-      <Footer>
-        <FooterSectionLeft>
-          <PrevNextButton>Previous</PrevNextButton>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive></StepSelectorBtnActive>
-              <StepSelectorBtnActive></StepSelectorBtnActive>
-              <StepSelectorBtnActive></StepSelectorBtnActive>
-              <StepSelectorBtn></StepSelectorBtn>
-              <StepSelectorBtn></StepSelectorBtn>
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton>Next</PrevNextButton>
-        </FooterSectionLeft>
-        <FooterSectionRight>
-          <Timer>
-            <p>Time left: 24:05</p>
-          </Timer>
-          <DoneButton>Done!</DoneButton>
-        </FooterSectionRight>
-      </Footer>
+      <Questionstext>Questions</Questionstext>
+      <Questionscontainer>
+        <Questionscontainerone>
+          <Containerinputs>
+            <div>
+              <Namelabel for="name">Name:</Namelabel>
+              <Nameinput type="name" placeholder="Quest 1" required></Nameinput>
+            </div>
+            <div>
+              <Pointslabel for="number">Points:</Pointslabel>
+              <Pointsinput
+                type="number"
+                placeholder="number"
+                required
+              ></Pointsinput>
+            </div>
+            <div>
+              <Difficultylabel for="difficulty">Difficulty:</Difficultylabel>
+              <Difficultyinput
+                type="difficulty"
+                placeholder="Hard"
+                required
+              ></Difficultyinput>
+            </div>
+          </Containerinputs>
+          <InsCatContainer>
+            <div>
+              <Intructiontext>Instructions:</Intructiontext>
+              <Instruction></Instruction>
+            </div>
+            <div>
+              <Categorytext>Catergories:</Categorytext>
+              <Category></Category>
+            </div>
+          </InsCatContainer>
+          <Testtipscontainer>
+            <div>
+              <Testfiletext>Testfile:</Testfiletext>
+              <Testfile></Testfile>
+            </div>
+            <div>
+              <Tipstext>Tips:</Tipstext>
+              <Tips>
+                <Insidetipdiv></Insidetipdiv>
+                <Insidetipdiv></Insidetipdiv>
+                <Insidetipdiv></Insidetipdiv>
+              </Tips>
+            </div>
+          </Testtipscontainer>
+          <Buttoncontainer>
+            <Deletebutton>Delete</Deletebutton>
+            <Savebutton>Save</Savebutton>
+          </Buttoncontainer>
+        </Questionscontainerone>
+        <Questionscontainerone>
+          <Questionswrapper>
+            <Firstcontainer>
+              <Sorttext>Sort by:</Sorttext>
+              <Dateinput type="date" placeholder="Date" required></Dateinput>
+              <Searchinput
+                type="search"
+                placeholder="Search"
+                required
+              ></Searchinput>
+            </Firstcontainer>
+            <Question>Question 1</Question>
+            <Question>Question 2</Question>
+            <Question>Question 3</Question>
+          </Questionswrapper>
+        </Questionscontainerone>
+      </Questionscontainer>
     </>
   );
 };
 
-export default Challenge;
+export default Questions;
