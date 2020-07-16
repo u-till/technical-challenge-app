@@ -27,6 +27,7 @@ urlpatterns = [
     path('api/challenges/', include('challenge.urls')),
     path('api/tips/', include('tip.urls')),
     path('api/programs/', include('program.urls')),
+    path('api/tests/', include('tests.urls')),
     path('api/auth/token/', jwt_views.TokenObtainPairView.as_view()),
     path('api/auth/token/refresh/', jwt_views.TokenRefreshView.as_view()),
     path('api/auth/token/verify/', jwt_views.TokenVerifyView.as_view()),
