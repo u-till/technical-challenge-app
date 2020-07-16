@@ -21,6 +21,7 @@ class UserAdminView(UserAdmin):
     fieldsets = (
         ('Basics', {'fields': ('email', 'username', 'password')}),
         ('Profile info', {'fields': ('first_name', 'last_name')}),
+        ('Files', {'fields': ('avatar',)}),
         ('Permissions', {'fields': ('is_active', 'is_staff', 'is_superuser', 'user_permissions')}),
         ('Important dates', {'fields': ('last_login', 'date_joined')}),
         ('Groups', {'fields': ('groups',)}),

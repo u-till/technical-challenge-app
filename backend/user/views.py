@@ -31,6 +31,7 @@ class UserValidation(UpdateAPIView):
         updated_user = User.objects.get(id=kwargs['id'])
         updated_user.set_password(request.data['password'])
         updated_user.is_active = True
+        updated_user.avatar = request.data['avatar']
         updated_user.save()
         return Response(status=200)
 
