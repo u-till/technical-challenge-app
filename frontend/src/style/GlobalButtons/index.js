@@ -31,4 +31,9 @@ export const StartButton = styled.button`
   color: #ffffff;
 `;
 
-const BigLoginButton = styled.button``;
+export const BigRedButton = styled(RedButton)`
+  padding: 13px 40px 13px 40px;
+  width: 200px;
+  height: 60px;
+  font-size: 18px;
+`;
