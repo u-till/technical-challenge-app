@@ -7,6 +7,7 @@ import { HeaderLogo } from "../../../style/GlobalIcons";
 import { RedButton } from "../../../style/GlobalButtons";
 import { NavLink } from "react-router-dom";
 import avatar from "../../../assets/images/user.png";
+import UserModal from "./UserModal";
 
 //////////
 // STYLE
@@ -123,12 +124,7 @@ const Navigation = ({ children }) => {
           <NavbarAvatar onClick={showProfileContextHandler}>
             <img src={avatar}></img>
           </NavbarAvatar>
-          {/*{isContextVisible && (*/}
-          {/*  <UserContextMenu*/}
-          {/*    logOutHandler={logOutHandler}*/}
-          {/*    profileButtonHandler={profileButtonHandler}*/}
-          {/*  />*/}
-          {/*)}*/}
+          {isProfileModalVisible && <UserModal />}
         </NavSectionRight>
       </Header>
       {children}
