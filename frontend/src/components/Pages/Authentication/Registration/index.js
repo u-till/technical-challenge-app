@@ -117,9 +117,22 @@ const Registration = ({verificationAction, history, location, fieldErrors, non_f
         if (data.avatar) {
             msgData.append("avatar", data.avatar);
         }
+        console.log([...msgData]);
         const response = await verificationAction(match.params.userId, msgData);
         if (response.status === 202) {
             history.push("/");
+        }
+    };
+
+    const hiddenFileInput = React.useRef(null);
+
+    const handleClick = event => {
+        hiddenFileInput.current.click();
+    };
+
+    const imageSelectHandler = e => {
+        if (e.target.files[0]) {
+            setData({...data, avatar: e.target.files[0]})
         }
     };
 
@@ -157,7 +170,14 @@ const Registration = ({verificationAction, history, location, fieldErrors, non_f
                         />
                         <Error errorMessage={fieldErrors['last_name']}/>
                         <BtnWrapper>
-                            <UploadButton>Upload Avatar</UploadButton>
+                            <UploadButton onClick={handleClick}>Upload an Avatar...</UploadButton>
+                            <input
+                                type="file"
+                                name="restaurant_image"
+                                ref={hiddenFileInput}
+                                onChange={imageSelectHandler}
+                                style={{display: 'none'}}
+                            />
                         </BtnWrapper>
                     </div>
                     <div>
