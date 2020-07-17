@@ -1,16 +1,20 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
+import {rem} from "polished";
 
 import Header from "../../../Shared/Navigation";
 import {
-  BaseContainer,
-  InputAndLabelContainer,
-  PageContainer,
+    BaseContainer,
+    InputAndLabelContainer,
+    PageContainer,
 } from "../../../../style/GlobalWrappers";
-import { Styledh1 } from "../../../../style/GlobalTitles";
-import { BaseButton, RedButton } from "../../../../style/GlobalButtons";
-import { BaseInput } from "../../../../style/GlobalInputs";
+import {Styledh1} from "../../../../style/GlobalTitles";
+import {BaseButton, BigRedButton} from "../../../../style/GlobalButtons";
+import {BaseInput} from "../../../../style/GlobalInputs";
+import {connect} from "react-redux";
+import {verificationAction} from "../../../../store/actions/verificationAction";
+import {getUserInformationAction} from "../../../../store/actions/userActions"
+import {useRouteMatch} from "react-router-dom";
 
 //////////
 // STYLE
@@ -18,10 +22,10 @@ import { BaseInput } from "../../../../style/GlobalInputs";
 
 const SignupContainer = styled(BaseContainer)`
   width: 1244px;
-  min-height: 644px;
+  height: 700px;
   display: flex;
-  justify-content: space-evenly;
   flex-direction: column;
+  justify-content: space-around;
   align-items: center;
 `;
 
@@ -57,13 +61,9 @@ const SignupInput = styled(BaseInput)`
   height: 72px;
 `;
 
-const SignupButton = styled(RedButton)`
-  padding: 13px 40px 13px 40px;
-  width: 160px;
-`;
 
 const UploadButton = styled(BaseButton)`
-  padding: 13px 40px 13px 40px;
+
   width: 414px;
   height: 72px;
   border-radius: 5px;
@@ -71,61 +71,137 @@ const UploadButton = styled(BaseButton)`
   background-color: #fff;
   border: 1px solid #dbdbdb;
   font-size: ${rem("20px")};
+  text-align: start;
   :hover {
     border: 1px solid #9a9a9a;
     color: #363636;
   }
 `;
 
+const RegistrationButton = styled(BigRedButton)`
+  width: 414px;
+  height: 72px;
+`
+
 //////////
 // REACT
 //////////
-const Registration = () => {
-  return (
-    <PageContainer>
-      <SignupContainer>
-        <Styledh1>Registration</Styledh1>
-        <SignupSplitContainer>
-          <div>
-            <SignupInput
-              type="email"
-              placeholder="Email"
-              required
-            ></SignupInput>
-            <SignupInput
-              type="text"
-              placeholder="First Name"
-              required
-            ></SignupInput>
-            <SignupInput
-              type="text"
-              placeholder="Last Name"
-              required
-            ></SignupInput>
-            <BtnWrapper>
-              <UploadButton>Upload Avatar</UploadButton>
-            </BtnWrapper>
-          </div>
-          <div>
-            <SignupInput
-              type="password"
-              placeholder="Password"
-              required
-            ></SignupInput>
-            <SignupInput
-              type="password"
-              placeholder="Password"
-              required
-            ></SignupInput>
-            <SignupInput type="text" placeholder="Code" required></SignupInput>
-            <BtnWrapper>
-              <SignupButton>Register</SignupButton>
-            </BtnWrapper>
-          </div>
-        </SignupSplitContainer>
-      </SignupContainer>
-    </PageContainer>
-  );
+
+const Registration = ({getUserInformationAction, verificationAction, history, targetUser}) => {
+    const match = useRouteMatch();
+
+    const [data, setData] = useState({
+        email: 'testpage@gmail.com',
+        first_name: 'test',
+        last_name: 'test',
+        phone: '1234567890',
+        password: 'password01',
+        password_repeat: 'password01',
+        avatar: null
+    });
+
+
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    }
+
+
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+        const msgData = new FormData()
+        msgData.append('email', data.email);
+        msgData.append('first_name', data.first_name);
+        msgData.append('last_name', data.last_name);
+        msgData.append('password', data.password);
+        msgData.append('password_repeat', data.password_repeat);
+        msgData.append('phone', data.phone);
+        if (data.avatar) {
+            msgData.append('avatar', data.avatar)
+        }
+        const response = await verificationAction(match.params.userId, msgData);
+        if (response.status === 200) {
+            history.push('/')
+        }
+
+    }
+
+    return (
+        <PageContainer>
+            <SignupContainer>
+                <Styledh1>Registration</Styledh1>
+                <SignupSplitContainer>
+                    <div>
+                        <SignupInput
+                            name='email'
+                            value={data.email}
+                            type="email"
+                            placeholder="Email"
+                            required
+                            onChange={handleInput}
+                        ></SignupInput>
+                        <SignupInput
+                            name='first_name'
+                            value={data.first_name}
+                            type="text"
+                            placeholder="First Name"
+                            required
+                            onChange={handleInput}
+                        ></SignupInput>
+                        <SignupInput
+                            name='last_name'
+                            value={data.last_name}
+                            type="text"
+                            placeholder="Last Name"
+                            required
+                            onChange={handleInput}
+                        ></SignupInput>
+                        <BtnWrapper>
+                            <UploadButton>Upload Avatar</UploadButton>
+                        </BtnWrapper>
+                    </div>
+                    <div>
+                        <SignupInput
+                            name='password'
+                            value={data.password}
+                            type="password"
+                            placeholder="Password"
+                            required
+                            onChange={handleInput}
+                        ></SignupInput>
+                        <SignupInput
+                            name='password_repeat'
+                            value={data.password_repeat}
+                            type="password"
+                            placeholder="Repeat Password"
+                            required
+                            onChange={handleInput}>
+                        </SignupInput>
+                        <SignupInput
+                            name='phone'
+                            value={data.phone}
+                            type="text"
+                            placeholder="Phone"
+                            required
+                            onChange={handleInput}>
+                        </SignupInput>
+                        <BtnWrapper>
+                            <RegistrationButton onClick={onSubmitForm}>Register</RegistrationButton>
+                        </BtnWrapper>
+                    </div>
+                </SignupSplitContainer>
+            </SignupContainer>
+        </PageContainer>
+    )
 };
 
-export default Registration;
+const mapStateToProps = state => {
+    return {
+        targetUser: state.userReducer.targetUser
+    }
+}
+
+
+export default connect(mapStateToProps, {getUserInformationAction, verificationAction})(Registration);
+

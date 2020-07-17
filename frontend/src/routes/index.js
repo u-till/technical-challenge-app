@@ -20,7 +20,7 @@ const Routes = () => {
           <Navigation>
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
-            <Route exact path="/registration" component={Registration} />
+            <Route path="/verification/:userId" component={Registration} />
             <Route exact path="/mychallenges" component={MyChallenges} />
             <Route exact path="/startchallenge" component={StartChallenge} />
             <Route exact path="/challenge" component={Challenge} />
