@@ -86,40 +86,7 @@ const Login = ({ loginAction, history }) => {
     if (response.status === 200) {
       history.push("/");
     }
-
   }
-
-    return (
-        <PageContainer>
-          <LoginContainer>
-            <Styledh1>Login</Styledh1>
-            <InteriorContainer>
-              <EmailField>
-                <Icon icon={["fas", "user"]}/>
-                <LoginInput
-                    type="email"
-                    name="email"
-                    placeholder="Email"
-                    required
-                    onChange={onEmailChange}>
-                </LoginInput>
-              </EmailField>
-              <PasswordField>
-                <Icon icon={["fas", "lock"]}/>
-                <LoginInput
-                    type="password"
-                    name="password"
-                    placeholder="Password"
-                    onChange={onPwdChange}
-                    required>
-                </LoginInput>
-              </PasswordField>
-              <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
-            </InteriorContainer>
-          </LoginContainer>
-        </PageContainer>
-    );
-  };
 
   return (
     <PageContainer>
@@ -150,7 +117,7 @@ const Login = ({ loginAction, history }) => {
         </InteriorContainer>
       </LoginContainer>
     </PageContainer>
-  );
+  )
 };
 
 const mapStateToProps = (state) => {
