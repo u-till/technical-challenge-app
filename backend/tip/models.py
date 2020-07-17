@@ -8,7 +8,7 @@ from question.models import Question
 class Tip(models.Model):
     content = models.CharField(max_length=1500)
 
-    discount_value = models.IntegerField(null=True, blank=True)
+    discount_value = models.FloatField(null=True, blank=True)
 
     created = models.DateTimeField(auto_now_add=True)
 
