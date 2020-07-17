@@ -1,11 +1,10 @@
 from django.urls import path
-
-from user.views import ListUsers, RetrieveUpdateDestroyUser, Me, CreateUser, UserValidation
+from user.views import *
 
 urlpatterns = [
-    path('list/', ListUsers.as_view()),
-    path('create/', CreateUser.as_view()),
-    path('validation/<int:id>/', UserValidation.as_view()),
-    path('edit/<int:id>/', RetrieveUpdateDestroyUser.as_view()),
-    path('me/', Me.as_view()),
+    path('list/', ListUsersView.as_view()),
+    path('create/', CreateUserView.as_view()),
+    path('validation/<int:id>/', ValidateUserView.as_view()),
+    path('edit/<int:id>/', RetrieveUpdateDestroySpecificUserView.as_view()),
+    path('me/', RetrieveUpdateDestroyLoggedInUserView.as_view()),
 ]

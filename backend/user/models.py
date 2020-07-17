@@ -1,5 +1,4 @@
 import random
-
 from django.contrib.auth.models import AbstractUser
 from django.db import models
 
@@ -14,15 +13,29 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
-    email = models.EmailField(unique=True)
+    email = models.EmailField(
+        unique=True
+    )
 
-    phone = models.CharField(max_length=30, null=True, blank=True)
+    phone = models.CharField(
+        max_length=18,
+        null=True,
+        blank=True
+    )
 
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    avatar = models.ImageField(blank=True, null=True)
+    avatar = models.ImageField(
+        blank=True,
+        null=True
+    )
 
-    code = models.CharField(max_length=50, default=code_generator)
+    code = models.CharField(
+        max_length=15,
+        default=code_generator
+    )
 
     def __str__(self):
-        return self.email
+        return f'User #{self.pk} - Email: {self.email}'
