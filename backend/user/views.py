@@ -1,4 +1,5 @@
 from django.contrib.auth import get_user_model
+from django.core.mail import EmailMessage
 from rest_framework import filters
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -17,14 +18,25 @@ class CreateUser(CreateAPIView):
 
     The default username it's the email of the user.
     """
-
+    User = get_user_model()
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
-        new_user = User(email=serializer.validated_data['email'], username=serializer.validated_data['email'], is_active=False, is_staff=self.request.data['is_staff'], first_name=self.request.data['first_name'], last_name=self.request.data['last_name'])
+        new_user = User(email=serializer.validated_data['email'], username=serializer.validated_data['email'], is_active=False, is_staff=self.request.data['is_staff'], first_name=self.request.data['first_name'], last_name=self.request.data['last_name'], phone=self.request.data['phone'])
         new_user.set_password("Propulsion2020")
         new_user.save()
+        email = EmailMessage()
+        email.subject = f'Propulsion Academy - New Candidate Validation'
+        email.body = f"""Congratulations! 
+
+You have been selected to continue the process of applying for a position at one of our Bootcamps! 
+Please click the link below to verify your user information:
+
+https://tech-challenge.propulsion-learn.ch/verification/{new_user.id}?email={new_user.email}&first_name={new_user.first_name}&last_name={new_user.last_name}&phone={new_user.phone}
+You will receive a follow-up email when your Technical Interview is ready."""
+        email.to = [new_user.email]
+        email.send(fail_silently=False)
         return new_user
 
 
@@ -38,9 +50,6 @@ class UserValidation(UpdateAPIView):
 
     http_method_names = ['patch']
 
-    User = get_user_model()
-    queryset = User.objects.all()
-
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
     lookup_field = "id"
@@ -49,8 +58,17 @@ class UserValidation(UpdateAPIView):
         'is_staff'
     }
 
-    def perform_update(self, serializer):
-        serializer.save(is_active=True)
+    def patch(self, request, *args, **kwargs):
+        updated_user = User.objects.get(id=kwargs['id'])
+        updated_user.set_password(request.data['password'])
+        updated_user.is_active = True
+        try:
+            updated_user.avatar = request.data['avatar']
+        except:
+            updated_user.avatar = None
+
+        updated_user.save()
+        return Response(status=200)
 
 
 class ListUsers(ListAPIView):

@@ -1,3 +1,4 @@
+from django.core.mail import EmailMessage
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.response import Response
 
@@ -21,6 +22,19 @@ class CreateChallenge(CreateAPIView):
     def create(self, request, *args, **kwargs):
         candidate = User.objects.get(id=request.data['candidate'])
         challenge = Challenge(creator=request.user, candidate=candidate)
+        email = EmailMessage()
+        email.subject = f'Propulsion Academy - You have a new Challenge!'
+        email.body = f"""Get ready! 
+
+{candidate.first_name} {candidate.last_name} you have a new challenge to solve!
+Please click the link below to go to login and start your challenge:
+
+https://tech-challenge.propulsion-learn.ch/login/
+
+You can find the challenge in your personal account after the logged in it's successfully done.
+"""
+        email.to = [candidate.email]
+        email.send(fail_silently=False)
         challenge.save()
         return Response(status=200)
 

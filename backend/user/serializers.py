@@ -5,7 +5,7 @@ from user.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'fk_challenges_assigned']
 
 
 class ValidationUserSerializer(UserSerializer):
@@ -18,7 +18,7 @@ class ValidationUserSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ['email', 'first_name', 'last_name', 'username', 'avatar', 'password', 'password_repeat', 'is_active']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'password', 'password_repeat', 'is_active']
 
     def validate(self, data):
         try:
