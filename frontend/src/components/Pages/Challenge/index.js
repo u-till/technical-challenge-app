@@ -2,7 +2,6 @@ import React from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
-import Header from "../../Shared/Navigation";
 import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
 import { BlueButton, RedButton } from "../../../style/GlobalButtons";

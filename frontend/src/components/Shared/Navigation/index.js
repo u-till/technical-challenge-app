@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
@@ -7,6 +7,7 @@ import { HeaderLogo } from "../../../style/GlobalIcons";
 import { RedButton } from "../../../style/GlobalButtons";
 import { NavLink } from "react-router-dom";
 import avatar from "../../../assets/images/user.png";
+import UserModal from "./UserModal";
 
 //////////
 // STYLE
@@ -104,6 +105,12 @@ const HeaderText = styled.p``;
 // REACT
 //////////
 const Navigation = ({ children }) => {
+  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
+
+  const showProfileContextHandler = () => {
+    setProfileModalVisible(!isProfileModalVisible);
+  };
+
   return (
     <Wrapper>
       <Header>
@@ -114,9 +121,10 @@ const Navigation = ({ children }) => {
           <StyledNavLink to="/questions">Questions</StyledNavLink>
           <StyledNavLink to="/users">Users</StyledNavLink>
           <LogoutButton>Logout</LogoutButton>
-          <NavbarAvatar>
+          <NavbarAvatar onClick={showProfileContextHandler}>
             <img src={avatar}></img>
           </NavbarAvatar>
+          {isProfileModalVisible && <UserModal />}
         </NavSectionRight>
       </Header>
       {children}

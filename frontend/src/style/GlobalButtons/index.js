@@ -23,6 +23,29 @@ export const BlueButton = styled(BaseButton)`
   }
 `;
 
+export const EditButton = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+`;
+
+export const RoundGreyButton = styled.div`
+  width: 30px;
+  height: 30px;
+  border-radius: 50%;
+  background-color: #dbdbdb;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  color: white;
+  cursor: pointer;
+`;
+
 export const StartButton = styled.button`
   width: 230px;
   height: 80.01px;
@@ -31,4 +54,9 @@ export const StartButton = styled.button`
   color: #ffffff;
 `;
 
-const BigLoginButton = styled.button``;
+export const BigRedButton = styled(RedButton)`
+  padding: 13px 40px 13px 40px;
+  width: 200px;
+  height: 60px;
+  font-size: 18px;
+`;
