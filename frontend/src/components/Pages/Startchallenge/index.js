@@ -3,16 +3,28 @@ import styled from "styled-components";
 import { rem } from "polished";
 
 import Header from "../../Shared/Navigation";
+import { StartButton } from "../../../style/GlobalButtons";
 
 //////////
 // STYLE
 //////////
+const TechChallengeCont = styled.div`
+  width: 1807px;
+  height: 711px;
+  background: #ffffff;
+`;
 
 //////////
 // REACT
 //////////
-const Startchallenge = () => {
-  return <Header></Header>;
+const StartChallenge = () => {
+  return (
+    <>
+      <Header></Header>
+      <StartButton>Start</StartButton>
+      <TechChallengeCont></TechChallengeCont>
+    </>
+  );
 };
 
-export default Startchallenge;
+export default StartChallenge;
