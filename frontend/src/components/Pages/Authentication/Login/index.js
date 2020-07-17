@@ -86,7 +86,7 @@ const Login = ({ loginAction, history }) => {
     if (response.status === 200) {
       history.push("/");
     }
-  }
+  };
 
   return (
     <PageContainer>
@@ -117,7 +117,7 @@ const Login = ({ loginAction, history }) => {
         </InteriorContainer>
       </LoginContainer>
     </PageContainer>
-  )
+  );
 };
 
 const mapStateToProps = (state) => {
