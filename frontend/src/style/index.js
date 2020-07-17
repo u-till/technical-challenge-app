@@ -17,6 +17,25 @@ export const GlobalStyle = createGlobalStyle`
     body {
         background-color: #f2f2f2;
     }
+    /* The emerging W3C standard
+   that is currently Firefox-only */
+* {
+  scrollbar-width: thin;
+  scrollbar-color: #bdbdbd #fff;
+  }
+
+/* Works on Chrome/Edge/Safari */
+  *::-webkit-scrollbar {
+  width: 10px;
+}
+*::-webkit-scrollbar-track {
+  background: #fff;
+}
+*::-webkit-scrollbar-thumb {
+  background-color: #bdbdbd;
+  border-radius: 5px;
+  border: 2px solid #fff ;
+}
 `;
 
 export const theme = {};

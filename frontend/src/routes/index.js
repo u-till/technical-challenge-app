@@ -10,6 +10,7 @@ import StartChallenge from "../components/Pages/StartChallenge";
 import FinishedChallenge from "../components/Pages/FinishedChallenge";
 import Navigation from "../components/Shared/Navigation";
 import Challenge from "../components/Pages/Challenge";
+import MyChallenges from "../components/Pages/MyChallenges";
 
 const Routes = () => {
   return (
@@ -20,6 +21,7 @@ const Routes = () => {
             <Route exact path="/" component={Home} />
             <Route exact path="/login" component={Login} />
             <Route path="/verification/:userId" component={Registration} />
+            <Route exact path="/mychallenges" component={MyChallenges} />
             <Route exact path="/startchallenge" component={StartChallenge} />
             <Route exact path="/challenge" component={Challenge} />
             <Route

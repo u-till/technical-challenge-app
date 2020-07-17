@@ -9,9 +9,16 @@ import {
   PageContainer,
 } from "../../../style/GlobalWrappers";
 import { BaseInput, BaseTextArea } from "../../../style/GlobalInputs";
-import { AddButton, EditButton, RedButton } from "../../../style/GlobalButtons";
+import {
+  AddButton,
+  EditButton,
+  RedButton,
+  RoundGreyButton,
+} from "../../../style/GlobalButtons";
 import { BlueButton } from "../../../style/GlobalButtons";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
+import GenericTipCard from "../../Shared/GenericCards/GenericTipCard";
+import GenericQuestionCard from "../../Shared/GenericCards/GenericQuestionCard";
 
 //////////
 // STYLE
@@ -28,14 +35,15 @@ const ManageContainer = styled.div`
   display: inline-flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
   width: 100%;
+  margin: -12px;
 `;
 
 const EditContainer = styled(BaseContainer)`
+  margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 700px;
+  min-width: 680px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -45,16 +53,17 @@ const EditContainer = styled(BaseContainer)`
 
 const EditTop = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
   width: 100%;
   height: 15%;
   justify-content: space-between;
   > div:first-child {
     width: 56%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 30%;
+    margin-left: 12px;
   }
   > div {
     width: 120px;
@@ -63,7 +72,6 @@ const EditTop = styled.div`
 
 const EditMiddle = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
 
   width: 100%;
@@ -71,6 +79,7 @@ const EditMiddle = styled.div`
   justify-content: space-between;
   > div:first-child {
     width: 70%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 30%;
@@ -79,7 +88,6 @@ const EditMiddle = styled.div`
 
 const EditBottom = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
 
   width: 100%;
@@ -87,6 +95,7 @@ const EditBottom = styled.div`
   justify-content: space-between;
   > div:first-child {
     width: 30%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 70%;
@@ -183,29 +192,14 @@ const TipsList = styled.div`
   border-radius: 5px;
   overflow-y: scroll;
   padding: 8px;
-`;
-
-const TipCard = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 16px;
-
-  height: 100px;
-  margin-bottom: 8px;
-  p:first-child {
-    width: 70%;
-  }
-  overflow: hidden;
+  height: 100%;
 `;
 
 const BrowseContainer = styled(BaseContainer)`
+  margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 700px;
+  min-width: 680px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -220,16 +214,17 @@ const BrowseHeader = styled.div`
 
   p {
     display: inline;
+    margin-right: 12px;
   }
   div:last-child {
-    width: 55%;
-    display: flex;
+    display: inline-flex;
     justify-content: space-between;
     align-items: center;
   }
 `;
 
 const SearchQInput = styled(BaseInput)`
+  margin-left: 12px;
   height: 6px;
 `;
 
@@ -247,6 +242,7 @@ const SortQDropdown = styled.select`
 
 const QuestionList = styled.div`
   border: 1px solid #dbdbdb;
+
   box-sizing: border-box;
   border-radius: 5px;
   overflow-y: scroll;
@@ -254,26 +250,9 @@ const QuestionList = styled.div`
   height: 100%;
 `;
 
-const QuestionCard = styled.div`
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  padding: 16px;
-  height: 100px;
-  margin-bottom: 8px;
-  overflow: hidden;
-  div:first-child {
-    width: 90%;
-  }
-`;
-
 //////////
 // REACT
 //////////
-const MAX_TIP_LENGTH = 140;
 const MAX_QUEST_LENGTH = 240;
 const tip =
   "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
@@ -348,40 +327,14 @@ const Questions = () => {
               <InputLabelDiv>
                 <LabelAndBtn>
                   <StyledLabel>Tips:</StyledLabel>
-                  <AddButton>
+                  <RoundGreyButton>
                     <FontAwesomeIcon icon={["fas", "plus"]} />
-                  </AddButton>
+                  </RoundGreyButton>
                 </LabelAndBtn>
-
                 <TipsList>
-                  <TipCard>
-                    <p>{`${tip.substring(0, MAX_TIP_LENGTH)}...`}</p>
-                    <p>Minus: 10</p>
-                    <AddButton>
-                      <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-                    </AddButton>
-                  </TipCard>
-                  <TipCard>
-                    <p>{`${tip.substring(0, MAX_TIP_LENGTH)}...`}</p>
-                    <p>Minus: 10</p>
-                    <AddButton>
-                      <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-                    </AddButton>
-                  </TipCard>
-                  <TipCard>
-                    <p>{`${tip.substring(0, MAX_TIP_LENGTH)}...`}</p>
-                    <p>Minus: 10</p>
-                    <AddButton>
-                      <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-                    </AddButton>
-                  </TipCard>
-                  <TipCard>
-                    <p>{`${tip.substring(0, MAX_TIP_LENGTH)}...`}</p>
-                    <p>Minus: 10</p>
-                    <AddButton>
-                      <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-                    </AddButton>
-                  </TipCard>
+                  <GenericTipCard />
+                  <GenericTipCard />
+                  <GenericTipCard />
                 </TipsList>
               </InputLabelDiv>
             </EditBottom>
@@ -392,9 +345,9 @@ const Questions = () => {
           </EditContainer>
           <BrowseContainer>
             <BrowseHeader>
-              <AddButton>
+              <RoundGreyButton>
                 <FontAwesomeIcon icon={["fas", "plus"]} />
-              </AddButton>
+              </RoundGreyButton>
               <div>
                 <p>Sort by:</p>
                 <SortQDropdown id="sort" name="Sort by">
@@ -410,15 +363,10 @@ const Questions = () => {
               </div>
             </BrowseHeader>
             <QuestionList>
-              <QuestionCard>
-                <div>
-                  <Styledh2>Question</Styledh2>
-                  <p>{`${tip.substring(0, MAX_QUEST_LENGTH)}...`}</p>
-                </div>
-                <AddButton>
-                  <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-                </AddButton>
-              </QuestionCard>
+              <GenericQuestionCard />
+              <GenericQuestionCard />
+              <GenericQuestionCard />
+              <GenericQuestionCard />
             </QuestionList>
           </BrowseContainer>
         </ManageContainer>

@@ -46,7 +46,8 @@
     "start": "react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
-    "eject": "react-scripts eject"
+    "eject": "react-scripts eject",
+    "test1": "tape ../backend/tests/change-calculator.test.js | tap-json > ../backend/tests/change-calculator-test.json"
   },
   "eslintConfig": {
     "extends": "react-app"

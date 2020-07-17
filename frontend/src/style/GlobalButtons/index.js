@@ -34,7 +34,7 @@ export const EditButton = styled.div`
   color: white;
 `;
 
-export const AddButton = styled.div`
+export const RoundGreyButton = styled.div`
   width: 30px;
   height: 30px;
   border-radius: 50%;
@@ -43,6 +43,10 @@ export const AddButton = styled.div`
   justify-content: center;
   align-items: center;
   color: white;
+  cursor: pointer;
+  :hover {
+    background-color: #bdbdbd;
+  }
 `;
 
 export const StartButton = styled.button`
