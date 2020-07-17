@@ -27,6 +27,6 @@ class ValidationUserSerializer(UserSerializer):
             raise serializers.ValidationError({"detail": "Your email doesn't match any profile or is invalid."})
         if data.get('password') != data.get('password_repeat'):
             raise serializers.ValidationError({"detail": "Password and Password Repeat do not match"})
-        if data.get('password') == "Propulsion2020":
-            raise serializers.ValidationError({"detail": "You need to change your password"})
+        if data.get('password').lower() == "propulsion2020":
+            raise serializers.ValidationError({"detail": "You must choose a different password"})
         return data

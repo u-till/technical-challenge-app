@@ -5,11 +5,12 @@ import {BaseContainer, PageContainer} from "../../../../style/GlobalWrappers";
 import {Styledh1} from "../../../../style/GlobalTitles";
 import {BaseButton, BigRedButton} from "../../../../style/GlobalButtons";
 import {BaseInput} from "../../../../style/GlobalInputs";
-import {connect} from "react-redux";
-import {verificationAction} from "../../../../store/actions/verificationAction";
+import {connect, useDispatch} from "react-redux";
+import {resetError, verificationAction} from "../../../../store/actions/verificationAction";
 import {getUserInformationAction} from "../../../../store/actions/userActions";
 import {useRouteMatch} from "react-router-dom";
 import queryString from 'query-string';
+import Error from "../../../Shared/Error";
 
 //////////
 // STYLE
@@ -80,7 +81,8 @@ const RegistrationButton = styled(BigRedButton)`
 // REACT
 //////////
 
-const Registration = ({verificationAction, history, location}) => {
+const Registration = ({verificationAction, history, location, fieldErrors, non_field_error}) => {
+    const dispatch = useDispatch();
 
     const match = useRouteMatch();
 
@@ -104,6 +106,7 @@ const Registration = ({verificationAction, history, location}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
+        dispatch(resetError());
         const msgData = new FormData();
         msgData.append("email", data.email);
         msgData.append("first_name", data.first_name);
@@ -115,7 +118,7 @@ const Registration = ({verificationAction, history, location}) => {
             msgData.append("avatar", data.avatar);
         }
         const response = await verificationAction(match.params.userId, msgData);
-        if (response.status === 200) {
+        if (response.status === 202) {
             history.push("/");
         }
     };
@@ -134,6 +137,7 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['email']}/>
                         <SignupInput
                             name="first_name"
                             value={data.first_name}
@@ -142,6 +146,7 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['first_name']}/>
                         <SignupInput
                             name="last_name"
                             value={data.last_name}
@@ -150,6 +155,7 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['last_name']}/>
                         <BtnWrapper>
                             <UploadButton>Upload Avatar</UploadButton>
                         </BtnWrapper>
@@ -163,6 +169,7 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['password']}/>
                         <SignupInput
                             name="password_repeat"
                             value={data.password_repeat}
@@ -171,6 +178,7 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['password_repeat']}/>
                         <SignupInput
                             name="phone"
                             value={data.phone}
@@ -179,12 +187,14 @@ const Registration = ({verificationAction, history, location}) => {
                             required
                             onChange={handleInput}
                         />
+                        <Error errorMessage={fieldErrors['phone']}/>
                         <BtnWrapper>
                             <RegistrationButton onClick={onSubmitForm}>
                                 Register
                             </RegistrationButton>
                         </BtnWrapper>
                     </div>
+                    <Error errorMessage={non_field_error}/>
                 </SignupSplitContainer>
             </SignupContainer>
         </PageContainer>
@@ -192,7 +202,10 @@ const Registration = ({verificationAction, history, location}) => {
 };
 
 const mapStateToProps = (state) => {
-    return {};
+    return {
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error
+    };
 };
 
 export default connect(mapStateToProps, {
