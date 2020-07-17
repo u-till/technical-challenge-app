@@ -1,15 +1,14 @@
 from django.contrib.auth import get_user_model
 from django.core.mail import EmailMessage
-from rest_framework import filters
+from rest_framework import filters, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
 from rest_framework.response import Response
-
 from user.models import User
 from user.serializers import UserSerializer, ValidationUserSerializer
 
 
-class CreateUser(CreateAPIView):
+class CreateUserView(CreateAPIView):
     """
     post:
     Creates and returns a new user. The user will be inactive until the validation it's done.
@@ -23,7 +22,10 @@ class CreateUser(CreateAPIView):
     serializer_class = UserSerializer
 
     def perform_create(self, serializer):
-        new_user = User(email=serializer.validated_data['email'], username=serializer.validated_data['email'], is_active=False, is_staff=self.request.data['is_staff'], first_name=self.request.data['first_name'], last_name=self.request.data['last_name'], phone=self.request.data['phone'])
+        new_user = User(email=serializer.validated_data['email'], username=serializer.validated_data['email'],
+                        is_active=False, is_staff=self.request.data['is_staff'],
+                        first_name=self.request.data['first_name'], last_name=self.request.data['last_name'],
+                        phone=self.request.data['phone'])
         new_user.set_password("Propulsion2020")
         new_user.save()
         email = EmailMessage()
@@ -40,16 +42,14 @@ You will receive a follow-up email when your Technical Interview is ready."""
         return new_user
 
 
-class UserValidation(UpdateAPIView):
+class ValidateUserView(UpdateAPIView):
     """
      patch:
      A user can validate the profile.
 
      The password needs to be change.
      """
-
     http_method_names = ['patch']
-
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
     lookup_field = "id"
@@ -58,27 +58,25 @@ class UserValidation(UpdateAPIView):
         'is_staff'
     }
 
-    def patch(self, request, *args, **kwargs):
-        updated_user = User.objects.get(id=kwargs['id'])
-        updated_user.set_password(request.data['password'])
-        updated_user.is_active = True
-        try:
-            updated_user.avatar = request.data['avatar']
-        except:
-            updated_user.avatar = None
+    def update(self, request, *args, **kwargs):
+        partial = kwargs.pop('partial', False)
+        target_user = User.objects.get(id=kwargs['id'])
+        serializer = self.get_serializer(target_user, data=request.data, partial=partial)
+        serializer.is_valid(raise_exception=True)
+        self.perform_update(serializer)
+        target_user.set_password(request.data['password'])
+        target_user.is_active = True
+        target_user.save()
+        return Response(status=status.HTTP_202_ACCEPTED)
 
-        updated_user.save()
-        return Response(status=200)
 
-
-class ListUsers(ListAPIView):
+class ListUsersView(ListAPIView):
     """
-     get:
-     Returns the list of all users.
+    get:
+    Returns the list of all users.
 
-     Search can be made by first_name, last_name or username
-     """
-
+    Search can be made by first_name, last_name or username
+    """
     queryset = User.objects.all()
     serializer_class = UserSerializer
 
@@ -86,16 +84,17 @@ class ListUsers(ListAPIView):
     filter_backends = (filters.SearchFilter,)
 
 
-class RetrieveUpdateDestroyUser(RetrieveUpdateDestroyAPIView):
+class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
     """
     get:
     Retrieve a user with the given id.
+
     patch:
     Update a user with the given id.
+
     delete:
     Delete a user with the given id.
     """
-
     http_method_names = ['get', 'patch', 'delete']
     permission_classes = [AllowAny]
     serializer_class = UserSerializer
@@ -103,18 +102,18 @@ class RetrieveUpdateDestroyUser(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
 
-class Me(RetrieveUpdateDestroyAPIView):
+class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
     """
     get:
     Retrieve the logged user.
+
     patch:
     Update the logged user.
+
     delete:
     Delete the logged user.
     """
-
     http_method_names = ['get', 'patch', 'delete']
-
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
     serializer_class = UserSerializer
