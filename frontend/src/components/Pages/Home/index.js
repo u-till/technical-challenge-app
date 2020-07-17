@@ -3,7 +3,6 @@ import styled from "styled-components";
 import { rem } from "polished";
 
 import Header from "../../Shared/Navigation";
-import { PageContent } from "../../../style/page-layout";
 
 //////////
 // STYLE
@@ -13,12 +12,7 @@ import { PageContent } from "../../../style/page-layout";
 // REACT
 //////////
 const Home = () => {
-  return (
-    <div>
-      <Header></Header>
-      <PageContent></PageContent>
-    </div>
-  );
+  return <div></div>;
 };
 
 export default Home;

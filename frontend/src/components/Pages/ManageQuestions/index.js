@@ -35,14 +35,15 @@ const ManageContainer = styled.div`
   display: inline-flex;
   justify-content: space-between;
   flex-wrap: wrap;
-  gap: 12px;
   width: 100%;
+  margin: -12px;
 `;
 
 const EditContainer = styled(BaseContainer)`
+  margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 700px;
+  min-width: 680px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -52,16 +53,17 @@ const EditContainer = styled(BaseContainer)`
 
 const EditTop = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
   width: 100%;
   height: 15%;
   justify-content: space-between;
   > div:first-child {
     width: 56%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 30%;
+    margin-left: 12px;
   }
   > div {
     width: 120px;
@@ -70,7 +72,6 @@ const EditTop = styled.div`
 
 const EditMiddle = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
 
   width: 100%;
@@ -78,6 +79,7 @@ const EditMiddle = styled.div`
   justify-content: space-between;
   > div:first-child {
     width: 70%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 30%;
@@ -86,7 +88,6 @@ const EditMiddle = styled.div`
 
 const EditBottom = styled.div`
   display: inline-flex;
-  gap: 12px;
   padding-bottom: 16px;
 
   width: 100%;
@@ -94,6 +95,7 @@ const EditBottom = styled.div`
   justify-content: space-between;
   > div:first-child {
     width: 30%;
+    margin-right: 12px;
   }
   > div:last-child {
     width: 70%;
@@ -194,9 +196,10 @@ const TipsList = styled.div`
 `;
 
 const BrowseContainer = styled(BaseContainer)`
+  margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 700px;
+  min-width: 680px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -211,16 +214,17 @@ const BrowseHeader = styled.div`
 
   p {
     display: inline;
+    margin-right: 12px;
   }
   div:last-child {
     display: inline-flex;
     justify-content: space-between;
     align-items: center;
-    gap: 12px;
   }
 `;
 
 const SearchQInput = styled(BaseInput)`
+  margin-left: 12px;
   height: 6px;
 `;
 
@@ -238,6 +242,7 @@ const SortQDropdown = styled.select`
 
 const QuestionList = styled.div`
   border: 1px solid #dbdbdb;
+
   box-sizing: border-box;
   border-radius: 5px;
   overflow-y: scroll;
@@ -358,6 +363,9 @@ const Questions = () => {
               </div>
             </BrowseHeader>
             <QuestionList>
+              <GenericQuestionCard />
+              <GenericQuestionCard />
+              <GenericQuestionCard />
               <GenericQuestionCard />
             </QuestionList>
           </BrowseContainer>

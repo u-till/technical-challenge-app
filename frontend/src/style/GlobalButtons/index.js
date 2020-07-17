@@ -44,6 +44,9 @@ export const RoundGreyButton = styled.div`
   align-items: center;
   color: white;
   cursor: pointer;
+  :hover {
+    background-color: #bdbdbd;
+  }
 `;
 
 export const StartButton = styled.button`

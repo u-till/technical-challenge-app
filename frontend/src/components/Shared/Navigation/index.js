@@ -76,7 +76,23 @@ const NavbarAvatar = styled.div`
   }
 `;
 
-const StyledNavLink = styled(NavLink)`
+const activeClassName = "nav-item-active";
+
+const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
+  &.${activeClassName} {
+    padding-top: 4px;
+    &:after {
+      content: "";
+      position: relative;
+      bottom: ${rem("-20px")};
+      width: ${rem("50px")};
+      border-bottom: 3px solid #f37786;
+    }
+    :hover {
+      padding-top: 4px;
+    }
+  }
+
   width: ${rem("85px")};
   height: 100%;
   padding: 0 ${rem("3px")} 0 ${rem("3px")};
@@ -118,8 +134,8 @@ const Navigation = ({ children }) => {
           <HeaderLogo src={logo}></HeaderLogo>
         </NavSectionLeft>
         <NavSectionRight>
-          <StyledNavLink to="/questions">Questions</StyledNavLink>
-          <StyledNavLink to="/users">Users</StyledNavLink>
+          <StyledNavLink to="/managequestions">Questions</StyledNavLink>
+          <StyledNavLink to="/manageusers">Users</StyledNavLink>
           <LogoutButton>Logout</LogoutButton>
           <NavbarAvatar onClick={showProfileContextHandler}>
             <img src={avatar}></img>
