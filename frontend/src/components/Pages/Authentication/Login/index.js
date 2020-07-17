@@ -9,7 +9,7 @@ import {
   PageContainer,
 } from "../../../../style/GlobalWrappers";
 import { Styledh1 } from "../../../../style/GlobalTitles";
-import { RedButton } from "../../../../style/GlobalButtons";
+import { BigRedButton } from "../../../../style/GlobalButtons";
 import { BaseInput } from "../../../../style/GlobalInputs";
 
 //////////
@@ -38,9 +38,7 @@ const LoginInput = styled(BaseInput)`
   height: 72px;
 `;
 
-const LoginButton = styled(RedButton)`
-  padding: 13px 40px 13px 40px;
-`;
+
 
 //////////
 // REACT
@@ -58,7 +56,7 @@ const Login = () => {
             required
           ></LoginInput>
         </div>
-        <LoginButton>Login</LoginButton>
+        <BigRedButton>Login</BigRedButton>
       </LoginContainer>
     </PageContainer>
   );
