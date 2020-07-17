@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from rest_framework import filters
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -37,6 +38,9 @@ class UserValidation(UpdateAPIView):
 
     http_method_names = ['patch']
 
+    User = get_user_model()
+    queryset = User.objects.all()
+
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
     lookup_field = "id"
@@ -45,13 +49,8 @@ class UserValidation(UpdateAPIView):
         'is_staff'
     }
 
-    def patch(self, request, *args, **kwargs):
-        updated_user = User.objects.get(id=kwargs['id'])
-        updated_user.set_password(request.data['password'])
-        updated_user.is_active = True
-        updated_user.avatar = request.data['avatar']
-        updated_user.save()
-        return Response(status=200)
+    def perform_update(self, serializer):
+        serializer.save(is_active=True)
 
 
 class ListUsers(ListAPIView):
@@ -80,7 +79,7 @@ class RetrieveUpdateDestroyUser(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-
+    permission_classes = [AllowAny]
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
