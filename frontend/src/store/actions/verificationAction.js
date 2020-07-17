@@ -1,26 +1,41 @@
 import Axios from "../../axios/";
 
-import { VERIFICATION_ERROR, RESET_ERRORS } from "../actionTypes";
+import {VERIFICATION_ERROR, RESET_ERRORS, NON_FIELD_VERIFICATION_ERROR} from "../actionTypes";
 
 export const verificationError = (errors) => {
-  return {
-    type: VERIFICATION_ERROR,
-    payload: errors,
-  };
+    return {
+        type: VERIFICATION_ERROR,
+        payload: errors,
+    };
 };
 
 export const resetError = () => {
-  return {
-    type: RESET_ERRORS,
-  };
+    return {
+        type: RESET_ERRORS,
+    };
+};
+
+export const nonFieldVerificationError = (error) => {
+    return {
+        type: NON_FIELD_VERIFICATION_ERROR,
+        payload: error
+    }
 };
 
 export const verificationAction = (id, data) => async (dispatch) => {
-  try {
-    const response = await Axios.patch(`users/validation/${id}/`, data);
-    return response;
-  } catch (error) {
-    console.log("Error during getting user data", error);
-    return error;
-  }
+    try {
+        const response = await Axios.patch(`users/validation/${id}/`, data);
+        return response;
+    } catch (error) {
+        let errors = {};
+        for (let i of Object.keys(error.response.data)) {
+            errors[i] = error.response.data[i].join(' ');
+        }
+        if (errors.detail === "Password and Password Repeat do not match" || "You must choose a different password") {
+            dispatch(nonFieldVerificationError(errors.detail));
+        } else {
+            dispatch(verificationError(errors));
+        }
+        return error;
+    }
 };
