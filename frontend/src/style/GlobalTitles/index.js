@@ -4,8 +4,8 @@ import { rem } from "polished";
 export const Styledh1 = styled.h1`
   padding-top: 16px;
   padding-bottom: 16px;
-
-  font-size: 36px;
+  font-size: 60px;
+  font-weight: normal;
   color: #000000;
 `;
 
