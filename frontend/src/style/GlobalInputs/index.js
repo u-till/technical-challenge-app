@@ -15,4 +15,18 @@ export const BaseInput = styled.input`
   }
 `;
 
+export const BaseTextArea = styled.textarea`
+  background: #ffffff;
+  border: 1px solid #dbdbdb;
+  box-sizing: border-box;
+  border-radius: 5px;
+  padding: ${rem("18px")};
+  font-size: ${rem("20px")};
+  line-height: ${rem("20px")};
+
+  &:focus {
+    outline: none;
+  }
+`;
+
 export const SearchInput = styled(BaseInput)``;
