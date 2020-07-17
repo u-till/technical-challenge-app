@@ -12,7 +12,7 @@ import Header from "../../Shared/Navigation";
 // REACT
 //////////
 const FinishedChallenge = () => {
-  return <Header></Header>;
+  return <div></div>;
 };
 
 export default FinishedChallenge;

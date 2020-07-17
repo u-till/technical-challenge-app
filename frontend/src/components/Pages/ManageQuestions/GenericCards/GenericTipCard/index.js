@@ -10,9 +10,9 @@ import {
   BlueButton,
   RedButton,
   RoundGreyButton,
-} from "../../../../style/GlobalButtons";
-import UserModal from "../../Navigation/UserModal";
-import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
+} from "../../../../../style/GlobalButtons";
+import UserModal from "../../../../Shared/Navigation/UserModal";
+import { BaseInput, BaseTextArea } from "../../../../../style/GlobalInputs";
 
 //////////
 // STYLES
@@ -54,7 +54,7 @@ const TipCardEditing = styled.div`
 
 const EditTipDiv = styled.div`
   display: inline-flex;
-
+  gap: 12px;
   width: 100%;
 
   > div:first-child {
@@ -62,16 +62,9 @@ const EditTipDiv = styled.div`
   }
 
   > div:last-child {
-    margin-left: 12px;
-
     display: inline-flex;
     flex-direction: column;
-    input {
-      margin-bottom: 8px;
-    }
-    button:last-child {
-      margin-top: 8px;
-    }
+    gap: 8px;
   }
 `;
 
@@ -91,7 +84,7 @@ const NumberInput = styled(BaseInput)`
 //////////
 // REACT
 //////////
-const MAX_TIP_LENGTH = 130;
+const MAX_TIP_LENGTH = 140;
 const tip =
   "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
