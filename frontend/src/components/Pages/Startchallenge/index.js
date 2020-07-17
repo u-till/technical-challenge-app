@@ -10,6 +10,11 @@ import { BigRedButton } from "../../../style/GlobalButtons/index"
 //////////
 // STYLE
 //////////
+const TechChallengeCont = styled.div`
+  width: 1807px;
+  height: 711px;
+  background: #ffffff;
+`;
 
 const InformationContainer = styled.div`
   height: 720px;
@@ -103,4 +108,4 @@ const Startchallenge = () => {
   );
 };
 
-export default Startchallenge;
+export default StartChallenge;
