@@ -5,7 +5,8 @@ from user.models import User
 class UserSerializer(serializers.ModelSerializer):
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'fk_challenges_assigned']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'fk_challenges_assigned', 'is_staff',
+                  'date_joined']
 
 
 class ValidationUserSerializer(UserSerializer):
@@ -24,7 +25,7 @@ class ValidationUserSerializer(UserSerializer):
         try:
             target_profile = User.objects.get(email=data.get('email'))
         except User.DoesNotExist:
-            raise serializers.ValidationError({"detail": "Your email doesn't match any profile or is invalid."})
+            raise serializers.ValidationError({"detail": "Your email doesn't match any User or is invalid."})
         if data.get('password') != data.get('password_repeat'):
             raise serializers.ValidationError({"detail": "Password and Password Repeat do not match"})
         if data.get('password').lower() == "propulsion2020":

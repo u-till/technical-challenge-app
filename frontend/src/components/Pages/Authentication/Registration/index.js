@@ -173,7 +173,7 @@ const Registration = ({verificationAction, history, location, fieldErrors, non_f
                             <UploadButton onClick={handleClick}>Upload an Avatar...</UploadButton>
                             <input
                                 type="file"
-                                name="restaurant_image"
+                                name="avatar"
                                 ref={hiddenFileInput}
                                 onChange={imageSelectHandler}
                                 style={{display: 'none'}}
