@@ -1,9 +1,8 @@
 from rest_framework import filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
-
 from question.models import Question
-from question.serializers import QuestionSerializer
+from question.serializers import ListQuestionSerializer, CreateQuestionSerializer
 
 
 class CreateQuestion(CreateAPIView):
@@ -18,7 +17,7 @@ class CreateQuestion(CreateAPIView):
     Program receives the id of the program (bootcamp) inside a list (a question can be in several programs)
     """
 
-    serializer_class = QuestionSerializer
+    serializer_class = CreateQuestionSerializer
 
     def perform_create(self, serializer):
         if self.request.data['difficulty'] == 'E':
@@ -42,8 +41,7 @@ class RetrieveUpdateDestroyQuestion(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-
-    serializer_class = QuestionSerializer
+    serializer_class = ListQuestionSerializer
     queryset = Question.objects.all()
     lookup_field = 'id'
 
@@ -57,7 +55,7 @@ class ListQuestions(ListAPIView):
     """
 
     permission_classes = [IsAuthenticated]
-    serializer_class = QuestionSerializer
+    serializer_class = ListQuestionSerializer
     queryset = Question.objects.all()
 
     search_fields = ['name', 'instructions', 'difficulty']

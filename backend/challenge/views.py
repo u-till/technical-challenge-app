@@ -1,7 +1,6 @@
 from django.core.mail import EmailMessage
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.response import Response
-
 from challenge.models import Challenge
 from challenge.serializers import ChallengeSerializer
 from user.models import User
@@ -12,7 +11,7 @@ class CreateChallenge(CreateAPIView):
     post:
     Creates and returns a new challenge.
 
-    Creator it's always the logged user.
+    Creator is always the logged user.
 
     Candidate needs to be an user id.
     """
