@@ -1,5 +1,4 @@
 import Axios from "../../axios/";
-
 import {VERIFICATION_ERROR, RESET_ERRORS, NON_FIELD_VERIFICATION_ERROR} from "../actionTypes";
 
 export const verificationError = (errors) => {
@@ -31,7 +30,7 @@ export const verificationAction = (id, data) => async (dispatch) => {
         for (let i of Object.keys(error.response.data)) {
             errors[i] = error.response.data[i].join(' ');
         }
-        if (errors.detail === "Password and Password Repeat do not match" || "You must choose a different password") {
+        if (errors.detail === "Password and Password Repeat do not match" || errors.detail === "You must choose a different password") {
             dispatch(nonFieldVerificationError(errors.detail));
         } else {
             dispatch(verificationError(errors));
