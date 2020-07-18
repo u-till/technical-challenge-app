@@ -6,8 +6,10 @@ import {BaseContainer, PageContainer} from "../../../../style/GlobalWrappers";
 import {Styledh1} from "../../../../style/GlobalTitles";
 import {BigRedButton} from "../../../../style/GlobalButtons";
 import {BaseInput} from "../../../../style/GlobalInputs";
-import {connect} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {loginAction} from "../../../../store/actions/loginActions";
+import Error from "../../../Shared/Error";
+import {resetError} from "../../../../store/actions/verificationAction";
 
 //////////
 // STYLE
@@ -57,7 +59,9 @@ const Icon = styled(FontAwesomeIcon)`
 // REACT
 //////////
 
-const Login = ({loginAction, history}) => {
+const Login = ({loginAction, history, fieldErrors, non_field_error}) => {
+    const dispatch = useDispatch();
+
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
@@ -67,6 +71,7 @@ const Login = ({loginAction, history}) => {
 
     const onSubmitForm = async (e) => {
         e.preventDefault();
+        dispatch(resetError());
         const loginData = {email, password};
         const response = await loginAction(loginData);
         if (response.status === 200) {
@@ -89,6 +94,7 @@ const Login = ({loginAction, history}) => {
                             onChange={e => inputHandler(e, setEmail)}
                         />
                     </EmailField>
+                    <Error errorMessage={fieldErrors['email']}/>
                     <PasswordField>
                         <Icon icon={["fas", "lock"]}/>
                         <LoginInput
@@ -99,7 +105,9 @@ const Login = ({loginAction, history}) => {
                             required
                         />
                     </PasswordField>
+                    <Error errorMessage={fieldErrors['password']}/>
                     <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
+                    <Error errorMessage={non_field_error}/>
                 </InteriorContainer>
             </LoginContainer>
         </PageContainer>
@@ -108,7 +116,8 @@ const Login = ({loginAction, history}) => {
 
 const mapStateToProps = (state) => {
     return {
-
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error
     };
 };
 
