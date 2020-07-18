@@ -1,28 +1,30 @@
 import {
-  GET_USER_INFO,
-  DELETE_USER,
-  EDIT_USER,
-  CREATE_USER,
+    GET_USER_INFO,
+    DELETE_USER,
+    EDIT_USER,
+    CREATE_USER,
+    GET_ALL_USERS
+
 } from "../actionTypes";
 
 const initialState = {
-  email: "",
-  first_name: "",
-  last_name: "",
-  phone: "",
+    targetUser: null,
+    allUsers: [],
 };
 
 export const userReducer = (state = initialState, action) => {
-  switch (action.type) {
-    case GET_USER_INFO:
-      return {
-        ...state,
-        email: action.payload.email,
-        first_name: action.payload.first_name,
-        last_name: action.payload.last_name,
-        phone: action.payload.phone,
-      };
-    default:
-      return state;
-  }
+    switch (action.type) {
+        case GET_USER_INFO:
+            return {
+                ...state,
+                targetUser: action.payload
+            };
+        case GET_ALL_USERS:
+            return {
+                ...state,
+                allUsers: action.payload
+            };
+        default:
+            return state;
+    }
 };

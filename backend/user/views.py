@@ -79,7 +79,6 @@ class ListUsersView(ListAPIView):
     """
     queryset = User.objects.all()
     serializer_class = UserSerializer
-
     search_fields = ['first_name', 'last_name', 'username']
     filter_backends = (filters.SearchFilter,)
 

@@ -5,9 +5,7 @@ import {nonFieldVerificationError, verificationError} from "./verificationAction
 export const login = (token) => {
     return {
         type: USER_LOGIN,
-        payload: {
-            token,
-        },
+        payload: token
     };
 };
 
