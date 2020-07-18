@@ -234,7 +234,6 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
         userData.append("first_name", data.first_name);
         userData.append("last_name", data.last_name);
         userData.append("phone", data.phone);
-        userData.append("is_staff", data.is_staff);
         // if (data.avatar) {
         //     userData.append("avatar", data.avatar);
         // }
@@ -323,8 +322,11 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                 </InputLabelDiv>
                                 <InputLabelDiv>
                                     <StyledLabel>Role:</StyledLabel>
-                                    <RoleDropdown id="role" name="Role"
-                                                  defaultValue={user.is_staff ? true : false}>
+                                    <RoleDropdown
+                                        id="role"
+                                        name="Role"
+                                        defaultValue={user.is_staff ? true : false}
+                                        disabled>
                                         <option value={true}>Staff</option>
                                         <option value={false}>Candidate</option>
                                     </RoleDropdown>
@@ -364,7 +366,7 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                 <BlueButton>Create Challenge</BlueButton>
                                 <InputLabelDiv>
                                     <StyledLabel>User Created:</StyledLabel>
-                                    <p>{`on ${user.date_joined.slice(0,10)}`}</p>
+                                    <p>{`on ${user.date_joined.slice(0, 10)}`}</p>
                                 </InputLabelDiv>
                             </AddChallenge>
                             <ChallengeList>
@@ -385,7 +387,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                 <UserCard>
                     <UserInfo>
                         <UserAvatar>
-                            <img src={user.avatar ? user.avatar : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`} alt="avatar"/>
+                            <img
+                                src={user.avatar ? user.avatar : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`}
+                                alt="avatar"/>
                         </UserAvatar>
                         <div>
                             <Styledh2>{`${user.first_name} ${user.last_name}`}</Styledh2>

@@ -1,8 +1,16 @@
 from rest_framework import serializers
+
+from challenge.serializers import ChallengeSerializer
 from user.models import User
 
 
 class UserSerializer(serializers.ModelSerializer):
+    fk_challenges_assigned = ChallengeSerializer(
+        required=False,
+        read_only=True,
+        many=True
+    )
+
     class Meta:
         model = User
         fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'fk_challenges_assigned', 'is_staff',
