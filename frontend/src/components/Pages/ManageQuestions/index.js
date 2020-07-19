@@ -19,8 +19,8 @@ import {BlueButton} from "../../../style/GlobalButtons";
 import {Styledh1, Styledh2} from "../../../style/GlobalTitles";
 import GenericTipCard from "../../Shared/GenericCards/GenericTipCard";
 import GenericQuestionCard from "../../Shared/GenericCards/GenericQuestionCard";
-import {connect} from "react-redux";
-import {getAllQuestionsAction} from "../../../store/actions/questionActions";
+import {connect, useDispatch} from "react-redux";
+import {getAllQuestionsAction, setTargetQuestion, updateQuestionAction} from "../../../store/actions/questionActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
 
 //////////
@@ -256,16 +256,21 @@ const QuestionList = styled.div`
 //////////
 // REACT
 //////////
-const MAX_QUEST_LENGTH = 240;
-const tip =
-    "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestion}) => {
-    const displayMessage = () => !notEmpty ? <GenericSpinner/> : null;
+const Questions = ({getAllQuestionsAction, allQuestions, questionNotEmpty, targetQuestion, targetQuestionTips, tipsNotEmpty, updateQuestionAction}) => {
+    const dispatch = useDispatch();
+
+    const displayQuestionMessage = () => !questionNotEmpty ? <GenericSpinner/> : null;
+    const displayTipMessage = () => !tipsNotEmpty ? <GenericSpinner/> : null;
 
     const [sort, setSort] = useState('date');
     const [search, setSearch] = useState('');
-    const [questionData, setQuestionData] = useState('');
+    // setQuestionData is called in GenericQuestionCard to set the state to the Question Object
+    const [questionData, setQuestionData] = useState({
+        name: '',
+        instructions: '',
+        points_value: '',
+    });
 
     useEffect(() => {
         getAllQuestionsAction()
@@ -279,6 +284,18 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
         const name = e.target.name;
         const value = e.target.value;
         setQuestionData({...questionData, [name]: value});
+    };
+
+    const handleSave = async (e) => {
+        e.preventDefault();
+        const questionForm = new FormData();
+        questionForm.append('name', questionData.name);
+        questionForm.append('difficulty', questionData.difficulty);
+        questionForm.append('instructions', questionData.instructions);
+        const response = await updateQuestionAction(questionData.id, questionForm);
+        if (response.status === 200) {
+            getAllQuestionsAction();
+        }
     };
 
     const searchedQuestions = allQuestions.filter(question => question.name.toLowerCase().indexOf(search.toLowerCase()) !== -1);
@@ -311,6 +328,7 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
                                             type="text"
                                             placeholder="Question Name"
                                             required
+                                            name="name"
                                             value={questionData.name}
                                             onChange={handleInput}
                                         />
@@ -327,8 +345,10 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
                                     </InputLabelDiv>
                                     <InputLabelDiv>
                                         <StyledLabel>Difficulty:</StyledLabel>
-                                        <DifficultyDropdown id="difficulty" name="Difficulty"
-                                                            value={questionData.difficulty} onChange={handleInput}>
+                                        <DifficultyDropdown id="difficulty"
+                                                            value={questionData.difficulty}
+                                                            onChange={handleInput}
+                                                            name='difficulty'>
                                             <option value="E">Easy</option>
                                             <option value="I">Intermediate</option>
                                             <option value="H">Hard</option>
@@ -342,14 +362,18 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
                                             type="text"
                                             placeholder="Description"
                                             required
+                                            name="instructions"
                                             value={questionData.instructions}
                                             onChange={handleInput}
                                         />
                                     </InputLabelDiv>
                                     <InputLabelDiv>
                                         <StyledLabel>Catergories:</StyledLabel>
-                                        <CategorySelect name="category" multiple value={questionData.program}
-                                                        onChange={handleInput}>
+                                        <CategorySelect
+                                            name="category"
+                                            multiple value={questionData.program}
+                                            onChange={handleInput
+                                            }>
                                             <option value="Full Stack">Full Stack</option>
                                             <option value="Data Science">Data Science</option>
                                             <option value="React & Redux">React & Redux</option>
@@ -380,15 +404,15 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
                                             </RoundGreyButton>
                                         </LabelAndBtn>
                                         <TipsList>
-                                            <GenericTipCard/>
-                                            <GenericTipCard/>
-                                            <GenericTipCard/>
+                                            {targetQuestionTips && tipsNotEmpty ? targetQuestionTips.map(tip => {
+                                                return <GenericTipCard key={`Tip ${tip.id}`} tip={tip}/>
+                                            }) : displayTipMessage()}
                                         </TipsList>
                                     </InputLabelDiv>
                                 </EditBottom>
                                 <DeleteSave>
                                     <RedButton>Delete</RedButton>
-                                    <BlueButton>Save</BlueButton>
+                                    <BlueButton onClick={handleSave}>Save</BlueButton>
                                 </DeleteSave>
                             </>
                             : <div>Select a Question</div>}
@@ -416,7 +440,7 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
                             </div>
                         </BrowseHeader>
                         <QuestionList>
-                            {allQuestions && notEmpty ? renderQuestions(searchedQuestions) : displayMessage()}
+                            {allQuestions && questionNotEmpty ? renderQuestions(searchedQuestions) : displayQuestionMessage()}
                         </QuestionList>
                     </BrowseContainer>
                 </ManageContainer>
@@ -426,12 +450,15 @@ const Questions = ({getAllQuestionsAction, allQuestions, notEmpty, targetQuestio
 };
 
 const mapStateToProps = state => {
-    const notEmpty = state.questionReducer.allQuestions.length;
+    const questionNotEmpty = state.questionReducer.allQuestions.length;
+    const tipsNotEmpty = state.tipReducer.targetQuestionTips.length;
     return {
+        questionNotEmpty: questionNotEmpty,
+        tipsNotEmpty: tipsNotEmpty,
         allQuestions: state.questionReducer.allQuestions,
-        notEmpty: notEmpty,
-        targetQuestion: state.questionReducer.targetQuestion
+        targetQuestion: state.questionReducer.targetQuestion,
+        targetQuestionTips: state.tipReducer.targetQuestionTips,
     }
 };
 
-export default connect(mapStateToProps, {getAllQuestionsAction})(Questions);
+export default connect(mapStateToProps, {getAllQuestionsAction, updateQuestionAction})(Questions);
