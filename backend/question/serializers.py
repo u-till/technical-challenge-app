@@ -11,10 +11,10 @@ class ListQuestionSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Question
-        fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'points_value', 'question_creator']
+        fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'question_creator']
 
 
 class CreateQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
-        fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'points_value', 'question_creator']
+        fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'question_creator']

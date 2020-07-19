@@ -18,8 +18,6 @@ class Question(models.Model):
 
     difficulty = models.CharField(max_length=1, choices=DIFFICULTY)
 
-    points_value = models.IntegerField(null=True, blank=True)
-
     created = models.DateTimeField(auto_now_add=True)
 
     updated = models.DateTimeField(auto_now_add=True)
