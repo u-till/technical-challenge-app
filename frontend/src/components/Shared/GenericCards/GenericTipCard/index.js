@@ -1,18 +1,20 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Fade from "react-reveal/Fade";
-import { rem } from "polished";
+import {rem} from "polished";
 import styled from "styled-components";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {
-  AddButton,
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
+    AddButton,
+    BlueButton,
+    RedButton,
+    RoundGreyButton,
 } from "../../../../style/GlobalButtons";
 import UserModal from "../../Navigation/UserModal";
-import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
+import {BaseInput, BaseTextArea} from "../../../../style/GlobalInputs";
+import {getTipsForQuestionAction, updateTipForQuestionAction} from "../../../../store/actions/tipActions";
+import {useDispatch} from "react-redux";
 
 //////////
 // STYLES
@@ -91,47 +93,77 @@ const NumberInput = styled(BaseInput)`
 //////////
 // REACT
 //////////
-const MAX_TIP_LENGTH = 130;
-const tip =
-  "    Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.";
 
-const GenericTipCard = (props) => {
-  const [isTipEditing, setTipEditing] = useState(false);
+const GenericTipCard = ({tip}) => {
+    const dispatch = useDispatch();
 
-  const editTipHandler = () => {
-    setTipEditing(!isTipEditing);
-  };
+    const [isTipEditing, setTipEditing] = useState(false);
+    const [tipData, setTipData] = useState({
+        content: tip.content,
+        discount_value: tip.discount_value,
+    });
 
-  return (
-    <>
-      {isTipEditing ? (
-        <TipCardEditing>
-          <EditTipDiv>
-            <div>
-              <DescriptionInput
-                type="text"
-                placeholder="Description"
-                required
-              ></DescriptionInput>
-            </div>
-            <div>
-              <NumberInput type="number" placeholder="n" required></NumberInput>
-              <RedButton>Delete</RedButton>
-              <BlueButton onClick={editTipHandler}>Save</BlueButton>
-            </div>
-          </EditTipDiv>
-        </TipCardEditing>
-      ) : (
-        <TipCard>
-          <p>{`${tip.substring(0, MAX_TIP_LENGTH)}...`}</p>
-          <p>Minus: 10</p>
-          <RoundGreyButton onClick={editTipHandler}>
-            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-          </RoundGreyButton>
-        </TipCard>
-      )}
-    </>
-  );
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setTipData({...tipData, [name]: value});
+    };
+
+    const editTipHandler = () => {
+        setTipEditing(!isTipEditing);
+    };
+
+    const saveHandler = async (e) => {
+        e.preventDefault();
+        const tipForm = new FormData();
+        tipForm.append("content", tipData.content);
+        const response = await dispatch(updateTipForQuestionAction(tip.id, tipForm));
+        if (response.status === 200) {
+            dispatch(getTipsForQuestionAction(tip.question));
+            setTipEditing(!isTipEditing);
+        }
+    };
+
+    return (
+        <>
+            {isTipEditing ? (
+                <TipCardEditing>
+                    <EditTipDiv>
+                        <div>
+                            <DescriptionInput
+                                type="text"
+                                placeholder="Description"
+                                required
+                                name='content'
+                                value={tipData.content}
+                                onChange={handleInput}
+                            />
+                        </div>
+                        <div>
+                            <NumberInput
+                                type="text"
+                                placeholder="0"
+                                disabled
+                                name="discount_value"
+                                value={tipData.discount_value}
+                                onChange={handleInput}
+                            />
+                            <RedButton>Delete</RedButton>
+                            <BlueButton onClick={saveHandler}>Save</BlueButton>
+                        </div>
+                    </EditTipDiv>
+                </TipCardEditing>
+            ) : (
+                <TipCard>
+                    <p>{`${tip.content.slice(0, 130)}...`}</p>
+                    <p>{`Minus: ${tip.discount_value}`}</p>
+                    <RoundGreyButton onClick={editTipHandler}>
+                        <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
+                    </RoundGreyButton>
+                </TipCard>
+            )}
+        </>
+    );
 };
 
 export default GenericTipCard;

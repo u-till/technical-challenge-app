@@ -1,7 +1,5 @@
 from django.db import models
-
 from django.conf import settings
-
 from question.models import Question
 
 
@@ -15,3 +13,6 @@ class Tip(models.Model):
     updated = models.DateTimeField(auto_now_add=True)
 
     question = models.ForeignKey(to=Question, on_delete=models.CASCADE, related_name='fk_tip_question', null=True, blank=True)
+
+    def __str__(self):
+        return f'Tip {self.pk} for Question: {self.question.id}'

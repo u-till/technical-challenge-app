@@ -9,6 +9,7 @@ import {AddButton, RoundGreyButton} from "../../../../style/GlobalButtons";
 import {Styledh2} from "../../../../style/GlobalTitles";
 import {useDispatch} from "react-redux";
 import {setTargetQuestion} from "../../../../store/actions/questionActions";
+import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
 
 //////////
 // STYLES
@@ -35,9 +36,12 @@ const QuestionCard = styled.div`
 const GenericQuestionCard = ({question, setData}) => {
     const dispatch = useDispatch();
 
-    const onClickHandler = () => {
-        dispatch(setTargetQuestion(question));
-        setData({...question})
+    const onClickHandler = async () => {
+        const response = await dispatch(getTipsForQuestionAction(question.id));
+        if (response.status === 200) {
+            dispatch(setTargetQuestion(question));
+            setData({...question})
+        }
     };
 
     return (

@@ -14,16 +14,15 @@ class CreateTipForQuestion(CreateAPIView):
 
     The discount_value it's a number (float) that will be subtracted from the question total value.
     """
-
     serializer_class = TipSerializer
-    queryset = Tip.objects.all()
-    lookup_field = 'question_id'
+    queryset = Question
+    lookup_url_kwarg = 'question_id'
 
-    def create(self, request, question_id, **kwargs):
-        question = Question.objects.get(id=question_id)
-        tip = Tip(content=request.data['content'], discount_value=1, question=question)
-        tip.save()
-        return Response(status=200)
+    def create(self, request, *args, **kwargs):
+        question = self.get_object()
+        tip = Tip.objects.create(content=request.data['content'], discount_value=1, question=question)
+        serializer = self.get_serializer(tip)
+        return Response(serializer.data, status=200)
 
 
 class ListTipByQuestion(ListAPIView):

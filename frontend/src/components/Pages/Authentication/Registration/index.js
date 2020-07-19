@@ -117,7 +117,6 @@ const Registration = ({verificationAction, history, location, fieldErrors, non_f
         if (data.avatar) {
             msgData.append("avatar", data.avatar);
         }
-        console.log([...msgData]);
         const response = await verificationAction(match.params.userId, msgData);
         if (response.status === 202) {
             history.push("/");

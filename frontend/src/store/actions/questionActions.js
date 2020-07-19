@@ -24,3 +24,13 @@ export const getAllQuestionsAction = () => async (dispatch) => {
         return error
     }
 };
+
+export const updateQuestionAction = (questionId, questionData) => async (dispatch) => {
+    try {
+        const response = await Axios.patch(`questions/edit/${questionId}/`, questionData);
+        return response
+    } catch (error) {
+        console.log("Error during Update A Question>", error);
+        return error
+    }
+}
