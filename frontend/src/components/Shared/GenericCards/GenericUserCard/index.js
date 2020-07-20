@@ -218,7 +218,7 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
         first_name: user.first_name,
         last_name: user.last_name,
         phone: user.phone ? user.phone : '',
-        avatar: user.avatar,
+        avatar: null,
         is_staff: user.is_staff
     });
 
@@ -234,9 +234,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
         userData.append("first_name", data.first_name);
         userData.append("last_name", data.last_name);
         userData.append("phone", data.phone);
-        // if (data.avatar) {
-        //     userData.append("avatar", data.avatar);
-        // }
+        if (data.avatar) {
+            userData.append("avatar", data.avatar);
+        }
         const response = await editSpecificUserAction(user.id, userData);
         if (response.status === 200) {
             setUserEditing(!isUserEditing);
