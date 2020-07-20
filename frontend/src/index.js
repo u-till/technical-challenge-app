@@ -10,7 +10,7 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import { login } from "./store/actions/loginActions";
+import {login, setLoggedInUserAction} from "./store/actions/loginActions";
 
 library.add(fab, fas, far);
 

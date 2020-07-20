@@ -55,11 +55,11 @@ const SendButton = styled(BlueButton)`
 // REACT
 //////////
 
-const GenericChallengeCardSmall = (props) => {
+const GenericChallengeCardSmall = ({challenge}) => {
   return (
     <ChallengeCard>
-      <Challengeh2>Fullstack Challenge 1</Challengeh2>
-      <p>Status: Pending</p>
+      <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
+      <p>{`Status: ${challenge.status}`}</p>
       <DeleteButton>
         <FontAwesomeIcon icon={["far", "trash-alt"]} />
       </DeleteButton>

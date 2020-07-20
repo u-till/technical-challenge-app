@@ -23,6 +23,7 @@ import {
     editSpecificUserAction,
     getAllUsersAction,
 } from "../../../../store/actions/userActions";
+import {changeEnd} from "codemirror/src/model/change_measurement";
 
 //////////
 // STYLES
@@ -391,10 +392,9 @@ const GenericUserCard = ({
                                 </InputLabelDiv>
                             </AddChallenge>
                             <ChallengeList>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
+                                {user.fk_challenges_assigned ? user.fk_challenges_assigned.map(challenge =>
+                                    <GenericChallengeCardSmall key={`challenge ${challenge.id}`}
+                                                               challenge={challenge}/>) : null}
                             </ChallengeList>
                         </EditUserChallenge>
                     </div>
