@@ -296,7 +296,8 @@ const Questions = ({getAllQuestionsAction, allQuestions, questionNotEmpty, targe
 
     const inputSortSearchHandler = (e, func) => {
         func(e.currentTarget.value);
-
+    };
+    
     const handleTextInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
