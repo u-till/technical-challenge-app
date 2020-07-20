@@ -23,6 +23,7 @@ import {
   editSpecificUserAction,
   getAllUsersAction,
 } from "../../../../store/actions/userActions";
+import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLES
@@ -230,6 +231,11 @@ const GenericUserCard = ({
   const dispatch = useDispatch();
 
   const [isUserEditing, setUserEditing] = useState(false);
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const ModalDeleteOpenCloseHandler = () => {
+    setModalDeleteOpen(!isModalDeleteOpen);
+  };
 
   const [data, setData] = useState({
     email: user.email,
@@ -399,7 +405,17 @@ const GenericUserCard = ({
             </EditUserChallenge>
           </div>
           <DeleteSave>
-            <RedButton>Delete</RedButton>
+            <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
+            {isModalDeleteOpen ? (
+              <GenericDeleteModal
+                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+              >
+                <p>
+                  Are you sure you want to delete the User{" "}
+                  {user.first_name + " " + user.last_name}?
+                </p>
+              </GenericDeleteModal>
+            ) : null}
             <Error errorMessage={non_field_error} />
             <div>
               <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
