@@ -10,13 +10,17 @@ import { library } from "@fortawesome/fontawesome-svg-core";
 import { far } from "@fortawesome/free-regular-svg-icons";
 import { fab } from "@fortawesome/free-brands-svg-icons";
 import { fas } from "@fortawesome/free-solid-svg-icons";
-import {login, setLoggedInUserAction} from "./store/actions/loginActions";
+import {login, setLoggedInUser} from "./store/actions/loginActions";
 
 library.add(fab, fas, far);
 
 const token = localStorage.getItem("token");
+const user = localStorage.getItem("user");
 if (token) {
   store.dispatch(login(token));
+}
+if (user) {
+    store.dispatch(setLoggedInUser(JSON.parse(user)))
 }
 
 ReactDOM.render(

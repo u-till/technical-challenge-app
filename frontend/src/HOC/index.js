@@ -7,6 +7,8 @@ export default WrappedComponent => {
 
         useEffect(() => {
             const userRedirect = () => {
+                console.log('authenticated>', authenticated);
+                console.log('userObj>', userObj);
                 if (!authenticated || !userObj) {
                     history.push('/login');
                 }
