@@ -1,7 +1,7 @@
 import { GET_ALL_TIPS_FOR_QUESTION } from "../actionTypes";
 
 const initialState = {
-  targetQuestionTips: [],
+  targetQuestionTips: null,
 };
 
 export const tipReducer = (state = initialState, action) => {
