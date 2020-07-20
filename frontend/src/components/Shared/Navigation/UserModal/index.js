@@ -77,22 +77,41 @@ const ModalInput = styled(BaseInput)`
 // REACT
 //////////
 
-const UserModal = (props) => {
-  console.log("feed props", props);
-
+const UserModal = ({ userObj }) => {
   return (
     <>
       <UserModalContainer>
         <ModalAvatar>
-          <img src={avatar}></img>
+          <img
+            src={
+              userObj.avatar
+                ? userObj.avatar
+                : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
+            }
+          ></img>
           <ImgOverlay>
             <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
           </ImgOverlay>
         </ModalAvatar>
         <p>test@domain.com</p>
-        <ModalInput type="text" placeholder="First Name" required></ModalInput>
-        <ModalInput type="text" placeholder="Last Name" required></ModalInput>
-        <ModalInput type="text" placeholder="Phone Nr." required></ModalInput>
+        <ModalInput
+          type="text"
+          placeholder="First Name"
+          value={userObj.first_name}
+          required
+        ></ModalInput>
+        <ModalInput
+          type="text"
+          placeholder="Last Name"
+          value={userObj.last_name}
+          required
+        ></ModalInput>
+        <ModalInput
+          type="text"
+          placeholder="Phone Nr."
+          value={userObj.phone}
+          required
+        ></ModalInput>
         <BlueButton>Save</BlueButton>
       </UserModalContainer>
     </>

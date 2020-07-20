@@ -52,13 +52,13 @@ export const loginAction = ({ email, password }) => async (dispatch) => {
 };
 
 export const setLoggedInUserAction = () => async (dispatch, getState) => {
-    try {
-        const response = await Axios.get("users/me/");
-        await dispatch(setLoggedInUser(response.data));
-        localStorage.setItem('user', JSON.stringify(response.data));
-        return [response, getState().authReducer.userObj.is_staff]
-    } catch (error) {
-        console.log("Error retrieving logged in User data>", error);
-        return error
-    }
-}
+  try {
+    const response = await Axios.get("users/me/");
+    await dispatch(setLoggedInUser(response.data));
+    localStorage.setItem("user", JSON.stringify(response.data));
+    return [response, getState().authReducer.userObj.is_staff];
+  } catch (error) {
+    console.log("Error retrieving logged in User data>", error);
+    return error;
+  }
+};
