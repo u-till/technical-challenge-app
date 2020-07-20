@@ -266,16 +266,7 @@ const QuestionList = styled.div`
 // REACT
 //////////
 
-const Questions = ({
-                       getAllQuestionsAction,
-                       allQuestions,
-                       questionNotEmpty,
-                       targetQuestion,
-                       targetQuestionTips,
-                       tipsNotEmpty,
-                       updateQuestionAction,
-                       resetTargetQuestion
-                   }) => {
+const Questions = ({getAllQuestionsAction, allQuestions, questionNotEmpty, targetQuestion, targetQuestionTips, tipsNotEmpty, updateQuestionAction, resetTargetQuestion}) => {
     const dispatch = useDispatch();
 
     const displayQuestionMessage = () => !questionNotEmpty ? <GenericSpinner/> : null;
@@ -570,8 +561,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, {
-    getAllQuestionsAction,
-    updateQuestionAction,
-    resetTargetQuestion,
-})(Questions);
+export default connect(mapStateToProps, {getAllQuestionsAction, updateQuestionAction, resetTargetQuestion})(Questions);
