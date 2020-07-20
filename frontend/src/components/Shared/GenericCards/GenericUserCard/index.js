@@ -26,7 +26,6 @@ import {
 import {changeEnd} from "codemirror/src/model/change_measurement";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
-
 //////////
 // STYLES
 //////////
@@ -224,69 +223,64 @@ const UploadButton = styled(BaseButton)`
 // REACT
 //////////
 
-const GenericUserCard = ({
-  user,
-  non_field_error,
-  fieldErrors,
-  editSpecificUserAction,
-}) => {
-  const dispatch = useDispatch();
+const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAction}) => {
+    const dispatch = useDispatch();
 
-  const [isUserEditing, setUserEditing] = useState(false);
-  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [isUserEditing, setUserEditing] = useState(false);
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
-  const ModalDeleteOpenCloseHandler = () => {
-    setModalDeleteOpen(!isModalDeleteOpen);
-  };
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
+    };
 
-  const [data, setData] = useState({
-    email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    phone: user.phone ? user.phone : "",
-    avatar: null,
-    is_staff: user.is_staff,
-  });
+    const [data, setData] = useState({
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone: user.phone ? user.phone : "",
+        avatar: null,
+        is_staff: user.is_staff,
+    });
 
-  const editUserHandler = () => {
-    setUserEditing(!isUserEditing);
-  };
+    const editUserHandler = () => {
+        setUserEditing(!isUserEditing);
+    };
 
-  const userSaveHandler = async (e) => {
-    e.preventDefault();
-    dispatch(resetError());
-    const userData = new FormData();
-    userData.append("email", data.email);
-    userData.append("first_name", data.first_name);
-    userData.append("last_name", data.last_name);
-    userData.append("phone", data.phone);
-    if (data.avatar) {
-      userData.append("avatar", data.avatar);
-    }
-    const response = await editSpecificUserAction(user.id, userData);
-    if (response.status === 200) {
-      setUserEditing(!isUserEditing);
-      dispatch(getAllUsersAction());
-    }
-  };
+    const userSaveHandler = async (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        const userData = new FormData();
+        userData.append("email", data.email);
+        userData.append("first_name", data.first_name);
+        userData.append("last_name", data.last_name);
+        userData.append("phone", data.phone);
+        if (data.avatar) {
+            userData.append("avatar", data.avatar);
+        }
+        const response = await editSpecificUserAction(user.id, userData);
+        if (response.status === 200) {
+            setUserEditing(!isUserEditing);
+            dispatch(getAllUsersAction());
+        }
+    };
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setData({ ...data, [name]: value });
-  };
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    };
 
-  const hiddenFileInput = React.useRef(null);
+    const hiddenFileInput = React.useRef(null);
 
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
-  };
-  
+    const handleClick = (event) => {
+        hiddenFileInput.current.click();
+    };
+
     const imageSelectHandler = (e) => {
-    if (e.target.files[0]) {
-      setData({ ...data, avatar: e.target.files[0] });
-    }
-  };
+        if (e.target.files[0]) {
+            setData({...data, avatar: e.target.files[0]});
+        }
+    };
 
     return (
         <>
@@ -407,16 +401,18 @@ const GenericUserCard = ({
                     </div>
                     <DeleteSave>
                         <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
-                            {isModalDeleteOpen ? (
-                                <GenericDeleteModal
-                                    ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                                    >
-                                    <p>
+                        {isModalDeleteOpen ? (
+                            <GenericDeleteModal
+                                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                                type="users"
+                                typeId={user.id}
+                            >
+                                <p>
                                     Are you sure you want to delete the User{" "}
                                     {user.first_name + " " + user.last_name}?
-                                    </p>
-                                </GenericDeleteModal>
-                                ) : null}
+                                </p>
+                            </GenericDeleteModal>
+                        ) : null}
                         <Error errorMessage={non_field_error}/>
                         <div>
                             <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
