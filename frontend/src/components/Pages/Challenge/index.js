@@ -335,7 +335,6 @@ const Challenge = () => {
                                     1914 translation by H. Rackham.
                                 </p>
                             </div>
-<<<<<<< frontend/src/components/Pages/Challenge/index.js
                         </DescriptionContainer>
                     </DescriptionColumn>
                     <StyledResizeBar/>
