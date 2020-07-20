@@ -1,13 +1,15 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
+import {rem} from "polished";
 
 import logo from "../../../assets/images/momentum-tech-challenge-logo.png";
-import { HeaderLogo } from "../../../style/GlobalIcons";
-import { RedButton } from "../../../style/GlobalButtons";
-import { NavLink } from "react-router-dom";
+import {HeaderLogo} from "../../../style/GlobalIcons";
+import {RedButton} from "../../../style/GlobalButtons";
+import {NavLink, useHistory} from "react-router-dom";
 import avatar from "../../../assets/images/user.png";
 import UserModal from "./UserModal";
+import {connect} from "react-redux";
+import {logoutUser} from "../../../store/actions/loginActions";
 
 //////////
 // STYLE
@@ -78,7 +80,7 @@ const NavbarAvatar = styled.div`
 
 const activeClassName = "nav-item-active";
 
-const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
+const StyledNavLink = styled(NavLink).attrs({activeClassName})`
   &.${activeClassName} {
     padding-top: 4px;
     &:after {
@@ -120,32 +122,51 @@ const HeaderText = styled.p``;
 //////////
 // REACT
 //////////
-const Navigation = ({ children }) => {
-  const [isProfileModalVisible, setProfileModalVisible] = useState(false);
+const Navigation = ({children, userObj, logoutUser}) => {
+    const history = useHistory();
 
-  const showProfileContextHandler = () => {
-    setProfileModalVisible(!isProfileModalVisible);
-  };
+    const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
-  return (
-    <Wrapper>
-      <Header>
-        <NavSectionLeft>
-          <HeaderLogo src={logo}></HeaderLogo>
-        </NavSectionLeft>
-        <NavSectionRight>
-          <StyledNavLink to="/managequestions">Questions</StyledNavLink>
-          <StyledNavLink to="/manageusers">Users</StyledNavLink>
-          <LogoutButton>Logout</LogoutButton>
-          <NavbarAvatar onClick={showProfileContextHandler}>
-            <img src={avatar}></img>
-          </NavbarAvatar>
-          {isProfileModalVisible && <UserModal />}
-        </NavSectionRight>
-      </Header>
-      {children}
-    </Wrapper>
-  );
+    const showProfileContextHandler = () => {
+        setProfileModalVisible(!isProfileModalVisible);
+    };
+
+    const handleLoginClick = () => {
+        history.push('/login')
+    };
+
+    const handleLogoutClick = () => {
+        logoutUser();
+    };
+
+    return (
+        <Wrapper>
+            <Header>
+                <NavSectionLeft>
+                    <HeaderLogo src={logo}/>
+                </NavSectionLeft>
+                <NavSectionRight>
+                    {userObj && userObj.is_staff ? (<> <StyledNavLink to="/managequestions">Questions</StyledNavLink>
+                        <StyledNavLink to="/manageusers">Users</StyledNavLink> </>) : null}
+                    {!userObj ? <LogoutButton onClick={handleLoginClick}>Login</LogoutButton> : (
+                        <>
+                            <LogoutButton onClick={handleLogoutClick}>Logout</LogoutButton>
+                            <NavbarAvatar onClick={showProfileContextHandler}>
+                                <img src={userObj.avatar ? userObj.avatar : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`} alt='avatar'/>
+                            </NavbarAvatar>
+                            {isProfileModalVisible && <UserModal/>}
+                        </>)}
+                </NavSectionRight>
+            </Header>
+            {children}
+        </Wrapper>
+    );
 };
 
-export default Navigation;
+const mapStateToProps = state => {
+    return {
+        userObj: state.authReducer.userObj
+    }
+}
+
+export default connect(mapStateToProps, {logoutUser})(Navigation);
