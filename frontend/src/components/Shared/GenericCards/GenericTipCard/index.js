@@ -1,20 +1,23 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
-import {rem} from "polished";
+import { rem } from "polished";
 import styled from "styled-components";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
-    AddButton,
-    BlueButton,
-    RedButton,
-    RoundGreyButton,
+  AddButton,
+  BlueButton,
+  RedButton,
+  RoundGreyButton,
 } from "../../../../style/GlobalButtons";
 import UserModal from "../../Navigation/UserModal";
-import {BaseInput, BaseTextArea} from "../../../../style/GlobalInputs";
-import {getTipsForQuestionAction, updateTipForQuestionAction} from "../../../../store/actions/tipActions";
-import {useDispatch} from "react-redux";
+import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
+import {
+  getTipsForQuestionAction,
+  updateTipForQuestionAction,
+} from "../../../../store/actions/tipActions";
+import { useDispatch } from "react-redux";
 
 //////////
 // STYLES
@@ -94,76 +97,78 @@ const NumberInput = styled(BaseInput)`
 // REACT
 //////////
 
-const GenericTipCard = ({tip}) => {
-    const dispatch = useDispatch();
+const GenericTipCard = ({ tip }) => {
+  const dispatch = useDispatch();
 
-    const [isTipEditing, setTipEditing] = useState(false);
-    const [tipData, setTipData] = useState({
-        content: tip.content,
-        discount_value: tip.discount_value,
-    });
+  const [isTipEditing, setTipEditing] = useState(false);
+  const [tipData, setTipData] = useState({
+    content: tip.content,
+    discount_value: tip.discount_value,
+  });
 
-    const handleInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setTipData({...tipData, [name]: value});
-    };
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setTipData({ ...tipData, [name]: value });
+  };
 
-    const editTipHandler = () => {
-        setTipEditing(!isTipEditing);
-    };
+  const editTipHandler = () => {
+    setTipEditing(!isTipEditing);
+  };
 
-    const saveHandler = async (e) => {
-        e.preventDefault();
-        const tipForm = new FormData();
-        tipForm.append("content", tipData.content);
-        const response = await dispatch(updateTipForQuestionAction(tip.id, tipForm));
-        if (response.status === 200) {
-            dispatch(getTipsForQuestionAction(tip.question));
-            setTipEditing(!isTipEditing);
-        }
-    };
-
-    return (
-        <>
-            {isTipEditing ? (
-                <TipCardEditing>
-                    <EditTipDiv>
-                        <div>
-                            <DescriptionInput
-                                type="text"
-                                placeholder="Description"
-                                required
-                                name='content'
-                                value={tipData.content}
-                                onChange={handleInput}
-                            />
-                        </div>
-                        <div>
-                            <NumberInput
-                                type="text"
-                                placeholder="0"
-                                disabled
-                                name="discount_value"
-                                value={tipData.discount_value}
-                                onChange={handleInput}
-                            />
-                            <RedButton>Delete</RedButton>
-                            <BlueButton onClick={saveHandler}>Save</BlueButton>
-                        </div>
-                    </EditTipDiv>
-                </TipCardEditing>
-            ) : (
-                <TipCard>
-                    <p>{`${tip.content.slice(0, 130)}...`}</p>
-                    <p>{`Minus: ${tip.discount_value}`}</p>
-                    <RoundGreyButton onClick={editTipHandler}>
-                        <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
-                    </RoundGreyButton>
-                </TipCard>
-            )}
-        </>
+  const saveHandler = async (e) => {
+    e.preventDefault();
+    const tipForm = new FormData();
+    tipForm.append("content", tipData.content);
+    const response = await dispatch(
+      updateTipForQuestionAction(tip.id, tipForm)
     );
+    if (response.status === 200) {
+      dispatch(getTipsForQuestionAction(tip.question));
+      setTipEditing(!isTipEditing);
+    }
+  };
+
+  return (
+    <>
+      {isTipEditing ? (
+        <TipCardEditing>
+          <EditTipDiv>
+            <div>
+              <DescriptionInput
+                type="text"
+                placeholder="Description"
+                required
+                name="content"
+                value={tipData.content}
+                onChange={handleInput}
+              />
+            </div>
+            <div>
+              <NumberInput
+                type="text"
+                placeholder="0"
+                disabled
+                name="discount_value"
+                value={tipData.discount_value}
+                onChange={handleInput}
+              />
+              <RedButton>Delete</RedButton>
+              <BlueButton onClick={saveHandler}>Save</BlueButton>
+            </div>
+          </EditTipDiv>
+        </TipCardEditing>
+      ) : (
+        <TipCard>
+          <p>{`${tip.content.slice(0, 130)}...`}</p>
+          <p>{`Minus: ${tip.discount_value}`}</p>
+          <RoundGreyButton onClick={editTipHandler}>
+            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
+          </RoundGreyButton>
+        </TipCard>
+      )}
+    </>
+  );
 };
 
 export default GenericTipCard;
