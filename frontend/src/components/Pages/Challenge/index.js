@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {rem} from "polished";
 
@@ -11,6 +11,9 @@ import {
     Section,
     Bar,
 } from "react-simple-resizer";
+import Axios from "../../../axios";
+import {useDispatch} from "react-redux";
+import {getChallenge} from "../../../store/actions/challengeAction";
 
 //////////
 // STYLE
@@ -179,15 +182,46 @@ const DoneButton = styled(RedButton)``;
 //////////
 // REACT
 //////////
+
 const Challenge = () => {
     const [progressValue, setProgressValue] = useState(1);
+    const [initDate, getInitDate] = useState(0);
+    const dispatch = useDispatch();
+
+    const timerComponents = [];
+
+    const calculateTimeLeft = () => {
+        const dateNow = new Date();
+        const databaseDate = new Date(String(initDate))
+        let difference = dateNow - databaseDate;
+        difference = 1800000 - difference
+        if (difference > 0) {
+            let timeLeft = `Time left: ${Math.floor((difference / 1000 / 60) % 60)}:${Math.floor((difference / 1000) % 60)}`;
+            return timeLeft;
+        }
+    };
+
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+    useEffect(() => {
+        const startChallenge = async () => {
+            const initDate = await dispatch(getChallenge());
+            getInitDate(initDate);
+        };
+
+        startChallenge();
+
+        const settimeout = setTimeout(() => {
+            setTimeLeft(calculateTimeLeft());
+        }, 1000);
+
+        return () => clearInterval(settimeout)
+    });
 
     const renderControlPanel = (progressValue) => {
         if (progressValue === 1) {
-            return (
-                <>
+            return (<>
                     <div/>
-                    <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
                     <StepSelectorLine>
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
@@ -197,18 +231,12 @@ const Challenge = () => {
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(2)}>
-                        Next
-                    </PrevNextButton>{" "}
-                </>
+                    <PrevNextButton onClick={e => setProgressValue(2)}>Next</PrevNextButton> </>
             );
         }
         if (progressValue === 2) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(1)}>
-                        Previous
-                    </PrevNextButton>
+            return (<>
+                    <PrevNextButton onClick={e => setProgressValue(1)}>Previous</PrevNextButton>
                     <StepSelectorLine>
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
@@ -218,18 +246,12 @@ const Challenge = () => {
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(3)}>
-                        Next
-                    </PrevNextButton>{" "}
-                </>
-            );
+                    <PrevNextButton onClick={e => setProgressValue(3)}>Next</PrevNextButton> </>
+            )
         }
         if (progressValue === 3) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(2)}>
-                        Previous
-                    </PrevNextButton>
+            return (<>
+                    <PrevNextButton onClick={e => setProgressValue(2)}>Previous</PrevNextButton>
                     <StepSelectorLine>
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
@@ -239,18 +261,12 @@ const Challenge = () => {
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(4)}>
-                        Next
-                    </PrevNextButton>{" "}
-                </>
-            );
+                    <PrevNextButton onClick={e => setProgressValue(4)}>Next</PrevNextButton> </>
+            )
         }
         if (progressValue === 4) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(3)}>
-                        Previous
-                    </PrevNextButton>
+            return (<>
+                    <PrevNextButton onClick={e => setProgressValue(3)}>Previous</PrevNextButton>
                     <StepSelectorLine>
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
@@ -260,11 +276,8 @@ const Challenge = () => {
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(5)}>
-                        Next
-                    </PrevNextButton>
-                </>
-            );
+                    <PrevNextButton onClick={e => setProgressValue(5)}>Next</PrevNextButton> </>
+            )
         }
         return (
             <>
