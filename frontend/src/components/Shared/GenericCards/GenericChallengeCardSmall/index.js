@@ -15,6 +15,7 @@ import UserModal from "../../Navigation/UserModal";
 import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 import Challenge from "../../../Pages/Challenge";
 import { Styledh2 } from "../../../../style/GlobalTitles";
+import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLES
@@ -56,13 +57,26 @@ const SendButton = styled(BlueButton)`
 //////////
 
 const GenericChallengeCardSmall = (props) => {
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const ModalDeleteOpenCloseHandler = () => {
+    setModalDeleteOpen(!isModalDeleteOpen);
+  };
+
   return (
     <ChallengeCard>
       <Challengeh2>Fullstack Challenge 1</Challengeh2>
       <p>Status: Pending</p>
-      <DeleteButton>
+      <DeleteButton onClick={ModalDeleteOpenCloseHandler}>
         <FontAwesomeIcon icon={["far", "trash-alt"]} />
       </DeleteButton>
+      {isModalDeleteOpen ? (
+        <GenericDeleteModal
+          ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+        >
+          <p>Are you sure you want to delete the Challenge xyz?</p>
+        </GenericDeleteModal>
+      ) : null}
       <SendButton>
         <FontAwesomeIcon icon={["far", "paper-plane"]} />
       </SendButton>

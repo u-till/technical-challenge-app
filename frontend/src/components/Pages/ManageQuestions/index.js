@@ -26,6 +26,7 @@ import {
   updateQuestionAction,
 } from "../../../store/actions/questionActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
+import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLE
@@ -112,6 +113,11 @@ const EditBottom = styled.div`
 const DeleteSave = styled.div`
   display: flex;
   justify-content: space-between;
+  > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+  }
 `;
 
 const InputLabelDiv = styled.div`
@@ -271,6 +277,12 @@ const Questions = ({
   updateQuestionAction,
 }) => {
   const dispatch = useDispatch();
+
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const ModalDeleteOpenCloseHandler = () => {
+    setModalDeleteOpen(!isModalDeleteOpen);
+  };
 
   const displayQuestionMessage = () =>
     !questionNotEmpty ? <GenericSpinner /> : null;
@@ -485,8 +497,23 @@ const Questions = ({
                   </InputLabelDiv>
                 </EditBottom>
                 <DeleteSave>
-                  <RedButton>Delete</RedButton>
-                  <BlueButton onClick={handleSave}>Save</BlueButton>
+                  <RedButton onClick={ModalDeleteOpenCloseHandler}>
+                    Delete
+                  </RedButton>
+                  {isModalDeleteOpen ? (
+                    <GenericDeleteModal
+                      ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                    >
+                      <p>
+                        Are you sure you want to delete the Question "
+                        {questionData.name}"?
+                      </p>
+                    </GenericDeleteModal>
+                  ) : null}
+                  <div>
+                    <BlueButton onClick={handleSave}>Cancel</BlueButton>
+                    <BlueButton onClick={handleSave}>Save</BlueButton>
+                  </div>
                 </DeleteSave>
               </>
             ) : (
