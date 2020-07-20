@@ -7,7 +7,7 @@ import {Styledh1} from "../../../../style/GlobalTitles";
 import {BigRedButton} from "../../../../style/GlobalButtons";
 import {BaseInput} from "../../../../style/GlobalInputs";
 import {connect, useDispatch} from "react-redux";
-import {loginAction} from "../../../../store/actions/loginActions";
+import {loginAction, setLoggedInUserAction} from "../../../../store/actions/loginActions";
 import Error from "../../../Shared/Error";
 import {resetError} from "../../../../store/actions/verificationAction";
 
@@ -59,7 +59,7 @@ const Icon = styled(FontAwesomeIcon)`
 // REACT
 //////////
 
-const Login = ({loginAction, history, fieldErrors, non_field_error}) => {
+const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction}) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
@@ -75,7 +75,10 @@ const Login = ({loginAction, history, fieldErrors, non_field_error}) => {
         const loginData = {email, password};
         const response = await loginAction(loginData);
         if (response.status === 200) {
-            history.push("/");
+            await dispatch(setLoggedInUserAction);
+            if (response.status === 200) {
+                history.push("/");
+            }
         }
     };
 
@@ -121,4 +124,4 @@ const mapStateToProps = (state) => {
     };
 };
 
-export default connect(mapStateToProps, {loginAction})(Login);
+export default connect(mapStateToProps, {loginAction, setLoggedInUserAction})(Login);
