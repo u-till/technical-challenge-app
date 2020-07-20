@@ -1,5 +1,5 @@
 import Axios from "../../axios/";
-import { USER_LOGIN } from "../actionTypes";
+import { SET_LOGGED_IN_USER, USER_LOGIN, USER_LOGOUT } from "../actionTypes";
 import {
   nonFieldVerificationError,
   verificationError,
@@ -9,6 +9,19 @@ export const login = (token) => {
   return {
     type: USER_LOGIN,
     payload: token,
+  };
+};
+
+export const setLoggedInUser = (user) => {
+  return {
+    type: SET_LOGGED_IN_USER,
+    payload: user,
+  };
+};
+
+export const logoutUser = () => {
+  return {
+    type: USER_LOGOUT,
   };
 };
 
@@ -22,7 +35,6 @@ export const loginAction = ({ email, password }) => async (dispatch) => {
     }
     return response;
   } catch (error) {
-    console.log(error.response.data);
     if (
       error.response.data.detail ===
       "No active account found with the given credentials"
@@ -35,6 +47,16 @@ export const loginAction = ({ email, password }) => async (dispatch) => {
       }
       dispatch(verificationError(errors));
     }
+    return error;
+  }
+};
+
+export const setLoggedInUserAction = () => async (dispatch) => {
+  try {
+    const response = await Axios.get("users/me/");
+    dispatch(setLoggedInUser(response.data));
+  } catch (error) {
+    console.log("Error retrieving logged in User data>", error);
     return error;
   }
 };

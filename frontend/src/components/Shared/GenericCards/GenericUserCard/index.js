@@ -77,14 +77,14 @@ const UserCardBig = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: 360px;
+  height: 320px;
   margin-bottom: 8px;
   overflow: hidden;
 
   > div:first-child {
     display: flex;
     width: 100%;
-    height: 80%;
+    height: 85%;
     margin-bottom: 12px;
   }
 `;
@@ -102,12 +102,6 @@ const EditUserInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
-  }
-
-  > div:first-child {
-    div:last-child {
-      margin-bottom: -10px;
-    }
   }
 `;
 
@@ -172,11 +166,6 @@ const DeleteSave = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
-  div {
-    button {
-      margin-left: 12px;
-    }
-  }
 `;
 
 const InputLabelDiv = styled.div`
@@ -237,7 +226,7 @@ const GenericUserCard = ({
     first_name: user.first_name,
     last_name: user.last_name,
     phone: user.phone ? user.phone : "",
-    avatar: user.avatar,
+    avatar: null,
     is_staff: user.is_staff,
   });
 
@@ -253,9 +242,9 @@ const GenericUserCard = ({
     userData.append("first_name", data.first_name);
     userData.append("last_name", data.last_name);
     userData.append("phone", data.phone);
-    // if (data.avatar) {
-    //     userData.append("avatar", data.avatar);
-    // }
+    if (data.avatar) {
+      userData.append("avatar", data.avatar);
+    }
     const response = await editSpecificUserAction(user.id, userData);
     if (response.status === 200) {
       setUserEditing(!isUserEditing);

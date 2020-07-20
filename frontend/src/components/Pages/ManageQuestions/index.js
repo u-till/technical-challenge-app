@@ -283,28 +283,42 @@ const Questions = ({
     name: "",
     instructions: "",
     points_value: "",
+    program: [],
   });
 
   useEffect(() => {
     getAllQuestionsAction();
   }, [getAllQuestionsAction]);
 
-  const inputHandler = (e, func) => {
+  const inputSortSearchHandler = (e, func) => {
     func(e.currentTarget.value);
   };
 
-  const handleInput = (e) => {
+  const handleTextInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setQuestionData({ ...questionData, [name]: value });
   };
 
+  const handleProgramSelectorChange = (e) => {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setQuestionData({ ...questionData, ["program"]: value });
+  };
+
   const handleSave = async (e) => {
     e.preventDefault();
-    const questionForm = new FormData();
-    questionForm.append("name", questionData.name);
-    questionForm.append("difficulty", questionData.difficulty);
-    questionForm.append("instructions", questionData.instructions);
+    const questionForm = {
+      name: questionData.name,
+      difficulty: questionData.difficulty,
+      instructions: questionData.instructions,
+      program: questionData.program,
+    };
     const response = await updateQuestionAction(questionData.id, questionForm);
     if (response.status === 200) {
       getAllQuestionsAction();
@@ -377,7 +391,7 @@ const Questions = ({
                       required
                       name="name"
                       value={questionData.name}
-                      onChange={handleInput}
+                      onChange={handleTextInput}
                     />
                   </InputLabelDiv>
                   <InputLabelDiv>
@@ -386,7 +400,13 @@ const Questions = ({
                       type="text"
                       placeholder="0"
                       required
-                      value={questionData.points_value}
+                      value={
+                        questionData.difficulty === "H"
+                          ? "10"
+                          : questionData.difficulty === "I"
+                          ? "7"
+                          : "3"
+                      }
                       disabled
                     />
                   </InputLabelDiv>
@@ -395,7 +415,7 @@ const Questions = ({
                     <DifficultyDropdown
                       id="difficulty"
                       value={questionData.difficulty}
-                      onChange={handleInput}
+                      onChange={handleTextInput}
                       name="difficulty"
                     >
                       <option value="E">Easy</option>
@@ -413,27 +433,23 @@ const Questions = ({
                       required
                       name="instructions"
                       value={questionData.instructions}
-                      onChange={handleInput}
+                      onChange={handleTextInput}
                     />
                   </InputLabelDiv>
                   <InputLabelDiv>
                     <StyledLabel>Catergories:</StyledLabel>
                     <CategorySelect
-                      name="category"
+                      name="program"
                       multiple
                       value={questionData.program}
-                      onChange={handleInput}
+                      onChange={handleProgramSelectorChange}
                     >
-                      <option value="Full Stack">Full Stack</option>
-                      <option value="Data Science">Data Science</option>
-                      <option value="React & Redux">React & Redux</option>
-                      <option value="Docker & Deployment">
-                        Docker & Deployment
-                      </option>
-                      <option value="AI for Leaders">AI for Leaders</option>
-                      <option value="Python Programming">
-                        Python programming
-                      </option>
+                      <option value="1">Full Stack</option>
+                      <option value="2">Data Science</option>
+                      <option value="3">React & Redux</option>
+                      <option value="4">Docker & Deployment</option>
+                      <option value="5">AI for Leaders</option>
+                      <option value="6">Python programming</option>
                     </CategorySelect>
                   </InputLabelDiv>
                 </EditMiddle>
@@ -488,7 +504,7 @@ const Questions = ({
                   id="sort"
                   name="Sort by"
                   value={sort}
-                  onChange={(e) => inputHandler(e, setSort)}
+                  onChange={(e) => inputSortSearchHandler(e, setSort)}
                 >
                   <option value="date">Date</option>
                   <option value="difficulty">Difficulty</option>
@@ -499,7 +515,7 @@ const Questions = ({
                   placeholder="Search..."
                   required
                   value={search}
-                  onChange={(e) => inputHandler(e, setSearch)}
+                  onChange={(e) => inputSortSearchHandler(e, setSearch)}
                 />
               </div>
             </BrowseHeader>
