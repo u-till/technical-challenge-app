@@ -12,7 +12,7 @@ import Header from "../../Shared/Navigation";
 // REACT
 //////////
 const Home = () => {
-  return <div></div>;
+  return <div>Welcome to Propulsion Academy Technical Interview Portal</div>;
 };
 
 export default Home;

@@ -62,68 +62,63 @@ const Icon = styled(FontAwesomeIcon)`
 // REACT
 //////////
 
-const Login = ({
-  loginAction,
-  history,
-  fieldErrors,
-  non_field_error,
-  setLoggedInUserAction,
-}) => {
-  const dispatch = useDispatch();
 
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
+const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction}) => {
+    const dispatch = useDispatch();
 
-  const inputHandler = (e, func) => {
-    func(e.currentTarget.value);
-  };
+    const [email, setEmail] = useState("");
+    const [password, setPassword] = useState("");
 
-  const onSubmitForm = async (e) => {
-    e.preventDefault();
-    dispatch(resetError());
-    const loginData = { email, password };
-    const response = await loginAction(loginData);
-    if (response.status === 200) {
-      await dispatch(setLoggedInUserAction);
-      if (response.status === 200) {
-        history.push("/");
-      }
-    }
-  };
+    const inputHandler = (e, func) => { 
+        func(e.currentTarget.value);
+    };
 
-  return (
-    <PageContainer>
-      <LoginContainer>
-        <Styledh1>Login</Styledh1>
-        <InteriorContainer>
-          <EmailField>
-            <Icon icon={["fas", "user"]} />
-            <LoginInput
-              type="email"
-              name="email"
-              placeholder="Email"
-              required
-              onChange={(e) => inputHandler(e, setEmail)}
-            />
-          </EmailField>
-          <Error errorMessage={fieldErrors["email"]} />
-          <PasswordField>
-            <Icon icon={["fas", "lock"]} />
-            <LoginInput
-              type="password"
-              name="password"
-              placeholder="Password"
-              onChange={(e) => inputHandler(e, setPassword)}
-              required
-            />
-          </PasswordField>
-          <Error errorMessage={fieldErrors["password"]} />
-          <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
-          <Error errorMessage={non_field_error} />
-        </InteriorContainer>
-      </LoginContainer>
-    </PageContainer>
-  );
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        const loginData = {email, password};
+        const response = await loginAction(loginData);
+        if (response.status === 200) {
+            const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
+            (setUserResponse.status === 200 && isStaff) ? history.push('/manageusers') : history.push('/');
+        }
+    };
+
+    return (
+        <PageContainer>
+            <LoginContainer>
+                <Styledh1>Login</Styledh1>
+                <InteriorContainer>
+                    <EmailField>
+                        <Icon icon={["fas", "user"]}/>
+                        <LoginInput
+                            type="email"
+                            name="email"
+                            placeholder="Email"
+                            required
+                            value={email}
+                            onChange={e => inputHandler(e, setEmail)}
+                        />
+                    </EmailField>
+                    <Error errorMessage={fieldErrors['email']}/>
+                    <PasswordField>
+                        <Icon icon={["fas", "lock"]}/>
+                        <LoginInput
+                            type="password"
+                            name="password"
+                            placeholder="Password"
+                            value={password}
+                            onChange={e => inputHandler(e, setPassword)}
+                            required
+                        />
+                    </PasswordField>
+                    <Error errorMessage={fieldErrors['password']}/>
+                    <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
+                    <Error errorMessage={non_field_error}/>
+                </InteriorContainer>
+            </LoginContainer>
+        </PageContainer>
+    )
 };
 
 const mapStateToProps = (state) => {
