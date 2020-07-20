@@ -56,7 +56,7 @@ const SendButton = styled(BlueButton)`
 // REACT
 //////////
 
-const GenericChallengeCardSmall = ({challenge}) => {
+const GenericChallengeCardSmall = ({ challenge }) => {
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
   const ModalDeleteOpenCloseHandler = () => {
