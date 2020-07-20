@@ -3,11 +3,11 @@ import {connect} from 'react-redux';
 
 export default WrappedComponent => {
     const AuthComponent = (props) => {
-        const {authenticated, history, location} = props;
+        const {authenticated, history, location, userObj} = props;
 
         useEffect(() => {
             const userRedirect = () => {
-                if (!authenticated) {
+                if (!authenticated || !userObj) {
                     history.push('/login');
                 }
             };
@@ -20,7 +20,8 @@ export default WrappedComponent => {
 
     const mapStateToProps = state => {
         return {
-            authenticated: state.authReducer.authenticated
+            authenticated: state.authReducer.authenticated,
+            userObj: state.authReducer.userObj
         }
     };
     return connect(mapStateToProps)(AuthComponent);

@@ -4,11 +4,6 @@ from question.models import Question
 
 
 class ListQuestionSerializer(serializers.ModelSerializer):
-    # program = ProgramSerializer(
-    #     required=False,
-    #     many=True
-    # )
-
     class Meta:
         model = Question
         fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'question_creator']
