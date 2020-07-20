@@ -1,4 +1,4 @@
-import React from 'react';
+import React from "react";
 import ClipLoader from "react-spinners/ClipLoader";
 import styled from "styled-components";
 
@@ -13,9 +13,14 @@ const Center = styled.div`
 // Component - Displayed while data is being fetched
 
 const GenericSpinner = () => (
-    <Center>
-        <ClipLoader size={100} sizeUnit={'px'} color={'#E47D31'} css={'margin-top: 2rem'}/>
-    </Center>
+  <Center>
+    <ClipLoader
+      size={100}
+      sizeUnit={"px"}
+      color={"#E47D31"}
+      css={"margin-top: 2rem"}
+    />
+  </Center>
 );
 
 export default GenericSpinner;

@@ -1,23 +1,32 @@
-import { GET_ALL_QUESTIONS, SET_TARGET_QUESTION } from '../actionTypes';
+import {
+  GET_ALL_QUESTIONS,
+  RESET_TARGET_QUESTION,
+  SET_TARGET_QUESTION,
+} from "../actionTypes";
 
 const initialState = {
-    allQuestions: [],
-    targetQuestion: null
+  allQuestions: [],
+  targetQuestion: null,
 };
 
 export const questionReducer = (state = initialState, action) => {
-    switch (action.type) {
-        case GET_ALL_QUESTIONS:
-            return {
-                ...state,
-                allQuestions: action.payload
-            };
-        case SET_TARGET_QUESTION:
-            return {
-                ...state,
-                targetQuestion: action.payload
-            };
-        default:
-            return state
-    }
+  switch (action.type) {
+    case GET_ALL_QUESTIONS:
+      return {
+        ...state,
+        allQuestions: action.payload,
+      };
+    case SET_TARGET_QUESTION:
+      return {
+        ...state,
+        targetQuestion: action.payload,
+      };
+    case RESET_TARGET_QUESTION:
+      return {
+        ...state,
+        targetQuestion: null,
+      };
+    default:
+      return state;
+  }
 };

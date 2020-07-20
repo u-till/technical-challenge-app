@@ -31,4 +31,5 @@ class Challenge(models.Model):
     candidate = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='fk_challenges_assigned', null=True, blank=True)
 
     def __str__(self):
-        return f'{self.pk}: creator: {self.creator} / candidate: {self.candidate}'
+        return f'Challenge #{self.pk}: creator: {self.creator.first_name} {self.creator.last_name} / candidate: ' \
+               f'{self.candidate.first_name} {self.candidate.last_name}'

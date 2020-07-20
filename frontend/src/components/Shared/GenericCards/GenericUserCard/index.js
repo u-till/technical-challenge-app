@@ -1,25 +1,30 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import Fade from "react-reveal/Fade";
-import {rem} from "polished";
+import { rem } from "polished";
 import styled from "styled-components";
 import avatar from "../../../../assets/images/user.png";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 import {
-    AddButton,
-    BaseButton,
-    BlueButton,
-    RedButton,
-    RoundGreyButton,
+  AddButton,
+  BaseButton,
+  BlueButton,
+  RedButton,
+  RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import {Styledh2} from "../../../../style/GlobalTitles";
-import {BaseInput} from "../../../../style/GlobalInputs";
+import { Styledh2 } from "../../../../style/GlobalTitles";
+import { BaseInput } from "../../../../style/GlobalInputs";
 import GenericChallengeCardSmall from "../GenericChallengeCardSmall";
 import Error from "../../Error";
-import {connect, useDispatch} from "react-redux";
-import {resetError} from "../../../../store/actions/verificationAction";
-import {editSpecificUserAction, getAllUsersAction} from "../../../../store/actions/userActions";
+import { connect, useDispatch } from "react-redux";
+import { resetError } from "../../../../store/actions/verificationAction";
+import {
+  editSpecificUserAction,
+  getAllUsersAction,
+} from "../../../../store/actions/userActions";
+import { changeEnd } from "codemirror/src/model/change_measurement";
+import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLES
@@ -74,14 +79,14 @@ const UserCardBig = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: 320px;
+  height: 360px;
   margin-bottom: 8px;
   overflow: hidden;
 
   > div:first-child {
     display: flex;
     width: 100%;
-    height: 85%;
+    height: 80%;
     margin-bottom: 12px;
   }
 `;
@@ -99,6 +104,11 @@ const EditUserInfo = styled.div`
     display: flex;
     flex-direction: column;
     justify-content: space-between;
+  }
+  > div:first-child {
+    div:last-child {
+      margin-bottom: -10px;
+    }
   }
 `;
 
@@ -163,6 +173,11 @@ const DeleteSave = styled.div`
   display: flex;
   justify-content: space-between;
   width: 100%;
+  div {
+    button {
+      margin-left: 12px;
+    }
+  }
 `;
 
 const InputLabelDiv = styled.div`
@@ -212,14 +227,19 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
     const dispatch = useDispatch();
 
     const [isUserEditing, setUserEditing] = useState(false);
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
+    };
 
     const [data, setData] = useState({
         email: user.email,
         first_name: user.first_name,
         last_name: user.last_name,
-        phone: user.phone ? user.phone : '',
-        avatar: user.avatar,
-        is_staff: user.is_staff
+        phone: user.phone ? user.phone : "",
+        avatar: null,
+        is_staff: user.is_staff,
     });
 
     const editUserHandler = () => {
@@ -234,13 +254,13 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
         userData.append("first_name", data.first_name);
         userData.append("last_name", data.last_name);
         userData.append("phone", data.phone);
-        // if (data.avatar) {
-        //     userData.append("avatar", data.avatar);
-        // }
+        if (data.avatar) {
+            userData.append("avatar", data.avatar);
+        }
         const response = await editSpecificUserAction(user.id, userData);
         if (response.status === 200) {
             setUserEditing(!isUserEditing);
-            dispatch(getAllUsersAction())
+            dispatch(getAllUsersAction());
         }
     };
 
@@ -252,16 +272,15 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
 
     const hiddenFileInput = React.useRef(null);
 
-    const handleClick = event => {
+    const handleClick = (event) => {
         hiddenFileInput.current.click();
     };
 
-    const imageSelectHandler = e => {
+    const imageSelectHandler = (e) => {
         if (e.target.files[0]) {
-            setData({...data, avatar: e.target.files[0]})
+            setData({...data, avatar: e.target.files[0]});
         }
     };
-
 
     return (
         <>
@@ -278,9 +297,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                         required
                                         value={data.first_name}
                                         onChange={handleInput}
-                                        name='first_name'
+                                        name="first_name"
                                     />
-                                    <Error errorMessage={fieldErrors['first_name']}/>
+                                    <Error errorMessage={fieldErrors["first_name"]}/>
                                 </InputLabelDiv>
                                 <InputLabelDiv>
                                     <StyledLabel>Last Name:</StyledLabel>
@@ -290,9 +309,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                         required
                                         value={data.last_name}
                                         onChange={handleInput}
-                                        name='last_name'
+                                        name="last_name"
                                     />
-                                    <Error errorMessage={fieldErrors['last_name']}/>
+                                    <Error errorMessage={fieldErrors["last_name"]}/>
                                 </InputLabelDiv>
                                 <InputLabelDiv>
                                     <StyledLabel>Email:</StyledLabel>
@@ -302,9 +321,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                         required
                                         value={data.email}
                                         onChange={handleInput}
-                                        name='email'
+                                        name="email"
                                     />
-                                    <Error errorMessage={fieldErrors['email']}/>
+                                    <Error errorMessage={fieldErrors["email"]}/>
                                 </InputLabelDiv>
                             </div>
                             <div>
@@ -316,9 +335,9 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                         required
                                         value={data.phone}
                                         onChange={handleInput}
-                                        name='phone'
+                                        name="phone"
                                     />
-                                    <Error errorMessage={fieldErrors['phone']}/>
+                                    <Error errorMessage={fieldErrors["phone"]}/>
                                 </InputLabelDiv>
                                 <InputLabelDiv>
                                     <StyledLabel>Role:</StyledLabel>
@@ -326,21 +345,25 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                         id="role"
                                         name="Role"
                                         defaultValue={user.is_staff ? true : false}
-                                        disabled>
+                                        disabled
+                                    >
                                         <option value={true}>Staff</option>
                                         <option value={false}>Candidate</option>
                                     </RoleDropdown>
+                                    <Error/>
                                 </InputLabelDiv>
                                 <InputLabelDiv>
                                     <StyledLabel>Avatar:</StyledLabel>
                                     <BtnWrapper>
-                                        <UploadButton onClick={handleClick}>Upload Avatar</UploadButton>
+                                        <UploadButton onClick={handleClick}>
+                                            Upload Avatar
+                                        </UploadButton>
                                         <input
                                             type="file"
                                             name="avatar"
                                             ref={hiddenFileInput}
                                             onChange={imageSelectHandler}
-                                            style={{display: 'none'}}
+                                            style={{display: "none"}}
                                         />
                                     </BtnWrapper>
                                 </InputLabelDiv>
@@ -370,17 +393,31 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                                 </InputLabelDiv>
                             </AddChallenge>
                             <ChallengeList>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
-                                <GenericChallengeCardSmall/>
+                                {user.fk_challenges_assigned ? user.fk_challenges_assigned.map(challenge =>
+                                    <GenericChallengeCardSmall key={`challenge ${challenge.id}`}
+                                                               challenge={challenge}/>) : null}
                             </ChallengeList>
                         </EditUserChallenge>
                     </div>
                     <DeleteSave>
-                        <RedButton>Delete</RedButton>
+                        <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
+                        {isModalDeleteOpen ? (
+                            <GenericDeleteModal
+                                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                                type="users"
+                                typeId={user.id}
+                            >
+                                <p>
+                                    Are you sure you want to delete the User{" "}
+                                    {user.first_name + " " + user.last_name}?
+                                </p>
+                            </GenericDeleteModal>
+                        ) : null}
                         <Error errorMessage={non_field_error}/>
-                        <BlueButton onClick={userSaveHandler}>Save</BlueButton>
+                        <div>
+                            <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
+                            <BlueButton onClick={userSaveHandler}>Save</BlueButton>
+                        </div>
                     </DeleteSave>
                 </UserCardBig>
             ) : (
@@ -388,8 +425,13 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
                     <UserInfo>
                         <UserAvatar>
                             <img
-                                src={user.avatar ? user.avatar : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`}
-                                alt="avatar"/>
+                                src={
+                                    user.avatar
+                                        ? user.avatar
+                                        : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`
+                                }
+                                alt="avatar"
+                            />
                         </UserAvatar>
                         <div>
                             <Styledh2>{`${user.first_name} ${user.last_name}`}</Styledh2>
@@ -405,12 +447,15 @@ const GenericUserCard = ({user, non_field_error, fieldErrors, editSpecificUserAc
     );
 };
 
-const mapStateToProps = state => {
-    return {
-        fieldErrors: state.verificationReducer.verificationErrors,
-        non_field_error: state.verificationReducer.non_field_error,
-        allUsers: state.userReducer.allUsers
-    }
+const mapStateToProps = (state) => {
+  return {
+    fieldErrors: state.verificationReducer.verificationErrors,
+    non_field_error: state.verificationReducer.non_field_error,
+    allUsers: state.userReducer.allUsers,
+  };
 };
 
-export default connect(mapStateToProps, {editSpecificUserAction, getAllUsersAction})(GenericUserCard);
+export default connect(mapStateToProps, {
+  editSpecificUserAction,
+  getAllUsersAction,
+})(GenericUserCard);
