@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 
@@ -11,6 +11,9 @@ import {
   Section,
   Bar,
 } from "react-simple-resizer";
+import Axios from "../../../axios";
+import {useDispatch} from "react-redux";
+import {getChallenge} from "../../../store/actions/challengeAction";
 
 //////////
 // STYLE
@@ -179,92 +182,183 @@ const DoneButton = styled(RedButton)``;
 //////////
 // REACT
 //////////
-const Challenge = () => {
-  const [progressValue, setProgressValue] = useState(1);
 
-  const renderControlPanel = (progressValue) => {
-    if (progressValue === 1) {
-      return (
-        <>
-          <div />
-          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton onClick={(e) => setProgressValue(2)}>
-            Next
-          </PrevNextButton>{" "}
-        </>
-      );
-    }
-    if (progressValue === 2) {
-      return (
-        <>
-          <PrevNextButton onClick={(e) => setProgressValue(1)}>
-            Previous
-          </PrevNextButton>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton onClick={(e) => setProgressValue(3)}>
-            Next
-          </PrevNextButton>{" "}
-        </>
-      );
-    }
-    if (progressValue === 3) {
-      return (
-        <>
-          <PrevNextButton onClick={(e) => setProgressValue(2)}>
-            Previous
-          </PrevNextButton>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton onClick={(e) => setProgressValue(4)}>
-            Next
-          </PrevNextButton>{" "}
-        </>
-      );
-    }
-    if (progressValue === 4) {
-      return (
-        <>
-          <PrevNextButton onClick={(e) => setProgressValue(3)}>
-            Previous
-          </PrevNextButton>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtn />
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton onClick={(e) => setProgressValue(5)}>
-            Next
-          </PrevNextButton>
-        </>
-      );
+const Challenge = () => {
+        const [progressValue, setProgressValue] = useState(1);
+        const [initDate, getInitDate] = useState(0);
+        const dispatch = useDispatch();
+
+        const timerComponents = [];
+
+
+        const calculateTimeLeft = () => {
+            const dateNow = new Date();
+            const databaseDate = new Date(String(initDate))
+            let difference = dateNow - databaseDate;
+            difference = 1800000 - difference
+            if (difference > 0) {
+                let timeLeft = `Time left: ${Math.floor((difference / 1000 / 60) % 60)}:${Math.floor((difference / 1000) % 60)}`;
+                return timeLeft;
+            }
+        }
+        const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+        useEffect(() => {
+            const startChallenge = async () => {
+                const initDate = await dispatch(getChallenge());
+                getInitDate(initDate);
+            }
+
+            startChallenge();
+
+            const settimeout = setTimeout(() => {
+                setTimeLeft(calculateTimeLeft());
+            }, 1000);
+
+            return () => clearInterval(settimeout)
+        });
+
+
+        const renderControlPanel = (progressValue) => {
+            if (progressValue === 1) {
+                return (<>
+                        <div/>
+                        <StepSelectorLine>
+                            <StepSelectorContainer>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                            </StepSelectorContainer>
+                        </StepSelectorLine>
+                        <PrevNextButton onClick={e => setProgressValue(2)}>Next</PrevNextButton> </>
+                );
+            }
+            if (progressValue === 2) {
+                return (<>
+                        <PrevNextButton onClick={e => setProgressValue(1)}>Previous</PrevNextButton>
+                        <StepSelectorLine>
+                            <StepSelectorContainer>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                            </StepSelectorContainer>
+                        </StepSelectorLine>
+                        <PrevNextButton onClick={e => setProgressValue(3)}>Next</PrevNextButton> </>
+                )
+            }
+            if (progressValue === 3) {
+                return (<>
+                        <PrevNextButton onClick={e => setProgressValue(2)}>Previous</PrevNextButton>
+                        <StepSelectorLine>
+                            <StepSelectorContainer>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtn/>
+                                <StepSelectorBtn/>
+                            </StepSelectorContainer>
+                        </StepSelectorLine>
+                        <PrevNextButton onClick={e => setProgressValue(4)}>Next</PrevNextButton> </>
+                )
+            }
+            if (progressValue === 4) {
+                return (<>
+                        <PrevNextButton onClick={e => setProgressValue(3)}>Previous</PrevNextButton>
+                        <StepSelectorLine>
+                            <StepSelectorContainer>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtnActive/>
+                                <StepSelectorBtn/>
+                            </StepSelectorContainer>
+                        </StepSelectorLine>
+                        <PrevNextButton onClick={e => setProgressValue(5)}>Next</PrevNextButton> </>
+                )
+            }
+            return (<>
+                    <PrevNextButton onClick={e => setProgressValue(4)}>Previous</PrevNextButton>
+                    <StepSelectorLine>
+                        <StepSelectorContainer>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtnActive/>
+                        </StepSelectorContainer>
+                    </StepSelectorLine>
+                    <div/>
+                </>
+            )
+        };
+
+        return (
+            <>
+                <ChallengeContainer>
+                    <StyledResizeContainer>
+                        <DescriptionColumn>
+                            <DescriptionContainer>
+                                <DescriptionHeader>
+                                    <div>
+                                        <Styledh1>Challenge Title</Styledh1>
+                                    </div>
+                                    <div>
+                                        <Styledh2>Nr. 3</Styledh2>
+                                    </div>
+                                </DescriptionHeader>
+                                <div>
+                                    <p>
+                                        Contrary to popular belief, Lorem Ipsum is not simply random
+                                        text. It has roots in a piece of classical Latin literature
+                                        from 45 BC, making it over 2000 years old. Richard McClintock,
+                                        a Latin professor at Hampden-Sydney College in Virginia,
+                                        looked up one of the more obscure Latin words, consectetur,
+                                        from a Lorem Ipsum passage, and going through the cites of the
+                                        word in classical literature, discovered the undoubtable
+                                        source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
+                                        "de Finibus Bonorum et Malorum" (The Extremes of Good and
+                                        Evil) by Cicero, written in 45 BC. This book is a treatise on
+                                        the theory of ethics, very popular during the Renaissance. The
+                                        first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
+                                        comes from a line in section 1.10.32. The standard chunk of
+                                        Lorem Ipsum used since the 1500s is reproduced below for those
+                                        interested. Sections 1.10.32 and 1.10.33 from "de Finibus
+                                        Bonorum et Malorum" by Cicero are also reproduced in their
+                                        exact original form, accompanied by English versions from the
+                                        1914 translation by H. Rackham.
+                                    </p>
+                                </div>
+                            </DescriptionContainer>
+                        </DescriptionColumn>
+                        <StyledResizeBar/>
+                        <InputColumn>
+                            <p></p>
+                        </InputColumn>
+                        <StyledResizeBar/>
+                        <OutputColumn>
+                            <p></p>
+                        </OutputColumn>
+                    </StyledResizeContainer>
+                </ChallengeContainer>
+                <Footer>
+                    <FooterSectionLeft>
+                        {renderControlPanel(progressValue)}
+                    </FooterSectionLeft>
+                    <FooterSectionRight>
+                        <Timer>
+                            <div>
+                                {true ? timeLeft : "Time's up!"}
+                            </div>
+                        </Timer>
+                        <DoneButton>Done!</DoneButton>
+                    </FooterSectionRight>
+                </Footer>
+            </>
+        );
     }
     return (
       <>
