@@ -56,7 +56,7 @@ const SendButton = styled(BlueButton)`
 // REACT
 //////////
 
-const GenericChallengeCardSmall = (props) => {
+const GenericChallengeCardSmall = ({challenge}) => {
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
   const ModalDeleteOpenCloseHandler = () => {
@@ -65,8 +65,8 @@ const GenericChallengeCardSmall = (props) => {
 
   return (
     <ChallengeCard>
-      <Challengeh2>Fullstack Challenge 1</Challengeh2>
-      <p>Status: Pending</p>
+      <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
+      <p>{`Status: ${challenge.status}`}</p>
       <DeleteButton onClick={ModalDeleteOpenCloseHandler}>
         <FontAwesomeIcon icon={["far", "trash-alt"]} />
       </DeleteButton>
