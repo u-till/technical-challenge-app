@@ -1,4 +1,5 @@
 from django.core.mail import EmailMessage
+from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView
 from rest_framework.response import Response
 from challenge.models import Challenge
@@ -39,8 +40,6 @@ You can find the challenge in your personal account after the logged in it's suc
         return Response(status=200)
 
 
-
-
 class RetrieveUpdateDestroyChallenge(RetrieveUpdateDestroyAPIView):
     """
     get:
@@ -66,3 +65,17 @@ class ListChallenges(ListAPIView):
 
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
+
+
+class ListUserChangesView(ListAPIView):
+    """
+    get:
+    Returns the list of all challenges for the logged in user.
+    """
+    serializer_class = ChallengeSerializer
+    permission_classes = []
+
+    def list(self, request, *args, **kwargs):
+        queryset = request.user.fk_challenges_assigned.all()
+        serializer = self.get_serializer(queryset, many=True)
+        return Response(serializer.data, status=status.HTTP_200_OK)
