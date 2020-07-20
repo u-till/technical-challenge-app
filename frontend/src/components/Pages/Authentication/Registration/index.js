@@ -25,7 +25,7 @@ const SignupContainer = styled(BaseContainer)`
   flex-direction: column;
   justify-content: space-around;
   align-items: center;
-  padding: 24px;
+  padding: 24px 24px 48px 24px;
 `;
 
 const SignupSplitContainer = styled.div`
@@ -62,7 +62,7 @@ const RegisterBtnWrapper = styled.div`
   flex-direction: column;
   justify-content: center;
   align-content: center;
-  margin-top: ${rem("18px")};
+  margin-top: ${rem("27px")};
 `;
 
 const SignupInput = styled(BaseInput)`
@@ -92,6 +92,7 @@ const RegistrationButton = styled(BigRedButton)`
 
 const InputLabelDiv = styled.div`
   margin-top: ${rem("26px")};
+  height: ${rem("100px")};
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -266,7 +267,6 @@ const Registration = ({
             </InputLabelDiv>
 
             <InputLabelDiv>
-              <StyledLabel></StyledLabel>
               <RegisterBtnWrapper>
                 <RegistrationButton onClick={onSubmitForm}>
                   Register
