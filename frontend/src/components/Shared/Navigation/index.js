@@ -82,6 +82,7 @@ const activeClassName = "nav-item-active";
 
 const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   &.${activeClassName} {
+    width: ${rem("140px")};
     padding-top: 4px;
     &:after {
       content: "";
@@ -95,7 +96,7 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
     }
   }
 
-  width: ${rem("85px")};
+  width: ${rem("140px")};
   height: 100%;
   padding: 0 ${rem("3px")} 0 ${rem("3px")};
   display: flex;
@@ -148,9 +149,13 @@ const Navigation = ({ children, userObj, logoutUser }) => {
         <NavSectionRight>
           {userObj && userObj.is_staff ? (
             <>
-              {" "}
               <StyledNavLink to="/managequestions">Questions</StyledNavLink>
               <StyledNavLink to="/manageusers">Users</StyledNavLink>{" "}
+            </>
+          ) : null}
+          {userObj && !userObj.is_staff ? (
+            <>
+              <StyledNavLink to="/mychallenges">Challenges</StyledNavLink>
             </>
           ) : null}
           {!userObj ? (
@@ -168,7 +173,7 @@ const Navigation = ({ children, userObj, logoutUser }) => {
                   alt="avatar"
                 />
               </NavbarAvatar>
-              {isProfileModalVisible && <UserModal />}
+              {isProfileModalVisible && <UserModal userObj={userObj} />}
             </>
           )}
         </NavSectionRight>
