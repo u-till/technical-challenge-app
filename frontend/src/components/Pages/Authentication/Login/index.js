@@ -1,15 +1,18 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {rem} from "polished";
-import {BaseContainer, PageContainer} from "../../../../style/GlobalWrappers";
-import {Styledh1} from "../../../../style/GlobalTitles";
-import {BigRedButton} from "../../../../style/GlobalButtons";
-import {BaseInput} from "../../../../style/GlobalInputs";
-import {connect, useDispatch} from "react-redux";
-import {loginAction, setLoggedInUserAction} from "../../../../store/actions/loginActions";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { rem } from "polished";
+import { BaseContainer, PageContainer } from "../../../../style/GlobalWrappers";
+import { Styledh1 } from "../../../../style/GlobalTitles";
+import { BigRedButton } from "../../../../style/GlobalButtons";
+import { BaseInput } from "../../../../style/GlobalInputs";
+import { connect, useDispatch } from "react-redux";
+import {
+  loginAction,
+  setLoggedInUserAction,
+} from "../../../../store/actions/loginActions";
 import Error from "../../../Shared/Error";
-import {resetError} from "../../../../store/actions/verificationAction";
+import { resetError } from "../../../../store/actions/verificationAction";
 
 //////////
 // STYLE
@@ -17,8 +20,8 @@ import {resetError} from "../../../../store/actions/verificationAction";
 
 const LoginContainer = styled(BaseContainer)`
   padding-bottom: 40px;
-  width: ${rem('700px')};
-  height: ${rem('700px')};
+  width: ${rem("700px")};
+  height: ${rem("700px")};
   display: flex;
   justify-content: space-evenly;
   flex-direction: column;
@@ -26,13 +29,13 @@ const LoginContainer = styled(BaseContainer)`
 `;
 
 const LoginInput = styled(BaseInput)`
-  width: ${rem('414px')};
-  height: ${rem('72px')};
+  width: ${rem("414px")};
+  height: ${rem("72px")};
   border: transparent;
 `;
 
 const InteriorContainer = styled.div`
-  height: ${rem('350px')};
+  height: ${rem("350px")};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -52,21 +55,22 @@ const PasswordField = styled.div`
 `;
 
 const Icon = styled(FontAwesomeIcon)`
-  font-size: ${rem('20px')};
+  font-size: ${rem("20px")};
 `;
 
 //////////
 // REACT
 //////////
 
-const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction, userObj}) => {
+
+const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction}) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
 
-    const inputHandler = (e, func) => {
-        func(e.currentTarget.value)
+    const inputHandler = (e, func) => { 
+        func(e.currentTarget.value);
     };
 
     const onSubmitForm = async (e) => {
@@ -118,12 +122,12 @@ const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInU
 };
 
 const mapStateToProps = (state) => {
-    console.log("mapStateToProps", state.authReducer.userObj);
-    return {
-        fieldErrors: state.verificationReducer.verificationErrors,
-        non_field_error: state.verificationReducer.non_field_error,
-        userObj: state.authReducer.userObj,
-    };
+  return {
+    fieldErrors: state.verificationReducer.verificationErrors,
+    non_field_error: state.verificationReducer.non_field_error,
+  };
 };
 
-export default connect(mapStateToProps, {loginAction, setLoggedInUserAction})(Login);
+export default connect(mapStateToProps, { loginAction, setLoggedInUserAction })(
+  Login
+);
