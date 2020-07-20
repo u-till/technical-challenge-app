@@ -98,6 +98,9 @@ const FooterSectionLeft = styled.div`
 `;
 
 const PrevNextButton = styled(BlueButton)``;
+const PrevNextButtonDisabled = styled(BlueButton)`
+  cursor: not-allowed;
+`;
 
 const StepSelectorContainer = styled.div`
   width: 100%;
@@ -184,6 +187,7 @@ const Challenge = () => {
       return (
         <>
           <div />
+          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
           <StepSelectorLine>
             <StepSelectorContainer>
               <StepSelectorBtnActive />
@@ -258,7 +262,7 @@ const Challenge = () => {
           </StepSelectorLine>
           <PrevNextButton onClick={(e) => setProgressValue(5)}>
             Next
-          </PrevNextButton>{" "}
+          </PrevNextButton>
         </>
       );
     }
@@ -276,6 +280,7 @@ const Challenge = () => {
             <StepSelectorBtnActive />
           </StepSelectorContainer>
         </StepSelectorLine>
+        <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
         <div />
       </>
     );

@@ -18,6 +18,7 @@ import {
   updateTipForQuestionAction,
 } from "../../../../store/actions/tipActions";
 import { useDispatch } from "react-redux";
+import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLES
@@ -52,9 +53,6 @@ const TipCardEditing = styled.div`
     width: 70%;
   }
   overflow: hidden;
-  button {
-    width: 80px;
-  }
 `;
 
 const EditTipDiv = styled.div`
@@ -74,7 +72,7 @@ const EditTipDiv = styled.div`
     input {
       margin-bottom: 8px;
     }
-    button:last-child {
+    > button:last-child {
       margin-top: 8px;
     }
   }
@@ -99,6 +97,12 @@ const NumberInput = styled(BaseInput)`
 
 const GenericTipCard = ({ tip }) => {
   const dispatch = useDispatch();
+
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const ModalDeleteOpenCloseHandler = () => {
+    setModalDeleteOpen(!isModalDeleteOpen);
+  };
 
   const [isTipEditing, setTipEditing] = useState(false);
   const [tipData, setTipData] = useState({
@@ -153,7 +157,16 @@ const GenericTipCard = ({ tip }) => {
                 value={tipData.discount_value}
                 onChange={handleInput}
               />
-              <RedButton>Delete</RedButton>
+              <RedButton onClick={ModalDeleteOpenCloseHandler}>
+                Delete
+              </RedButton>
+              {isModalDeleteOpen ? (
+                <GenericDeleteModal
+                  ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                >
+                  <p>Are you sure you want to delete this Tip?</p>
+                </GenericDeleteModal>
+              ) : null}
               <BlueButton onClick={saveHandler}>Save</BlueButton>
             </div>
           </EditTipDiv>

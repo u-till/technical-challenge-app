@@ -25,6 +25,7 @@ import {
     updateQuestionAction,
 } from "../../../store/actions/questionActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
+import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 
 //////////
 // STYLE
@@ -111,6 +112,11 @@ const EditBottom = styled.div`
 const DeleteSave = styled.div`
   display: flex;
   justify-content: space-between;
+  > div:last-child {
+    display: flex;
+    justify-content: space-between;
+    width: 180px;
+  }
 `;
 
 const InputLabelDiv = styled.div`
@@ -272,9 +278,9 @@ const Questions = ({
                    }) => {
     const dispatch = useDispatch();
 
-    const displayQuestionMessage = () =>
-        !questionNotEmpty ? <GenericSpinner/> : null;
-    const displayTipMessage = () => (!tipsNotEmpty ? <GenericSpinner/> : null);
+    const displayQuestionMessage = () => !questionNotEmpty ? <GenericSpinner/> : null;
+    
+    const displayTipMessage = () => !tipsNotEmpty ? <GenericSpinner/> : null;
 
     const [sort, setSort] = useState("date");
     const [search, setSearch] = useState("");
@@ -285,6 +291,12 @@ const Questions = ({
         points_value: "",
         program: [],
     });
+    
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
+    };
 
     useEffect(() => {
         resetTargetQuestion();
@@ -293,12 +305,11 @@ const Questions = ({
 
     const inputSortSearchHandler = (e, func) => {
         func(e.currentTarget.value);
-    };
 
     const handleTextInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
-        setQuestionData({...questionData, [name]: value});
+        setQuestionData({ ...questionData, [name]: value });
     };
 
     const handleProgramSelectorChange = (e) => {
@@ -309,7 +320,7 @@ const Questions = ({
                 value.push(options[i].value);
             }
         }
-        setQuestionData({...questionData, ["program"]: value});
+        setQuestionData({ ...questionData, ["program"]: value });
     };
 
     const handleSave = async (e) => {
@@ -486,8 +497,23 @@ const Questions = ({
                                     </InputLabelDiv>
                                 </EditBottom>
                                 <DeleteSave>
-                                    <RedButton>Delete</RedButton>
-                                    <BlueButton onClick={handleSave}>Save</BlueButton>
+                                    <RedButton onClick={ModalDeleteOpenCloseHandler}>
+                                        Delete
+                                    </RedButton>
+                                    {isModalDeleteOpen ? (
+                                    <GenericDeleteModal
+                                        ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                                    >
+                                    <p>
+                                        Are you sure you want to delete the Question "
+                                        {questionData.name}"?
+                                    </p>
+                                    </GenericDeleteModal>
+                                    ) : null}
+                                    <div>
+                                        <BlueButton onClick={handleSave}>Cancel</BlueButton>
+                                        <BlueButton onClick={handleSave}>Save</BlueButton>
+                                    </div>
                                 </DeleteSave>
                             </>
                         ) : (
