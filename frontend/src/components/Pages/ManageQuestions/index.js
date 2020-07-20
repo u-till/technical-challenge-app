@@ -492,7 +492,7 @@ const Questions = ({
                       {targetQuestionTips && tipsNotEmpty
                         ? targetQuestionTips.map((tip) => {
                             return (
-                              <GenericTipCard key={`Tip ${tip.id}`} tip={tip} />
+                              <GenericTipCard key={`Tip ${tip.id}`} tip={tip} questionId={targetQuestion.id} />
                             );
                           })
                         : displayTipMessage()}
@@ -506,6 +506,8 @@ const Questions = ({
                   {isModalDeleteOpen ? (
                     <GenericDeleteModal
                       ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                      type="questions"
+                      typeId={questionData.id}
                     >
                       <p>
                         Are you sure you want to delete the Question "

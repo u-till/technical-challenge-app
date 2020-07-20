@@ -14,7 +14,7 @@ import {
 import {useDispatch} from "react-redux";
 import {deleteItemAction} from "../../../../store/actions/deleteAction";
 import {getAllUsersAction} from "../../../../store/actions/userActions";
-import {getAllQuestionsAction} from "../../../../store/actions/questionActions";
+import {getAllQuestionsAction, resetTargetQuestion} from "../../../../store/actions/questionActions";
 import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
 
 const DeleteModalOverlay = styled.div`
@@ -47,7 +47,7 @@ const DeleteModalContainer = styled(BaseContainer)`
   }
 `;
 
-const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId}) => {
+const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId, questionId}) => {
     const dispatch = useDispatch();
 
     const onDeleteHandler = async (e) => {
@@ -59,10 +59,12 @@ const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId
                     return await dispatch(getAllUsersAction());
                 }
                 case "questions": {
+                    ModalDeleteOpenCloseHandler();
+                    await dispatch(resetTargetQuestion());
                     return await dispatch(getAllQuestionsAction());
                 }
                 case "tips": {
-                    return await dispatch(getTipsForQuestionAction());
+                    return await dispatch(getTipsForQuestionAction(questionId));
                 }
                 default:
                     return null;
