@@ -20,13 +20,7 @@ class CreateQuestion(CreateAPIView):
     serializer_class = CreateQuestionSerializer
 
     def perform_create(self, serializer):
-        if self.request.data['difficulty'] == 'E':
-            points_value = 3
-        elif self.request.data['difficulty'] == 'I':
-            points_value = 7
-        else:
-            points_value = 10
-        serializer.save(question_creator=self.request.user, points_value=points_value)
+        serializer.save(question_creator=self.request.user)
         return serializer
 
 
@@ -41,7 +35,7 @@ class RetrieveUpdateDestroyQuestion(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-    serializer_class = ListQuestionSerializer
+    serializer_class = CreateQuestionSerializer
     queryset = Question.objects.all()
     lookup_field = 'id'
 
