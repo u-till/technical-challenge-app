@@ -1,27 +1,27 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import Fade from "react-reveal/Fade";
-import { rem } from "polished";
+import {rem} from "polished";
 import styled from "styled-components";
 import avatar from "../../../../assets/images/user.png";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 
 import {
-  AddButton,
-  BaseButton,
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
+    AddButton,
+    BaseButton,
+    BlueButton,
+    RedButton,
+    RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import { Styledh2 } from "../../../../style/GlobalTitles";
-import { BaseInput } from "../../../../style/GlobalInputs";
+import {Styledh2} from "../../../../style/GlobalTitles";
+import {BaseInput} from "../../../../style/GlobalInputs";
 import GenericChallengeCardSmall from "../GenericChallengeCardSmall";
 import Error from "../../Error";
-import { connect, useDispatch } from "react-redux";
-import { resetError } from "../../../../store/actions/verificationAction";
+import {connect, useDispatch} from "react-redux";
+import {resetError} from "../../../../store/actions/verificationAction";
 import {
-  editSpecificUserAction,
-  getAllUsersAction,
+    editSpecificUserAction,
+    getAllUsersAction,
 } from "../../../../store/actions/userActions";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 
@@ -451,14 +451,14 @@ const GenericUserCard = ({
 };
 
 const mapStateToProps = (state) => {
-  return {
-    fieldErrors: state.verificationReducer.verificationErrors,
-    non_field_error: state.verificationReducer.non_field_error,
-    allUsers: state.userReducer.allUsers,
-  };
+    return {
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error,
+        allUsers: state.userReducer.allUsers,
+    };
 };
 
 export default connect(mapStateToProps, {
-  editSpecificUserAction,
-  getAllUsersAction,
+    editSpecificUserAction,
+    getAllUsersAction,
 })(GenericUserCard);

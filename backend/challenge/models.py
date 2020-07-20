@@ -13,19 +13,47 @@ class Challenge(models.Model):
         ('FAILED', 'FAILED')
     ]
 
-    score = models.IntegerField(default=0, null=True, blank=True)
+    score = models.IntegerField(
+        default=0,
+        null=True,
+        blank=True
+    )
 
-    status = models.CharField(max_length=30, default='CREATED', choices=STATUS)
+    status = models.CharField(
+        max_length=8,
+        default='CREATED',
+        choices=STATUS
+    )
 
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    questions = models.ManyToManyField(to=Question, related_name='challenge_questions')
+    questions = models.ManyToManyField(
+        to=Question,
+        related_name='challenge_questions'
+    )
 
-    creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='fk_staff_who_created', null=True, blank=True)
+    creator = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='fk_staff_who_created',
+        null=True,
+        blank=True
+    )
 
-    candidate = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='fk_challenges_assigned', null=True, blank=True)
+    candidate = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='fk_challenges_assigned',
+        null=True,
+        blank=True
+    )
 
     def __str__(self):
-        return f'{self.pk}: creator: {self.creator} / candidate: {self.candidate}'
+        return f'Challenge #{self.pk}: creator: {self.creator.first_name} {self.creator.last_name} / candidate: ' \
+               f'{self.candidate.first_name} {self.candidate.last_name}'
