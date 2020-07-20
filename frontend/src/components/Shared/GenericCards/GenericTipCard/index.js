@@ -95,7 +95,7 @@ const NumberInput = styled(BaseInput)`
 // REACT
 //////////
 
-const GenericTipCard = ({ tip }) => {
+const GenericTipCard = ({ tip, questionId }) => {
   const dispatch = useDispatch();
 
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
@@ -163,6 +163,9 @@ const GenericTipCard = ({ tip }) => {
               {isModalDeleteOpen ? (
                 <GenericDeleteModal
                   ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                  type="tips"
+                  typeId={tip.id}
+                  questionId={questionId}
                 >
                   <p>Are you sure you want to delete this Tip?</p>
                 </GenericDeleteModal>
