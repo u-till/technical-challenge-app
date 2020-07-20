@@ -321,17 +321,17 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
             <ChallengeContainer>
                 <StyledResizeContainer>
                     <DescriptionColumn>
-                    {targetChallenge ? (
-                        <DescriptionContainer>
-                            <DescriptionHeader>
+                        {targetChallenge ? (
+                            <DescriptionContainer>
+                                <DescriptionHeader>
+                                    <div>
+                                        <Styledh1>{targetChallenge.questions[progressValue].name}</Styledh1>
+                                    </div>
+                                </DescriptionHeader>
                                 <div>
-                                    <Styledh1>{targetChallenge.questions[progressValue].name}</Styledh1>
+                                    <p>{targetChallenge.questions[progressValue].instructions}</p>
                                 </div>
-                            </DescriptionHeader>
-                            <div>
-                                <p>{targetChallenge.questions[progressValue].instructions}</p>
-                            </div>
-                        </DescriptionContainer> ) : null }
+                            </DescriptionContainer>) : null}
                     </DescriptionColumn>
                     <StyledResizeBar/>
                     <InputColumn>
@@ -347,7 +347,8 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                     </InputColumn>
                     <StyledResizeBar/>
                     <OutputColumn>
-                        {targetChallenge ? targetChallenge.questions[progressValue].tests_for_question.map(test => <p>{test}</p>) : null}
+                        {targetChallenge ? targetChallenge.questions[progressValue].tests_for_question.map(test =>
+                            <p>{test}</p>) : null}
 
                     </OutputColumn>
                 </StyledResizeContainer>
