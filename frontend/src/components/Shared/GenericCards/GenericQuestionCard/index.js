@@ -1,15 +1,15 @@
 import React from "react";
 import Fade from "react-reveal/Fade";
-import {rem} from "polished";
+import { rem } from "polished";
 import styled from "styled-components";
 
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
-import {AddButton, RoundGreyButton} from "../../../../style/GlobalButtons";
-import {Styledh2} from "../../../../style/GlobalTitles";
-import {useDispatch} from "react-redux";
-import {setTargetQuestion} from "../../../../store/actions/questionActions";
-import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
+import { AddButton, RoundGreyButton } from "../../../../style/GlobalButtons";
+import { Styledh2 } from "../../../../style/GlobalTitles";
+import { useDispatch } from "react-redux";
+import { setTargetQuestion } from "../../../../store/actions/questionActions";
+import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
 
 //////////
 // STYLES
@@ -33,28 +33,28 @@ const QuestionCard = styled.div`
 // REACT
 //////////
 
-const GenericQuestionCard = ({question, setData}) => {
-    const dispatch = useDispatch();
+const GenericQuestionCard = ({ question, setData }) => {
+  const dispatch = useDispatch();
 
-    const onClickHandler = async () => {
-        const response = await dispatch(getTipsForQuestionAction(question.id));
-        if (response.status === 200) {
-            dispatch(setTargetQuestion(question));
-            setData({...question})
-        }
-    };
+  const onClickHandler = async () => {
+    const response = await dispatch(getTipsForQuestionAction(question.id));
+    if (response.status === 200) {
+      dispatch(setTargetQuestion(question));
+      setData({ ...question });
+    }
+  };
 
-    return (
-        <QuestionCard>
-            <div>
-                <Styledh2>{question.name}</Styledh2>
-                <p>{question.instructions}</p>
-            </div>
-            <RoundGreyButton onClick={onClickHandler}>
-                <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
-            </RoundGreyButton>
-        </QuestionCard>
-    );
+  return (
+    <QuestionCard>
+      <div>
+        <Styledh2>{question.name}</Styledh2>
+        <p>{question.instructions}</p>
+      </div>
+      <RoundGreyButton onClick={onClickHandler}>
+        <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
+      </RoundGreyButton>
+    </QuestionCard>
+  );
 };
 
 export default GenericQuestionCard;

@@ -1,4 +1,8 @@
-import { VERIFICATION_ERROR, RESET_ERRORS, NON_FIELD_VERIFICATION_ERROR } from "../actionTypes";
+import {
+  VERIFICATION_ERROR,
+  RESET_ERRORS,
+  NON_FIELD_VERIFICATION_ERROR,
+} from "../actionTypes";
 
 const initialState = {
   email: "",
@@ -25,8 +29,8 @@ export const verificationReducer = (state = initialState, action) => {
     case NON_FIELD_VERIFICATION_ERROR: {
       return {
         ...state,
-        non_field_error: action.payload
-      }
+        non_field_error: action.payload,
+      };
     }
     case RESET_ERRORS: {
       return initialState;
