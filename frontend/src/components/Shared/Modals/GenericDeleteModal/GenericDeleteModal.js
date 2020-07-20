@@ -1,16 +1,21 @@
-import React, { useState } from "react";
-import { rem } from "polished";
+import React, {useState} from "react";
+import {rem} from "polished";
 import styled from "styled-components";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import GenericTipCard from "../../GenericCards/GenericTipCard";
-import { Styledh1, Styledh2 } from "../../../../style/GlobalTitles";
-import { BaseContainer } from "../../../../style/GlobalWrappers";
+import {Styledh1, Styledh2} from "../../../../style/GlobalTitles";
+import {BaseContainer} from "../../../../style/GlobalWrappers";
 import {
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
+    BlueButton,
+    RedButton,
+    RoundGreyButton,
 } from "../../../../style/GlobalButtons";
+import {useDispatch} from "react-redux";
+import {deleteItemAction} from "../../../../store/actions/deleteAction";
+import {getAllUsersAction} from "../../../../store/actions/userActions";
+import {getAllQuestionsAction} from "../../../../store/actions/questionActions";
+import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
 
 const DeleteModalOverlay = styled.div`
   position: fixed;
@@ -42,21 +47,44 @@ const DeleteModalContainer = styled(BaseContainer)`
   }
 `;
 
-const GenericDeleteModal = ({ ModalDeleteOpenCloseHandler, children }) => {
-  return (
-    <DeleteModalOverlay>
-      <DeleteModalContainer>
-        <Styledh2>
-          <FontAwesomeIcon icon={["fas", "exclamation-triangle"]} /> Warning
-        </Styledh2>
-        {children}
-        <div>
-          <BlueButton onClick={ModalDeleteOpenCloseHandler}>Cancel</BlueButton>
-          <RedButton>Delete</RedButton>
-        </div>
-      </DeleteModalContainer>
-    </DeleteModalOverlay>
-  );
+const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId}) => {
+    const dispatch = useDispatch();
+
+    const onDeleteHandler = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(deleteItemAction(type, typeId));
+        if (response.status === 204) {
+            switch (type) {
+                case "users": {
+                    return await dispatch(getAllUsersAction());
+                }
+                case "questions": {
+                    return await dispatch(getAllQuestionsAction());
+                }
+                case "tips": {
+                    return await dispatch(getTipsForQuestionAction());
+                }
+                default:
+                    return null;
+            }
+
+        }
+    };
+
+    return (
+        <DeleteModalOverlay>
+            <DeleteModalContainer>
+                <Styledh2>
+                    <FontAwesomeIcon icon={["fas", "exclamation-triangle"]}/> Warning
+                </Styledh2>
+                {children}
+                <div>
+                    <BlueButton onClick={ModalDeleteOpenCloseHandler}>Cancel</BlueButton>
+                    <RedButton onClick={onDeleteHandler}>Delete</RedButton>
+                </div>
+            </DeleteModalContainer>
+        </DeleteModalOverlay>
+    );
 };
 
 export default GenericDeleteModal;
