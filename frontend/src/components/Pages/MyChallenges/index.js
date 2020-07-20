@@ -50,7 +50,7 @@ const MyChallenges = ({getAllUserChallengesAction, userChallenges, notEmpty}) =>
                 <ChallengesListContainer>
                     {userChallenges === null ?
                         <GenericSpinner/> : userChallenges && notEmpty ? userChallenges.map(challenge =>
-                            <GenericChallengeCard challenge={challenge}/>) : <div>No Challenges to Display</div>}
+                            <GenericChallengeCard key={`Challenge ${challenge.id}`} challenge={challenge}/>) : <div>No Challenges to Display</div>}
                 </ChallengesListContainer>
             </ChallengesContainer>
         </PageContainer>

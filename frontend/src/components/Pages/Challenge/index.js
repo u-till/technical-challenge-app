@@ -1,19 +1,22 @@
 import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {rem} from "polished";
-
 import {BaseContainer, PageContainer} from "../../../style/GlobalWrappers";
 import {Styledh1, Styledh2} from "../../../style/GlobalTitles";
 import {BlueButton, RedButton} from "../../../style/GlobalButtons";
-
 import {
     Container as ResizeContainer,
     Section,
     Bar,
 } from "react-simple-resizer";
-import Axios from "../../../axios";
-import {useDispatch} from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {getChallenge} from "../../../store/actions/challengeAction";
+import {Controlled as CodeMirror} from 'react-codemirror2'
+import 'codemirror/lib/codemirror.css';
+import 'codemirror/theme/material.css';
+import 'codemirror/mode/javascript/javascript.js';
+import {getUserChallengeAction} from "../../../store/actions/challengeActions";
+import {useRouteMatch} from "react-router-dom";
 
 //////////
 // STYLE
@@ -183,10 +186,14 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = () => {
-    const [progressValue, setProgressValue] = useState(1);
-    const [initDate, getInitDate] = useState(0);
+const Challenge = ({targetChallenge, getUserChallengeAction}) => {
     const dispatch = useDispatch();
+    const match = useRouteMatch();
+
+    const [progressValue, setProgressValue] = useState(0);
+    const [initDate, getInitDate] = useState(0);
+    const [middleCodeMirror, setMiddleCodeMirror] = useState('');
+    const [rightCodeMirror, setRightCodeMirror] = useState('');
 
     const timerComponents = [];
 
@@ -218,10 +225,20 @@ const Challenge = () => {
         return () => clearInterval(settimeout)
     });
 
+    useEffect(() => {
+        getUserChallengeAction(match.params.challengeId);
+    }, [getUserChallengeAction]);
+
+    const options = {
+        mode: 'javascript',
+        theme: 'material',
+        lineNumbers: true,
+    };
+
     const renderControlPanel = (progressValue) => {
-        if (progressValue === 1) {
+        if (progressValue === 0) {
             return (<>
-                    <div/>
+                    <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
                     <StepSelectorLine>
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
@@ -231,8 +248,23 @@ const Challenge = () => {
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
-                    <PrevNextButton onClick={e => setProgressValue(2)}>Next</PrevNextButton> </>
+                    <PrevNextButton onClick={e => setProgressValue(1)}>Next</PrevNextButton> </>
             );
+        }
+        if (progressValue === 1) {
+            return (<>
+                    <PrevNextButton onClick={e => setProgressValue(0)}>Previous</PrevNextButton>
+                    <StepSelectorLine>
+                        <StepSelectorContainer>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtnActive/>
+                            <StepSelectorBtn/>
+                            <StepSelectorBtn/>
+                            <StepSelectorBtn/>
+                        </StepSelectorContainer>
+                    </StepSelectorLine>
+                    <PrevNextButton onClick={e => setProgressValue(2)}>Next</PrevNextButton> </>
+            )
         }
         if (progressValue === 2) {
             return (<>
@@ -241,7 +273,7 @@ const Challenge = () => {
                         <StepSelectorContainer>
                             <StepSelectorBtnActive/>
                             <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
+                            <StepSelectorBtnActive/>
                             <StepSelectorBtn/>
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
@@ -257,31 +289,16 @@ const Challenge = () => {
                             <StepSelectorBtnActive/>
                             <StepSelectorBtnActive/>
                             <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
+                            <StepSelectorBtnActive/>
                             <StepSelectorBtn/>
                         </StepSelectorContainer>
                     </StepSelectorLine>
                     <PrevNextButton onClick={e => setProgressValue(4)}>Next</PrevNextButton> </>
             )
         }
-        if (progressValue === 4) {
-            return (<>
-                    <PrevNextButton onClick={e => setProgressValue(3)}>Previous</PrevNextButton>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={e => setProgressValue(5)}>Next</PrevNextButton> </>
-            )
-        }
         return (
             <>
-                <PrevNextButton onClick={(e) => setProgressValue(4)}>
+                <PrevNextButton onClick={(e) => setProgressValue(3)}>
                     Previous
                 </PrevNextButton>
                 <StepSelectorLine>
@@ -304,46 +321,34 @@ const Challenge = () => {
             <ChallengeContainer>
                 <StyledResizeContainer>
                     <DescriptionColumn>
+                    {targetChallenge ? (
                         <DescriptionContainer>
                             <DescriptionHeader>
                                 <div>
-                                    <Styledh1>Challenge Title</Styledh1>
-                                </div>
-                                <div>
-                                    <Styledh2>Nr. 3</Styledh2>
+                                    <Styledh1>{targetChallenge.questions[progressValue].name}</Styledh1>
                                 </div>
                             </DescriptionHeader>
                             <div>
-                                <p>
-                                    Contrary to popular belief, Lorem Ipsum is not simply random
-                                    text. It has roots in a piece of classical Latin literature
-                                    from 45 BC, making it over 2000 years old. Richard McClintock,
-                                    a Latin professor at Hampden-Sydney College in Virginia,
-                                    looked up one of the more obscure Latin words, consectetur,
-                                    from a Lorem Ipsum passage, and going through the cites of the
-                                    word in classical literature, discovered the undoubtable
-                                    source. Lorem Ipsum comes from sections 1.10.32 and 1.10.33 of
-                                    "de Finibus Bonorum et Malorum" (The Extremes of Good and
-                                    Evil) by Cicero, written in 45 BC. This book is a treatise on
-                                    the theory of ethics, very popular during the Renaissance. The
-                                    first line of Lorem Ipsum, "Lorem ipsum dolor sit amet..",
-                                    comes from a line in section 1.10.32. The standard chunk of
-                                    Lorem Ipsum used since the 1500s is reproduced below for those
-                                    interested. Sections 1.10.32 and 1.10.33 from "de Finibus
-                                    Bonorum et Malorum" by Cicero are also reproduced in their
-                                    exact original form, accompanied by English versions from the
-                                    1914 translation by H. Rackham.
-                                </p>
+                                <p>{targetChallenge.questions[progressValue].instructions}</p>
                             </div>
-                        </DescriptionContainer>
+                        </DescriptionContainer> ) : null }
                     </DescriptionColumn>
                     <StyledResizeBar/>
                     <InputColumn>
-                        <p></p>
+                        <CodeMirror
+                            value={middleCodeMirror}
+                            options={options}
+                            onBeforeChange={(editor, data, value) => {
+                                setMiddleCodeMirror(value)
+                            }}
+                            onChange={(editor, data, value) => {
+                            }}
+                        />
                     </InputColumn>
                     <StyledResizeBar/>
                     <OutputColumn>
-                        <p></p>
+                        {targetChallenge ? targetChallenge.questions[progressValue].tests_for_question.map(test => <p>{test}</p>) : null}
+
                     </OutputColumn>
                 </StyledResizeContainer>
             </ChallengeContainer>
@@ -362,4 +367,10 @@ const Challenge = () => {
     );
 };
 
-export default Challenge;
+const mapStateToProps = state => {
+    return {
+        targetChallenge: state.challengeReducer.targetChallenge
+    }
+};
+
+export default connect(mapStateToProps, {getUserChallengeAction})(Challenge);

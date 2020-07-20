@@ -52,7 +52,7 @@ class RetrieveUpdateDestroyChallenge(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-
+    permission_classes = []
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
