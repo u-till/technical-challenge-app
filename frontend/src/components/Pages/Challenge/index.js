@@ -1,4 +1,4 @@
-import React, {useState} from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
 import {rem} from "polished";
 
@@ -11,6 +11,9 @@ import {
     Section,
     Bar,
 } from "react-simple-resizer";
+import Axios from "../../../axios";
+import {useDispatch} from "react-redux";
+import {getChallenge} from "../../../store/actions/challengeAction";
 
 //////////
 // STYLE
@@ -176,8 +179,42 @@ const DoneButton = styled(RedButton)``;
 //////////
 // REACT
 //////////
+
 const Challenge = () => {
         const [progressValue, setProgressValue] = useState(1);
+        const [initDate, getInitDate] = useState(0);
+        const dispatch = useDispatch();
+
+        const timerComponents = [];
+
+
+        const calculateTimeLeft = () => {
+            const dateNow = new Date();
+            const databaseDate = new Date(String(initDate))
+            let difference = dateNow - databaseDate;
+            difference = 1800000 - difference
+            if (difference > 0) {
+                let timeLeft = `Time left: ${Math.floor((difference / 1000 / 60) % 60)}:${Math.floor((difference / 1000) % 60)}`;
+                return timeLeft;
+            }
+        }
+        const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+        useEffect(() => {
+            const startChallenge = async () => {
+                const initDate = await dispatch(getChallenge());
+                getInitDate(initDate);
+            }
+
+            startChallenge();
+
+            const settimeout = setTimeout(() => {
+                setTimeLeft(calculateTimeLeft());
+            }, 1000);
+
+            return () => clearInterval(settimeout)
+        });
+
 
         const renderControlPanel = (progressValue) => {
             if (progressValue === 1) {
@@ -310,7 +347,9 @@ const Challenge = () => {
                     </FooterSectionLeft>
                     <FooterSectionRight>
                         <Timer>
-                            <p>Time left: 24:05</p>
+                            <div>
+                                {true ? timeLeft : "Time's up!"}
+                            </div>
                         </Timer>
                         <DoneButton>Done!</DoneButton>
                     </FooterSectionRight>

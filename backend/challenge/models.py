@@ -1,6 +1,7 @@
 from django.db import models
 from django.conf import settings
 
+
 from question.models import Question
 
 
@@ -20,6 +21,8 @@ class Challenge(models.Model):
     created = models.DateTimeField(auto_now_add=True)
 
     updated = models.DateTimeField(auto_now_add=True)
+
+    timer = models.CharField(max_length=150, default="0", null=True, blank=True)
 
     questions = models.ManyToManyField(to=Question, related_name='challenge_questions')
 
