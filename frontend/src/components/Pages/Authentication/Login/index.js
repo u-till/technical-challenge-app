@@ -59,7 +59,7 @@ const Icon = styled(FontAwesomeIcon)`
 // REACT
 //////////
 
-const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction}) => {
+const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInUserAction, userObj}) => {
     const dispatch = useDispatch();
 
     const [email, setEmail] = useState("");
@@ -75,10 +75,8 @@ const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInU
         const loginData = {email, password};
         const response = await loginAction(loginData);
         if (response.status === 200) {
-            await dispatch(setLoggedInUserAction);
-            if (response.status === 200) {
-                history.push("/");
-            }
+            const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
+            (setUserResponse.status === 200 && isStaff) ? history.push('/manageusers') : history.push('/');
         }
     };
 
@@ -94,6 +92,7 @@ const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInU
                             name="email"
                             placeholder="Email"
                             required
+                            value={email}
                             onChange={e => inputHandler(e, setEmail)}
                         />
                     </EmailField>
@@ -104,6 +103,7 @@ const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInU
                             type="password"
                             name="password"
                             placeholder="Password"
+                            value={password}
                             onChange={e => inputHandler(e, setPassword)}
                             required
                         />
@@ -118,9 +118,11 @@ const Login = ({loginAction, history, fieldErrors, non_field_error, setLoggedInU
 };
 
 const mapStateToProps = (state) => {
+    console.log("mapStateToProps", state.authReducer.userObj);
     return {
         fieldErrors: state.verificationReducer.verificationErrors,
-        non_field_error: state.verificationReducer.non_field_error
+        non_field_error: state.verificationReducer.non_field_error,
+        userObj: state.authReducer.userObj,
     };
 };
 

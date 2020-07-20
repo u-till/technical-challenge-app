@@ -45,10 +45,12 @@ export const loginAction = ({email, password}) => async (dispatch) => {
     }
 };
 
-export const setLoggedInUserAction = () => async (dispatch) => {
+export const setLoggedInUserAction = () => async (dispatch, getState) => {
     try {
         const response = await Axios.get("users/me/");
-        dispatch(setLoggedInUser(response.data))
+        await dispatch(setLoggedInUser(response.data));
+        console.log('state from loggedinuseraction>', getState().authReducer.userObj);
+        return [response, getState().authReducer.userObj.is_staff]
     } catch (error) {
         console.log("Error retrieving logged in User data>", error);
         return error
