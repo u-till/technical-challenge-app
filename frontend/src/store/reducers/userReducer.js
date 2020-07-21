@@ -1,8 +1,5 @@
 import {
   GET_USER_INFO,
-  DELETE_USER,
-  EDIT_USER,
-  CREATE_USER,
   GET_ALL_USERS,
 } from "../actionTypes";
 
