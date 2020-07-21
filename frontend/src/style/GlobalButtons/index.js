@@ -24,8 +24,8 @@ export const BlueButton = styled(BaseButton)`
 `;
 
 export const EditButton = styled.div`
-  width: 30px;
-  height: 30px;
+  width: ${rem('30px')};
+  height: ${rem('30px')};
   border-radius: 50%;
   background-color: #dbdbdb;
   display: flex;
@@ -35,8 +35,8 @@ export const EditButton = styled.div`
 `;
 
 export const RoundGreyButton = styled.div`
-  width: 30px;
-  height: 30px;
+  width: ${rem('30px')};
+  height: ${rem('30px')};
   border-radius: 50%;
   background-color: #dbdbdb;
   display: flex;
@@ -50,8 +50,8 @@ export const RoundGreyButton = styled.div`
 `;
 
 export const StartButton = styled.button`
-  width: 230px;
-  height: 80.01px;
+  width: ${rem('230px')};
+  height: ${rem('80.01px')};
   background: #ef485c;
   border-radius: 40px;
   color: #ffffff;
@@ -59,7 +59,7 @@ export const StartButton = styled.button`
 
 export const BigRedButton = styled(RedButton)`
   padding: 13px 40px 13px 40px;
-  width: 200px;
-  height: 60px;
-  font-size: 18px;
+  width: ${rem('200px')};
+  height: ${rem('60px')};
+  font-size: ${rem('18px')};
 `;

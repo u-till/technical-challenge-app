@@ -271,11 +271,11 @@ const DoneButton = styled(RedButton)``;
 //////////
 
 const Challenge = ({targetChallenge, getUserChallengeAction}) => {
-    const dispatch = useDispatch();
+    // const dispatch = useDispatch();
     const match = useRouteMatch();
 
     const [progressValue, setProgressValue] = useState(0);
-    const [initDate, getInitDate] = useState(0);
+    // const [initDate, getInitDate] = useState(0);
     const [codeData, setCodeData] = useState({
         0: {code: '', status: {1: null, 2: null, 3: null}},
         1: {code: '', status: {1: null, 2: null, 3: null}},
@@ -285,35 +285,35 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         5: {code: '', status: {1: null, 2: null, 3: null}}
     });
 
-    const calculateTimeLeft = () => {
-        const dateNow = new Date();
-        const databaseDate = new Date(String(initDate));
-        let difference = dateNow - databaseDate;
-        difference = 1800000 - difference;
-        if (difference > 0) {
-            let timeLeft = `Time left: ${Math.floor(
-            (difference / 1000 / 60) % 60
-            )}:${Math.floor((difference / 1000) % 60)}`;
-        return timeLeft;
-        }
-    };
+    // const calculateTimeLeft = () => {
+    //     const dateNow = new Date();
+    //     const databaseDate = new Date(String(initDate));
+    //     let difference = dateNow - databaseDate;
+    //     difference = 1800000 - difference;
+    //     if (difference > 0) {
+    //         let timeLeft = `Time left: ${Math.floor(
+    //         (difference / 1000 / 60) % 60
+    //         )}:${Math.floor((difference / 1000) % 60)}`;
+    //     return timeLeft;
+    //     }
+    // };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-    useEffect(() => {
-        const startChallenge = async () => {
-            const initDate = await dispatch(getChallenge());
-            getInitDate(initDate);
-        };
-
-        startChallenge();
-
-        const settimeout = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-
-        return () => clearInterval(settimeout);
-    });
+    // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    //
+    // useEffect(() => {
+    //     const startChallenge = async () => {
+    //         const initDate = await dispatch(getChallenge());
+    //         getInitDate(initDate);
+    //     };
+    //
+    //     startChallenge();
+    //
+    //     const settimeout = setTimeout(() => {
+    //         setTimeLeft(calculateTimeLeft());
+    //     }, 1000);
+    //
+    //     return () => clearInterval(settimeout);
+    // });
 
     useEffect(() => {
         getUserChallengeAction(match.params.challengeId);
@@ -417,7 +417,6 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
             </ChallengeContainer>
             <Footer>
                 <FooterSectionLeft>
-                    {/*{renderControlPanel(progressValue)}*/}
                     {renderControlPanelV2(progressValue)}
                 </FooterSectionLeft>
                 <FooterSectionRight>
