@@ -89,10 +89,10 @@ class StartChallenge(UpdateAPIView):
     http_method_names = ['patch']
 
     def partial_update(self, request, *args, **kwargs):
-        timer = request.data['timer']
+        start = request.data['start']
         challenge = Challenge.objects.get(id=kwargs['id'])
-        if challenge.timer is None:
-            challenge.timer = timer
+        if challenge.start is None:
+            challenge.start = start
             challenge.save()
         return Response(status=200)
 
