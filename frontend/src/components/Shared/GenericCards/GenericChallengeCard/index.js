@@ -58,7 +58,7 @@ const GenericChallengeCard = ({ challenge }) => {
 
   const onStartHandler = (e) => {
     e.preventDefault();
-    history.push(`/challenge/${challenge.id}`);
+    history.push(`/startchallenge/${challenge.id}/`);
   };
 
   return (
