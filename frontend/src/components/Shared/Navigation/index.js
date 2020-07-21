@@ -1,12 +1,10 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-
 import logo from "../../../assets/images/momentum-tech-challenge-logo.png";
 import { HeaderLogo } from "../../../style/GlobalIcons";
 import { RedButton } from "../../../style/GlobalButtons";
 import { NavLink, useHistory } from "react-router-dom";
-import avatar from "../../../assets/images/user.png";
 import UserModal from "./UserModal";
 import { connect } from "react-redux";
 import { logoutUser } from "../../../store/actions/loginActions";
@@ -24,7 +22,7 @@ const Wrapper = styled.div`
 const Header = styled.div`
   border-bottom: solid 1px #dddddd;
   width: 100%;
-  height: 70px;
+  height: ${rem('70px')};
   display: flex;
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
   position: fixed;
@@ -64,8 +62,8 @@ const LogoutButton = styled(RedButton)`
 `;
 
 const NavbarAvatar = styled.div`
-  width: 40px;
-  height: 40px;
+  width: ${rem('40px')};
+  height: ${rem('40px')};
   border: solid 1px rgba(221, 221, 221, 0.67);
   border-radius: 50px;
   display: flex;
@@ -73,8 +71,8 @@ const NavbarAvatar = styled.div`
   align-items: center;
   overflow: hidden;
   img {
-    width: 40px;
-    height: 40px;
+    width: ${rem('40px')};
+    height: ${rem('40px')};
   }
 `;
 
@@ -117,8 +115,6 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
     border-bottom: 3px solid #f37786;
   }
 `;
-
-const HeaderText = styled.p``;
 
 //////////
 // REACT

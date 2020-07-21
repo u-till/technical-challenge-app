@@ -1,16 +1,10 @@
-import React, { useState } from "react";
+import React from "react";
 import { rem } from "polished";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import GenericTipCard from "../../GenericCards/GenericTipCard";
-import { Styledh1, Styledh2 } from "../../../../style/GlobalTitles";
+import { Styledh2 } from "../../../../style/GlobalTitles";
 import { BaseContainer } from "../../../../style/GlobalWrappers";
-import {
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
-} from "../../../../style/GlobalButtons";
+import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { useDispatch } from "react-redux";
 import { deleteItemAction } from "../../../../store/actions/deleteAction";
 import { getAllUsersAction } from "../../../../store/actions/userActions";
@@ -37,7 +31,7 @@ const DeleteModalContainer = styled(BaseContainer)`
   position: fixed;
   background: white;
   width: 40%;
-  height: 180px;
+  height: ${rem('180px')};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
