@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {BaseContainer, PageContainer} from "../../../style/GlobalWrappers";
-import {Styledh1, Styledh2} from "../../../style/GlobalTitles";
+import { rem } from "polished";
+import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
+import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
 import {
-    BaseButton,
-    BlueButton,
-    RedButton,
+  BaseButton,
+  BlueButton,
+  RedButton,
 } from "../../../style/GlobalButtons";
 import {
-    Container as ResizeContainer,
-    Section,
-    Bar,
+  Container as ResizeContainer,
+  Section,
+  Bar,
 } from "react-simple-resizer";
-import {connect, useDispatch} from "react-redux";
-import {getChallenge} from "../../../store/actions/challengeAction";
-import {Controlled as CodeMirror} from "react-codemirror2";
+import { connect, useDispatch } from "react-redux";
+import { getChallenge } from "../../../store/actions/challengeAction";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript.js";
-import {getUserChallengeAction} from "../../../store/actions/challengeActions";
-import {useRouteMatch} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { getUserChallengeAction } from "../../../store/actions/challengeActions";
+import { useRouteMatch } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //////////
 // STYLE
@@ -292,9 +292,9 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         difference = 1800000 - difference;
         if (difference > 0) {
             let timeLeft = `Time left: ${Math.floor(
-                (difference / 1000 / 60) % 60
+            (difference / 1000 / 60) % 60
             )}:${Math.floor((difference / 1000) % 60)}`;
-            return timeLeft;
+        return timeLeft;
         }
     };
 
@@ -429,12 +429,12 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
             </Footer>
         </>
     );
-};
+};  
 
 const mapStateToProps = (state) => {
-    return {
-        targetChallenge: state.challengeReducer.targetChallenge,
-    };
+  return {
+    targetChallenge: state.challengeReducer.targetChallenge,
+  };
 };
 
-export default connect(mapStateToProps, {getUserChallengeAction})(Challenge);
+export default connect(mapStateToProps, { getUserChallengeAction })(Challenge);
