@@ -1,8 +1,4 @@
-import {
-  GET_USER_INFO,
-  CREATE_USER,
-  GET_ALL_USERS,
-} from "../actionTypes";
+import { GET_USER_INFO, CREATE_USER, GET_ALL_USERS } from "../actionTypes";
 import Axios from "../../axios";
 import {
   nonFieldVerificationError,
@@ -65,8 +61,8 @@ export const editSpecificUserAction = (userId, data) => async (dispatch) => {
 
 export const createUserAction = (userData) => async (dispatch) => {
   try {
-    const response = await Axios.post('/users/create/', userData);
-    return response
+    const response = await Axios.post("/users/create/", userData);
+    return response;
   } catch (error) {
     let errors = {};
     for (let i of Object.keys(error.response.data)) {

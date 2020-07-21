@@ -1,7 +1,4 @@
-import {
-  GET_USER_INFO,
-  GET_ALL_USERS,
-} from "../actionTypes";
+import { GET_USER_INFO, GET_ALL_USERS } from "../actionTypes";
 
 const initialState = {
   targetUser: null,
