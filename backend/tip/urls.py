@@ -1,6 +1,6 @@
 from django.urls import path
 
-from tip.views import CreateTipForQuestion, ListTipByQuestion, RetrieveUpdateDestroyTipByID
+from tip.views import *
 
 urlpatterns = [
     path('create/<int:question_id>/', CreateTipForQuestion.as_view()),

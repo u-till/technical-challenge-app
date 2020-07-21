@@ -1,6 +1,6 @@
 from django.urls import path
 
-from question.views import CreateQuestion, ListQuestions, RetrieveUpdateDestroyQuestion
+from question.views import *
 
 urlpatterns = [
     path('create/', CreateQuestion.as_view()),

@@ -1,6 +1,6 @@
 from django.urls import path
 
-from program.views import ListPrograms, CreateProgram, RetrieveUpdateDestroyProgram
+from program.views import *
 
 urlpatterns = [
     path('create/', CreateProgram.as_view()),
