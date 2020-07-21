@@ -11,4 +11,4 @@ class ChallengeSerializer(serializers.ModelSerializer):
 
     class Meta:
         model = Challenge
-        fields = ['id', 'score', 'status', 'created', 'timer', 'updated', 'questions', 'creator', 'candidate']
+        fields = ['id', 'score', 'status', 'created', 'started', 'updated', 'questions', 'creator', 'candidate']
