@@ -1,9 +1,6 @@
 import {
   GET_USER_INFO,
-  DELETE_USER,
-  EDIT_USER,
   CREATE_USER,
-  VERIFICATION_ERROR,
   GET_ALL_USERS,
 } from "../actionTypes";
 import Axios from "../../axios";
@@ -50,6 +47,26 @@ export const editSpecificUserAction = (userId, data) => async (dispatch) => {
   try {
     const response = await Axios.patch(`/users/edit/${userId}/`, data);
     return response;
+  } catch (error) {
+    let errors = {};
+    for (let i of Object.keys(error.response.data)) {
+      errors[i] = error.response.data[i].join(" ");
+    }
+    if (
+      errors.detail === "Your email doesn't match any profile or is invalid."
+    ) {
+      dispatch(nonFieldVerificationError(errors.detail));
+    } else {
+      dispatch(verificationError(errors));
+    }
+    return error;
+  }
+};
+
+export const createUserAction = (userData) => async (dispatch) => {
+  try {
+    const response = await Axios.post('/users/create/', userData);
+    return response
   } catch (error) {
     let errors = {};
     for (let i of Object.keys(error.response.data)) {

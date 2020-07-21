@@ -1,24 +1,25 @@
-import React, { useState } from "react";
-import { rem } from "polished";
+import React, {useState} from "react";
+import {rem} from "polished";
 import styled from "styled-components";
 
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import GenericTipCard from "../../GenericCards/GenericTipCard";
-import { Styledh1, Styledh2 } from "../../../../style/GlobalTitles";
-import { BaseContainer } from "../../../../style/GlobalWrappers";
+import {Styledh1, Styledh2} from "../../../../style/GlobalTitles";
+import {BaseContainer} from "../../../../style/GlobalWrappers";
 import {
-  BaseButton,
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
+    BaseButton,
+    BlueButton,
+    RedButton,
+    RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import { useDispatch } from "react-redux";
-import { deleteItemAction } from "../../../../store/actions/deleteAction";
-import { getAllUsersAction } from "../../../../store/actions/userActions";
-import { getAllQuestionsAction } from "../../../../store/actions/questionActions";
-import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
+import {connect, useDispatch} from "react-redux";
+import {deleteItemAction} from "../../../../store/actions/deleteAction";
+import {createUserAction, getAllUsersAction} from "../../../../store/actions/userActions";
+import {getAllQuestionsAction} from "../../../../store/actions/questionActions";
+import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
 import Error from "../../Error";
-import { BaseInput } from "../../../../style/GlobalInputs";
+import {BaseInput} from "../../../../style/GlobalInputs";
+import {resetError} from "../../../../store/actions/verificationAction";
 
 //////////
 // Styles
@@ -129,83 +130,139 @@ const UploadButton = styled(BaseButton)`
 //////////
 // REACT
 //////////
-const UserAddModal = ({ ModalCreateOpenCloseHandler }) => {
-  const dispatch = useDispatch();
+const UserAddModal = ({ModalCreateOpenCloseHandler, createUserAction, non_field_error, fieldErrors,}) => {
+    const dispatch = useDispatch();
 
-  return (
-    <CreateModalOverlay>
-      <CreateModalContainer>
-        <Styledh2>
-          <FontAwesomeIcon icon={["fas", "user"]} /> Create New User
-        </Styledh2>
-        <EditUserInfo>
-          <div>
-            <InputLabelDiv>
-              <StyledLabel>First Name:</StyledLabel>
-              <StyledInput
-                type="text"
-                placeholder="First Name"
-                required
-                name="first_name"
-              />
-              <Error />
-            </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Last Name:</StyledLabel>
-              <StyledInput
-                type="text"
-                placeholder="Last Name"
-                required
-                name="last_name"
-              />
-              <Error />
-            </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Email:</StyledLabel>
-              <StyledInput
-                type="email"
-                placeholder="Email"
-                required
-                name="email"
-              />
-              <Error />
-            </InputLabelDiv>
-          </div>
-          <div>
-            <InputLabelDiv>
-              <StyledLabel>Phone:</StyledLabel>
-              <StyledInput
-                type="¨tel"
-                placeholder="Phone Nr."
-                required
-                name="phone"
-              />
-              <Error />
-            </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Role:</StyledLabel>
-              <RoleDropdown id="role" name="Role">
-                <option>Staff</option>
-                <option>Candidate</option>
-              </RoleDropdown>
-              <Error />
-            </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Avatar:</StyledLabel>
-              <BtnWrapper>
-                <UploadButton>Upload Avatar</UploadButton>
-                <input type="file" name="avatar" style={{ display: "none" }} />
-              </BtnWrapper>
-            </InputLabelDiv>
-          </div>
-        </EditUserInfo>
-        <div>
-          <RedButton onClick={ModalCreateOpenCloseHandler}>Cancel</RedButton>
-          <BlueButton>Add</BlueButton>
-        </div>
-      </CreateModalContainer>
-    </CreateModalOverlay>
-  );
+    const [data, setData] = useState({
+        email: '',
+        first_name: '',
+        last_name: '',
+        phone: '',
+        avatar: null,
+        is_staff: false,
+    });
+
+    const userSaveHandler = async (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        const userData = {
+          "email": data.email,
+          "first_name": data.first_name,
+          "last_name": data.last_name,
+          "phone": data.phone,
+          "is_staff": data.is_staff
+        };
+        if (userData["is_staff"] === "true" || userData["is_staff"] === "false") {
+        userData["is_staff"] = JSON.parse(userData["is_staff"]);
+        }
+        const response = await createUserAction(userData);
+        if (response.status === 201) {
+            ModalCreateOpenCloseHandler();
+            dispatch(getAllUsersAction());
+        }
+    };
+
+    const userCancelHandler = (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        ModalCreateOpenCloseHandler();
+    };
+
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    };
+
+    return (
+        <CreateModalOverlay>
+            <CreateModalContainer>
+                <Styledh2>
+                    <FontAwesomeIcon icon={["fas", "user"]}/> Create New User
+                </Styledh2>
+                <EditUserInfo>
+                    <div>
+                        <InputLabelDiv>
+                            <StyledLabel>First Name:</StyledLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="First Name"
+                                required
+                                name="first_name"
+                                value={data.first_name}
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["first_name"]}/>
+                        </InputLabelDiv>
+                        <InputLabelDiv>
+                            <StyledLabel>Last Name:</StyledLabel>
+                            <StyledInput
+                                type="text"
+                                placeholder="Last Name"
+                                required
+                                name="last_name"
+                                value={data.last_name}
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["last_name"]}/>
+                        </InputLabelDiv>
+                        <InputLabelDiv>
+                            <StyledLabel>Email:</StyledLabel>
+                            <StyledInput
+                                type="email"
+                                placeholder="Email"
+                                required
+                                name="email"
+                                value={data.email}
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["email"]}/>
+                        </InputLabelDiv>
+                    </div>
+                    <div>
+                        <InputLabelDiv>
+                            <StyledLabel>Phone:</StyledLabel>
+                            <StyledInput
+                                type="¨tel"
+                                placeholder="Phone Nr."
+                                required
+                                name="phone"
+                                value={data.phone}
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["phone"]}/>
+                        </InputLabelDiv>
+                        <InputLabelDiv>
+                            <StyledLabel>Role:</StyledLabel>
+                            <RoleDropdown
+                                id="role"
+                                name="is_staff"
+                                value={data.is_staff}
+                                onChange={handleInput}>
+                                <option value={true}>Staff</option>
+                                <option value={false}>Candidate</option>
+                            </RoleDropdown>
+                            <Error/>
+                        </InputLabelDiv>
+                        <InputLabelDiv>
+                        </InputLabelDiv>
+                    </div>
+                </EditUserInfo>
+                <div>
+                    <RedButton onClick={userCancelHandler}>Cancel</RedButton>
+                    <Error errorMessage={non_field_error}/>
+                    <BlueButton onClick={userSaveHandler}>Add</BlueButton>
+                </div>
+            </CreateModalContainer>
+        </CreateModalOverlay>
+    );
 };
 
-export default UserAddModal;
+const mapStateToProps = state => {
+    return {
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error,
+    }
+};
+
+export default connect(mapStateToProps, {createUserAction})(UserAddModal);
