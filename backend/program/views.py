@@ -24,7 +24,6 @@ class RetrieveUpdateDestroyProgram(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-
     serializer_class = ProgramSerializer
     queryset = Program.objects.all()
     lookup_field = 'id'

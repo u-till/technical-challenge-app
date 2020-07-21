@@ -1,4 +1,4 @@
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 
@@ -14,6 +14,7 @@ class CreateTipForQuestion(CreateAPIView):
 
     The discount_value it's a number (float) that will be subtracted from the question total value.
     """
+
     serializer_class = TipSerializer
     queryset = Question
     lookup_url_kwarg = 'question_id'
@@ -29,6 +30,8 @@ class ListTipByQuestion(ListAPIView):
     """
     get:
     Returns the list of all tips in a given question.
+
+    Candidates have permission.
     """
 
     permission_classes = [IsAuthenticated]
@@ -53,7 +56,6 @@ class RetrieveUpdateDestroyTipByID(RetrieveUpdateDestroyAPIView):
 
     http_method_names = ['get', 'patch', 'delete']
 
-    permission_classes = [IsAuthenticated]
     queryset = Tip.objects.all()
     serializer_class = TipSerializer
     lookup_field = 'id'
@@ -61,3 +63,17 @@ class RetrieveUpdateDestroyTipByID(RetrieveUpdateDestroyAPIView):
     def get_queryset(self, **kwargs):
         tip = Tip.objects.filter(id=self.kwargs['id'])
         return tip
+
+
+class RetrieveTipAsCandidate(RetrieveAPIView):
+    """
+     get:
+     Retrieve a tip with the given id.
+
+     Candidates have permission.
+     """
+
+    permission_classes = [IsAuthenticated]
+    queryset = Tip.objects.all()
+    serializer_class = TipSerializer
+    lookup_field = 'id'

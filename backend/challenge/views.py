@@ -1,6 +1,8 @@
 from django.core.mail import EmailMessage
 from rest_framework import status
-from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
+from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView, \
+    RetrieveAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from challenge.models import Challenge
 from challenge.serializers import ChallengeSerializer
@@ -51,7 +53,21 @@ class RetrieveUpdateDestroyChallenge(RetrieveUpdateDestroyAPIView):
     """
 
     http_method_names = ['get', 'patch', 'delete']
-    permission_classes = []
+    serializer_class = ChallengeSerializer
+    queryset = Challenge.objects.all()
+    lookup_field = 'id'
+
+
+class RetrieveChallengeAsCandidate(RetrieveAPIView):
+    """
+     get:
+     Retrieve a challenge with the given id.
+
+     Candidates have permission.
+     """
+
+    http_method_names = ['get', 'patch', 'delete']
+    permission_classes = [IsAuthenticated]
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
@@ -71,9 +87,11 @@ class ListUserChallengesView(ListAPIView):
     """
     get:
     Returns the list of all challenges for the logged in user.
+
+    Candidates have permissions
     """
     serializer_class = ChallengeSerializer
-    permission_classes = []
+    permission_classes = [IsAuthenticated]
 
     def list(self, request, *args, **kwargs):
         queryset = request.user.fk_challenges_assigned.all()
@@ -82,11 +100,18 @@ class ListUserChallengesView(ListAPIView):
 
 
 class StartChallenge(UpdateAPIView):
+    """
+    patch:
+    Update the date and time when the challenge with the given id it's started. Can be updated just once.
+
+    Candidates have permission.
+    """
+
+    http_method_names = ['patch']
+    permission_classes = [IsAuthenticated]
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
-
-    http_method_names = ['patch']
 
     def partial_update(self, request, *args, **kwargs):
         timer = request.data['timer']
@@ -98,11 +123,18 @@ class StartChallenge(UpdateAPIView):
 
 
 class ChallengeScore(UpdateAPIView):
+    """
+    patch:
+    Update the final score of a challenge with the given id. Can be updated just once.
+
+    Candidates have permissions.
+    """
+
+    http_method_names = ['patch']
+    permission_classes = [IsAuthenticated]
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
-
-    http_method_names = ['patch']
 
     def partial_update(self, request, *args, **kwargs):
         score = request.data['score']
