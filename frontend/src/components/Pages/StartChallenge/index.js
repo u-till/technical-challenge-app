@@ -1,11 +1,12 @@
 import React from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-
+import {rem} from "polished";
 import Header from "../../Shared/Navigation";
-import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
-import { PageContainer } from "../../../style/GlobalWrappers/index";
-import { BigRedButton } from "../../../style/GlobalButtons/index";
+import {StyledPageTitles, Styledh3} from "../../../style/GlobalTitles/index";
+import {PageContainer} from "../../../style/GlobalWrappers/index";
+import {BigRedButton} from "../../../style/GlobalButtons/index";
+import {useHistory} from "react-router";
+import {useRouteMatch} from "react-router-dom";
 
 //////////
 // STYLE
@@ -77,64 +78,64 @@ const ReadyButtonContainer = styled.div`
 // REACT
 //////////
 const StartChallenge = () => {
-  return (
-    <PageContainer>
-      <InformationContainer>
-        <StyledPageTitles>Technical Challenge</StyledPageTitles>
-        <ChallengeInstructionsContainer>
-          <LeftSideContainer>
-            <ChallengeInstructions>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-              <br></br>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-              <br></br>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-            </ChallengeInstructions>
-            <ReadyButtonContainer>
-              <Styledh3>Ready?</Styledh3>
-              <BigRedButton>Start</BigRedButton>
-            </ReadyButtonContainer>
-          </LeftSideContainer>
-          <RightSideContainer>
-            <ExampleImage></ExampleImage>
-          </RightSideContainer>
-        </ChallengeInstructionsContainer>
-      </InformationContainer>
-    </PageContainer>
-  );
+    const history = useHistory();
+    const match = useRouteMatch();
+
+    const onStartHandler = (e) => {
+        e.preventDefault();
+        history.push(`/challenge/${match.params.challengeId}/`)
+    };
+
+    return (
+        <PageContainer>
+            <InformationContainer>
+                <StyledPageTitles>Technical Challenge</StyledPageTitles>
+                <ChallengeInstructionsContainer>
+                    <LeftSideContainer>
+                        <ChallengeInstructions>
+                            <P>
+                                Welcome to your Technical Coding Challenge. You will have 30
+                                minutes to pass 6 coding questions. The questions will have
+                                varying levels of difficulty. You may move freely between each
+                                question with the Next and Previous buttons. When you are
+                                finished, click the Done button to submit your final results.
+                            </P>
+                            <br></br>
+                            <P>
+                                On the the Left Panel is your Coding Challenge Instructions.
+                                Pay close attention to the naming of functions, functions with
+                                the wrong name will not pass the tests.
+                            </P>
+                            <br></br>
+                            <P>
+                                On the Middle Panel is your coding input window. You will enter
+                                your code here, paying close attention to naming and syntax. When you
+                                think your code is correct, click the Submit button to submit and
+                                evaluate your answer to the question.
+                            </P>
+                            <br></br>
+                            <P>
+                                On the Right Panel is the tests your code will be evaluated against.
+                                The results of the tests run on your code after clicking Submit will
+                                be displayed in the lower portion of the right panel.
+                            </P>
+                            <br></br>
+                            <P>
+                                Best of Luck with your Technical Coding Challenge!!
+                            </P>
+                        </ChallengeInstructions>
+                        <ReadyButtonContainer>
+                            <Styledh3>Ready?</Styledh3>
+                            <BigRedButton onClick={onStartHandler}>Start</BigRedButton>
+                        </ReadyButtonContainer>
+                    </LeftSideContainer>
+                    <RightSideContainer>
+                        <ExampleImage></ExampleImage>
+                    </RightSideContainer>
+                </ChallengeInstructionsContainer>
+            </InformationContainer>
+        </PageContainer>
+    );
 };
 
 export default StartChallenge;
