@@ -1,5 +1,5 @@
 from rest_framework import filters
-from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
+from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 
 from question.models import Question
@@ -41,15 +41,30 @@ class RetrieveUpdateDestroyQuestion(RetrieveUpdateDestroyAPIView):
     lookup_field = 'id'
 
 
+class RetrieveQuestionAsCandidate(RetrieveAPIView):
+    """
+    get:
+    Retrieve a question with the given id.
+
+    Candidates have permission.
+    """
+
+    permission_classes = [IsAuthenticated]
+    serializer_class = CreateQuestionSerializer
+    queryset = Question.objects.all()
+    lookup_field = 'id'
+
+
 class ListQuestions(ListAPIView):
     """
     get:
     Returns the list of all questions.
 
     Search can be made by name, instructions or difficulty.
+
+    Candidates have permissions.
     """
 
-    permission_classes = [IsAuthenticated]
     serializer_class = ListQuestionSerializer
     queryset = Question.objects.all()
 

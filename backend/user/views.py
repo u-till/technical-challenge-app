@@ -87,15 +87,12 @@ class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
     """
     get:
     Retrieve a user with the given id.
-
     patch:
     Update a user with the given id.
-
     delete:
     Delete a user with the given id.
     """
     http_method_names = ['get', 'patch', 'delete']
-    permission_classes = [AllowAny]
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
@@ -105,10 +102,8 @@ class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
     """
     get:
     Retrieve the logged user.
-
     patch:
     Update the logged user.
-
     delete:
     Delete the logged user.
     """
