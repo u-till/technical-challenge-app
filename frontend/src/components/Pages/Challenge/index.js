@@ -276,8 +276,14 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
 
     const [progressValue, setProgressValue] = useState(0);
     const [initDate, getInitDate] = useState(0);
-    const [middleCodeMirror, setMiddleCodeMirror] = useState("");
-    const [rightCodeMirror, setRightCodeMirror] = useState("");
+    const [codeData, setCodeData] = useState({
+        0: {code: '', status: {1: null, 2: null, 3: null}},
+        1: {code: '', status: {1: null, 2: null, 3: null}},
+        2: {code: '', status: {1: null, 2: null, 3: null}},
+        3: {code: '', status: {1: null, 2: null, 3: null}},
+        4: {code: '', status: {1: null, 2: null, 3: null}},
+        5: {code: '', status: {1: null, 2: null, 3: null}}
+    });
 
     const calculateTimeLeft = () => {
         const dateNow = new Date();
@@ -319,135 +325,31 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         lineNumbers: true,
     };
 
-    const renderControlPanel = (progressValue) => {
-        if (progressValue === 0) {
-            return (
-                <>
-                    <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(1)}>
-                        Next
-                    </PrevNextButton>{" "}
-                </>
-            );
-        }
-        if (progressValue === 1) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(0)}>
-                        Previous
-                    </PrevNextButton>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(2)}>
-                        Next
-                    </PrevNextButton>
-                </>
-            );
-        }
-        if (progressValue === 2) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(1)}>
-                        Previous
-                    </PrevNextButton>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(3)}>
-                        Next
-                    </PrevNextButton>
-                </>
-            );
-        }
-        if (progressValue === 3) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(2)}>
-                        Previous
-                    </PrevNextButton>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(4)}>
-                        Next
-                    </PrevNextButton>
-                </>
-            );
-        }
-        if (progressValue === 4) {
-            return (
-                <>
-                    <PrevNextButton onClick={(e) => setProgressValue(3)}>
-                        Previous
-                    </PrevNextButton>
-                    <StepSelectorLine>
-                        <StepSelectorContainer>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtnActive/>
-                            <StepSelectorBtn/>
-                        </StepSelectorContainer>
-                    </StepSelectorLine>
-                    <PrevNextButton onClick={(e) => setProgressValue(5)}>
-                        Next
-                    </PrevNextButton>
-                </>
-            );
-        }
+    const renderControlPanelV2 = (progressValue) => {
         return (
             <>
-                <PrevNextButton onClick={(e) => setProgressValue(4)}>
-                    Previous
-                </PrevNextButton>
+                {progressValue === 0 ? <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>Previous</PrevNextButton>}
                 <StepSelectorLine>
                     <StepSelectorContainer>
-                        <StepSelectorBtnActive/>
-                        <StepSelectorBtnActive/>
-                        <StepSelectorBtnActive/>
-                        <StepSelectorBtnActive/>
-                        <StepSelectorBtnActive/>
-                        <StepSelectorBtnActive/>
+                        {[...renderCenter(progressValue)]}
                     </StepSelectorContainer>
                 </StepSelectorLine>
-                <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
-                <div/>
+                {progressValue === 5 ? <PrevNextButtonDisabled>Next</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>Next</PrevNextButton>}
             </>
-        );
+        )
     };
+
+    function renderCenter(progressValue) {
+        let result = [];
+        for (let i = 0; i < 6; i++) {
+            if (i <= progressValue) {
+                result.push(<StepSelectorBtnActive/>)
+            } else {
+                result.push(<StepSelectorBtn/>)
+            }
+        }
+        return result
+    }
 
     return (
         <>
@@ -473,55 +375,26 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                                         <Styledh2>Tests</Styledh2>
                                     </TestsHeader>
                                     <SmallCodeMirrorWrapper>
-                                        <div>
-                                            <StyledSmallCodeMirror
-                                                value="multiplyAll([[1],[2],[3]]) => 6"
-                                                options={{
-                                                    mode: "javascript",
-                                                    theme: "material",
-                                                    lineNumbers: true,
-                                                    firstLineNumber: 1,
-                                                }}
-                                                onChange={(editor, data, value) => {
-                                                }}
-                                            />
-                                            <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/>
-                                        </div>
-                                        <div>
-                                            <StyledSmallCodeMirror
-                                                value="multiplyAll([[1,2],[3,4],[5,6,7]]) => 5040"
-                                                options={{
-                                                    mode: "javascript",
-                                                    theme: "material",
-                                                    lineNumbers: true,
-                                                    firstLineNumber: 2,
-                                                }}
-                                                onChange={(editor, data, value) => {
-                                                }}
-                                            />
-                                            <FontAwesomeIconFail icon={["fas", "times-circle"]}/>
-                                        </div>
-                                        <div>
-                                            <StyledSmallCodeMirror
-                                                value="multiplyAll([[5,1],[0.2, 4, 0.5],[3, 9]]) => 54"
-                                                options={{
-                                                    mode: "javascript",
-                                                    theme: "material",
-                                                    lineNumbers: true,
-                                                    firstLineNumber: 3,
-                                                }}
-                                                onChange={(editor, data, value) => {
-                                                }}
-                                            />
-                                            <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/>
-                                        </div>
+                                        {targetChallenge.questions[progressValue].tests_for_question.map((test, index) =>
+                                            (<div>
+                                                <StyledSmallCodeMirror
+                                                    value={test}
+                                                    options={{
+                                                        mode: "javascript",
+                                                        theme: "material",
+                                                        lineNumbers: true,
+                                                        firstLineNumber: index + 1,
+                                                    }}
+                                                    onChange={(editor, data, value) => {
+                                                    }}
+                                                />
+                                                {codeData[progressValue].status[index + 1] === null ? null : codeData[progressValue].status[index + 1] ?
+                                                    <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/> :
+                                                    <FontAwesomeIconFail icon={["fas", "times-circle"]}/>}
+                                            </div>)
+                                        )}
                                     </SmallCodeMirrorWrapper>
                                     <RunButton>Run Code and Submit</RunButton>
-                                    {targetChallenge
-                                        ? targetChallenge.questions[
-                                            progressValue
-                                            ].tests_for_question.map((test) => <p>{test}</p>)
-                                        : null}
                                 </TestsContainer>
                             </>
                         ) : null}
@@ -529,10 +402,12 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                     <StyledResizeBar/>
                     <InputColumn>
                         <StyledCodeMirror
-                            value={middleCodeMirror}
+                            value={codeData[progressValue].code}
                             options={options}
                             onBeforeChange={(editor, data, value) => {
-                                setMiddleCodeMirror(value);
+                                console.log(codeData);
+                                console.log(progressValue);
+                                setCodeData({...codeData, [progressValue]: {...codeData[progressValue], code: value}});
                             }}
                             onChange={(editor, data, value) => {
                             }}
@@ -542,7 +417,8 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
             </ChallengeContainer>
             <Footer>
                 <FooterSectionLeft>
-                    {renderControlPanel(progressValue)}
+                    {/*{renderControlPanel(progressValue)}*/}
+                    {renderControlPanelV2(progressValue)}
                 </FooterSectionLeft>
                 <FooterSectionRight>
                     <Timer>
