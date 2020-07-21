@@ -1,4 +1,4 @@
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView, \
     RetrieveAPIView
@@ -26,18 +26,21 @@ class CreateChallenge(CreateAPIView):
         challenge = Challenge(creator=request.user, candidate=candidate)
         challenge.save()
         challenge.questions.set(request.data['questions'])
-        email = EmailMessage()
+        email = EmailMultiAlternatives()
         email.subject = f'Propulsion Academy - You have a new Challenge!'
-        email.body = f"""Get ready!
-
-{candidate.first_name} {candidate.last_name} you have a new challenge to solve!
-Please click the link below to go to login and start your challenge:
-
-https://tech-challenge.propulsion-learn.ch/login/
-
-You can find the challenge in your personal account after the logged in it's successfully done.
-"""
         email.to = [candidate.email]
+        html_content = f"""<h2 style="font-weight:normal">Get ready!</h2>
+        <h3 style="font-weight:normal">{candidate.first_name} {candidate.last_name} you have a new challenge to solve!</h3>
+        <h3 style="font-weight:normal">Please click the link below to go to login and start your challenge:</h3>
+        <h3 style="font-weight:normal">https://tech-challenge.propulsion-learn.ch/login/</h3>
+        <h3 style="font-weight:normal">You can find the challenge in your personal account after the login it's successfully done.</h3>
+        <p><strong>Propulsion Academy</strong><br>
+        Technoparkstrasse 1<br>
+        8005 Zürich, Switzerland<br>
+        https://propulsion.academy/full-stack</p>
+        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
+        """
+        email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
         return Response(status=200)
 
