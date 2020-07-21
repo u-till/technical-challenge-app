@@ -25,6 +25,7 @@ import {
 } from "../../../../store/actions/userActions";
 import {changeEnd} from "codemirror/src/model/change_measurement";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
+import {setLoggedInUserAction} from "../../../../store/actions/loginActions";
 
 //////////
 // STYLES
@@ -266,6 +267,7 @@ const GenericUserCard = ({
         const response = await editSpecificUserAction(user.id, userData);
         if (response.status === 200) {
             setUserEditing(!isUserEditing);
+            dispatch(setLoggedInUserAction());
             dispatch(getAllUsersAction());
         }
     };
