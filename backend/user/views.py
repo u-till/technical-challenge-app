@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.mail import EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from rest_framework import filters, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -28,16 +28,21 @@ class CreateUserView(CreateAPIView):
                         phone=self.request.data['phone'])
         new_user.set_password("Propulsion2020")
         new_user.save()
-        email = EmailMessage()
+        email = EmailMultiAlternatives()
         email.subject = f'Propulsion Academy - New Candidate Validation'
-        email.body = f"""Congratulations! 
-
-You have been selected to continue the process of applying for a position at one of our Bootcamps! 
-Please click the link below to verify your user information:
-
-https://tech-challenge.propulsion-learn.ch/verification/{new_user.id}?email={new_user.email}&first_name={new_user.first_name}&last_name={new_user.last_name}&phone={new_user.phone}
-You will receive a follow-up email when your Technical Interview is ready."""
         email.to = [new_user.email]
+        html_content = f"""<h2 style="font-weight:normal">Congratulations!</h2>
+        <h3 style="font-weight:normal">You have been selected to continue the process of applying for a position at one of our Bootcamps!</h3>
+        <h3 style="font-weight:normal">Please click the link below to verify your user information:</h3>
+        <h3 style="font-weight:normal">https://tech-challenge.propulsion-learn.ch/verification/{new_user.id}?email={new_user.email}&first_name={new_user.first_name}&last_name={new_user.last_name}&phone={new_user.phone}</h3>
+        <h3 style="font-weight:normal">You will receive a follow-up email when your Technical Interview is ready.</h3>
+        <p><strong>Propulsion Academy</strong><br>
+        Technoparkstrasse 1<br>
+        8005 Zürich, Switzerland<br>
+        https://propulsion.academy/full-stack</p>
+        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
+        """
+        email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
         return new_user
 
