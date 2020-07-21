@@ -30,7 +30,7 @@ export const getAllUserChallengesAction = () => async (dispatch) => {
 
 export const getUserChallengeAction = (challengeId) => async (dispatch) => {
   try {
-    const response = await Axios.get(`challenges/edit/${challengeId}/`);
+    const response = await Axios.get(`challenges/challenge/${challengeId}/`);
     dispatch(getUserChallenge(response.data));
     return response;
   } catch (error) {
