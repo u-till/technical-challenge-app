@@ -1,4 +1,5 @@
 from rest_framework.generics import GenericAPIView
+from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 import os
 import time
@@ -6,6 +7,7 @@ import json
 
 
 class RunTestOne(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('function should return the sum of two numbers', function(t) {
     const result = sum(1,2); 
     const expected = 3;
@@ -29,13 +31,15 @@ class RunTestOne(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_one/{username}')
+        candidate_directory = os.path.join(f'tests/question_one/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_one/{username}/question_one_tester.test.js', 'w')
+        f = open(f'tests/question_one/user_{user_id}_{first_name}_{last_name}/question_one_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -49,17 +53,18 @@ class RunTestOne(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_one/{username}/question_one_test_results.json TEST=tests/question_one/{username}/question_one_tester.test.js npm run test')
+            f'RESULT=tests/question_one/user_{user_id}_{first_name}_{last_name}/question_one_test_results.json TEST=tests/question_one/user_{user_id}_{first_name}_{last_name}/question_one_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_one/{username}/question_one_test_results.json') as f:
+        with open(f'tests/question_one/user_{user_id}_{first_name}_{last_name}/question_one_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestTwo(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should reverse the contents of a string', function(t) {
     const result = reverseString('TestString');
     const expected = 'gnirtStseT';
@@ -83,13 +88,15 @@ class RunTestTwo(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_two/{username}')
+        candidate_directory = os.path.join(f'tests/question_two/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_two/{username}/question_two_tester.test.js', 'w')
+        f = open(f'tests/question_two/user_{user_id}_{first_name}_{last_name}/question_two_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -103,17 +110,18 @@ class RunTestTwo(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_two/{username}/question_two_test_results.json TEST=tests/question_two/{username}/question_two_tester.test.js npm run test')
+            f'RESULT=tests/question_two/user_{user_id}_{first_name}_{last_name}/question_two_test_results.json TEST=tests/question_two/user_{user_id}_{first_name}_{last_name}/question_two_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_two/{username}/question_two_test_results.json') as f:
+        with open(f'tests/question_two/user_{user_id}_{first_name}_{last_name}/question_two_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestThree(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return the first element of an array', function(t) {
     const result = firstElement([1, 2, 3]);
     const expected = 1;
@@ -137,13 +145,15 @@ class RunTestThree(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_three/{username}')
+        candidate_directory = os.path.join(f'tests/question_three/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_three/{username}/question_three_tester.test.js', 'w')
+        f = open(f'tests/question_three/user_{user_id}_{first_name}_{last_name}/question_three_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -157,17 +167,18 @@ class RunTestThree(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_three/{username}/question_three_test_results.json TEST=tests/question_three/{username}/question_three_tester.test.js npm run test')
+            f'RESULT=tests/question_three/user_{user_id}_{first_name}_{last_name}/question_three_test_results.json TEST=tests/question_three/user_{user_id}_{first_name}_{last_name}/question_three_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_three/{username}/question_three_test_results.json') as f:
+        with open(f'tests/question_three/user_{user_id}_{first_name}_{last_name}/question_three_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestFour(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return the boolean value of a number being less than or equal to zero', function(t) {
     const result = lessThanOrEqualToZero(100);
     const expected = false;
@@ -191,13 +202,15 @@ class RunTestFour(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_four/{username}')
+        candidate_directory = os.path.join(f'tests/question_four/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_four/{username}/question_four_tester.test.js', 'w')
+        f = open(f'tests/question_four/user_{user_id}_{first_name}_{last_name}/question_four_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -211,17 +224,18 @@ class RunTestFour(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_four/{username}/question_four_test_results.json TEST=tests/question_four/{username}/question_four_tester.test.js npm run test')
+            f'RESULT=tests/question_four/user_{user_id}_{first_name}_{last_name}/question_four_test_results.json TEST=tests/question_four/user_{user_id}_{first_name}_{last_name}/question_four_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_four/{username}/question_four_test_results.json') as f:
+        with open(f'tests/question_four/user_{user_id}_{first_name}_{last_name}/question_four_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestFive(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return the next number from the integer passed', function(t) {
     const result = addition(0);
     const expected = 1;
@@ -245,13 +259,15 @@ class RunTestFive(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_five/{username}')
+        candidate_directory = os.path.join(f'tests/question_five/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_five/{username}/question_five_tester.test.js', 'w')
+        f = open(f'tests/question_five/user_{user_id}_{first_name}_{last_name}/question_five_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -265,17 +281,18 @@ class RunTestFive(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_five/{username}/question_five_test_results.json TEST=tests/question_five/{username}/question_five_tester.test.js npm run test')
+            f'RESULT=tests/question_five/user_{user_id}_{first_name}_{last_name}/question_five_test_results.json TEST=tests/question_five/user_{user_id}_{first_name}_{last_name}/question_five_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_five/{username}/question_five_test_results.json') as f:
+        with open(f'tests/question_five/user_{user_id}_{first_name}_{last_name}/question_five_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestSix(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('returns the sum of all the numbers from 1 to the number passed as an argument', function(t) {
                 const result = addUp(4);
                 const expected = 10;
@@ -299,13 +316,15 @@ class RunTestSix(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_six/{username}')
+        candidate_directory = os.path.join(f'tests/question_six/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_six/{username}/question_six_tester.test.js', 'w')
+        f = open(f'tests/question_six/user_{user_id}_{first_name}_{last_name}/question_six_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -319,17 +338,18 @@ class RunTestSix(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_six/{username}/question_six_test_results.json TEST=tests/question_six/{username}/question_six_tester.test.js npm run test')
+            f'RESULT=tests/question_six/user_{user_id}_{first_name}_{last_name}/question_six_test_results.json TEST=tests/question_six/user_{user_id}_{first_name}_{last_name}/question_six_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_six/{username}/question_six_test_results.json') as f:
+        with open(f'tests/question_six/user_{user_id}_{first_name}_{last_name}/question_six_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestSeven(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('returns the number of vowels ( a, e, i, o, u ) contained within it', function(t) {
             const result = countVowels("Celebration");
             const expected = 5;
@@ -353,13 +373,15 @@ class RunTestSeven(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_seven/{username}')
+        candidate_directory = os.path.join(f'tests/question_seven/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_seven/{username}/question_seven_tester.test.js', 'w')
+        f = open(f'tests/question_seven/user_{user_id}_{first_name}_{last_name}/question_seven_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -373,17 +395,18 @@ class RunTestSeven(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_seven/{username}/question_seven_test_results.json TEST=tests/question_seven/{username}/question_seven_tester.test.js npm run test')
+            f'RESULT=tests/question_seven/user_{user_id}_{first_name}_{last_name}/question_seven_test_results.json TEST=tests/question_seven/user_{user_id}_{first_name}_{last_name}/question_seven_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_seven/{username}/question_seven_test_results.json') as f:
+        with open(f'tests/question_seven/user_{user_id}_{first_name}_{last_name}/question_seven_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestEight(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return both the minimum and maximum numbers, in an array, in that order', function(t) {
             const result = minMax([1, 2, 3, 4, 5]);
             const expected = [1, 5];
@@ -407,13 +430,15 @@ class RunTestEight(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_eight/{username}')
+        candidate_directory = os.path.join(f'tests/question_eight/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_eight/{username}/question_eight_tester.test.js', 'w')
+        f = open(f'tests/question_eight/user_{user_id}_{first_name}_{last_name}/question_eight_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -427,17 +452,18 @@ class RunTestEight(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_eight/{username}/question_eight_test_results.json TEST=tests/question_eight/{username}/question_eight_tester.test.js npm run test')
+            f'RESULT=tests/question_eight/user_{user_id}_{first_name}_{last_name}/question_eight_test_results.json TEST=tests/question_eight/user_{user_id}_{first_name}_{last_name}/question_eight_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_eight/{username}/question_eight_test_results.json') as f:
+        with open(f'tests/question_eight/user_{user_id}_{first_name}_{last_name}/question_eight_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestNine(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return the number of times the first string (single character) appears in the second string', function(t) {
             const result = charCount('a', 'edabit');
             const expected = 1;
@@ -461,13 +487,15 @@ class RunTestNine(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_nine/{username}')
+        candidate_directory = os.path.join(f'tests/question_nine/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_nine/{username}/question_nine_tester.test.js', 'w')
+        f = open(f'tests/question_nine/user_{user_id}_{first_name}_{last_name}/question_nine_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -481,17 +509,18 @@ class RunTestNine(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_nine/{username}/question_nine_test_results.json TEST=tests/question_nine/{username}/question_nine_tester.test.js npm run test')
+            f'RESULT=tests/question_nine/user_{user_id}_{first_name}_{last_name}/question_nine_test_results.json TEST=tests/question_nine/user_{user_id}_{first_name}_{last_name}/question_nine_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_nine/{username}/question_nine_test_results.json') as f:
+        with open(f'tests/question_nine/user_{user_id}_{first_name}_{last_name}/question_nine_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
 
 
 class RunTestTen(GenericAPIView):
+    permission_classes = [IsAuthenticated]
     tape_one = """test('should return the value of multiplying all numbers from the array of arrays passed', function(t) {
         const result = multiplyAll([[1],[2],[3]]);
         const expected = 6;
@@ -515,13 +544,15 @@ class RunTestTen(GenericAPIView):
 
     def post(self, request):
         code_to_test = request.data['code']
-        username = request.data['username']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        user_id = request.data['user_id']
 
-        candidate_directory = os.path.join(f'tests/question_ten/{username}')
+        candidate_directory = os.path.join(f'tests/question_ten/user_{user_id}_{first_name}_{last_name}')
         if not os.path.exists(candidate_directory):
             os.mkdir(candidate_directory)
 
-        f = open(f'tests/question_ten/{username}/question_ten_tester.test.js', 'w')
+        f = open(f'tests/question_ten/user_{user_id}_{first_name}_{last_name}/question_ten_tester.test.js', 'w')
         f.write(f"""const test = require('tape');
 
 {code_to_test}
@@ -535,11 +566,11 @@ class RunTestTen(GenericAPIView):
         f.close()
 
         os.popen(
-            f'RESULT=tests/question_ten/{username}/question_ten_test_results.json TEST=tests/question_ten/{username}/question_ten_tester.test.js npm run test')
+            f'RESULT=tests/question_ten/user_{user_id}_{first_name}_{last_name}/question_ten_test_results.json TEST=tests/question_ten/user_{user_id}_{first_name}_{last_name}/question_ten_tester.test.js npm run test')
 
         time.sleep(3)
 
-        with open(f'tests/question_ten/{username}/question_ten_test_results.json') as f:
+        with open(f'tests/question_ten/user_{user_id}_{first_name}_{last_name}/question_ten_test_results.json') as f:
             data = json.loads(f.read())
 
         return Response(data=data)
