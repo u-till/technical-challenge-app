@@ -1,5 +1,5 @@
 import React from "react";
-import {BrowserRouter as Router, Switch, Route} from "react-router-dom";
+import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
 import Home from "../components/Pages/Home";
 import ChallengeTitle from "../components/Pages/Challenge";
 import Login from "../components/Pages/Authentication/Login";
@@ -14,46 +14,46 @@ import MyChallenges from "../components/Pages/MyChallenges";
 import AuthComponent from "../HOC";
 
 const Routes = () => {
-    return (
-        <>
-            <Router>
-                <Switch>
-                    <Navigation>
-                        <Route exact path="/" component={AuthComponent(Home)}/>
-                        <Route exact path="/login" component={Login}/>
-                        <Route path="/verification/:userId" component={Registration}/>
-                        <Route
-                            exact
-                            path="/mychallenges"
-                            component={AuthComponent(MyChallenges)}
-                        />
-                        <Route
-                            path="/startchallenge/:challengeId"
-                            component={AuthComponent(StartChallenge)}
-                        />
-                        <Route
-                            path="/challenge/:challengeId"
-                            component={AuthComponent(Challenge)}
-                        />
-                        <Route
-                            path="/finishedchallenge/:challengeId"
-                            component={AuthComponent(FinishedChallenge)}
-                        />
-                        <Route
-                            exact
-                            path="/manageusers"
-                            component={AuthComponent(ManageUsers)}
-                        />
-                        <Route
-                            exact
-                            path="/managequestions"
-                            component={AuthComponent(ManageQuestions)}
-                        />
-                    </Navigation>
-                </Switch>
-            </Router>
-        </>
-    );
+  return (
+    <>
+      <Router>
+        <Switch>
+          <Navigation>
+            <Route exact path="/" component={AuthComponent(Home)} />
+            <Route exact path="/login" component={Login} />
+            <Route path="/verification/:userId" component={Registration} />
+            <Route
+              exact
+              path="/mychallenges"
+              component={AuthComponent(MyChallenges)}
+            />
+            <Route
+              path="/startchallenge/:challengeId"
+              component={AuthComponent(StartChallenge)}
+            />
+            <Route
+              path="/challenge/:challengeId"
+              component={AuthComponent(Challenge)}
+            />
+            <Route
+              path="/finishedchallenge/:challengeId"
+              component={AuthComponent(FinishedChallenge)}
+            />
+            <Route
+              exact
+              path="/manageusers"
+              component={AuthComponent(ManageUsers)}
+            />
+            <Route
+              exact
+              path="/managequestions"
+              component={AuthComponent(ManageQuestions)}
+            />
+          </Navigation>
+        </Switch>
+      </Router>
+    </>
+  );
 };
 
 export default Routes;

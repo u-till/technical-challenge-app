@@ -18,6 +18,7 @@ import GenericUserCard from "../../Shared/GenericCards/GenericUserCard";
 import { connect } from "react-redux";
 import { getAllUsersAction } from "../../../store/actions/userActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
+import UserAddModal from "../../Shared/Modals/UserAddModal";
 
 //////////
 // STYLE
@@ -90,6 +91,12 @@ const UserList = styled.div`
 //////////
 const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
   const displayMessage = () => (!notEmpty ? <GenericSpinner /> : null);
+
+  const [isModalCreateOpen, setModalCreateOpen] = useState(false);
+
+  const ModalCreateOpenCloseHandler = () => {
+    setModalCreateOpen(!isModalCreateOpen);
+  };
 
   const [filterRole, setFilterRole] = useState("all");
   const [sort, setSort] = useState("last_name");
@@ -186,8 +193,18 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
         <ManageContainer>
           <ListHeader>
             <RoundGreyButton>
-              <FontAwesomeIcon icon={["fas", "plus"]} />
+              <FontAwesomeIcon
+                icon={["fas", "plus"]}
+                onClick={ModalCreateOpenCloseHandler}
+                ModalCreateOpenCloseHandler={ModalCreateOpenCloseHandler}
+              />
             </RoundGreyButton>
+            {isModalCreateOpen ? (
+              <UserAddModal
+                ModalCreateOpenCloseHandler={ModalCreateOpenCloseHandler}
+              ></UserAddModal>
+            ) : null}
+
             <div>
               <p>Role:</p>
               <SortUDropdown
