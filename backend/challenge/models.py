@@ -21,7 +21,7 @@ class Challenge(models.Model):
 
     updated = models.DateTimeField(auto_now_add=True)
 
-    timer = models.CharField(max_length=150, null=True, blank=True)
+    started = models.CharField(max_length=150, null=True, blank=True)
 
     questions = models.ManyToManyField(to=Question, related_name='challenge_questions')
 

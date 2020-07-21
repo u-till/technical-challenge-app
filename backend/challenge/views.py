@@ -114,10 +114,10 @@ class StartChallenge(UpdateAPIView):
     lookup_field = 'id'
 
     def partial_update(self, request, *args, **kwargs):
-        timer = request.data['timer']
+        started = request.data['started']
         challenge = Challenge.objects.get(id=kwargs['id'])
-        if challenge.timer is None:
-            challenge.timer = timer
+        if challenge.started is None:
+            challenge.started = started
             challenge.save()
         return Response(status=200)
 
