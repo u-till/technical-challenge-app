@@ -1,7 +1,6 @@
-from rest_framework import filters, status
+from rest_framework import filters
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView
 from rest_framework.permissions import IsAuthenticated
-from rest_framework.response import Response
 
 from question.models import Question
 from question.serializers import ListQuestionSerializer, CreateQuestionSerializer
@@ -56,7 +55,3 @@ class ListQuestions(ListAPIView):
 
     search_fields = ['name', 'instructions', 'difficulty']
     filter_backends = (filters.SearchFilter,)
-
-
-
-

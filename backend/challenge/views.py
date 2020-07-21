@@ -1,6 +1,5 @@
 from django.core.mail import EmailMessage
 from rest_framework import status
-from django.utils.dateparse import parse_date
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView
 from rest_framework.response import Response
 from challenge.models import Challenge
@@ -68,7 +67,7 @@ class ListChallenges(ListAPIView):
     queryset = Challenge.objects.all()
 
 
-class ListUserChangesView(ListAPIView):
+class ListUserChallengesView(ListAPIView):
     """
     get:
     Returns the list of all challenges for the logged in user.
@@ -92,7 +91,23 @@ class StartChallenge(UpdateAPIView):
     def partial_update(self, request, *args, **kwargs):
         timer = request.data['timer']
         challenge = Challenge.objects.get(id=kwargs['id'])
-        if challenge.timer == "0":
+        if challenge.timer is None:
             challenge.timer = timer
+            challenge.save()
+        return Response(status=200)
+
+
+class ChallengeScore(UpdateAPIView):
+    serializer_class = ChallengeSerializer
+    queryset = Challenge.objects.all()
+    lookup_field = 'id'
+
+    http_method_names = ['patch']
+
+    def partial_update(self, request, *args, **kwargs):
+        score = request.data['score']
+        challenge = Challenge.objects.get(id=kwargs['id'])
+        if challenge.score is None:
+            challenge.score = score
             challenge.save()
         return Response(status=200)
