@@ -17,6 +17,7 @@ import "codemirror/mode/javascript/javascript.js";
 import { getUserChallengeAction } from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {runTestAction} from "../../../store/actions/testActions";
 
 //////////
 // STYLE
@@ -265,7 +266,7 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({targetChallenge, getUserChallengeAction}) => {
+const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, userObj}) => {
     // const dispatch = useDispatch();
     const match = useRouteMatch();
 
@@ -320,6 +321,21 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         lineNumbers: true,
     };
 
+    const runTestHandler = async (e) => {
+        e.preventDefault();
+        const testData = {
+            "code": codeData[progressValue].code,
+            "first_name": userObj.first_name,
+            "last_name": userObj.last_name,
+            "user_id": userObj.id
+        };
+        console.log(testData);
+        console.log(targetChallenge.questions[progressValue].id);
+        const response = await runTestAction(targetChallenge.questions[progressValue].id, testData);
+        console.log(response.data)
+
+    };
+
     const renderControlPanelV2 = (progressValue) => {
         return (
             <>
@@ -338,9 +354,9 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         let result = [];
         for (let i = 0; i < 6; i++) {
             if (i <= progressValue) {
-                result.push(<StepSelectorBtnActive/>)
+                result.push(<StepSelectorBtnActive key={`button ${i}`}/>)
             } else {
-                result.push(<StepSelectorBtn/>)
+                result.push(<StepSelectorBtn key={`button ${i}`}/>)
             }
         }
         return result
@@ -371,7 +387,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                                     </TestsHeader>
                                     <SmallCodeMirrorWrapper>
                                         {targetChallenge.questions[progressValue].tests_for_question.map((test, index) =>
-                                            (<div>
+                                            (<div key={`test ${index}`}>
                                                 <StyledSmallCodeMirror
                                                     value={test}
                                                     options={{
@@ -389,7 +405,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                                             </div>)
                                         )}
                                     </SmallCodeMirrorWrapper>
-                                    <RunButton>Run Code and Submit</RunButton>
+                                    <RunButton onClick={runTestHandler}>Run Code and Submit</RunButton>
                                 </TestsContainer>
                             </>
                         ) : null}
@@ -400,8 +416,6 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                             value={codeData[progressValue].code}
                             options={options}
                             onBeforeChange={(editor, data, value) => {
-                                console.log(codeData);
-                                console.log(progressValue);
                                 setCodeData({...codeData, [progressValue]: {...codeData[progressValue], code: value}});
                             }}
                             onChange={(editor, data, value) => {
@@ -428,7 +442,8 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
 const mapStateToProps = (state) => {
   return {
     targetChallenge: state.challengeReducer.targetChallenge,
+    userObj: state.authReducer.userObj
   };
 };
 
-export default connect(mapStateToProps, { getUserChallengeAction })(Challenge);
+export default connect(mapStateToProps, { getUserChallengeAction, runTestAction })(Challenge);
