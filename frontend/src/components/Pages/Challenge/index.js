@@ -195,8 +195,6 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
     const [middleCodeMirror, setMiddleCodeMirror] = useState('');
     const [rightCodeMirror, setRightCodeMirror] = useState('');
 
-    const timerComponents = [];
-
     const calculateTimeLeft = () => {
         const dateNow = new Date();
         const databaseDate = new Date(String(initDate))
@@ -358,9 +356,9 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
                     {renderControlPanel(progressValue)}
                 </FooterSectionLeft>
                 <FooterSectionRight>
-                    <Timer>
-                        <p>Time left: 24:05</p>
-                    </Timer>
+                    <div>
+                        {true ? timeLeft : "Time's up!"}
+                    </div>
                     <DoneButton>Done!</DoneButton>
                 </FooterSectionRight>
             </Footer>
