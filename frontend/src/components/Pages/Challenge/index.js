@@ -186,29 +186,27 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
-  const dispatch = useDispatch();
-  const match = useRouteMatch();
+const Challenge = ({targetChallenge, getUserChallengeAction}) => {
+    const dispatch = useDispatch();
+    const match = useRouteMatch();
 
-  const [progressValue, setProgressValue] = useState(0);
-  const [initDate, getInitDate] = useState(0);
-  const [middleCodeMirror, setMiddleCodeMirror] = useState("");
-  const [rightCodeMirror, setRightCodeMirror] = useState("");
+    const [progressValue, setProgressValue] = useState(0);
+    const [initDate, getInitDate] = useState(0);
+    const [middleCodeMirror, setMiddleCodeMirror] = useState('');
+    const [rightCodeMirror, setRightCodeMirror] = useState('');
 
-  const timerComponents = [];
+    const calculateTimeLeft = () => {
+        const dateNow = new Date();
+        const databaseDate = new Date(String(initDate))
+        let difference = dateNow - databaseDate;
+        difference = 1800000 - difference
+        if (difference > 0) {
+            let timeLeft = `Time left: ${Math.floor((difference / 1000 / 60) % 60)}:${Math.floor((difference / 1000) % 60)}`;
+            return timeLeft;
+        }
+    };
 
-  const calculateTimeLeft = () => {
-    const dateNow = new Date();
-    const databaseDate = new Date(String(initDate));
-    let difference = dateNow - databaseDate;
-    difference = 1800000 - difference;
-    if (difference > 0) {
-      let timeLeft = `Time left: ${Math.floor(
-        (difference / 1000 / 60) % 60
-      )}:${Math.floor((difference / 1000) % 60)}`;
-      return timeLeft;
-    }
-  };
+    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
   const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
 
@@ -260,21 +258,52 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
     if (progressValue === 1) {
       return (
         <>
-          <PrevNextButton onClick={(e) => setProgressValue(0)}>
-            Previous
-          </PrevNextButton>
-          <StepSelectorLine>
-            <StepSelectorContainer>
-              <StepSelectorBtnActive />
-              <StepSelectorBtnActive />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-              <StepSelectorBtn />
-            </StepSelectorContainer>
-          </StepSelectorLine>
-          <PrevNextButton onClick={(e) => setProgressValue(2)}>
-            Next
-          </PrevNextButton>{" "}
+            <ChallengeContainer>
+                <StyledResizeContainer>
+                    <DescriptionColumn>
+                        {targetChallenge ? (
+                            <DescriptionContainer>
+                                <DescriptionHeader>
+                                    <div>
+                                        <Styledh1>{targetChallenge.questions[progressValue].name}</Styledh1>
+                                    </div>
+                                </DescriptionHeader>
+                                <div>
+                                    <p>{targetChallenge.questions[progressValue].instructions}</p>
+                                </div>
+                            </DescriptionContainer>) : null}
+                    </DescriptionColumn>
+                    <StyledResizeBar/>
+                    <InputColumn>
+                        <CodeMirror
+                            value={middleCodeMirror}
+                            options={options}
+                            onBeforeChange={(editor, data, value) => {
+                                setMiddleCodeMirror(value)
+                            }}
+                            onChange={(editor, data, value) => {
+                            }}
+                        />
+                    </InputColumn>
+                    <StyledResizeBar/>
+                    <OutputColumn>
+                        {targetChallenge ? targetChallenge.questions[progressValue].tests_for_question.map(test =>
+                            <p>{test}</p>) : null}
+
+                    </OutputColumn>
+                </StyledResizeContainer>
+            </ChallengeContainer>
+            <Footer>
+                <FooterSectionLeft>
+                    {renderControlPanel(progressValue)}
+                </FooterSectionLeft>
+                <FooterSectionRight>
+                    <div>
+                        {true ? timeLeft : "Time's up!"}
+                    </div>
+                    <DoneButton>Done!</DoneButton>
+                </FooterSectionRight>
+            </Footer>
         </>
       );
     }
