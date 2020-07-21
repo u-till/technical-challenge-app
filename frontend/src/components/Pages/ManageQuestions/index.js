@@ -310,7 +310,7 @@ const Questions = ({
         value.push(options[i].value);
       }
     }
-    setQuestionData({ ...questionData, ["program"]: value });
+    setQuestionData({ ...questionData, program: value });
   };
 
   const handleSave = async (e) => {
@@ -324,7 +324,13 @@ const Questions = ({
     const response = await updateQuestionAction(questionData.id, questionForm);
     if (response.status === 200) {
       getAllQuestionsAction();
+      resetTargetQuestion();
     }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    resetTargetQuestion();
   };
 
   const searchedQuestions = allQuestions
@@ -478,9 +484,8 @@ const Questions = ({
                       </RoundGreyButton>
                       {isModalTipAddOpen ? (
                         <TipAddModal
-                          ModalTipAddOpenCloseHandler={
-                            ModalTipAddOpenCloseHandler
-                          }
+                          ModalTipAddOpenCloseHandler={ModalTipAddOpenCloseHandler}
+                          questionId={targetQuestion.id}
                         />
                       ) : null}
                     </LabelAndBtn>
@@ -520,7 +525,7 @@ const Questions = ({
                     </GenericDeleteModal>
                   ) : null}
                   <div>
-                    <BlueButton onClick={handleSave}>Cancel</BlueButton>
+                    <BlueButton onClick={handleCancel}>Cancel</BlueButton>
                     <BlueButton onClick={handleSave}>Save</BlueButton>
                   </div>
                 </DeleteSave>
