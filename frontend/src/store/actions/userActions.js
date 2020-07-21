@@ -1,4 +1,4 @@
-import { GET_USER_INFO, CREATE_USER, GET_ALL_USERS } from "../actionTypes";
+import { GET_USER_INFO, GET_ALL_USERS } from "../actionTypes";
 import Axios from "../../axios";
 import {
   nonFieldVerificationError,

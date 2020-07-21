@@ -2,24 +2,14 @@ import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  BaseContainer,
-  InputAndLabelContainer,
-  PageContainer,
-} from "../../../style/GlobalWrappers";
+import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
 import { BaseInput, BaseTextArea } from "../../../style/GlobalInputs";
-import {
-  AddButton,
-  EditButton,
-  RedButton,
-  RoundGreyButton,
-} from "../../../style/GlobalButtons";
+import { RedButton, RoundGreyButton } from "../../../style/GlobalButtons";
 import { BlueButton } from "../../../style/GlobalButtons";
-import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
+import { Styledh1 } from "../../../style/GlobalTitles";
 import GenericTipCard from "../../Shared/GenericCards/GenericTipCard";
 import GenericQuestionCard from "../../Shared/GenericCards/GenericQuestionCard";
-import { connect, useDispatch } from "react-redux";
+import { connect } from "react-redux";
 import {
   getAllQuestionsAction,
   resetTargetQuestion,
@@ -27,7 +17,6 @@ import {
 } from "../../../store/actions/questionActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
 import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
-import UserAddModal from "../../Shared/Modals/UserAddModal";
 import TipAddModal from "../../Shared/Modals/TipAddModal/TipAddModal";
 
 //////////
@@ -54,7 +43,7 @@ const EditContainer = styled(BaseContainer)`
   flex-grow: 1;
   flex-basis: 0;
   min-width: 680px;
-  height: 640px;
+  height: ${rem('640px')};
   padding: 24px;
   justify-content: space-between;
   display: flex;
@@ -76,7 +65,7 @@ const EditTop = styled.div`
     margin-left: 12px;
   }
   > div {
-    width: 120px;
+    width: ${rem('120px')};
   }
 `;
 
@@ -118,7 +107,7 @@ const DeleteSave = styled.div`
   > div:last-child {
     display: flex;
     justify-content: space-between;
-    width: 180px;
+    width: ${rem('180px')};
   }
 `;
 
@@ -136,20 +125,19 @@ const StyledLabel = styled.label`
 
 const NameInput = styled(BaseInput)`
   width: 100%;
-  height: 6px;
+  height: ${rem('6px')};
 `;
 
 const NumberInput = styled(BaseInput)`
   width: 100%;
-
-  height: 6px;
+  height: ${rem('6px')};
 `;
 
 const DescriptionInput = styled(BaseTextArea)`
   width: 100%;
   resize: none;
   height: 100%;
-  font-size: 16px;
+  font-size: ${rem('16px')};
 `;
 
 const DifficultyDropdown = styled.select`
@@ -157,7 +145,7 @@ const DifficultyDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: 38px;
+  height: ${rem('38px')};
   width: 100%;
 
   &:focus {
@@ -215,7 +203,7 @@ const BrowseContainer = styled(BaseContainer)`
   flex-grow: 1;
   flex-basis: 0;
   min-width: 680px;
-  height: 640px;
+  height: ${rem('640px')};
   padding: 24px;
   justify-content: space-between;
   display: flex;
@@ -240,7 +228,7 @@ const BrowseHeader = styled.div`
 
 const SearchQInput = styled(BaseInput)`
   margin-left: 12px;
-  height: 6px;
+  height: ${rem('6px')};
 `;
 
 const SortQDropdown = styled.select`
@@ -248,8 +236,8 @@ const SortQDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: 38px;
-  width: 120px;
+  height: ${rem('38px')};
+  width: ${rem('120px')};
   &:focus {
     outline: none;
   }

@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
+import { BaseContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import {
-  BaseButton,
-  BlueButton,
-  RedButton,
-} from "../../../style/GlobalButtons";
+import { BlueButton, RedButton } from "../../../style/GlobalButtons";
 import {
   Container as ResizeContainer,
   Section,
   Bar,
 } from "react-simple-resizer";
-import { connect, useDispatch } from "react-redux";
-import { getChallenge } from "../../../store/actions/challengeAction";
+import { connect } from "react-redux";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
@@ -38,7 +33,7 @@ const StyledResizeContainer = styled(ResizeContainer)`
 `;
 
 const StyledResizeBar = styled(Bar)`
-  width: 8px;
+  width: ${rem('8px')};
   background: #888888;
   cursor: col-resize;
 `;
@@ -79,7 +74,7 @@ const DescriptionHeader = styled.div`
 `;
 
 const ChallengeTitle = styled(Styledh1)`
-  font-size: 40px;
+  font-size: ${rem('40px')};
   font-weight: bold;
 `;
 
@@ -92,7 +87,7 @@ const InputColumn = styled(Section)`
 `;
 
 const TestsContainer = styled(BaseContainer)`
-  height: 200px;
+  height: ${rem('200px')};
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -119,7 +114,7 @@ const RunButton = styled(BlueButton)`
 
 const Footer = styled.div`
   width: 100%;
-  height: 70px;
+  height: ${rem('70px')};
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
 
   display: flex;
@@ -156,7 +151,7 @@ const StepSelectorContainer = styled.div`
 const StepSelectorLine = styled.div`
   width: 100%;
   min-width: 400px;
-  margin: 0 30px 0 30px;
+  margin: 0 ${rem('30px')} 0 ${rem('30px')};
   position: relative;
   z-index: 1;
 
@@ -182,12 +177,12 @@ const StepSelectorLine = styled.div`
 `;
 
 const StepSelectorBtn = styled.button`
-  width: 28px;
-  height: 28px;
+  width: ${rem('28px')};
+  height: ${rem('28px')};
   border-radius: 100%;
   background-color: #fff;
   border: 3px solid #000;
-  curson: pointer;
+  cursor: pointer;
   :hover {
     background-color: #05d0ff;
   }
@@ -212,7 +207,7 @@ const FooterSectionRight = styled.div`
 const Timer = styled.div`
   margin: 0 16px 0 16px;
   p {
-    font-size: 20px;
+    font-size: ${rem('20px')};
     font-weight: bold;
   }
 `;
@@ -228,7 +223,7 @@ const StyledCodeMirror = styled(CodeMirror)`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
-  height: 32px;
+  height: ${rem('32px')};
   > div {
     height: 100%;
   }
@@ -249,7 +244,7 @@ const SmallCodeMirrorWrapper = styled.div`
 `;
 
 const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
-  font-size: 22px;
+  font-size: ${rem('22px')};
   color: #018601;
   border-radius: 50%;
   border: 1px solid white;
@@ -257,7 +252,7 @@ const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
 `;
 
 const FontAwesomeIconFail = styled(FontAwesomeIcon)`
-  font-size: 22px;
+  font-size: ${rem('22px')};
   color: #ef485c;
   border-radius: 50%;
   border: 1px solid white;
@@ -317,7 +312,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
 
     useEffect(() => {
         getUserChallengeAction(match.params.challengeId);
-    }, [getUserChallengeAction]);
+    }, [getUserChallengeAction, match.params.challengeId]);
 
     const options = {
         mode: "javascript",
