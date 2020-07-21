@@ -3,7 +3,11 @@ import styled from "styled-components";
 import { rem } from "polished";
 import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import { BlueButton, RedButton } from "../../../style/GlobalButtons";
+import {
+  BaseButton,
+  BlueButton,
+  RedButton,
+} from "../../../style/GlobalButtons";
 import {
   Container as ResizeContainer,
   Section,
@@ -17,6 +21,7 @@ import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript.js";
 import { getUserChallengeAction } from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 
 //////////
 // STYLE
@@ -42,17 +47,20 @@ const DescriptionColumn = styled(Section)`
   background-color: #f2f2f2;
   overflow-y: auto !important;
   padding: 8px;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
 `;
 
 const DescriptionContainer = styled(BaseContainer)`
   padding: 16px;
   display: flex;
   flex-direction: column;
-  flex-wrap: wrap;
+  height: 64%;
 `;
 
 const DescriptionHeader = styled.div`
-  height: 72px;
+  min-height: 64px;
   display: flex;
   width: 100%;
   justify-content: space-between;
@@ -70,12 +78,41 @@ const DescriptionHeader = styled.div`
   }
 `;
 
+const ChallengeTitle = styled(Styledh1)`
+  font-size: 40px;
+  font-weight: bold;
+`;
+
+const DescriptionContent = styled.div`
+  overflow-y: auto;
+`;
+
 const InputColumn = styled(Section)`
   background-color: #fff;
 `;
 
-const OutputColumn = styled(Section)`
-  background-color: #fff;
+const TestsContainer = styled(BaseContainer)`
+  height: 200px;
+  padding: 16px;
+  display: flex;
+  flex-direction: column;
+  height: 35%;
+`;
+
+const TestsHeader = styled.div`
+  min-height: 44px;
+  display: flex;
+  width: 100%;
+  justify-content: space-between;
+  align-items: flex-end;
+  padding-bottom: 8px;
+  margin-bottom: 8px;
+  border-bottom: 1px solid #dddddd;
+`;
+
+const RunButton = styled(BlueButton)`
+  margin-top: 16px;
+  margin-bottom: 16px;
 `;
 
 /// Footer
@@ -180,169 +217,288 @@ const Timer = styled.div`
   }
 `;
 
+/// Codemirror
+
+const StyledCodeMirror = styled(CodeMirror)`
+  height: 100%;
+
+  > div {
+    height: 100%;
+  }
+`;
+
+const StyledSmallCodeMirror = styled(CodeMirror)`
+  height: 32px;
+  > div {
+    height: 100%;
+  }
+`;
+
+const SmallCodeMirrorWrapper = styled.div`
+  background-color: #263238;
+  height: 100%;
+  display: flex;
+  justify-content: space-around;
+  flex-direction: column;
+  padding-right: 16px;
+  div {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+`;
+
+const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
+  font-size: 22px;
+  color: #018601;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: white;
+`;
+
+const FontAwesomeIconFail = styled(FontAwesomeIcon)`
+  font-size: 22px;
+  color: #ef485c;
+  border-radius: 50%;
+  border: 1px solid white;
+  background-color: white;
+`;
+
 const DoneButton = styled(RedButton)``;
 
 //////////
 // REACT
 //////////
 
-const Challenge = ({targetChallenge, getUserChallengeAction}) => {
-    const dispatch = useDispatch();
-    const match = useRouteMatch();
+const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
+  const dispatch = useDispatch();
+  const match = useRouteMatch();
 
-    const [progressValue, setProgressValue] = useState(0);
-    const [initDate, getInitDate] = useState(0);
-    const [middleCodeMirror, setMiddleCodeMirror] = useState('');
-    const [rightCodeMirror, setRightCodeMirror] = useState('');
+  const [progressValue, setProgressValue] = useState(0);
+  const [initDate, getInitDate] = useState(0);
+  const [middleCodeMirror, setMiddleCodeMirror] = useState("");
+  const [rightCodeMirror, setRightCodeMirror] = useState("");
 
-    const calculateTimeLeft = () => {
-        const dateNow = new Date();
-        const databaseDate = new Date(String(initDate))
-        let difference = dateNow - databaseDate;
-        difference = 1800000 - difference
-        if (difference > 0) {
-            let timeLeft = `Time left: ${Math.floor((difference / 1000 / 60) % 60)}:${Math.floor((difference / 1000) % 60)}`;
-            return timeLeft;
-        }
+  const calculateTimeLeft = () => {
+    const dateNow = new Date();
+    const databaseDate = new Date(String(initDate));
+    let difference = dateNow - databaseDate;
+    difference = 1800000 - difference;
+    if (difference > 0) {
+      let timeLeft = `Time left: ${Math.floor(
+        (difference / 1000 / 60) % 60
+      )}:${Math.floor((difference / 1000) % 60)}`;
+      return timeLeft;
+    }
+  };
+
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const startChallenge = async () => {
+      const initDate = await dispatch(getChallenge());
+      getInitDate(initDate);
     };
 
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    startChallenge();
 
-    useEffect(() => {
-        const startChallenge = async () => {
-            const initDate = await dispatch(getChallenge());
-            getInitDate(initDate);
-        };
+    const settimeout = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
 
-        startChallenge();
+    return () => clearInterval(settimeout);
+  });
 
-        const settimeout = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
+  useEffect(() => {
+    getUserChallengeAction(match.params.challengeId);
+  }, [getUserChallengeAction]);
 
-        return () => clearInterval(settimeout);
-    });
+  const options = {
+    mode: "javascript",
+    theme: "material",
+    lineNumbers: true,
+  };
 
-    useEffect(() => {
-        getUserChallengeAction(match.params.challengeId);
-    }, [getUserChallengeAction]);
-
-    const options = {
-        mode: "javascript",
-        theme: "material",
-        lineNumbers: true,
-    };
-
-     const renderControlPanel = (progressValue) => {
-        if (progressValue === 0) {
-            return (
-            <>
-            <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-                <StepSelectorLine>
-                <StepSelectorContainer>
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                </StepSelectorContainer>
-                </StepSelectorLine>
-            <PrevNextButton onClick={(e) => setProgressValue(1)}>Next</PrevNextButton>{" "}
-            </>
-            );
-        }
-        if (progressValue === 1) {
-            return (
-            <>
-            <PrevNextButton onClick={(e) => setProgressValue(0)}>Previous</PrevNextButton>
-                <StepSelectorLine>
-                <StepSelectorContainer>
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                </StepSelectorContainer>
-                </StepSelectorLine>
-            <PrevNextButton onClick={(e) => setProgressValue(2)}>Next</PrevNextButton>    
-            </>
-          );
-        }
-        if (progressValue === 2) {
-            return (
-            <>
-            <PrevNextButton onClick={(e) => setProgressValue(1)}>Previous</PrevNextButton>
-                <StepSelectorLine>
-                <StepSelectorContainer>
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtn />
-                    <StepSelectorBtn />
-                </StepSelectorContainer>
-                </StepSelectorLine>
-                <PrevNextButton onClick={(e) => setProgressValue(3)}>Next</PrevNextButton>
-            </>
-            );
-        }
-        if (progressValue === 3) {
-            return (
-            <>
-            <PrevNextButton onClick={(e) => setProgressValue(2)}>Previous</PrevNextButton>
-                <StepSelectorLine>
-                <StepSelectorContainer>
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtn />
-                </StepSelectorContainer>
-                </StepSelectorLine>
-                <PrevNextButton onClick={(e) => setProgressValue(4)}>Next</PrevNextButton>
-            </>
-            );
-        }
-        return (
-          <>
-            <PrevNextButton onClick={(e) => setProgressValue(3)}>Previous</PrevNextButton>
-            <StepSelectorLine>
-                <StepSelectorContainer>
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                    <StepSelectorBtnActive />
-                </StepSelectorContainer>
-                </StepSelectorLine>
-            <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
-            <div />
-             </>
-        );
-    };
-
+  const renderControlPanel = (progressValue) => {
+    if (progressValue === 0) {
+      return (
+        <>
+          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
+          <StepSelectorLine>
+            <StepSelectorContainer>
+              <StepSelectorBtnActive />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+            </StepSelectorContainer>
+          </StepSelectorLine>
+          <PrevNextButton onClick={(e) => setProgressValue(1)}>
+            Next
+          </PrevNextButton>{" "}
+        </>
+      );
+    }
+    if (progressValue === 1) {
+      return (
+        <>
+          <PrevNextButton onClick={(e) => setProgressValue(0)}>
+            Previous
+          </PrevNextButton>
+          <StepSelectorLine>
+            <StepSelectorContainer>
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+            </StepSelectorContainer>
+          </StepSelectorLine>
+          <PrevNextButton onClick={(e) => setProgressValue(2)}>
+            Next
+          </PrevNextButton>
+        </>
+      );
+    }
+    if (progressValue === 2) {
+      return (
+        <>
+          <PrevNextButton onClick={(e) => setProgressValue(1)}>
+            Previous
+          </PrevNextButton>
+          <StepSelectorLine>
+            <StepSelectorContainer>
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtn />
+              <StepSelectorBtn />
+            </StepSelectorContainer>
+          </StepSelectorLine>
+          <PrevNextButton onClick={(e) => setProgressValue(3)}>
+            Next
+          </PrevNextButton>
+        </>
+      );
+    }
+    if (progressValue === 3) {
+      return (
+        <>
+          <PrevNextButton onClick={(e) => setProgressValue(2)}>
+            Previous
+          </PrevNextButton>
+          <StepSelectorLine>
+            <StepSelectorContainer>
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtnActive />
+              <StepSelectorBtn />
+            </StepSelectorContainer>
+          </StepSelectorLine>
+          <PrevNextButton onClick={(e) => setProgressValue(4)}>
+            Next
+          </PrevNextButton>
+        </>
+      );
+    }
     return (
+      <>
+        <PrevNextButton onClick={(e) => setProgressValue(3)}>
+          Previous
+        </PrevNextButton>
+        <StepSelectorLine>
+          <StepSelectorContainer>
+            <StepSelectorBtnActive />
+            <StepSelectorBtnActive />
+            <StepSelectorBtnActive />
+            <StepSelectorBtnActive />
+            <StepSelectorBtnActive />
+          </StepSelectorContainer>
+        </StepSelectorLine>
+        <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
+        <div />
+      </>
+    );
+  };
+
+  return (
     <>
       <ChallengeContainer>
         <StyledResizeContainer>
-          <DescriptionColumn>
+          <DescriptionColumn defaultSize={600} minSize={400}>
             {targetChallenge ? (
-              <DescriptionContainer>
-                <DescriptionHeader>
-                  <div>
-                    <Styledh1>
+              <>
+                <DescriptionContainer>
+                  <DescriptionHeader>
+                    <ChallengeTitle>
                       {targetChallenge.questions[progressValue].name}
-                    </Styledh1>
-                  </div>
-                </DescriptionHeader>
-                <div>
-                  <p>{targetChallenge.questions[progressValue].instructions}</p>
-                </div>
-              </DescriptionContainer>
+                    </ChallengeTitle>
+                  </DescriptionHeader>
+                  <DescriptionContent>
+                    <p>
+                      {targetChallenge.questions[progressValue].instructions}
+                    </p>
+                  </DescriptionContent>
+                </DescriptionContainer>
+                <TestsContainer>
+                  <TestsHeader>
+                    <Styledh2>Tests</Styledh2>
+                  </TestsHeader>
+                  <SmallCodeMirrorWrapper>
+                    <div>
+                      <StyledSmallCodeMirror
+                        value="multiplyAll([[1],[2],[3]]) => 6"
+                        options={{
+                          mode: "javascript",
+                          theme: "material",
+                          lineNumbers: true,
+                          firstLineNumber: 1,
+                        }}
+                        onChange={(editor, data, value) => {}}
+                      />
+                      <FontAwesomeIconSuccess icon={["fas", "check-circle"]} />
+                    </div>
+                    <div>
+                      <StyledSmallCodeMirror
+                        value="multiplyAll([[1,2],[3,4],[5,6,7]]) => 5040"
+                        options={{
+                          mode: "javascript",
+                          theme: "material",
+                          lineNumbers: true,
+                          firstLineNumber: 2,
+                        }}
+                        onChange={(editor, data, value) => {}}
+                      />
+                      <FontAwesomeIconFail icon={["fas", "times-circle"]} />
+                    </div>
+                    <div>
+                      <StyledSmallCodeMirror
+                        value="multiplyAll([[5,1],[0.2, 4, 0.5],[3, 9]]) => 54"
+                        options={{
+                          mode: "javascript",
+                          theme: "material",
+                          lineNumbers: true,
+                          firstLineNumber: 3,
+                        }}
+                        onChange={(editor, data, value) => {}}
+                      />
+                      <FontAwesomeIconSuccess icon={["fas", "check-circle"]} />
+                    </div>
+                  </SmallCodeMirrorWrapper>
+                  <RunButton>Run Code and Submit</RunButton>
+                  {targetChallenge
+                    ? targetChallenge.questions[
+                        progressValue
+                      ].tests_for_question.map((test) => <p>{test}</p>)
+                    : null}
+                </TestsContainer>
+              </>
             ) : null}
           </DescriptionColumn>
           <StyledResizeBar />
           <InputColumn>
-            <CodeMirror
+            <StyledCodeMirror
               value={middleCodeMirror}
               options={options}
               onBeforeChange={(editor, data, value) => {
@@ -351,14 +507,6 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
               onChange={(editor, data, value) => {}}
             />
           </InputColumn>
-          <StyledResizeBar />
-          <OutputColumn>
-            {targetChallenge
-              ? targetChallenge.questions[
-                  progressValue
-                ].tests_for_question.map((test) => <p>{test}</p>)
-              : null}
-          </OutputColumn>
         </StyledResizeContainer>
       </ChallengeContainer>
       <Footer>
@@ -373,7 +521,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction}) => {
         </FooterSectionRight>
       </Footer>
     </>
-    );
+  );
 };
 
 const mapStateToProps = (state) => {
