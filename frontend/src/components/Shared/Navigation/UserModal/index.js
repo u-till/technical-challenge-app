@@ -1,9 +1,13 @@
-import React from "react";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import React, {useState} from "react";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 import avatar from "../../../../assets/images/user.png";
-import { BaseInput } from "../../../../style/GlobalInputs";
-import { BlueButton } from "../../../../style/GlobalButtons";
+import {BaseInput} from "../../../../style/GlobalInputs";
+import {BlueButton} from "../../../../style/GlobalButtons";
+import {resetError} from "../../../../store/actions/verificationAction";
+import {useDispatch} from "react-redux";
+import {editSpecificUserAction, getAllUsersAction} from "../../../../store/actions/userActions";
+import {setLoggedInUserAction} from "../../../../store/actions/loginActions";
 
 //////////
 // STYLE
@@ -77,45 +81,105 @@ const ModalInput = styled(BaseInput)`
 // REACT
 //////////
 
-const UserModal = ({ userObj }) => {
-  return (
-    <>
-      <UserModalContainer>
-        <ModalAvatar>
-          <img
-            src={
-              userObj.avatar
-                ? userObj.avatar
-                : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
-            }
-          ></img>
-          <ImgOverlay>
-            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-          </ImgOverlay>
-        </ModalAvatar>
-        <p>test@domain.com</p>
-        <ModalInput
-          type="text"
-          placeholder="First Name"
-          value={userObj.first_name}
-          required
-        ></ModalInput>
-        <ModalInput
-          type="text"
-          placeholder="Last Name"
-          value={userObj.last_name}
-          required
-        ></ModalInput>
-        <ModalInput
-          type="text"
-          placeholder="Phone Nr."
-          value={userObj.phone}
-          required
-        ></ModalInput>
-        <BlueButton>Save</BlueButton>
-      </UserModalContainer>
-    </>
-  );
+const UserModal = ({userObj, setProfileModalVisible}) => {
+    const dispatch = useDispatch();
+
+    const [data, setData] = useState({
+        first_name: userObj.first_name ? userObj.first_name : '',
+        last_name: userObj.last_name ? userObj.last_name : '',
+        phone: userObj.phone ? userObj.phone : '',
+        avatar: null,
+    });
+
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    };
+
+    const onSubmitForm = async (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        const userData = new FormData();
+        userData.append("first_name", data.first_name);
+        userData.append("last_name", data.last_name);
+        userData.append("phone", data.phone);
+        if (data.avatar) {
+            userData.append("avatar", data.avatar);
+        }
+        const response = await dispatch(editSpecificUserAction(userObj.id, userData));
+        if (response.status === 200) {
+            dispatch(setLoggedInUserAction());
+            dispatch(getAllUsersAction());
+            setProfileModalVisible();
+
+        }
+    };
+
+    const hiddenFileInput = React.useRef(null);
+
+    const handleClick = () => {
+        hiddenFileInput.current.click();
+    };
+
+    const imageSelectHandler = (e) => {
+        if (e.target.files[0]) {
+            setData({...data, avatar: e.target.files[0]});
+        }
+    };
+
+    return (
+        <>
+            <UserModalContainer>
+                <ModalAvatar>
+                    <img
+                        src={
+                            userObj.avatar
+                                ? userObj.avatar
+                                : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
+                        }
+                        alt='avatar'
+                    />
+                    <ImgOverlay onClick={handleClick}>
+                        <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
+                        <input
+                            type="file"
+                            name="avatar"
+                            ref={hiddenFileInput}
+                            onChange={imageSelectHandler}
+                            style={{display: "none"}}
+                        />
+                    </ImgOverlay>
+                </ModalAvatar>
+                <p>{userObj.email}</p>
+                <ModalInput
+                    type="text"
+                    placeholder="First Name"
+                    value={data.first_name}
+                    required
+                    onChange={handleInput}
+                    name="first_name"
+                />
+                <ModalInput
+                    type="text"
+                    placeholder="Last Name"
+                    value={data.last_name}
+                    required
+                    onChange={handleInput}
+                    name="last_name"
+                />
+                <ModalInput
+                    type="text"
+                    placeholder="Phone Nr."
+                    value={data.phone}
+                    required
+                    onChange={handleInput}
+                    name="phone"
+                />
+                <BlueButton onClick={onSubmitForm}>Save</BlueButton>
+            </UserModalContainer>
+        </>
+    );
 };
 
 export default UserModal;

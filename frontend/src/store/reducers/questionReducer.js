@@ -5,7 +5,7 @@ import {
 } from "../actionTypes";
 
 const initialState = {
-  allQuestions: [],
+  allQuestions: null,
   targetQuestion: null,
 };
 

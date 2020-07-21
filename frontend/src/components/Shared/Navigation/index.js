@@ -173,7 +173,7 @@ const Navigation = ({ children, userObj, logoutUser }) => {
                   alt="avatar"
                 />
               </NavbarAvatar>
-              {isProfileModalVisible && <UserModal userObj={userObj} />}
+              {isProfileModalVisible && <UserModal setProfileModalVisible={setProfileModalVisible} userObj={userObj} />}
             </>
           )}
         </NavSectionRight>
