@@ -270,166 +270,188 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({targetChallenge, getUserChallengeAction}) => {
-    const dispatch = useDispatch();
-    const match = useRouteMatch();
+const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
+  const dispatch = useDispatch();
+  const match = useRouteMatch();
 
-    const [progressValue, setProgressValue] = useState(0);
-    const [initDate, getInitDate] = useState(0);
-    const [codeData, setCodeData] = useState({
-        0: {code: '', status: {1: null, 2: null, 3: null}},
-        1: {code: '', status: {1: null, 2: null, 3: null}},
-        2: {code: '', status: {1: null, 2: null, 3: null}},
-        3: {code: '', status: {1: null, 2: null, 3: null}},
-        4: {code: '', status: {1: null, 2: null, 3: null}},
-        5: {code: '', status: {1: null, 2: null, 3: null}}
-    });
+  const [progressValue, setProgressValue] = useState(0);
+  const [initDate, getInitDate] = useState(0);
+  const [codeData, setCodeData] = useState({
+    0: { code: "", status: { 1: null, 2: null, 3: null } },
+    1: { code: "", status: { 1: null, 2: null, 3: null } },
+    2: { code: "", status: { 1: null, 2: null, 3: null } },
+    3: { code: "", status: { 1: null, 2: null, 3: null } },
+    4: { code: "", status: { 1: null, 2: null, 3: null } },
+    5: { code: "", status: { 1: null, 2: null, 3: null } },
+  });
 
-    const calculateTimeLeft = () => {
-        const dateNow = new Date();
-        const databaseDate = new Date(String(initDate));
-        let difference = dateNow - databaseDate;
-        difference = 1800000 - difference;
-        if (difference > 0) {
-            let timeLeft = `Time left: ${Math.floor(
-            (difference / 1000 / 60) % 60
-            )}:${Math.floor((difference / 1000) % 60)}`;
-        return timeLeft;
-        }
-    };
-
-    const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-    useEffect(() => {
-        const startChallenge = async () => {
-            const initDate = await dispatch(getChallenge());
-            getInitDate(initDate);
-        };
-
-        startChallenge();
-
-        const settimeout = setTimeout(() => {
-            setTimeLeft(calculateTimeLeft());
-        }, 1000);
-
-        return () => clearInterval(settimeout);
-    });
-
-    useEffect(() => {
-        getUserChallengeAction(match.params.challengeId);
-    }, [getUserChallengeAction]);
-
-    const options = {
-        mode: "javascript",
-        theme: "material",
-        lineNumbers: true,
-    };
-
-    const renderControlPanelV2 = (progressValue) => {
-        return (
-            <>
-                {progressValue === 0 ? <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>Previous</PrevNextButton>}
-                <StepSelectorLine>
-                    <StepSelectorContainer>
-                        {[...renderCenter(progressValue)]}
-                    </StepSelectorContainer>
-                </StepSelectorLine>
-                {progressValue === 5 ? <PrevNextButtonDisabled>Next</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>Next</PrevNextButton>}
-            </>
-        )
-    };
-
-    function renderCenter(progressValue) {
-        let result = [];
-        for (let i = 0; i < 6; i++) {
-            if (i <= progressValue) {
-                result.push(<StepSelectorBtnActive/>)
-            } else {
-                result.push(<StepSelectorBtn/>)
-            }
-        }
-        return result
+  const calculateTimeLeft = () => {
+    const dateNow = new Date();
+    const databaseDate = new Date(String(initDate));
+    let difference = dateNow - databaseDate;
+    difference = 1800000 - difference;
+    if (difference > 0) {
+      let timeLeft = `Time left: ${Math.floor(
+        (difference / 1000 / 60) % 60
+      )}:${Math.floor((difference / 1000) % 60)}`;
+      return timeLeft;
     }
+  };
 
+  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+
+  useEffect(() => {
+    const startChallenge = async () => {
+      const initDate = await dispatch(getChallenge());
+      getInitDate(initDate);
+    };
+
+    startChallenge();
+
+    const settimeout = setTimeout(() => {
+      setTimeLeft(calculateTimeLeft());
+    }, 1000);
+
+    return () => clearInterval(settimeout);
+  });
+
+  useEffect(() => {
+    getUserChallengeAction(match.params.challengeId);
+  }, [getUserChallengeAction]);
+
+  const options = {
+    mode: "javascript",
+    theme: "material",
+    lineNumbers: true,
+  };
+
+  const renderControlPanelV2 = (progressValue) => {
     return (
-        <>
-            <ChallengeContainer>
-                <StyledResizeContainer>
-                    <DescriptionColumn defaultSize={600} minSize={400}>
-                        {targetChallenge ? (
-                            <>
-                                <DescriptionContainer>
-                                    <DescriptionHeader>
-                                        <ChallengeTitle>
-                                            {targetChallenge.questions[progressValue].name}
-                                        </ChallengeTitle>
-                                    </DescriptionHeader>
-                                    <DescriptionContent>
-                                        <p>
-                                            {targetChallenge.questions[progressValue].instructions}
-                                        </p>
-                                    </DescriptionContent>
-                                </DescriptionContainer>
-                                <TestsContainer>
-                                    <TestsHeader>
-                                        <Styledh2>Tests</Styledh2>
-                                    </TestsHeader>
-                                    <SmallCodeMirrorWrapper>
-                                        {targetChallenge.questions[progressValue].tests_for_question.map((test, index) =>
-                                            (<div>
-                                                <StyledSmallCodeMirror
-                                                    value={test}
-                                                    options={{
-                                                        mode: "javascript",
-                                                        theme: "material",
-                                                        lineNumbers: true,
-                                                        firstLineNumber: index + 1,
-                                                    }}
-                                                    onChange={(editor, data, value) => {
-                                                    }}
-                                                />
-                                                {codeData[progressValue].status[index + 1] === null ? null : codeData[progressValue].status[index + 1] ?
-                                                    <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/> :
-                                                    <FontAwesomeIconFail icon={["fas", "times-circle"]}/>}
-                                            </div>)
-                                        )}
-                                    </SmallCodeMirrorWrapper>
-                                    <RunButton>Run Code and Submit</RunButton>
-                                </TestsContainer>
-                            </>
-                        ) : null}
-                    </DescriptionColumn>
-                    <StyledResizeBar/>
-                    <InputColumn>
-                        <StyledCodeMirror
-                            value={codeData[progressValue].code}
-                            options={options}
-                            onBeforeChange={(editor, data, value) => {
-                                console.log(codeData);
-                                console.log(progressValue);
-                                setCodeData({...codeData, [progressValue]: {...codeData[progressValue], code: value}});
-                            }}
-                            onChange={(editor, data, value) => {
-                            }}
-                        />
-                    </InputColumn>
-                </StyledResizeContainer>
-            </ChallengeContainer>
-            <Footer>
-                <FooterSectionLeft>
-                    {/*{renderControlPanel(progressValue)}*/}
-                    {renderControlPanelV2(progressValue)}
-                </FooterSectionLeft>
-                <FooterSectionRight>
-                    <Timer>
-                        <p>Time left: 24:05</p>
-                    </Timer>
-                    <DoneButton>Done!</DoneButton>
-                </FooterSectionRight>
-            </Footer>
-        </>
+      <>
+        {progressValue === 0 ? (
+          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
+        ) : (
+          <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>
+            Previous
+          </PrevNextButton>
+        )}
+        <StepSelectorLine>
+          <StepSelectorContainer>
+            {[...renderCenter(progressValue)]}
+          </StepSelectorContainer>
+        </StepSelectorLine>
+        {progressValue === 5 ? (
+          <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
+        ) : (
+          <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>
+            Next
+          </PrevNextButton>
+        )}
+      </>
     );
-};  
+  };
+
+  function renderCenter(progressValue) {
+    let result = [];
+    for (let i = 0; i < 6; i++) {
+      if (i <= progressValue) {
+        result.push(<StepSelectorBtnActive />);
+      } else {
+        result.push(<StepSelectorBtn />);
+      }
+    }
+    return result;
+  }
+
+  return (
+    <>
+      <ChallengeContainer>
+        <StyledResizeContainer>
+          <DescriptionColumn defaultSize={600} minSize={400}>
+            {targetChallenge ? (
+              <>
+                <DescriptionContainer>
+                  <DescriptionHeader>
+                    <ChallengeTitle>
+                      {targetChallenge.questions[progressValue].name}
+                    </ChallengeTitle>
+                  </DescriptionHeader>
+                  <DescriptionContent>
+                    <p>
+                      {targetChallenge.questions[progressValue].instructions}
+                    </p>
+                  </DescriptionContent>
+                </DescriptionContainer>
+                <TestsContainer>
+                  <TestsHeader>
+                    <Styledh2>Tests</Styledh2>
+                  </TestsHeader>
+                  <SmallCodeMirrorWrapper>
+                    {targetChallenge.questions[
+                      progressValue
+                    ].tests_for_question.map((test, index) => (
+                      <div>
+                        <StyledSmallCodeMirror
+                          value={test}
+                          options={{
+                            mode: "javascript",
+                            theme: "material",
+                            lineNumbers: true,
+                            firstLineNumber: index + 1,
+                          }}
+                          onChange={(editor, data, value) => {}}
+                        />
+                        {codeData[progressValue].status[index + 1] ===
+                        null ? null : codeData[progressValue].status[
+                            index + 1
+                          ] ? (
+                          <FontAwesomeIconSuccess
+                            icon={["fas", "check-circle"]}
+                          />
+                        ) : (
+                          <FontAwesomeIconFail icon={["fas", "times-circle"]} />
+                        )}
+                      </div>
+                    ))}
+                  </SmallCodeMirrorWrapper>
+                  <RunButton>Run Code and Submit</RunButton>
+                </TestsContainer>
+              </>
+            ) : null}
+          </DescriptionColumn>
+          <StyledResizeBar />
+          <InputColumn>
+            <StyledCodeMirror
+              value={codeData[progressValue].code}
+              options={options}
+              onBeforeChange={(editor, data, value) => {
+                console.log(codeData);
+                console.log(progressValue);
+                setCodeData({
+                  ...codeData,
+                  [progressValue]: { ...codeData[progressValue], code: value },
+                });
+              }}
+              onChange={(editor, data, value) => {}}
+            />
+          </InputColumn>
+        </StyledResizeContainer>
+      </ChallengeContainer>
+      <Footer>
+        <FooterSectionLeft>
+          {/*{renderControlPanel(progressValue)}*/}
+          {renderControlPanelV2(progressValue)}
+        </FooterSectionLeft>
+        <FooterSectionRight>
+          <Timer>
+            <p>Time left: 24:05</p>
+          </Timer>
+          <DoneButton>Done!</DoneButton>
+        </FooterSectionRight>
+      </Footer>
+    </>
+  );
+};
 
 const mapStateToProps = (state) => {
   return {

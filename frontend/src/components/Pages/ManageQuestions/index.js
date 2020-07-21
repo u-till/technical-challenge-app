@@ -29,6 +29,7 @@ import GenericSpinner from "../../Shared/GenericSpinner";
 import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 import UserAddModal from "../../Shared/Modals/UserAddModal";
 import TipAddModal from "../../Shared/Modals/TipAddModal/TipAddModal";
+import { Fade } from "react-reveal";
 
 //////////
 // STYLE
@@ -53,7 +54,7 @@ const EditContainer = styled(BaseContainer)`
   margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 680px;
+  min-width: 540px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -214,7 +215,7 @@ const BrowseContainer = styled(BaseContainer)`
   margin: 12px;
   flex-grow: 1;
   flex-basis: 0;
-  min-width: 680px;
+  min-width: 540px;
   height: 640px;
   padding: 24px;
   justify-content: space-between;
@@ -391,6 +392,7 @@ const Questions = ({
   };
 
   return (
+    // <Fade duration={500}>
     <PageContainer>
       <ManageQuestionsContainer>
         <Styledh1>Questions</Styledh1>
@@ -580,6 +582,7 @@ const Questions = ({
         </ManageContainer>
       </ManageQuestionsContainer>
     </PageContainer>
+    // </Fade>
   );
 };
 

@@ -11,6 +11,7 @@ import {
   getAllUsersAction,
 } from "../../../../store/actions/userActions";
 import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
+import { Fade } from "react-reveal";
 
 //////////
 // STYLE
@@ -18,9 +19,10 @@ import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
 
 const UserModalContainer = styled.div`
   position: absolute;
-  top: 100px;
+  top: 60px;
+  right: 0px;
   z-index: 999;
-  float: left;
+  //float: left;
   overflow: hidden;
   height: 420px;
   width: 320px;
@@ -139,59 +141,57 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
   };
 
   return (
-    <>
-      <UserModalContainer>
-        <ModalAvatar>
-          <img
-            src={
-              userObj.avatar
-                ? userObj.avatar
-                : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
-            }
-            alt="avatar"
+    <UserModalContainer>
+      <ModalAvatar>
+        <img
+          src={
+            userObj.avatar
+              ? userObj.avatar
+              : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
+          }
+          alt="avatar"
+        />
+        <ImgOverlay onClick={handleClick}>
+          <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
+          <input
+            type="file"
+            name="avatar"
+            ref={hiddenFileInput}
+            onChange={imageSelectHandler}
+            style={{ display: "none" }}
           />
-          <ImgOverlay onClick={handleClick}>
-            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-            <input
-              type="file"
-              name="avatar"
-              ref={hiddenFileInput}
-              onChange={imageSelectHandler}
-              style={{ display: "none" }}
-            />
-          </ImgOverlay>
-        </ModalAvatar>
-        <p>{userObj.email}</p>
-        <ModalInput
-          type="text"
-          placeholder="First Name"
-          value={data.first_name}
-          required
-          onChange={handleInput}
-          name="first_name"
-        />
-        <ModalInput
-          type="text"
-          placeholder="Last Name"
-          value={data.last_name}
-          required
-          onChange={handleInput}
-          name="last_name"
-        />
-        <ModalInput
-          type="text"
-          placeholder="Phone Nr."
-          value={data.phone}
-          required
-          onChange={handleInput}
-          name="phone"
-        />
-        <ButtonWrapper>
-          <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
-          <BlueButton onClick={onSubmitForm}>Save</BlueButton>
-        </ButtonWrapper>
-      </UserModalContainer>
-    </>
+        </ImgOverlay>
+      </ModalAvatar>
+      <p>{userObj.email}</p>
+      <ModalInput
+        type="text"
+        placeholder="First Name"
+        value={data.first_name}
+        required
+        onChange={handleInput}
+        name="first_name"
+      />
+      <ModalInput
+        type="text"
+        placeholder="Last Name"
+        value={data.last_name}
+        required
+        onChange={handleInput}
+        name="last_name"
+      />
+      <ModalInput
+        type="text"
+        placeholder="Phone Nr."
+        value={data.phone}
+        required
+        onChange={handleInput}
+        name="phone"
+      />
+      <ButtonWrapper>
+        <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
+        <BlueButton onClick={onSubmitForm}>Save</BlueButton>
+      </ButtonWrapper>
+    </UserModalContainer>
   );
 };
 

@@ -19,6 +19,7 @@ import { connect } from "react-redux";
 import { getAllUsersAction } from "../../../store/actions/userActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
 import UserAddModal from "../../Shared/Modals/UserAddModal";
+import { Fade } from "react-reveal";
 
 //////////
 // STYLE
@@ -187,6 +188,7 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
   };
 
   return (
+    // <Fade>
     <PageContainer>
       <ManageUsersContainer>
         <Styledh1>Users</Styledh1>
@@ -239,6 +241,7 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
         </ManageContainer>
       </ManageUsersContainer>
     </PageContainer>
+    // </Fade>
   );
 };
 

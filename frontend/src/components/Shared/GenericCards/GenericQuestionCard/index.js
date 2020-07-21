@@ -15,6 +15,8 @@ import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
 // STYLES
 //////////
 const QuestionCard = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -29,9 +31,16 @@ const QuestionCard = styled.div`
     width: 90%;
   }
 `;
+
+const SmallText = styled.p`
+  font-size: smaller;
+`;
+
 //////////
 // REACT
 //////////
+
+const MAX_DESC_LENGTH = 160;
 
 const GenericQuestionCard = ({ question, setData }) => {
   const dispatch = useDispatch();
@@ -47,8 +56,15 @@ const GenericQuestionCard = ({ question, setData }) => {
   return (
     <QuestionCard>
       <div>
+        <SmallText>
+          {question.difficulty === "I"
+            ? "Intermediate"
+            : question.difficulty === "H"
+            ? "Hard"
+            : "Easy"}
+        </SmallText>
         <Styledh2>{question.name}</Styledh2>
-        <p>{question.instructions}</p>
+        <p>{`${question.instructions.substring(0, MAX_DESC_LENGTH)}...`}</p>
       </div>
       <RoundGreyButton onClick={onClickHandler}>
         <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
