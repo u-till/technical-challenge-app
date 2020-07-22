@@ -1,17 +1,9 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import {
-  BaseContainer,
-  InputAndLabelContainer,
-  PageContainer,
-} from "../../../style/GlobalWrappers";
+import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
 import { BaseInput } from "../../../style/GlobalInputs";
-import {
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
-} from "../../../style/GlobalButtons";
+import { RoundGreyButton } from "../../../style/GlobalButtons";
 import { Styledh1 } from "../../../style/GlobalTitles";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GenericUserCard from "../../Shared/GenericCards/GenericUserCard";
@@ -36,7 +28,7 @@ const ManageContainer = styled(BaseContainer)`
   flex-grow: 1;
   flex-basis: 0;
   min-width: 700px;
-  height: 640px;
+  height: ${rem("640px")};
   padding: 24px;
   justify-content: space-between;
   display: flex;
@@ -62,7 +54,7 @@ const ListHeader = styled.div`
 
 const SearchUInput = styled(BaseInput)`
   margin-left: 12px;
-  height: 6px;
+  height: ${rem("6px")};
 `;
 
 const SortUDropdown = styled.select`
@@ -70,8 +62,8 @@ const SortUDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: 38px;
-  width: 120px;
+  height: ${rem("38px")};
+  width: ${rem("120px")};
   &:focus {
     outline: none;
   }
@@ -188,7 +180,6 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
   };
 
   return (
-    // <Fade>
     <PageContainer>
       <ManageUsersContainer>
         <Styledh1>Users</Styledh1>
@@ -241,7 +232,6 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
         </ManageContainer>
       </ManageUsersContainer>
     </PageContainer>
-    // </Fade>
   );
 };
 

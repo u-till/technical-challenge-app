@@ -1,24 +1,15 @@
 import React, { useState } from "react";
 import { rem } from "polished";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import GenericTipCard from "../../GenericCards/GenericTipCard";
-import { Styledh1, Styledh2 } from "../../../../style/GlobalTitles";
+import { Styledh2 } from "../../../../style/GlobalTitles";
 import { BaseContainer } from "../../../../style/GlobalWrappers";
-import {
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
-} from "../../../../style/GlobalButtons";
+import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { useDispatch } from "react-redux";
-import { deleteItemAction } from "../../../../store/actions/deleteAction";
-import { getAllUsersAction } from "../../../../store/actions/userActions";
 import {
-  getAllQuestionsAction,
-  resetTargetQuestion,
-} from "../../../../store/actions/questionActions";
-import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
+  createTipForQuestionAction,
+  getTipsForQuestionAction,
+} from "../../../../store/actions/tipActions";
 import Error from "../../Error";
 import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 
@@ -39,8 +30,8 @@ const CreateModalContainer = styled(BaseContainer)`
   padding: 32px;
   position: fixed;
   background: white;
-  width: 640px;
-  height: 420px;
+  width: ${rem("640px")};
+  height: ${rem("420px")};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -59,14 +50,14 @@ const CreateModalContainer = styled(BaseContainer)`
 
 const DescriptionInput = styled(BaseTextArea)`
   resize: none;
-  font-size: 16px;
+  font-size: ${rem("16px")};
   width: 100%;
-  height: 160px;
+  height: ${rem("160px")};
 `;
 
 const NumberInput = styled(BaseInput)`
-  height: 6px;
-  width: 80px;
+  height: ${rem("6px")};
+  width: ${rem("80px")};
 `;
 
 const InputLabelDiv = styled.div`
@@ -81,7 +72,29 @@ const StyledLabel = styled.label`
   margin-bottom: 8px;
 `;
 
-const TipAddModal = ({ ModalTipAddOpenCloseHandler }) => {
+const TipAddModal = ({ ModalTipAddOpenCloseHandler, questionId }) => {
+  const dispatch = useDispatch();
+
+  const [content, setContent] = useState("");
+
+  const inputHandler = (e) => {
+    setContent(e.target.value);
+  };
+
+  const submitHandler = async (e) => {
+    e.preventDefault();
+    const tipData = {
+      content: content,
+    };
+    const response = await dispatch(
+      createTipForQuestionAction(questionId, tipData)
+    );
+    if (response.status === 200) {
+      dispatch(getTipsForQuestionAction(questionId));
+      ModalTipAddOpenCloseHandler();
+    }
+  };
+
   return (
     <CreateModalOverlay>
       <CreateModalContainer>
@@ -96,6 +109,8 @@ const TipAddModal = ({ ModalTipAddOpenCloseHandler }) => {
               placeholder="Description"
               required
               name="content"
+              value={content}
+              onChange={inputHandler}
             />
             <Error />
           </InputLabelDiv>
@@ -103,14 +118,14 @@ const TipAddModal = ({ ModalTipAddOpenCloseHandler }) => {
         <div>
           <InputLabelDiv>
             <StyledLabel>Point Discount:</StyledLabel>
-            <NumberInput type="number" placeholder="0" name="discount_value" />
+            <NumberInput type="number" placeholder="1" name="discount_value" />
             <Error />
           </InputLabelDiv>
         </div>
         <div>
           <RedButton onClick={ModalTipAddOpenCloseHandler}>Cancel</RedButton>
           <Error />
-          <BlueButton>Add</BlueButton>
+          <BlueButton onClick={submitHandler}>Add</BlueButton>
         </div>
       </CreateModalContainer>
     </CreateModalOverlay>

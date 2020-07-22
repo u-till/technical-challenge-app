@@ -1,7 +1,7 @@
 import React, { useState } from "react";
+import { rem } from "polished";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
-import avatar from "../../../../assets/images/user.png";
 import { BaseInput } from "../../../../style/GlobalInputs";
 import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { resetError } from "../../../../store/actions/verificationAction";
@@ -24,8 +24,8 @@ const UserModalContainer = styled.div`
   z-index: 999;
   //float: left;
   overflow: hidden;
-  height: 420px;
-  width: 320px;
+  height: ${rem("420px")};
+  width: ${rem("320px")};
   background-color: #ffffff;
   min-width: 160px;
   background: #ffffff;
@@ -40,8 +40,8 @@ const UserModalContainer = styled.div`
 `;
 
 const ModalAvatar = styled.div`
-  width: 120px;
-  height: 120px;
+  width: ${rem("120px")};
+  height: ${rem("120px")};
   border: solid 1px rgba(221, 221, 221, 0.67);
   border-radius: 100%;
   display: flex;
@@ -50,8 +50,8 @@ const ModalAvatar = styled.div`
   overflow: hidden;
   cursor: pointer;
   img {
-    width: 120px;
-    height: 120px;
+    width: ${rem("120px")};
+    height: ${rem("120px")};
   }
 `;
 
@@ -59,8 +59,8 @@ const ImgOverlay = styled.div`
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
-  width: 120px;
-  height: 120px;
+  width: ${rem("120px")};
+  height: ${rem("120px")};
   border-radius: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -75,10 +75,10 @@ const ImgOverlay = styled.div`
 `;
 
 const ModalInput = styled(BaseInput)`
-  width: 240px;
-  height: 40px;
+  width: ${rem("240px")};
+  height: ${rem("40px")};
   padding-bottom: 20px;
-  font-size: 16px;
+  font-size: ${rem("16px")};
   padding-left: 8px;
 `;
 

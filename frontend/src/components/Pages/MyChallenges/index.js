@@ -1,10 +1,8 @@
 import React, { useEffect } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import Header from "../../Shared/Navigation";
-import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
+import { StyledPageTitles } from "../../../style/GlobalTitles/index";
 import { PageContainer } from "../../../style/GlobalWrappers/index";
-import { BigRedButton } from "../../../style/GlobalButtons/index";
 import GenericChallengeCard from "../../Shared/GenericCards/GenericChallengeCard";
 import { connect } from "react-redux";
 import { getAllUserChallengesAction } from "../../../store/actions/challengeActions";
@@ -15,7 +13,7 @@ import GenericSpinner from "../../Shared/GenericSpinner";
 //////////
 
 const ChallengesContainer = styled.div`
-  height: 710px;
+  height: ${rem("710px")};
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -24,7 +22,7 @@ const ChallengesContainer = styled.div`
 `;
 
 const ChallengesListContainer = styled.div`
-  height: 640px;
+  height: ${rem("640px")};
   width: 100%;
   border-radius: 5px;
   background: white;

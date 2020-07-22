@@ -1,20 +1,15 @@
 import React, { useEffect, useState } from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
+import { BaseContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import {
-  BaseButton,
-  BlueButton,
-  RedButton,
-} from "../../../style/GlobalButtons";
+import { BlueButton, RedButton } from "../../../style/GlobalButtons";
 import {
   Container as ResizeContainer,
   Section,
   Bar,
 } from "react-simple-resizer";
-import { connect, useDispatch } from "react-redux";
-import { getChallenge } from "../../../store/actions/challengeAction";
+import { connect } from "react-redux";
 import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
@@ -22,6 +17,7 @@ import "codemirror/mode/javascript/javascript.js";
 import { getUserChallengeAction } from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { runTestAction } from "../../../store/actions/testActions";
 
 //////////
 // STYLE
@@ -38,7 +34,7 @@ const StyledResizeContainer = styled(ResizeContainer)`
 `;
 
 const StyledResizeBar = styled(Bar)`
-  width: 8px;
+  width: ${rem("8px")};
   background: #888888;
   cursor: col-resize;
 `;
@@ -79,7 +75,7 @@ const DescriptionHeader = styled.div`
 `;
 
 const ChallengeTitle = styled(Styledh1)`
-  font-size: 40px;
+  font-size: ${rem("40px")};
   font-weight: bold;
 `;
 
@@ -92,7 +88,7 @@ const InputColumn = styled(Section)`
 `;
 
 const TestsContainer = styled(BaseContainer)`
-  height: 200px;
+  height: ${rem("200px")};
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -119,7 +115,7 @@ const RunButton = styled(BlueButton)`
 
 const Footer = styled.div`
   width: 100%;
-  height: 70px;
+  height: ${rem("70px")};
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
 
   display: flex;
@@ -182,12 +178,12 @@ const StepSelectorLine = styled.div`
 `;
 
 const StepSelectorBtn = styled.button`
-  width: 28px;
-  height: 28px;
+  width: ${rem("28px")};
+  height: ${rem("28px")};
   border-radius: 100%;
   background-color: #fff;
   border: 3px solid #000;
-  curson: pointer;
+  cursor: pointer;
   :hover {
     background-color: #05d0ff;
   }
@@ -212,7 +208,7 @@ const FooterSectionRight = styled.div`
 const Timer = styled.div`
   margin: 0 16px 0 16px;
   p {
-    font-size: 20px;
+    font-size: ${rem("20px")};
     font-weight: bold;
   }
 `;
@@ -228,7 +224,7 @@ const StyledCodeMirror = styled(CodeMirror)`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
-  height: 32px;
+  height: ${rem("32px")};
   > div {
     height: 100%;
   }
@@ -249,7 +245,7 @@ const SmallCodeMirrorWrapper = styled.div`
 `;
 
 const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
-  font-size: 22px;
+  font-size: ${rem("22px")};
   color: #018601;
   border-radius: 50%;
   border: 1px solid white;
@@ -257,7 +253,7 @@ const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
 `;
 
 const FontAwesomeIconFail = styled(FontAwesomeIcon)`
-  font-size: 22px;
+  font-size: ${rem("22px")};
   color: #ef485c;
   border-radius: 50%;
   border: 1px solid white;
@@ -270,12 +266,17 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
-  const dispatch = useDispatch();
+const Challenge = ({
+  targetChallenge,
+  getUserChallengeAction,
+  runTestAction,
+  userObj,
+}) => {
+  // const dispatch = useDispatch();
   const match = useRouteMatch();
 
   const [progressValue, setProgressValue] = useState(0);
-  const [initDate, getInitDate] = useState(0);
+  // const [initDate, getInitDate] = useState(0);
   const [codeData, setCodeData] = useState({
     0: { code: "", status: { 1: null, 2: null, 3: null } },
     1: { code: "", status: { 1: null, 2: null, 3: null } },
@@ -285,44 +286,61 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
     5: { code: "", status: { 1: null, 2: null, 3: null } },
   });
 
-  const calculateTimeLeft = () => {
-    const dateNow = new Date();
-    const databaseDate = new Date(String(initDate));
-    let difference = dateNow - databaseDate;
-    difference = 1800000 - difference;
-    if (difference > 0) {
-      let timeLeft = `Time left: ${Math.floor(
-        (difference / 1000 / 60) % 60
-      )}:${Math.floor((difference / 1000) % 60)}`;
-      return timeLeft;
-    }
-  };
+  // const calculateTimeLeft = () => {
+  //     const dateNow = new Date();
+  //     const databaseDate = new Date(String(initDate));
+  //     let difference = dateNow - databaseDate;
+  //     difference = 1800000 - difference;
+  //     if (difference > 0) {
+  //         let timeLeft = `Time left: ${Math.floor(
+  //         (difference / 1000 / 60) % 60
+  //         )}:${Math.floor((difference / 1000) % 60)}`;
+  //     return timeLeft;
+  //     }
+  // };
 
-  const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-
-  useEffect(() => {
-    const startChallenge = async () => {
-      const initDate = await dispatch(getChallenge());
-      getInitDate(initDate);
-    };
-
-    startChallenge();
-
-    const settimeout = setTimeout(() => {
-      setTimeLeft(calculateTimeLeft());
-    }, 1000);
-
-    return () => clearInterval(settimeout);
-  });
+  // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+  //
+  // useEffect(() => {
+  //     const startChallenge = async () => {
+  //         const initDate = await dispatch(getChallenge());
+  //         getInitDate(initDate);
+  //     };
+  //
+  //     startChallenge();
+  //
+  //     const settimeout = setTimeout(() => {
+  //         setTimeLeft(calculateTimeLeft());
+  //     }, 1000);
+  //
+  //     return () => clearInterval(settimeout);
+  // });
 
   useEffect(() => {
     getUserChallengeAction(match.params.challengeId);
-  }, [getUserChallengeAction]);
+  }, [getUserChallengeAction, match.params.challengeId]);
 
   const options = {
     mode: "javascript",
     theme: "material",
     lineNumbers: true,
+  };
+
+  const runTestHandler = async (e) => {
+    e.preventDefault();
+    const testData = {
+      code: codeData[progressValue].code,
+      first_name: userObj.first_name,
+      last_name: userObj.last_name,
+      user_id: userObj.id,
+    };
+    console.log(testData);
+    console.log(targetChallenge.questions[progressValue].id);
+    const response = await runTestAction(
+      targetChallenge.questions[progressValue].id,
+      testData
+    );
+    console.log(response.data);
   };
 
   const renderControlPanelV2 = (progressValue) => {
@@ -355,9 +373,9 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
     let result = [];
     for (let i = 0; i < 6; i++) {
       if (i <= progressValue) {
-        result.push(<StepSelectorBtnActive />);
+        result.push(<StepSelectorBtnActive key={`button ${i}`} />);
       } else {
-        result.push(<StepSelectorBtn />);
+        result.push(<StepSelectorBtn key={`button ${i}`} />);
       }
     }
     return result;
@@ -390,7 +408,7 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
                     {targetChallenge.questions[
                       progressValue
                     ].tests_for_question.map((test, index) => (
-                      <div>
+                      <div key={`test ${index}`}>
                         <StyledSmallCodeMirror
                           value={test}
                           options={{
@@ -414,7 +432,9 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
                       </div>
                     ))}
                   </SmallCodeMirrorWrapper>
-                  <RunButton>Run Code and Submit</RunButton>
+                  <RunButton onClick={runTestHandler}>
+                    Run Code and Submit
+                  </RunButton>
                 </TestsContainer>
               </>
             ) : null}
@@ -425,8 +445,6 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
               value={codeData[progressValue].code}
               options={options}
               onBeforeChange={(editor, data, value) => {
-                console.log(codeData);
-                console.log(progressValue);
                 setCodeData({
                   ...codeData,
                   [progressValue]: { ...codeData[progressValue], code: value },
@@ -439,7 +457,6 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
       </ChallengeContainer>
       <Footer>
         <FooterSectionLeft>
-          {/*{renderControlPanel(progressValue)}*/}
           {renderControlPanelV2(progressValue)}
         </FooterSectionLeft>
         <FooterSectionRight>
@@ -456,7 +473,11 @@ const Challenge = ({ targetChallenge, getUserChallengeAction }) => {
 const mapStateToProps = (state) => {
   return {
     targetChallenge: state.challengeReducer.targetChallenge,
+    userObj: state.authReducer.userObj,
   };
 };
 
-export default connect(mapStateToProps, { getUserChallengeAction })(Challenge);
+export default connect(mapStateToProps, {
+  getUserChallengeAction,
+  runTestAction,
+})(Challenge);

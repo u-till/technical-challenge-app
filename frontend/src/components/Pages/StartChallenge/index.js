@@ -1,7 +1,6 @@
 import React from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import Header from "../../Shared/Navigation";
 import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
 import { PageContainer } from "../../../style/GlobalWrappers/index";
 import { BigRedButton } from "../../../style/GlobalButtons/index";
@@ -11,14 +10,15 @@ import { useRouteMatch } from "react-router-dom";
 //////////
 // STYLE
 //////////
-const TechChallengeCont = styled.div`
-  width: 1807px;
-  height: 711px;
-  background: #ffffff;
-`;
+
+// const TechChallengeCont = styled.div`
+//   width: 1807px;
+//   height: 711px;
+//   background: #ffffff;
+// `;
 
 const InformationContainer = styled.div`
-  height: 720px;
+  height: ${rem("720px")};
   width: 99%;
   display: flex;
   flex-direction: column;
@@ -27,13 +27,13 @@ const InformationContainer = styled.div`
 `;
 
 const ExampleImage = styled.img`
-  height: 535px;
-  width: 710px;
+  height: ${rem("535px")};
+  width: ${rem("710px")};
   background-image: url("http://via.placeholder.com/710x535");
 `;
 
 const ChallengeInstructionsContainer = styled.div`
-  height: 640px;
+  height: ${rem("640px")};
   width: 100%;
   border-radius: 5px;
   background: white;
@@ -64,7 +64,7 @@ const RightSideContainer = styled.div`
 
 const P = styled.p`
   font-weight: normal;
-  font-size: 14px;
+  font-size: ${rem("14px")};
   text-align: justify;
 `;
 

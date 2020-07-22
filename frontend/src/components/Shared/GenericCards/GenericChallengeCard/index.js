@@ -1,19 +1,8 @@
-import React, { useState } from "react";
-import Fade from "react-reveal/Fade";
+import React from "react";
 import { rem } from "polished";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import {
-  AddButton,
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
-} from "../../../../style/GlobalButtons";
-import UserModal from "../../Navigation/UserModal";
-import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
-import Challenge from "../../../Pages/Challenge";
+import { BlueButton } from "../../../../style/GlobalButtons";
 import { Styledh2 } from "../../../../style/GlobalTitles";
 import { useHistory } from "react-router";
 
@@ -29,7 +18,7 @@ const ChallengeCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: 100px;
+  height: ${rem("100px")};
   margin-bottom: 8px;
   p:first-child {
     width: 70%;
@@ -38,7 +27,7 @@ const ChallengeCard = styled.div`
 `;
 
 const StartChallengeButton = styled(BlueButton)`
-  width: 120px;
+  width: ${rem("120px")};
   p {
     padding-right: 12px;
     display: inline;
@@ -46,7 +35,7 @@ const StartChallengeButton = styled(BlueButton)`
 `;
 
 const Challengeh2 = styled(Styledh2)`
-  font-size: 18px;
+  font-size: ${rem("18px")};
 `;
 
 //////////

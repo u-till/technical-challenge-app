@@ -30,3 +30,15 @@ export const updateTipForQuestionAction = (tipId, tipData) => async (
     return error;
   }
 };
+
+export const createTipForQuestionAction = (questionId, tipData) => async (
+  dispatch
+) => {
+  try {
+    const response = await Axios.post(`tips/create/${questionId}/`, tipData);
+    return response;
+  } catch (error) {
+    console.log("Error during Create a Tip>", error);
+    return error;
+  }
+};

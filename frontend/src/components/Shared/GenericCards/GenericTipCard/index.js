@@ -1,17 +1,12 @@
 import React, { useState } from "react";
-import Fade from "react-reveal/Fade";
 import { rem } from "polished";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
 import {
-  AddButton,
   BlueButton,
   RedButton,
   RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import UserModal from "../../Navigation/UserModal";
 import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 import {
   getTipsForQuestionAction,
@@ -47,7 +42,7 @@ const TipCardEditing = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: 142px;
+  height: ${rem("142px")};
   margin-bottom: 8px;
   p:first-child {
     width: 70%;
@@ -80,15 +75,15 @@ const EditTipDiv = styled.div`
 
 const DescriptionInput = styled(BaseTextArea)`
   resize: none;
-  font-size: 16px;
+  font-size: ${rem("16px")};
   width: 100%;
 
   height: 100%;
 `;
 
 const NumberInput = styled(BaseInput)`
-  height: 6px;
-  width: 80px;
+  height: ${rem("6px")};
+  width: ${rem("80px")};
 `;
 
 //////////

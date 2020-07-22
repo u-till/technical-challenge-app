@@ -1,11 +1,8 @@
 import React from "react";
-import Fade from "react-reveal/Fade";
 import { rem } from "polished";
 import styled from "styled-components";
-
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-
-import { AddButton, RoundGreyButton } from "../../../../style/GlobalButtons";
+import { RoundGreyButton } from "../../../../style/GlobalButtons";
 import { Styledh2 } from "../../../../style/GlobalTitles";
 import { useDispatch } from "react-redux";
 import { setTargetQuestion } from "../../../../store/actions/questionActions";
@@ -24,7 +21,7 @@ const QuestionCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: 140px;
+  height: ${rem("140px")};
   margin-bottom: 8px;
   overflow: hidden;
   div:first-child {

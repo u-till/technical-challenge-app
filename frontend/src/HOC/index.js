@@ -7,15 +7,13 @@ export default (WrappedComponent) => {
 
     useEffect(() => {
       const userRedirect = () => {
-        console.log("authenticated>", authenticated);
-        console.log("userObj>", userObj);
         if (!authenticated || !userObj) {
           history.push("/login");
         }
       };
 
       userRedirect();
-    }, [authenticated, history, location]);
+    }, [authenticated, history, location, userObj]);
 
     return <WrappedComponent {...props} />;
   };
