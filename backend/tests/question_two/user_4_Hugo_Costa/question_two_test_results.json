@@ -1,1 +1,1 @@
-{"stats":{"asserts":3,"passes":3,"failures":0},"asserts":[{"number":1,"comment":"should reverse the contents of a string","name":"should be deeply equivalent","ok":true,"extra":{}},{"number":2,"comment":"should reverse the contents of a string","name":"should be deeply equivalent","ok":true,"extra":{}},{"number":3,"comment":"should reverse the contents of a string","name":"should be deeply equivalent","ok":true,"extra":{}}]}
+{"stats":{"asserts":0,"passes":0,"failures":0},"asserts":[]}
