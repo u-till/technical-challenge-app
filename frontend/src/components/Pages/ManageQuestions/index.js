@@ -306,6 +306,7 @@ const Questions = ({
     instructions: "",
     program: [],
     difficulty: "E",
+    tests_for_question: []
   });
 
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
@@ -335,6 +336,12 @@ const Questions = ({
     setQuestionData({ ...questionData, [name]: value });
   };
 
+  const handleTestsChange = (e, index) => {
+    let newArray = [...questionData.tests_for_question];
+    newArray[index] = e.target.value;
+    setQuestionData({...questionData, tests_for_question:newArray})
+  };
+
   const handleProgramSelectorChange = (e) => {
     let options = e.target.options;
     let value = [];
@@ -348,16 +355,29 @@ const Questions = ({
 
   const handleSave = async (e) => {
     e.preventDefault();
+    const editQuestionPrograms = [];
+    questionData.program.forEach((program) =>
+      editQuestionPrograms.push(parseInt(program))
+    );
     const questionForm = {
       name: questionData.name,
       difficulty: questionData.difficulty,
       instructions: questionData.instructions,
-      program: questionData.program,
+      program: editQuestionPrograms,
+      tests_for_question: questionData.tests_for_question
     };
     const response = await updateQuestionAction(questionData.id, questionForm);
     if (response.status === 200) {
       getAllQuestionsAction();
       resetTargetQuestion();
+      setQuestionData({
+        name: "",
+        instructions: "",
+        difficulty: "E",
+        program: [],
+        tests_for_question: []
+      });
+
     }
   };
 
@@ -373,6 +393,7 @@ const Questions = ({
       instructions: "",
       difficulty: "E",
       program: [],
+      tests_for_question: []
     });
     resetTargetQuestion();
   };
@@ -396,6 +417,7 @@ const Questions = ({
         instructions: "",
         difficulty: "E",
         program: [],
+        tests_for_question: []
       });
       getAllQuestionsAction();
     }
@@ -536,24 +558,14 @@ const Questions = ({
                   <InputLabelDiv>
                     <StyledLabel>Tests:</StyledLabel>
                     <TestInputContainer>
-                      <TestInput
+                      {questionData.tests_for_question ? questionData.tests_for_question.map((test, index) => {
+                        return (<TestInput
                         type="text"
-                        placeholder="run test 1"
-                        required
-                        name="runtest1"
-                      />
-                      <TestInput
-                        type="text"
-                        placeholder="run test 2"
-                        required
-                        name="runtest 2"
-                      />
-                      <TestInput
-                        type="text"
-                        placeholder="run test 2"
-                        required
-                        name="runtest 2"
-                      />
+                        index={index}
+                        value={questionData.tests_for_question[index]}
+                        key={`test_for_question ${index}`}
+                        onChange={(e) => handleTestsChange(e, index)}
+                      />)}) : null}
                     </TestInputContainer>
                   </InputLabelDiv>
                   <InputLabelDiv>
