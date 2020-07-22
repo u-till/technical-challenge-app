@@ -291,7 +291,7 @@ const Questions = ({
     instructions: "",
     program: [],
     difficulty: "E",
-    tests_for_question: []
+    tests_for_question: [],
   });
 
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
@@ -324,7 +324,7 @@ const Questions = ({
   const handleTestsChange = (e, index) => {
     let newArray = [...questionData.tests_for_question];
     newArray[index] = e.target.value;
-    setQuestionData({...questionData, tests_for_question:newArray})
+    setQuestionData({ ...questionData, tests_for_question: newArray });
   };
 
   const handleProgramSelectorChange = (e) => {
@@ -349,7 +349,7 @@ const Questions = ({
       difficulty: questionData.difficulty,
       instructions: questionData.instructions,
       program: editQuestionPrograms,
-      tests_for_question: questionData.tests_for_question
+      tests_for_question: questionData.tests_for_question,
     };
     const response = await updateQuestionAction(questionData.id, questionForm);
     if (response.status === 200) {
@@ -360,9 +360,8 @@ const Questions = ({
         instructions: "",
         difficulty: "E",
         program: [],
-        tests_for_question: []
+        tests_for_question: [],
       });
-
     }
   };
 
@@ -378,7 +377,7 @@ const Questions = ({
       instructions: "",
       difficulty: "E",
       program: [],
-      tests_for_question: []
+      tests_for_question: [],
     });
     resetTargetQuestion();
   };
@@ -402,7 +401,7 @@ const Questions = ({
         instructions: "",
         difficulty: "E",
         program: [],
-        tests_for_question: []
+        tests_for_question: [],
       });
       getAllQuestionsAction();
     }
@@ -543,14 +542,19 @@ const Questions = ({
                   <InputLabelDiv>
                     <StyledLabel>Tests:</StyledLabel>
                     <TestInputContainer>
-                      {questionData.tests_for_question ? questionData.tests_for_question.map((test, index) => {
-                        return (<TestInput
-                        type="text"
-                        index={index}
-                        value={questionData.tests_for_question[index]}
-                        key={`test_for_question ${index}`}
-                        onChange={(e) => handleTestsChange(e, index)}
-                      />)}) : null}
+                      {questionData.tests_for_question
+                        ? questionData.tests_for_question.map((test, index) => {
+                            return (
+                              <TestInput
+                                type="text"
+                                index={index}
+                                value={questionData.tests_for_question[index]}
+                                key={`test_for_question ${index}`}
+                                onChange={(e) => handleTestsChange(e, index)}
+                              />
+                            );
+                          })
+                        : null}
                     </TestInputContainer>
                   </InputLabelDiv>
                   <InputLabelDiv>

@@ -35,7 +35,7 @@ export const GenericSpinnerSmall = () => (
       size={16}
       sizeUnit={"px"}
       color={"#fff"}
-      css={"margin-right: -2rem"}
+      css={"margin-right: -40px"}
     />
   </InLine>
 );
