@@ -19,6 +19,8 @@ import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteMod
 // STYLES
 //////////
 const TipCard = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -35,6 +37,8 @@ const TipCard = styled.div`
 `;
 
 const TipCardEditing = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -42,7 +46,7 @@ const TipCardEditing = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem('142px')};
+  height: ${rem("142px")};
   margin-bottom: 8px;
   p:first-child {
     width: 70%;
@@ -75,15 +79,15 @@ const EditTipDiv = styled.div`
 
 const DescriptionInput = styled(BaseTextArea)`
   resize: none;
-  font-size: ${rem('16px')};
+  font-size: ${rem("16px")};
   width: 100%;
 
   height: 100%;
 `;
 
 const NumberInput = styled(BaseInput)`
-  height: ${rem('6px')};
-  width: ${rem('80px')};
+  height: ${rem("6px")};
+  width: ${rem("80px")};
 `;
 
 //////////

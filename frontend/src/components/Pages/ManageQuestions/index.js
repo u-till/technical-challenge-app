@@ -67,7 +67,7 @@ const EditTop = styled.div`
     margin-left: 12px;
   }
   > div {
-    width: ${rem('120px')};
+    width: ${rem("120px")};
   }
 `;
 
@@ -77,6 +77,22 @@ const EditMiddle = styled.div`
 
   width: 100%;
   height: 35%;
+  justify-content: space-between;
+  > div:first-child {
+    width: 70%;
+    margin-right: 12px;
+  }
+  > div:last-child {
+    width: 30%;
+  }
+`;
+
+const EditMiddleBig = styled.div`
+  display: inline-flex;
+  padding-bottom: 16px;
+
+  width: 100%;
+  height: 95%;
   justify-content: space-between;
   > div:first-child {
     width: 70%;
@@ -109,7 +125,7 @@ const DeleteSave = styled.div`
   > div:last-child {
     display: flex;
     justify-content: space-between;
-    width: ${rem('180px')};
+    width: ${rem("180px")};
   }
 `;
 
@@ -127,19 +143,19 @@ const StyledLabel = styled.label`
 
 const NameInput = styled(BaseInput)`
   width: 100%;
-  height: ${rem('6px')};
+  height: ${rem("6px")};
 `;
 
 const NumberInput = styled(BaseInput)`
   width: 100%;
-  height: ${rem('6px')};
+  height: ${rem("6px")};
 `;
 
 const DescriptionInput = styled(BaseTextArea)`
   width: 100%;
   resize: none;
   height: 100%;
-  font-size: ${rem('16px')};
+  font-size: ${rem("16px")};
 `;
 
 const DifficultyDropdown = styled.select`
@@ -147,7 +163,7 @@ const DifficultyDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem('38px')};
+  height: ${rem("38px")};
   width: 100%;
 
   &:focus {
@@ -230,7 +246,7 @@ const BrowseHeader = styled.div`
 
 const SearchQInput = styled(BaseInput)`
   margin-left: 12px;
-  height: ${rem('6px')};
+  height: ${rem("6px")};
 `;
 
 const SortQDropdown = styled.select`
@@ -238,8 +254,8 @@ const SortQDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem('38px')};
-  width: ${rem('120px')};
+  height: ${rem("38px")};
+  width: ${rem("120px")};
   &:focus {
     outline: none;
   }
@@ -287,6 +303,24 @@ const Questions = ({
 
   const ModalTipAddOpenCloseHandler = () => {
     setModalTipAddOpen(!isModalTipAddOpen);
+  };
+
+  const [whichDifficultyValue, setDifficultyValue] = useState(3);
+
+  const DifficultyValueHandler = (event) => {
+    switch (event.target.value) {
+      case "E":
+        setDifficultyValue(3);
+        break;
+      case "I":
+        setDifficultyValue(7);
+        break;
+      case "H":
+        setDifficultyValue(10);
+        break;
+      default:
+        setDifficultyValue(3);
+    }
   };
 
   useEffect(() => {
@@ -394,6 +428,7 @@ const Questions = ({
           <EditContainer>
             {targetQuestion ? (
               <>
+                {/*--------EDIT-----------*/}
                 <EditTop>
                   <InputLabelDiv>
                     <StyledLabel>Name:</StyledLabel>
@@ -486,7 +521,9 @@ const Questions = ({
                       </RoundGreyButton>
                       {isModalTipAddOpen ? (
                         <TipAddModal
-                          ModalTipAddOpenCloseHandler={ModalTipAddOpenCloseHandler}
+                          ModalTipAddOpenCloseHandler={
+                            ModalTipAddOpenCloseHandler
+                          }
                           questionId={targetQuestion.id}
                         />
                       ) : null}
@@ -533,12 +570,77 @@ const Questions = ({
                 </DeleteSave>
               </>
             ) : (
-              <div>Select a Question</div>
+              <>
+                {/*--------ADD-----------*/}
+                <EditTop>
+                  <InputLabelDiv>
+                    <StyledLabel>Name:</StyledLabel>
+                    <NameInput
+                      type="text"
+                      placeholder="Question Name"
+                      value="New Question"
+                      required
+                      name="name"
+                    />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Points:</StyledLabel>
+                    <NumberInput
+                      type="text"
+                      placeholder="0"
+                      required
+                      value={whichDifficultyValue}
+                      disabled
+                    />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Difficulty:</StyledLabel>
+                    <DifficultyDropdown
+                      id="difficulty"
+                      name="difficulty"
+                      onChange={DifficultyValueHandler}
+                    >
+                      <option value="E">Easy</option>
+                      <option value="I">Intermediate</option>
+                      <option value="H">Hard</option>
+                    </DifficultyDropdown>
+                  </InputLabelDiv>
+                </EditTop>
+                <EditMiddleBig>
+                  <InputLabelDiv>
+                    <StyledLabel>Description:</StyledLabel>
+                    <DescriptionInput
+                      type="text"
+                      placeholder="Description"
+                      value="New Question"
+                      required
+                      name="instructions"
+                    />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Catergories:</StyledLabel>
+                    <CategorySelect name="program" multiple>
+                      <option value="1">Full Stack</option>
+                      <option value="2">Data Science</option>
+                      <option value="3">React & Redux</option>
+                      <option value="4">Docker & Deployment</option>
+                      <option value="5">AI for Leaders</option>
+                      <option value="6">Python programming</option>
+                    </CategorySelect>
+                  </InputLabelDiv>
+                </EditMiddleBig>
+                <DeleteSave>
+                  <RedButton onClick={ModalDeleteOpenCloseHandler}>
+                    Discard
+                  </RedButton>
+                  <BlueButton>Add</BlueButton>
+                </DeleteSave>
+              </>
             )}
           </EditContainer>
           <BrowseContainer>
             <BrowseHeader>
-              <RoundGreyButton>
+              <RoundGreyButton onClick={resetTargetQuestion}>
                 <FontAwesomeIcon icon={["fas", "plus"]} />
               </RoundGreyButton>
               <div>

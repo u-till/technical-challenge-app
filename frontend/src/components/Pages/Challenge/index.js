@@ -17,7 +17,7 @@ import "codemirror/mode/javascript/javascript.js";
 import {getUserChallengeAction, setUserChallengeScoreAction} from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import {runTestAction} from "../../../store/actions/testActions";
+import { runTestAction } from "../../../store/actions/testActions";
 
 //////////
 // STYLE
@@ -34,7 +34,7 @@ const StyledResizeContainer = styled(ResizeContainer)`
 `;
 
 const StyledResizeBar = styled(Bar)`
-  width: ${rem('8px')};
+  width: ${rem("8px")};
   background: #888888;
   cursor: col-resize;
 `;
@@ -75,7 +75,7 @@ const DescriptionHeader = styled.div`
 `;
 
 const ChallengeTitle = styled(Styledh1)`
-  font-size: ${rem('40px')};
+  font-size: ${rem("40px")};
   font-weight: bold;
 `;
 
@@ -88,7 +88,7 @@ const InputColumn = styled(Section)`
 `;
 
 const TestsContainer = styled(BaseContainer)`
-  height: ${rem('200px')};
+  height: ${rem("200px")};
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -115,7 +115,7 @@ const RunButton = styled(BlueButton)`
 
 const Footer = styled.div`
   width: 100%;
-  height: ${rem('70px')};
+  height: ${rem("70px")};
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
 
   display: flex;
@@ -152,7 +152,7 @@ const StepSelectorContainer = styled.div`
 const StepSelectorLine = styled.div`
   width: 100%;
   min-width: 400px;
-  margin: 0 ${rem('30px')} 0 ${rem('30px')};
+  margin: 0 ${rem("30px")} 0 ${rem("30px")};
   position: relative;
   z-index: 1;
 
@@ -178,8 +178,8 @@ const StepSelectorLine = styled.div`
 `;
 
 const StepSelectorBtn = styled.button`
-  width: ${rem('28px')};
-  height: ${rem('28px')};
+  width: ${rem("28px")};
+  height: ${rem("28px")};
   border-radius: 100%;
   background-color: #fff;
   border: 3px solid #000;
@@ -208,7 +208,7 @@ const FooterSectionRight = styled.div`
 const Timer = styled.div`
   margin: 0 16px 0 16px;
   p {
-    font-size: ${rem('20px')};
+    font-size: ${rem("20px")};
     font-weight: bold;
   }
 `;
@@ -224,7 +224,7 @@ const StyledCodeMirror = styled(CodeMirror)`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
-  height: ${rem('32px')};
+  height: ${rem("32px")};
   > div {
     height: 100%;
   }
@@ -245,7 +245,7 @@ const SmallCodeMirrorWrapper = styled.div`
 `;
 
 const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
-  font-size: ${rem('22px')};
+  font-size: ${rem("22px")};
   color: #018601;
   border-radius: 50%;
   border: 1px solid white;
@@ -253,7 +253,7 @@ const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
 `;
 
 const FontAwesomeIconFail = styled(FontAwesomeIcon)`
-  font-size: ${rem('22px')};
+  font-size: ${rem("22px")};
   color: #ef485c;
   border-radius: 50%;
   border: 1px solid white;
@@ -265,6 +265,7 @@ const DoneButton = styled(RedButton)``;
 //////////
 // REACT
 //////////
+
 
 const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, userObj, setUserChallengeScoreAction, history}) => {
     // const dispatch = useDispatch();
@@ -499,3 +500,4 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { getUserChallengeAction, runTestAction, setUserChallengeScoreAction })(Challenge);
+
