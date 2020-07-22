@@ -14,7 +14,7 @@ import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript.js";
-import { getUserChallengeAction } from "../../../store/actions/challengeActions";
+import {getUserChallengeAction, setUserChallengeScoreAction} from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import {runTestAction} from "../../../store/actions/testActions";
@@ -266,19 +266,47 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, userObj}) => {
+const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, userObj, setUserChallengeScoreAction, history}) => {
     // const dispatch = useDispatch();
     const match = useRouteMatch();
 
     const [progressValue, setProgressValue] = useState(0);
     // const [initDate, getInitDate] = useState(0);
     const [codeData, setCodeData] = useState({
-        0: {code: '', status: {1: null, 2: null, 3: null}},
-        1: {code: '', status: {1: null, 2: null, 3: null}},
-        2: {code: '', status: {1: null, 2: null, 3: null}},
-        3: {code: '', status: {1: null, 2: null, 3: null}},
-        4: {code: '', status: {1: null, 2: null, 3: null}},
-        5: {code: '', status: {1: null, 2: null, 3: null}}
+        0: {code: 'function addition(number) {\n' +
+                ' return number + 1 \n' +
+                '}', status: {0: null, 1: null, 2: null}},
+        1: {code: 'function addUp(x) {\n' +
+                '   let result = 0;\n' +
+                '   for (let i = 1; i <= x; i++) {\n' +
+                '      result += i\n' +
+                '   }\n' +
+                '   return result\n' +
+                '}', status: {0: null, 1: null, 2: null}},
+        2: {code: 'function countVowels(string) {\n' +
+                '   let result = 0;\n' +
+                '   let vowels = [\'a\', \'e\', \'i\', \'o\', \'u\']\n' +
+                '   string.split(\'\').map(index => {\n' +
+                '       if (vowels.includes(index)) {\n' +
+                '            result++\n' +
+                '       }\n' +
+                '   })\n' +
+                '   return result;\n' +
+                '}', status: {0: null, 1: null, 2: null}},
+        3: {code: 'function charCount(char, string) {\n' +
+                '   return string.split(\'\').filter(index => index === char).length}\n', status: {0: null, 1: null, 2: null}},
+        4: {code: 'function reverseString(string) { return string.split(\'\').reverse().join(\'\') }', status: {0: null, 1: null, 2: null}},
+        5: {code: 'function firstElement(array) { return array[0] }', status: {0: null, 1: null, 2: null}}
+    });
+
+
+    const [score, setScore] = useState({
+        0: 0,
+        1: 0,
+        2: 0,
+        3: 0,
+        4: 0,
+        5: 0
     });
 
     // const calculateTimeLeft = () => {
@@ -329,11 +357,35 @@ const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, user
             "last_name": userObj.last_name,
             "user_id": userObj.id
         };
-        console.log(testData);
-        console.log(targetChallenge.questions[progressValue].id);
         const response = await runTestAction(targetChallenge.questions[progressValue].id, testData);
-        console.log(response.data)
+        if (response.status === 200) {
+            if (response.data.asserts.length) {
+                let newStatus = {};
+                response.data.asserts.forEach((test, index) => newStatus[index] = test.ok);
+                setCodeData({...codeData, [progressValue]: {...codeData[progressValue], status: newStatus}});
+                setScore({...score, [progressValue]: targetChallenge.questions[progressValue].difficulty === "E" ? 3 : targetChallenge.questions[progressValue].difficulty === "I" ? 5 : 8})
+            } else {
+                console.log('Tests Failed due to Syntax problems')
 
+            }
+        }
+    };
+
+    const getMaxScore = () => {
+        let perfectScore = 0;
+        targetChallenge.questions.forEach(question => perfectScore += question.difficulty === "E" ? 3 : question.difficulty === "I" ? 5 : 8)
+        return perfectScore
+    };
+
+    const doneHandler = async (e) => {
+        e.preventDefault();
+        const candidateScore = {
+            "score": (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100
+        };
+        const response = await setUserChallengeScoreAction(targetChallenge.id, candidateScore);
+        if (response.status === 200) {
+            history.push(`/finishedchallenge/${targetChallenge.id}`)
+        }
     };
 
     const renderControlPanelV2 = (progressValue) => {
@@ -399,7 +451,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, user
                                                     onChange={(editor, data, value) => {
                                                     }}
                                                 />
-                                                {codeData[progressValue].status[index + 1] === null ? null : codeData[progressValue].status[index + 1] ?
+                                                {codeData[progressValue].status[index] === null ? null : codeData[progressValue].status[index] ?
                                                     <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/> :
                                                     <FontAwesomeIconFail icon={["fas", "times-circle"]}/>}
                                             </div>)
@@ -432,7 +484,7 @@ const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, user
                     <Timer>
                         <p>Time left: 24:05</p>
                     </Timer>
-                    <DoneButton>Done!</DoneButton>
+                    <DoneButton onClick={doneHandler}>Done!</DoneButton>
                 </FooterSectionRight>
             </Footer>
         </>
@@ -446,4 +498,4 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { getUserChallengeAction, runTestAction })(Challenge);
+export default connect(mapStateToProps, { getUserChallengeAction, runTestAction, setUserChallengeScoreAction })(Challenge);
