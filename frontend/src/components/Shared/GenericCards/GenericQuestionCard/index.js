@@ -21,7 +21,7 @@ const QuestionCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem('140px')};
+  height: ${rem("140px")};
   margin-bottom: 8px;
   overflow: hidden;
   div:first-child {

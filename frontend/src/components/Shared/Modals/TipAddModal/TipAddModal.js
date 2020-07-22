@@ -6,7 +6,10 @@ import { Styledh2 } from "../../../../style/GlobalTitles";
 import { BaseContainer } from "../../../../style/GlobalWrappers";
 import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { useDispatch } from "react-redux";
-import {createTipForQuestionAction, getTipsForQuestionAction} from "../../../../store/actions/tipActions";
+import {
+  createTipForQuestionAction,
+  getTipsForQuestionAction,
+} from "../../../../store/actions/tipActions";
 import Error from "../../Error";
 import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 
@@ -27,8 +30,8 @@ const CreateModalContainer = styled(BaseContainer)`
   padding: 32px;
   position: fixed;
   background: white;
-  width: ${rem('640px')};
-  height: ${rem('420px')};
+  width: ${rem("640px")};
+  height: ${rem("420px")};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -47,14 +50,14 @@ const CreateModalContainer = styled(BaseContainer)`
 
 const DescriptionInput = styled(BaseTextArea)`
   resize: none;
-  font-size: ${rem('16px')};
+  font-size: ${rem("16px")};
   width: 100%;
-  height: ${rem('160px')};
+  height: ${rem("160px")};
 `;
 
 const NumberInput = styled(BaseInput)`
-  height: ${rem('6px')};
-  width: ${rem('80px')};
+  height: ${rem("6px")};
+  width: ${rem("80px")};
 `;
 
 const InputLabelDiv = styled.div`
@@ -72,21 +75,23 @@ const StyledLabel = styled.label`
 const TipAddModal = ({ ModalTipAddOpenCloseHandler, questionId }) => {
   const dispatch = useDispatch();
 
-  const [content, setContent] = useState('');
+  const [content, setContent] = useState("");
 
   const inputHandler = (e) => {
-    setContent(e.target.value)
+    setContent(e.target.value);
   };
 
   const submitHandler = async (e) => {
     e.preventDefault();
     const tipData = {
-      "content": content
+      content: content,
     };
-    const response = await dispatch(createTipForQuestionAction(questionId, tipData));
+    const response = await dispatch(
+      createTipForQuestionAction(questionId, tipData)
+    );
     if (response.status === 200) {
-      dispatch(getTipsForQuestionAction(questionId))
-      ModalTipAddOpenCloseHandler()
+      dispatch(getTipsForQuestionAction(questionId));
+      ModalTipAddOpenCloseHandler();
     }
   };
 
@@ -113,11 +118,7 @@ const TipAddModal = ({ ModalTipAddOpenCloseHandler, questionId }) => {
         <div>
           <InputLabelDiv>
             <StyledLabel>Point Discount:</StyledLabel>
-            <NumberInput
-                type="number"
-                placeholder="1"
-                name="discount_value"
-            />
+            <NumberInput type="number" placeholder="1" name="discount_value" />
             <Error />
           </InputLabelDiv>
         </div>

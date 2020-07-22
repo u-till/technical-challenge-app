@@ -39,8 +39,8 @@ const UserModalContainer = styled.div`
 `;
 
 const ModalAvatar = styled.div`
-  width: ${rem('120px')};
-  height: ${rem('120px')};
+  width: ${rem("120px")};
+  height: ${rem("120px")};
   border: solid 1px rgba(221, 221, 221, 0.67);
   border-radius: 100%;
   display: flex;
@@ -49,8 +49,8 @@ const ModalAvatar = styled.div`
   overflow: hidden;
   cursor: pointer;
   img {
-    width: ${rem('120px')};
-    height: ${rem('120px')};
+    width: ${rem("120px")};
+    height: ${rem("120px")};
   }
 `;
 
@@ -58,8 +58,8 @@ const ImgOverlay = styled.div`
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
-  width: ${rem('120px')};
-  height: ${rem('120px')};
+  width: ${rem("120px")};
+  height: ${rem("120px")};
   border-radius: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -74,10 +74,10 @@ const ImgOverlay = styled.div`
 `;
 
 const ModalInput = styled(BaseInput)`
-  width: ${rem('240px')};
-  height: ${rem('40px')};
+  width: ${rem("240px")};
+  height: ${rem("40px")};
   padding-bottom: 20px;
-  font-size: ${rem('16px')};
+  font-size: ${rem("16px")};
   padding-left: 8px;
 `;
 

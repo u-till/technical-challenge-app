@@ -31,7 +31,7 @@ const DeleteModalContainer = styled(BaseContainer)`
   position: fixed;
   background: white;
   width: 40%;
-  height: ${rem('180px')};
+  height: ${rem("180px")};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);

@@ -13,7 +13,7 @@ import GenericSpinner from "../../Shared/GenericSpinner";
 //////////
 
 const ChallengesContainer = styled.div`
-  height: ${rem('710px')};
+  height: ${rem("710px")};
   width: 100%;
   display: flex;
   flex-direction: column;
@@ -22,7 +22,7 @@ const ChallengesContainer = styled.div`
 `;
 
 const ChallengesListContainer = styled.div`
-  height: ${rem('640px')};
+  height: ${rem("640px")};
   width: 100%;
   border-radius: 5px;
   background: white;
