@@ -46,7 +46,6 @@ const EditContainer = styled(BaseContainer)`
   flex-basis: 0;
   height: ${rem("640px")};
   min-width: 540px;
-  height: 640px;
   padding: 24px;
   justify-content: space-between;
   display: flex;
@@ -179,20 +178,6 @@ const DifficultyDropdown = styled.select`
 `;
 
 const CategorySelect = styled.select`
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  height: 100%;
-  &:focus {
-    outline: none;
-  }
-  option {
-    padding: 8px;
-  }
-`;
-
-const FileSelect = styled.select`
   background: #ffffff;
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
