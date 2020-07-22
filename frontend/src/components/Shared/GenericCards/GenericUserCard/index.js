@@ -34,7 +34,7 @@ const UserCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem("140px")};
+  height: ${rem('140px')};
   margin-bottom: 8px;
   overflow: hidden;
   > div:first-child {
@@ -53,8 +53,8 @@ const UserInfo = styled.div`
 `;
 
 const UserAvatar = styled.div`
-  width: ${rem("100px")};
-  height: ${rem("100px")};
+  width: ${rem('100px')};
+  height: ${rem('100px')};
   border: solid 1px rgba(221, 221, 221, 0.67);
   border-radius: 100%;
   display: flex;
@@ -62,8 +62,8 @@ const UserAvatar = styled.div`
   align-items: center;
   overflow: hidden;
   img {
-    width: ${rem("100px")};
-    height: ${rem("100px")};
+    width: ${rem('100px')};
+    height: ${rem('100px')};
   }
 `;
 
@@ -78,7 +78,7 @@ const UserCardBig = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem("360px")};
+  height: ${rem('360px')};
   margin-bottom: 8px;
   overflow: hidden;
 
@@ -116,7 +116,7 @@ const RoleDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
+  height: ${rem('38px')};
   width: 100%;
   &:focus {
     outline: none;
@@ -135,7 +135,7 @@ const ChallengeCategoryDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
+  height: ${rem('38px')};
   width: 100%;
   &:focus {
     outline: none;
@@ -187,8 +187,8 @@ const InputLabelDiv = styled.div`
 
 const StyledInput = styled(BaseInput)`
   width: 100%;
-  font-size: ${rem("14px")};
-  height: ${rem("6px")};
+  font-size: ${rem('14px')};
+  height: ${rem('6px')};
 `;
 
 const StyledLabel = styled.label`
@@ -205,7 +205,7 @@ const BtnWrapper = styled.div`
 `;
 
 const UploadButton = styled(BaseButton)`
-  height: ${rem("38px")};
+  height: ${rem('38px')};
   width: 100%;
   border-radius: 5px;
   color: #767676;

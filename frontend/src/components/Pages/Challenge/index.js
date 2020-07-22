@@ -17,7 +17,7 @@ import "codemirror/mode/javascript/javascript.js";
 import { getUserChallengeAction } from "../../../store/actions/challengeActions";
 import { useRouteMatch } from "react-router-dom";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { runTestAction } from "../../../store/actions/testActions";
+import {runTestAction} from "../../../store/actions/testActions";
 
 //////////
 // STYLE
@@ -34,7 +34,7 @@ const StyledResizeContainer = styled(ResizeContainer)`
 `;
 
 const StyledResizeBar = styled(Bar)`
-  width: ${rem("8px")};
+  width: ${rem('8px')};
   background: #888888;
   cursor: col-resize;
 `;
@@ -75,7 +75,7 @@ const DescriptionHeader = styled.div`
 `;
 
 const ChallengeTitle = styled(Styledh1)`
-  font-size: ${rem("40px")};
+  font-size: ${rem('40px')};
   font-weight: bold;
 `;
 
@@ -88,7 +88,7 @@ const InputColumn = styled(Section)`
 `;
 
 const TestsContainer = styled(BaseContainer)`
-  height: ${rem("200px")};
+  height: ${rem('200px')};
   padding: 16px;
   display: flex;
   flex-direction: column;
@@ -115,7 +115,7 @@ const RunButton = styled(BlueButton)`
 
 const Footer = styled.div`
   width: 100%;
-  height: ${rem("70px")};
+  height: ${rem('70px')};
   padding: 0 ${rem("30px")} 0 ${rem("30px")};
 
   display: flex;
@@ -152,7 +152,7 @@ const StepSelectorContainer = styled.div`
 const StepSelectorLine = styled.div`
   width: 100%;
   min-width: 400px;
-  margin: 0 30px 0 30px;
+  margin: 0 ${rem('30px')} 0 ${rem('30px')};
   position: relative;
   z-index: 1;
 
@@ -178,8 +178,8 @@ const StepSelectorLine = styled.div`
 `;
 
 const StepSelectorBtn = styled.button`
-  width: ${rem("28px")};
-  height: ${rem("28px")};
+  width: ${rem('28px')};
+  height: ${rem('28px')};
   border-radius: 100%;
   background-color: #fff;
   border: 3px solid #000;
@@ -208,7 +208,7 @@ const FooterSectionRight = styled.div`
 const Timer = styled.div`
   margin: 0 16px 0 16px;
   p {
-    font-size: ${rem("20px")};
+    font-size: ${rem('20px')};
     font-weight: bold;
   }
 `;
@@ -224,7 +224,7 @@ const StyledCodeMirror = styled(CodeMirror)`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
-  height: ${rem("32px")};
+  height: ${rem('32px')};
   > div {
     height: 100%;
   }
@@ -245,7 +245,7 @@ const SmallCodeMirrorWrapper = styled.div`
 `;
 
 const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
-  font-size: ${rem("22px")};
+  font-size: ${rem('22px')};
   color: #018601;
   border-radius: 50%;
   border: 1px solid white;
@@ -253,7 +253,7 @@ const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
 `;
 
 const FontAwesomeIconFail = styled(FontAwesomeIcon)`
-  font-size: ${rem("22px")};
+  font-size: ${rem('22px')};
   color: #ef485c;
   border-radius: 50%;
   border: 1px solid white;
@@ -266,218 +266,184 @@ const DoneButton = styled(RedButton)``;
 // REACT
 //////////
 
-const Challenge = ({
-  targetChallenge,
-  getUserChallengeAction,
-  runTestAction,
-  userObj,
-}) => {
-  // const dispatch = useDispatch();
-  const match = useRouteMatch();
+const Challenge = ({targetChallenge, getUserChallengeAction, runTestAction, userObj}) => {
+    // const dispatch = useDispatch();
+    const match = useRouteMatch();
 
-  const [progressValue, setProgressValue] = useState(0);
-  // const [initDate, getInitDate] = useState(0);
-  const [codeData, setCodeData] = useState({
-    0: { code: "", status: { 1: null, 2: null, 3: null } },
-    1: { code: "", status: { 1: null, 2: null, 3: null } },
-    2: { code: "", status: { 1: null, 2: null, 3: null } },
-    3: { code: "", status: { 1: null, 2: null, 3: null } },
-    4: { code: "", status: { 1: null, 2: null, 3: null } },
-    5: { code: "", status: { 1: null, 2: null, 3: null } },
-  });
+    const [progressValue, setProgressValue] = useState(0);
+    // const [initDate, getInitDate] = useState(0);
+    const [codeData, setCodeData] = useState({
+        0: {code: '', status: {1: null, 2: null, 3: null}},
+        1: {code: '', status: {1: null, 2: null, 3: null}},
+        2: {code: '', status: {1: null, 2: null, 3: null}},
+        3: {code: '', status: {1: null, 2: null, 3: null}},
+        4: {code: '', status: {1: null, 2: null, 3: null}},
+        5: {code: '', status: {1: null, 2: null, 3: null}}
+    });
 
-  // const calculateTimeLeft = () => {
-  //     const dateNow = new Date();
-  //     const databaseDate = new Date(String(initDate));
-  //     let difference = dateNow - databaseDate;
-  //     difference = 1800000 - difference;
-  //     if (difference > 0) {
-  //         let timeLeft = `Time left: ${Math.floor(
-  //         (difference / 1000 / 60) % 60
-  //         )}:${Math.floor((difference / 1000) % 60)}`;
-  //     return timeLeft;
-  //     }
-  // };
+    // const calculateTimeLeft = () => {
+    //     const dateNow = new Date();
+    //     const databaseDate = new Date(String(initDate));
+    //     let difference = dateNow - databaseDate;
+    //     difference = 1800000 - difference;
+    //     if (difference > 0) {
+    //         let timeLeft = `Time left: ${Math.floor(
+    //         (difference / 1000 / 60) % 60
+    //         )}:${Math.floor((difference / 1000) % 60)}`;
+    //     return timeLeft;
+    //     }
+    // };
 
-  // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
-  //
-  // useEffect(() => {
-  //     const startChallenge = async () => {
-  //         const initDate = await dispatch(getChallenge());
-  //         getInitDate(initDate);
-  //     };
-  //
-  //     startChallenge();
-  //
-  //     const settimeout = setTimeout(() => {
-  //         setTimeLeft(calculateTimeLeft());
-  //     }, 1000);
-  //
-  //     return () => clearInterval(settimeout);
-  // });
+    // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
+    //
+    // useEffect(() => {
+    //     const startChallenge = async () => {
+    //         const initDate = await dispatch(getChallenge());
+    //         getInitDate(initDate);
+    //     };
+    //
+    //     startChallenge();
+    //
+    //     const settimeout = setTimeout(() => {
+    //         setTimeLeft(calculateTimeLeft());
+    //     }, 1000);
+    //
+    //     return () => clearInterval(settimeout);
+    // });
 
-  useEffect(() => {
-    getUserChallengeAction(match.params.challengeId);
-  }, [getUserChallengeAction, match.params.challengeId]);
+    useEffect(() => {
+        getUserChallengeAction(match.params.challengeId);
+    }, [getUserChallengeAction, match.params.challengeId]);
 
-  const options = {
-    mode: "javascript",
-    theme: "material",
-    lineNumbers: true,
-  };
-
-  const runTestHandler = async (e) => {
-    e.preventDefault();
-    const testData = {
-      code: codeData[progressValue].code,
-      first_name: userObj.first_name,
-      last_name: userObj.last_name,
-      user_id: userObj.id,
+    const options = {
+        mode: "javascript",
+        theme: "material",
+        lineNumbers: true,
     };
-    console.log(testData);
-    console.log(targetChallenge.questions[progressValue].id);
-    const response = await runTestAction(
-      targetChallenge.questions[progressValue].id,
-      testData
-    );
-    console.log(response.data);
-  };
 
-  const renderControlPanelV2 = (progressValue) => {
-    return (
-      <>
-        {progressValue === 0 ? (
-          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-        ) : (
-          <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>
-            Previous
-          </PrevNextButton>
-        )}
-        <StepSelectorLine>
-          <StepSelectorContainer>
-            {[...renderCenter(progressValue)]}
-          </StepSelectorContainer>
-        </StepSelectorLine>
-        {progressValue === 5 ? (
-          <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
-        ) : (
-          <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>
-            Next
-          </PrevNextButton>
-        )}
-      </>
-    );
-  };
+    const runTestHandler = async (e) => {
+        e.preventDefault();
+        const testData = {
+            "code": codeData[progressValue].code,
+            "first_name": userObj.first_name,
+            "last_name": userObj.last_name,
+            "user_id": userObj.id
+        };
+        console.log(testData);
+        console.log(targetChallenge.questions[progressValue].id);
+        const response = await runTestAction(targetChallenge.questions[progressValue].id, testData);
+        console.log(response.data)
 
-  function renderCenter(progressValue) {
-    let result = [];
-    for (let i = 0; i < 6; i++) {
-      if (i <= progressValue) {
-        result.push(<StepSelectorBtnActive key={`button ${i}`} />);
-      } else {
-        result.push(<StepSelectorBtn key={`button ${i}`} />);
-      }
+    };
+
+    const renderControlPanelV2 = (progressValue) => {
+        return (
+            <>
+                {progressValue === 0 ? <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>Previous</PrevNextButton>}
+                <StepSelectorLine>
+                    <StepSelectorContainer>
+                        {[...renderCenter(progressValue)]}
+                    </StepSelectorContainer>
+                </StepSelectorLine>
+                {progressValue === 5 ? <PrevNextButtonDisabled>Next</PrevNextButtonDisabled> : <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>Next</PrevNextButton>}
+            </>
+        )
+    };
+
+    function renderCenter(progressValue) {
+        let result = [];
+        for (let i = 0; i < 6; i++) {
+            if (i <= progressValue) {
+                result.push(<StepSelectorBtnActive key={`button ${i}`}/>)
+            } else {
+                result.push(<StepSelectorBtn key={`button ${i}`}/>)
+            }
+        }
+        return result
     }
-    return result;
-  }
 
-  return (
-    <>
-      <ChallengeContainer>
-        <StyledResizeContainer>
-          <DescriptionColumn defaultSize={600} minSize={400}>
-            {targetChallenge ? (
-              <>
-                <DescriptionContainer>
-                  <DescriptionHeader>
-                    <ChallengeTitle>
-                      {targetChallenge.questions[progressValue].name}
-                    </ChallengeTitle>
-                  </DescriptionHeader>
-                  <DescriptionContent>
-                    <p>
-                      {targetChallenge.questions[progressValue].instructions}
-                    </p>
-                  </DescriptionContent>
-                </DescriptionContainer>
-                <TestsContainer>
-                  <TestsHeader>
-                    <Styledh2>Tests</Styledh2>
-                  </TestsHeader>
-                  <SmallCodeMirrorWrapper>
-                    {targetChallenge.questions[
-                      progressValue
-                    ].tests_for_question.map((test, index) => (
-                      <div key={`test ${index}`}>
-                        <StyledSmallCodeMirror
-                          value={test}
-                          options={{
-                            mode: "javascript",
-                            theme: "material",
-                            lineNumbers: true,
-                            firstLineNumber: index + 1,
-                          }}
-                          onChange={(editor, data, value) => {}}
+    return (
+        <>
+            <ChallengeContainer>
+                <StyledResizeContainer>
+                    <DescriptionColumn defaultSize={600} minSize={400}>
+                        {targetChallenge ? (
+                            <>
+                                <DescriptionContainer>
+                                    <DescriptionHeader>
+                                        <ChallengeTitle>
+                                            {targetChallenge.questions[progressValue].name}
+                                        </ChallengeTitle>
+                                    </DescriptionHeader>
+                                    <DescriptionContent>
+                                        <p>
+                                            {targetChallenge.questions[progressValue].instructions}
+                                        </p>
+                                    </DescriptionContent>
+                                </DescriptionContainer>
+                                <TestsContainer>
+                                    <TestsHeader>
+                                        <Styledh2>Tests</Styledh2>
+                                    </TestsHeader>
+                                    <SmallCodeMirrorWrapper>
+                                        {targetChallenge.questions[progressValue].tests_for_question.map((test, index) =>
+                                            (<div key={`test ${index}`}>
+                                                <StyledSmallCodeMirror
+                                                    value={test}
+                                                    options={{
+                                                        mode: "javascript",
+                                                        theme: "material",
+                                                        lineNumbers: true,
+                                                        firstLineNumber: index + 1,
+                                                    }}
+                                                    onChange={(editor, data, value) => {
+                                                    }}
+                                                />
+                                                {codeData[progressValue].status[index + 1] === null ? null : codeData[progressValue].status[index + 1] ?
+                                                    <FontAwesomeIconSuccess icon={["fas", "check-circle"]}/> :
+                                                    <FontAwesomeIconFail icon={["fas", "times-circle"]}/>}
+                                            </div>)
+                                        )}
+                                    </SmallCodeMirrorWrapper>
+                                    <RunButton onClick={runTestHandler}>Run Code and Submit</RunButton>
+                                </TestsContainer>
+                            </>
+                        ) : null}
+                    </DescriptionColumn>
+                    <StyledResizeBar/>
+                    <InputColumn>
+                        <StyledCodeMirror
+                            value={codeData[progressValue].code}
+                            options={options}
+                            onBeforeChange={(editor, data, value) => {
+                                setCodeData({...codeData, [progressValue]: {...codeData[progressValue], code: value}});
+                            }}
+                            onChange={(editor, data, value) => {
+                            }}
                         />
-                        {codeData[progressValue].status[index + 1] ===
-                        null ? null : codeData[progressValue].status[
-                            index + 1
-                          ] ? (
-                          <FontAwesomeIconSuccess
-                            icon={["fas", "check-circle"]}
-                          />
-                        ) : (
-                          <FontAwesomeIconFail icon={["fas", "times-circle"]} />
-                        )}
-                      </div>
-                    ))}
-                  </SmallCodeMirrorWrapper>
-                  <RunButton onClick={runTestHandler}>
-                    Run Code and Submit
-                  </RunButton>
-                </TestsContainer>
-              </>
-            ) : null}
-          </DescriptionColumn>
-          <StyledResizeBar />
-          <InputColumn>
-            <StyledCodeMirror
-              value={codeData[progressValue].code}
-              options={options}
-              onBeforeChange={(editor, data, value) => {
-                setCodeData({
-                  ...codeData,
-                  [progressValue]: { ...codeData[progressValue], code: value },
-                });
-              }}
-              onChange={(editor, data, value) => {}}
-            />
-          </InputColumn>
-        </StyledResizeContainer>
-      </ChallengeContainer>
-      <Footer>
-        <FooterSectionLeft>
-          {renderControlPanelV2(progressValue)}
-        </FooterSectionLeft>
-        <FooterSectionRight>
-          <Timer>
-            <p>Time left: 24:05</p>
-          </Timer>
-          <DoneButton>Done!</DoneButton>
-        </FooterSectionRight>
-      </Footer>
-    </>
-  );
-};
+                    </InputColumn>
+                </StyledResizeContainer>
+            </ChallengeContainer>
+            <Footer>
+                <FooterSectionLeft>
+                    {renderControlPanelV2(progressValue)}
+                </FooterSectionLeft>
+                <FooterSectionRight>
+                    <Timer>
+                        <p>Time left: 24:05</p>
+                    </Timer>
+                    <DoneButton>Done!</DoneButton>
+                </FooterSectionRight>
+            </Footer>
+        </>
+    );
+};  
 
 const mapStateToProps = (state) => {
   return {
     targetChallenge: state.challengeReducer.targetChallenge,
-    userObj: state.authReducer.userObj,
+    userObj: state.authReducer.userObj
   };
 };
 
-export default connect(mapStateToProps, {
-  getUserChallengeAction,
-  runTestAction,
-})(Challenge);
+export default connect(mapStateToProps, { getUserChallengeAction, runTestAction })(Challenge);

@@ -11,7 +11,6 @@ import {
   getAllUsersAction,
 } from "../../../../store/actions/userActions";
 import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
-import { Fade } from "react-reveal";
 
 //////////
 // STYLE
@@ -40,8 +39,8 @@ const UserModalContainer = styled.div`
 `;
 
 const ModalAvatar = styled.div`
-  width: ${rem("120px")};
-  height: ${rem("120px")};
+  width: ${rem('120px')};
+  height: ${rem('120px')};
   border: solid 1px rgba(221, 221, 221, 0.67);
   border-radius: 100%;
   display: flex;
@@ -50,8 +49,8 @@ const ModalAvatar = styled.div`
   overflow: hidden;
   cursor: pointer;
   img {
-    width: ${rem("120px")};
-    height: ${rem("120px")};
+    width: ${rem('120px')};
+    height: ${rem('120px')};
   }
 `;
 
@@ -59,8 +58,8 @@ const ImgOverlay = styled.div`
   transition: 0.5s ease;
   opacity: 0;
   position: absolute;
-  width: ${rem("120px")};
-  height: ${rem("120px")};
+  width: ${rem('120px')};
+  height: ${rem('120px')};
   border-radius: 100%;
   background-color: rgba(0, 0, 0, 0.5);
   display: flex;
@@ -75,10 +74,10 @@ const ImgOverlay = styled.div`
 `;
 
 const ModalInput = styled(BaseInput)`
-  width: ${rem("240px")};
-  height: ${rem("40px")};
+  width: ${rem('240px')};
+  height: ${rem('40px')};
   padding-bottom: 20px;
-  font-size: ${rem("16px")};
+  font-size: ${rem('16px')};
   padding-left: 8px;
 `;
 
@@ -141,57 +140,59 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
   };
 
   return (
-    <UserModalContainer>
-      <ModalAvatar>
-        <img
-          src={
-            userObj.avatar
-              ? userObj.avatar
-              : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
-          }
-          alt="avatar"
-        />
-        <ImgOverlay onClick={handleClick}>
-          <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-          <input
-            type="file"
-            name="avatar"
-            ref={hiddenFileInput}
-            onChange={imageSelectHandler}
-            style={{ display: "none" }}
+    <>
+      <UserModalContainer>
+        <ModalAvatar>
+          <img
+            src={
+              userObj.avatar
+                ? userObj.avatar
+                : `https://eu.ui-avatars.com/api/?name=${userObj.first_name}+${userObj.last_name}`
+            }
+            alt="avatar"
           />
-        </ImgOverlay>
-      </ModalAvatar>
-      <p>{userObj.email}</p>
-      <ModalInput
-        type="text"
-        placeholder="First Name"
-        value={data.first_name}
-        required
-        onChange={handleInput}
-        name="first_name"
-      />
-      <ModalInput
-        type="text"
-        placeholder="Last Name"
-        value={data.last_name}
-        required
-        onChange={handleInput}
-        name="last_name"
-      />
-      <ModalInput
-        type="text"
-        placeholder="Phone Nr."
-        value={data.phone}
-        required
-        onChange={handleInput}
-        name="phone"
-      />
-      <ButtonWrapper>
-        <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
-        <BlueButton onClick={onSubmitForm}>Save</BlueButton>
-      </ButtonWrapper>
-    </UserModalContainer>
+          <ImgOverlay onClick={handleClick}>
+            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
+            <input
+              type="file"
+              name="avatar"
+              ref={hiddenFileInput}
+              onChange={imageSelectHandler}
+              style={{ display: "none" }}
+            />
+          </ImgOverlay>
+        </ModalAvatar>
+        <p>{userObj.email}</p>
+        <ModalInput
+          type="text"
+          placeholder="First Name"
+          value={data.first_name}
+          required
+          onChange={handleInput}
+          name="first_name"
+        />
+        <ModalInput
+          type="text"
+          placeholder="Last Name"
+          value={data.last_name}
+          required
+          onChange={handleInput}
+          name="last_name"
+        />
+        <ModalInput
+          type="text"
+          placeholder="Phone Nr."
+          value={data.phone}
+          required
+          onChange={handleInput}
+          name="phone"
+        />
+        <ButtonWrapper>
+          <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
+          <BlueButton onClick={onSubmitForm}>Save</BlueButton>
+        </ButtonWrapper>
+      </UserModalContainer>
+    </>
   );
 };
 

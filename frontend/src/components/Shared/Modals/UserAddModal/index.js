@@ -6,10 +6,7 @@ import { Styledh2 } from "../../../../style/GlobalTitles";
 import { BaseContainer } from "../../../../style/GlobalWrappers";
 import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { connect, useDispatch } from "react-redux";
-import {
-  createUserAction,
-  getAllUsersAction,
-} from "../../../../store/actions/userActions";
+import { createUserAction, getAllUsersAction } from "../../../../store/actions/userActions";
 import Error from "../../Error";
 import { BaseInput } from "../../../../style/GlobalInputs";
 import { resetError } from "../../../../store/actions/verificationAction";
@@ -24,7 +21,7 @@ const CreateModalOverlay = styled.div`
   width: 100%;
   height: 100%;
   background: rgba(0, 0, 0, 0.6);
-  z-index: 1;
+  z-index: 999;
 `;
 
 const CreateModalContainer = styled(BaseContainer)`
@@ -34,8 +31,8 @@ const CreateModalContainer = styled(BaseContainer)`
   padding: 32px;
   position: fixed;
   background: white;
-  width: ${rem("640px")};
-  height: ${rem("480px")};
+  width: ${rem('640px')};
+  height: ${rem('480px')};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -76,7 +73,7 @@ const RoleDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
+  height: ${rem('38px')};
   width: 100%;
   &:focus {
     outline: none;
@@ -84,7 +81,7 @@ const RoleDropdown = styled.select`
 `;
 
 const InputLabelDiv = styled.div`
-  height: ${rem("98px")};
+  height: ${rem('98px')};
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -92,8 +89,8 @@ const InputLabelDiv = styled.div`
 
 const StyledInput = styled(BaseInput)`
   width: 100%;
-  font-size: ${rem("14px")};
-  height: ${rem("6px")};
+  font-size: ${rem('14px')};
+  height: ${rem('6px')};
 `;
 
 const StyledLabel = styled.label`

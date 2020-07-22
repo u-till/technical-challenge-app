@@ -67,7 +67,7 @@ const EditTop = styled.div`
     margin-left: 12px;
   }
   > div {
-    width: ${rem("120px")};
+    width: ${rem('120px')};
   }
 `;
 
@@ -109,7 +109,7 @@ const DeleteSave = styled.div`
   > div:last-child {
     display: flex;
     justify-content: space-between;
-    width: ${rem("180px")};
+    width: ${rem('180px')};
   }
 `;
 
@@ -127,19 +127,19 @@ const StyledLabel = styled.label`
 
 const NameInput = styled(BaseInput)`
   width: 100%;
-  height: ${rem("6px")};
+  height: ${rem('6px')};
 `;
 
 const NumberInput = styled(BaseInput)`
   width: 100%;
-  height: ${rem("6px")};
+  height: ${rem('6px')};
 `;
 
 const DescriptionInput = styled(BaseTextArea)`
   width: 100%;
   resize: none;
   height: 100%;
-  font-size: ${rem("16px")};
+  font-size: ${rem('16px')};
 `;
 
 const DifficultyDropdown = styled.select`
@@ -147,7 +147,7 @@ const DifficultyDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
+  height: ${rem('38px')};
   width: 100%;
 
   &:focus {
@@ -205,7 +205,6 @@ const BrowseContainer = styled(BaseContainer)`
   flex-grow: 1;
   flex-basis: 0;
   min-width: 540px;
-  height: 640px;
   height: ${rem("640px")};
   padding: 24px;
   justify-content: space-between;
@@ -231,7 +230,7 @@ const BrowseHeader = styled.div`
 
 const SearchQInput = styled(BaseInput)`
   margin-left: 12px;
-  height: ${rem("6px")};
+  height: ${rem('6px')};
 `;
 
 const SortQDropdown = styled.select`
@@ -239,8 +238,8 @@ const SortQDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
-  width: ${rem("120px")};
+  height: ${rem('38px')};
+  width: ${rem('120px')};
   &:focus {
     outline: none;
   }
@@ -487,9 +486,7 @@ const Questions = ({
                       </RoundGreyButton>
                       {isModalTipAddOpen ? (
                         <TipAddModal
-                          ModalTipAddOpenCloseHandler={
-                            ModalTipAddOpenCloseHandler
-                          }
+                          ModalTipAddOpenCloseHandler={ModalTipAddOpenCloseHandler}
                           questionId={targetQuestion.id}
                         />
                       ) : null}

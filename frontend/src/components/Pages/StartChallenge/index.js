@@ -18,7 +18,7 @@ import { useRouteMatch } from "react-router-dom";
 // `;
 
 const InformationContainer = styled.div`
-  height: ${rem("720px")};
+  height: ${rem('720px')};
   width: 99%;
   display: flex;
   flex-direction: column;
@@ -27,13 +27,13 @@ const InformationContainer = styled.div`
 `;
 
 const ExampleImage = styled.img`
-  height: ${rem("535px")};
-  width: ${rem("710px")};
+  height: ${rem('535px')};
+  width: ${rem('710px')};
   background-image: url("http://via.placeholder.com/710x535");
 `;
 
 const ChallengeInstructionsContainer = styled.div`
-  height: ${rem("640px")};
+  height: ${rem('640px')};
   width: 100%;
   border-radius: 5px;
   background: white;
@@ -64,7 +64,7 @@ const RightSideContainer = styled.div`
 
 const P = styled.p`
   font-weight: normal;
-  font-size: ${rem("14px")};
+  font-size: ${rem('14px')};
   text-align: justify;
 `;
 

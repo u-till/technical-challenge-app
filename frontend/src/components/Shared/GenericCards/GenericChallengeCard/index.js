@@ -18,7 +18,7 @@ const ChallengeCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem("100px")};
+  height: ${rem('100px')};
   margin-bottom: 8px;
   p:first-child {
     width: 70%;
@@ -27,7 +27,7 @@ const ChallengeCard = styled.div`
 `;
 
 const StartChallengeButton = styled(BlueButton)`
-  width: ${rem("120px")};
+  width: ${rem('120px')};
   p {
     padding-right: 12px;
     display: inline;
@@ -35,7 +35,7 @@ const StartChallengeButton = styled(BlueButton)`
 `;
 
 const Challengeh2 = styled(Styledh2)`
-  font-size: ${rem("18px")};
+  font-size: ${rem('18px')};
 `;
 
 //////////
