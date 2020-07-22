@@ -6,7 +6,7 @@ import { PageContainer } from "../../../style/GlobalWrappers/index";
 import GenericChallengeCard from "../../Shared/GenericCards/GenericChallengeCard";
 import { connect } from "react-redux";
 import { getAllUserChallengesAction } from "../../../store/actions/challengeActions";
-import GenericSpinner from "../../Shared/GenericSpinner";
+import { GenericSpinner } from "../../Shared/GenericSpinner";
 
 //////////
 // STYLE

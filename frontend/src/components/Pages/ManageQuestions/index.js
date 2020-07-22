@@ -15,7 +15,7 @@ import {
   resetTargetQuestion,
   updateQuestionAction,
 } from "../../../store/actions/questionActions";
-import GenericSpinner from "../../Shared/GenericSpinner";
+import { GenericSpinner } from "../../Shared/GenericSpinner";
 import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 import TipAddModal from "../../Shared/Modals/TipAddModal/TipAddModal";
 import { Fade } from "react-reveal";
