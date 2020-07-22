@@ -1,65 +1,76 @@
 import React from "react";
 import styled from "styled-components";
 import { rem } from "polished";
-import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
-import { PageContainer } from "../../../style/GlobalWrappers/index";
+import {
+  StyledPageTitles,
+  Styledh3,
+  Styledh1,
+} from "../../../style/GlobalTitles/index";
+import {
+  BaseContainer,
+  PageContainer,
+} from "../../../style/GlobalWrappers/index";
 import { BigRedButton } from "../../../style/GlobalButtons/index";
 import { useHistory } from "react-router";
 import { useRouteMatch } from "react-router-dom";
+import example from "../../../assets/images/example-screenshot.png";
 
 //////////
 // STYLE
 //////////
 
-// const TechChallengeCont = styled.div`
-//   width: 1807px;
-//   height: 711px;
-//   background: #ffffff;
-// `;
-
 const InformationContainer = styled.div`
-  height: ${rem("720px")};
-  width: 99%;
-  display: flex;
   flex-direction: column;
-  justify-content: space-between;
-  align-content: flex-start;
-`;
-
-const ExampleImage = styled.img`
-  height: ${rem("535px")};
-  width: ${rem("710px")};
-  background-image: url("http://via.placeholder.com/710x535");
-`;
-
-const ChallengeInstructionsContainer = styled.div`
-  height: ${rem("640px")};
-  width: 100%;
-  border-radius: 5px;
-  background: white;
-  display: flex;
-  justify-content: space-between;
   align-items: center;
+  width: 100%;
+  height: 100%;
+  min-width: 870px;
 `;
 
-const ChallengeInstructions = styled.div`
-  height: 82.5%;
+const ExampleImage = styled.div`
+  min-height: ${rem("535px")};
+  min-width: ${rem("820px")};
+  background-repeat: no-repeat;
+  background-size: contain;
+  background-image: url(${example});
+  background-position: center;
+  border: 1px solid rgba(0, 0, 0, 0.2);
+`;
+
+const ChallengeInstructionsContainer = styled(BaseContainer)`
+  display: inline-flex;
+  justify-content: space-between;
+  flex-wrap: wrap;
   width: 100%;
-  text-justify: auto;
-  padding-top: 50px;
+  padding: 24px 24px 0 24px;
 `;
 
 const LeftSideContainer = styled.div`
-  padding-left: 50px;
+  flex-grow: 1;
+  flex-basis: 0;
+  height: ${rem("535px")};
+  min-width: 820px;
   height: 100%;
-  width: 40%;
+  justify-content: space-between;
+  display: flex;
+  flex-direction: column;
+  margin-right: 24px;
+  margin-bottom: 24px;
+`;
+
+const ChallengeInstructions = styled.div`
+  width: 100%;
+  text-justify: auto;
 `;
 
 const RightSideContainer = styled.div`
-  padding-right: 50px;
-  height: 100%;
+  flex-grow: 1;
+  flex-basis: 0;
+  min-width: 320px;
+  justify-content: space-between;
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  margin-bottom: 24px;
 `;
 
 const P = styled.p`
@@ -89,47 +100,49 @@ const StartChallenge = () => {
   return (
     <PageContainer>
       <InformationContainer>
-        <StyledPageTitles>Technical Challenge</StyledPageTitles>
+        <Styledh1>Technical Challenge</Styledh1>
         <ChallengeInstructionsContainer>
           <LeftSideContainer>
+            <ExampleImage></ExampleImage>
+          </LeftSideContainer>
+          <RightSideContainer>
             <ChallengeInstructions>
-              <P>
-                Welcome to your Technical Coding Challenge. You will have 30
-                minutes to pass 6 coding questions. The questions will have
-                varying levels of difficulty. You may move freely between each
-                question with the Next and Previous buttons. When you are
-                finished, click the Done button to submit your final results.
-              </P>
-              <br></br>
-              <P>
-                On the the Left Panel is your Coding Challenge Instructions. Pay
-                close attention to the naming of functions, functions with the
-                wrong name will not pass the tests.
-              </P>
-              <br></br>
-              <P>
-                On the Middle Panel is your coding input window. You will enter
-                your code here, paying close attention to naming and syntax.
-                When you think your code is correct, click the Submit button to
-                submit and evaluate your answer to the question.
-              </P>
-              <br></br>
-              <P>
-                On the Right Panel is the tests your code will be evaluated
-                against. The results of the tests run on your code after
-                clicking Submit will be displayed in the lower portion of the
-                right panel.
-              </P>
-              <br></br>
-              <P>Best of Luck with your Technical Coding Challenge!!</P>
+              <div>
+                <P>
+                  Welcome to your Technical Coding Challenge. You will have 30
+                  minutes to pass 6 coding questions. The questions will have
+                  varying levels of difficulty. You may move freely between each
+                  question with the Next and Previous buttons. When you are
+                  finished, click the Done button to submit your final results.
+                </P>
+                <br></br>
+                <P>
+                  On the the Left Panel is your Coding Challenge Instructions.
+                  Pay close attention to the naming of functions, functions with
+                  the wrong name will not pass the tests.
+                </P>
+                <br></br>
+                <P>
+                  On the Middle Panel is your coding input window. You will
+                  enter your code here, paying close attention to naming and
+                  syntax. When you think your code is correct, click the Submit
+                  button to submit and evaluate your answer to the question.
+                </P>
+                <br></br>
+                <P>
+                  On the Right Panel is the tests your code will be evaluated
+                  against. The results of the tests run on your code after
+                  clicking Submit will be displayed in the lower portion of the
+                  right panel.
+                </P>
+                <br></br>
+                <P>Best of Luck with your Technical Coding Challenge!!</P>
+              </div>
             </ChallengeInstructions>
             <ReadyButtonContainer>
               <Styledh3>Ready?</Styledh3>
               <BigRedButton onClick={onStartHandler}>Start</BigRedButton>
             </ReadyButtonContainer>
-          </LeftSideContainer>
-          <RightSideContainer>
-            <ExampleImage></ExampleImage>
           </RightSideContainer>
         </ChallengeInstructionsContainer>
       </InformationContainer>
