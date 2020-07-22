@@ -116,6 +116,12 @@ const StyledNavLink = styled(NavLink).attrs({ activeClassName })`
   }
 `;
 
+const StyledFade = styled.div`
+  position: absolute;
+  top: 100px;
+  right: 0px;
+`;
+
 //////////
 // REACT
 //////////
@@ -169,15 +175,17 @@ const Navigation = ({ children, userObj, logoutUser }) => {
                   alt="avatar"
                 />
               </NavbarAvatar>
-              <Fade duration={600} top when={isProfileModalVisible}>
-                {isProfileModalVisible && (
-                  <UserModal
-                    isProfileModalVisible={isProfileModalVisible}
-                    showProfileContextHandler={showProfileContextHandler}
-                    userObj={userObj}
-                  />
-                )}
-              </Fade>
+              <StyledFade>
+                <Fade duration={600} top when={isProfileModalVisible}>
+                  {isProfileModalVisible && (
+                    <UserModal
+                      isProfileModalVisible={isProfileModalVisible}
+                      showProfileContextHandler={showProfileContextHandler}
+                      userObj={userObj}
+                    />
+                  )}
+                </Fade>
+              </StyledFade>
             </>
           )}
         </NavSectionRight>

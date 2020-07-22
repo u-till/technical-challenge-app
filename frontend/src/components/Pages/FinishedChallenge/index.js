@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import {rem} from "polished";
+import { rem } from "polished";
 
-import {StyledPageTitles, Styledh3} from "../../../style/GlobalTitles/index";
-import {PageContainer} from "../../../style/GlobalWrappers/index";
+import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
+import { PageContainer } from "../../../style/GlobalWrappers/index";
 import GenericChallengeCard from "../../Shared/GenericCards/GenericChallengeCard";
 
 //////////
@@ -29,7 +29,6 @@ const ChallengeDoneContainer = styled.div`
   align-items: center;
 `;
 
-
 const ChallengeDoneInstructions = styled.div`
   height: 100%;
   width: 60vw;
@@ -48,7 +47,7 @@ const DoneText = styled.div`
   justify-content: flex-start;
   align-items: flex-start;
   text-justify: auto;
-`
+`;
 
 const LeftSideContainer = styled.div`
   padding-left: 50px;
@@ -74,49 +73,47 @@ const H2 = styled.h2`
   font-weight: 700;
   font-size: 20px;
   text-align: justify;
-`
+`;
 
 //////////
 // REACT
 //////////
 const FinishedChallenge = () => {
-    return (
-        <PageContainer>
-            <InformationContainer>
-                <StyledPageTitles>Done!</StyledPageTitles>
-                <ChallengeDoneContainer>
-                    <LeftSideContainer>
-                        <ChallengeDoneInstructions>
-                            <img width="172px"
-                                 src="https://thumbs.gfycat.com/ClassicImaginaryFalcon-size_restricted.gif"/>
-                            <br></br>
-                            <br></br>
-                            <br></br>
-                            <br></br>
+  return (
+    <PageContainer>
+      <InformationContainer>
+        <StyledPageTitles>Done!</StyledPageTitles>
+        <ChallengeDoneContainer>
+          <LeftSideContainer>
+            <ChallengeDoneInstructions>
+              <img
+                width="172px"
+                src="https://thumbs.gfycat.com/ClassicImaginaryFalcon-size_restricted.gif"
+              />
+              <br></br>
+              <br></br>
+              <br></br>
+              <br></br>
 
-                            <DoneText>
-                                <H2>
-                                    Good job!
-                                </H2>
-                                <br></br>
-                                <P>
-                                    You will receive an email in your mailbox with information about the challenge
-                                    results.
-                                </P>
-                                <br></br>
-                                <P>
-                                    Keep coding!
-                                </P>
-                            </DoneText>
-                        </ChallengeDoneInstructions>
-                    </LeftSideContainer>
-                    <RightSideContainer>
-                        {/*<GenericChallengeCard />*/}
-                    </RightSideContainer>
-                </ChallengeDoneContainer>
-            </InformationContainer>
-        </PageContainer>
-    );
+              <DoneText>
+                <H2>Good job!</H2>
+                <br></br>
+                <P>
+                  You will receive an email in your mailbox with information
+                  about the challenge results.
+                </P>
+                <br></br>
+                <P>Keep coding!</P>
+              </DoneText>
+            </ChallengeDoneInstructions>
+          </LeftSideContainer>
+          <RightSideContainer>
+            {/*<GenericChallengeCard />*/}
+          </RightSideContainer>
+        </ChallengeDoneContainer>
+      </InformationContainer>
+    </PageContainer>
+  );
 };
 
 export default FinishedChallenge;

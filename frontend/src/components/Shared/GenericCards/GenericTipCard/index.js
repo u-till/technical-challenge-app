@@ -175,7 +175,11 @@ const GenericTipCard = ({ tip, questionId }) => {
         </TipCardEditing>
       ) : (
         <TipCard>
-          <p>{`${tip.content.slice(0, 130)}...`}</p>
+          <p>
+            {tip.content.length > 130
+              ? `${tip.content.slice(0, 130)}...`
+              : tip.content}
+          </p>
           <p>{`Minus: ${tip.discount_value}`}</p>
           <RoundGreyButton onClick={editTipHandler}>
             <FontAwesomeIcon icon={["fas", "pencil-alt"]} />

@@ -44,7 +44,14 @@ const DeleteModalContainer = styled(BaseContainer)`
   }
 `;
 
-const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId, questionId, setQuestionData}) => {
+const GenericDeleteModal = ({
+  ModalDeleteOpenCloseHandler,
+  children,
+  type,
+  typeId,
+  questionId,
+  setQuestionData,
+}) => {
   const dispatch = useDispatch();
 
   const onDeleteHandler = async (e) => {
@@ -56,7 +63,12 @@ const GenericDeleteModal = ({ModalDeleteOpenCloseHandler, children, type, typeId
           return await dispatch(getAllUsersAction());
         }
         case "questions": {
-          setQuestionData({name: "", instructions: "", difficulty: "E", program: []});
+          setQuestionData({
+            name: "",
+            instructions: "",
+            difficulty: "E",
+            program: [],
+          });
           ModalDeleteOpenCloseHandler();
           await dispatch(resetTargetQuestion());
           return await dispatch(getAllQuestionsAction());

@@ -17,10 +17,10 @@ import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
 //////////
 
 const UserModalContainer = styled.div`
-  position: absolute;
-  top: 60px;
-  right: 0px;
-  z-index: 999;
+  //position: absolute;
+  //top: 60px;
+  //right: 0px;
+  //z-index: 999;
   //float: left;
   overflow: hidden;
   height: ${rem("420px")};
