@@ -1,7 +1,7 @@
 const test = require('tape');
 
 function addition(number) {
- return number + 1
+ return number + 1 
 }
 
 test('function should return the sum of two numbers', function(t) {
