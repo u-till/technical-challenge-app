@@ -1,6 +1,6 @@
 const test = require('tape');
 
-function sum(x, y) { return x + y }
+function sum(x, y) { return x + y 
 
 test('function should return the sum of two numbers', function(t) {
     const result = sum(1,2); 

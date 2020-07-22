@@ -1,6 +1,8 @@
 const test = require('tape');
 
-function addition(number) { return number + 1 }
+function addition(number) {
+ return number + 1 
+}
 
 test('should return the next number from the integer passed', function(t) {
     const result = addition(0);
