@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
-import { rem } from "polished";
+import {rem} from "polished";
 
-import { StyledPageTitles, Styledh3 } from "../../../style/GlobalTitles/index";
-import { PageContainer } from "../../../style/GlobalWrappers/index";
+import {StyledPageTitles, Styledh3} from "../../../style/GlobalTitles/index";
+import {PageContainer} from "../../../style/GlobalWrappers/index";
 import GenericChallengeCard from "../../Shared/GenericCards/GenericChallengeCard";
 
 //////////
@@ -29,12 +29,26 @@ const ChallengeDoneContainer = styled.div`
   align-items: center;
 `;
 
+
 const ChallengeDoneInstructions = styled.div`
-  height: 82.5%;
-  width: 100%;
+  height: 100%;
+  width: 60vw;
+  display: flex;
+  justify-content: space-evenly;
+  align-items: flex-start;
   text-justify: auto;
   padding-top: 50px;
 `;
+
+const DoneText = styled.div`
+  height: 100%;
+  width: 75%;«
+  display: flex;
+  flex-direction: column;
+  justify-content: flex-start;
+  align-items: flex-start;
+  text-justify: auto;
+`
 
 const LeftSideContainer = styled.div`
   padding-left: 50px;
@@ -52,68 +66,57 @@ const RightSideContainer = styled.div`
 
 const P = styled.p`
   font-weight: normal;
-  font-size: 14px;
+  font-size: 20px;
   text-align: justify;
 `;
+
+const H2 = styled.h2`
+  font-weight: 700;
+  font-size: 20px;
+  text-align: justify;
+`
 
 //////////
 // REACT
 //////////
 const FinishedChallenge = () => {
-  return (
-    <PageContainer>
-      <InformationContainer>
-        <StyledPageTitles>Done!</StyledPageTitles>
-        <ChallengeDoneContainer>
-          <LeftSideContainer>
-            <ChallengeDoneInstructions>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-              <br></br>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-              <br></br>
-              <P>
-                Lorem Ipsum is simply dummy text of the printing and typesetting
-                industry. Lorem Ipsum has been the industry's standard dummy
-                text ever since the 1500s, when an unknown printer took a galley
-                of type and scrambled it to make a type specimen book. It has
-                survived not only five centuries, but also the leap into
-                electronic typesetting, remaining essentially unchanged. It was
-                popularised in the 1960s with the release of Letraset sheets
-                containing Lorem Ipsum passages, and more recently with desktop
-                publishing software like Aldus PageMaker including versions of
-                Lorem Ipsum.
-              </P>
-            </ChallengeDoneInstructions>
-          </LeftSideContainer>
-          <RightSideContainer>
-            {/*<GenericChallengeCard />*/}
-          </RightSideContainer>
-        </ChallengeDoneContainer>
-      </InformationContainer>
-    </PageContainer>
-  );
+    return (
+        <PageContainer>
+            <InformationContainer>
+                <StyledPageTitles>Done!</StyledPageTitles>
+                <ChallengeDoneContainer>
+                    <LeftSideContainer>
+                        <ChallengeDoneInstructions>
+                            <img width="172px"
+                                 src="https://thumbs.gfycat.com/ClassicImaginaryFalcon-size_restricted.gif"/>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+                            <br></br>
+
+                            <DoneText>
+                                <H2>
+                                    Good job!
+                                </H2>
+                                <br></br>
+                                <P>
+                                    You will receive an email in your mailbox with information about the challenge
+                                    results.
+                                </P>
+                                <br></br>
+                                <P>
+                                    Keep coding!
+                                </P>
+                            </DoneText>
+                        </ChallengeDoneInstructions>
+                    </LeftSideContainer>
+                    <RightSideContainer>
+                        {/*<GenericChallengeCard />*/}
+                    </RightSideContainer>
+                </ChallengeDoneContainer>
+            </InformationContainer>
+        </PageContainer>
+    );
 };
 
 export default FinishedChallenge;
