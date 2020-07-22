@@ -11,6 +11,7 @@ import {connect} from "react-redux";
 import {getAllUsersAction} from "../../../store/actions/userActions";
 import GenericSpinner from "../../Shared/GenericSpinner";
 import UserAddModal from "../../Shared/Modals/UserAddModal";
+import { Fade } from "react-reveal";
 
 //////////
 // STYLE

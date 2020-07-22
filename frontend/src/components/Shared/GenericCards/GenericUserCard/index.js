@@ -25,6 +25,8 @@ import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
 // STYLES
 //////////
 const UserCard = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   display: flex;
   align-items: center;
   justify-content: space-between;
@@ -66,6 +68,8 @@ const UserAvatar = styled.div`
 `;
 
 const UserCardBig = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   display: flex;
   align-items: center;
   flex-direction: column;

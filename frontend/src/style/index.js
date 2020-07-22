@@ -29,12 +29,12 @@ export const GlobalStyle = createGlobalStyle`
   width: 10px;
 }
 *::-webkit-scrollbar-track {
-  background: #fff;
+  background: rgba(0,0,0,0);;
 }
 *::-webkit-scrollbar-thumb {
   background-color: #bdbdbd;
-  border-radius: 5px;
-  border: 2px solid #fff ;
+  //border-radius: 5px;
+  border: 0px solid #ffffff ;
 }
 `;
 

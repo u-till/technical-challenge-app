@@ -18,12 +18,13 @@ import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
 
 const UserModalContainer = styled.div`
   position: absolute;
-  top: 100px;
+  top: 60px;
+  right: 0px;
   z-index: 999;
-  float: left;
+  //float: left;
   overflow: hidden;
-  height: ${rem('420px')};
-  width: ${rem('320px')};
+  height: ${rem("420px")};
+  width: ${rem("320px")};
   background-color: #ffffff;
   min-width: 160px;
   background: #ffffff;

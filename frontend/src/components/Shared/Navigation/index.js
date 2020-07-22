@@ -8,7 +8,7 @@ import { NavLink, useHistory } from "react-router-dom";
 import UserModal from "./UserModal";
 import { connect } from "react-redux";
 import { logoutUser } from "../../../store/actions/loginActions";
-
+import Fade from "react-reveal/Fade";
 //////////
 // STYLE
 //////////
@@ -169,12 +169,15 @@ const Navigation = ({ children, userObj, logoutUser }) => {
                   alt="avatar"
                 />
               </NavbarAvatar>
-              {isProfileModalVisible && (
-                <UserModal
-                  showProfileContextHandler={showProfileContextHandler}
-                  userObj={userObj}
-                />
-              )}
+              <Fade duration={600} top when={isProfileModalVisible}>
+                {isProfileModalVisible && (
+                  <UserModal
+                    isProfileModalVisible={isProfileModalVisible}
+                    showProfileContextHandler={showProfileContextHandler}
+                    userObj={userObj}
+                  />
+                )}
+              </Fade>
             </>
           )}
         </NavSectionRight>
