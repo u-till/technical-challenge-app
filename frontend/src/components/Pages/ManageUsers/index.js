@@ -9,9 +9,9 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import GenericUserCard from "../../Shared/GenericCards/GenericUserCard";
 import { connect } from "react-redux";
 import { getAllUsersAction } from "../../../store/actions/userActions";
-import GenericSpinner from "../../Shared/GenericSpinner";
 import UserAddModal from "../../Shared/Modals/UserAddModal";
 import { Fade } from "react-reveal";
+import { GenericSpinner } from "../../Shared/GenericSpinner";
 
 //////////
 // STYLE

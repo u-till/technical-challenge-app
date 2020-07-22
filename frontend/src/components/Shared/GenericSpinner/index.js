@@ -10,17 +10,32 @@ const Center = styled.div`
   justify-content: center;
 `;
 
+const InLine = styled.div`
+  padding-left: 24px;
+  display: inline;
+  justify-content: center;
+`;
+
 // Component - Displayed while data is being fetched
 
-const GenericSpinner = () => (
+export const GenericSpinner = () => (
   <Center>
     <ClipLoader
       size={100}
       sizeUnit={"px"}
-      color={"#E47D31"}
+      color={"#00bae5"}
       css={"margin-top: 2rem"}
     />
   </Center>
 );
 
-export default GenericSpinner;
+export const GenericSpinnerSmall = () => (
+  <InLine>
+    <ClipLoader
+      size={16}
+      sizeUnit={"px"}
+      color={"#fff"}
+      css={"margin-right: -2rem"}
+    />
+  </InLine>
+);

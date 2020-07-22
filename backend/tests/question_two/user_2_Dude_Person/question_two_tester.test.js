@@ -1,7 +1,7 @@
 const test = require("tape");
 
-function reverseString(string) {
-  return string.split("").reverse().join("");
+function addition(number) {
+  return number + 1;
 }
 
 test("should reverse the contents of a string", function (t) {
