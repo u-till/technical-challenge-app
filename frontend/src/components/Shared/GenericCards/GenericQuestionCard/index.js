@@ -37,8 +37,6 @@ const SmallText = styled.p`
 // REACT
 //////////
 
-const MAX_DESC_LENGTH = 160;
-
 const GenericQuestionCard = ({ question, setData }) => {
   const dispatch = useDispatch();
 
@@ -61,7 +59,11 @@ const GenericQuestionCard = ({ question, setData }) => {
             : "Easy"}
         </SmallText>
         <Styledh2>{question.name}</Styledh2>
-        <p>{`${question.instructions.substring(0, MAX_DESC_LENGTH)}...`}</p>
+        <p>
+          {question.instructions.length > 130
+            ? `${question.instructions.slice(0, 130)}...`
+            : question.instructions}
+        </p>
       </div>
       <RoundGreyButton onClick={onClickHandler}>
         <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
