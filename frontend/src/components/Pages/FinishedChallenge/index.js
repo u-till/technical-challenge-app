@@ -108,7 +108,7 @@ const FinishedChallenge = () => {
             </ChallengeDoneInstructions>
           </LeftSideContainer>
           <RightSideContainer>
-            <GenericChallengeCard />
+            {/*<GenericChallengeCard />*/}
           </RightSideContainer>
         </ChallengeDoneContainer>
       </InformationContainer>
