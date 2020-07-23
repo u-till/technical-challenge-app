@@ -106,6 +106,12 @@ class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
     queryset = User.objects.all()
     lookup_field = 'id'
 
+    def patch(self, request, *args, **kwargs):
+        user = User.objects.get(id=kwargs['id'])
+        user.username = request.data['email']
+        user.save()
+        return self.partial_update(request, *args, **kwargs)
+
 
 class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
     """
@@ -124,6 +130,11 @@ class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
     def get_object(self):
         return self.request.user
 
+    def patch(self, request, *args, **kwargs):
+        user = self.request.user
+        user.username = request.data['email']
+        user.save()
+        return self.partial_update(request, *args, **kwargs)
 
 class ResendChallengeScoreEmail(UpdateAPIView):
     serializer_class = UserSerializer
