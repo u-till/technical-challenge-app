@@ -29,17 +29,21 @@ class CreateChallenge(CreateAPIView):
         email = EmailMultiAlternatives()
         email.subject = f'Propulsion Academy - You have a new Challenge!'
         email.to = [candidate.email]
-        html_content = f"""<h2 style="font-weight:normal">Get ready!</h2>
-        <h3 style="font-weight:normal">{candidate.first_name} {candidate.last_name} you have a new challenge to solve!</h3>
-        <h3 style="font-weight:normal">Please click the link below to go to login and start your challenge:</h3>
-        <h3 style="font-weight:normal">https://tech-challenge.propulsion-learn.ch/login/</h3>
-        <h3 style="font-weight:normal">You can find the challenge in your personal account after the login it's successfully done.</h3>
-        <p><strong>Propulsion Academy</strong><br>
-        Technoparkstrasse 1<br>
-        8005 Zürich, Switzerland<br>
-        https://propulsion.academy/full-stack</p>
-        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
-        """
+        html_content = f"""<table border="0" align="center" cellpadding="0" cellspacing="0"><h2 style="font-weight:normal">Hi, {candidate.first_name}! You have been assigned a Propulsion Academy Technical Challenge!</h2>
+                <br></br>
+                <h3 style="font-weight:normal">In order to start your challenge you need to login and go to Challenges on your personal area.</h3>
+                <h3 style="font-weight:normal">Whenever you are ready to start your Technical Challenge, click on the button below.</h3>
+                <br></br>
+                <a href="https://tech-challenge.propulsion-learn.ch/login/"><button style="outline:none; background: #EF485C; border-radius: 40px; width: 180px; height: 40px; color: white; font-size: 16px; border: none;" >Go to login</button></a>
+                <br></br>
+                <br></br>
+                <h3 style="font-weight:normal">If after clicking the button you are not redirected to the challenge please send us an email to support@propulsionacademy.com</h3>
+                <h3 style="font-weight:normal">Regards,</h3>
+                <p><strong>Full-Stack Propulsion Team</strong><br>
+                Technoparkstrasse 1<br>
+                8005 Zürich, Switzerland<br>
+                https://propulsion.academy/full-stack</p>
+                <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68"></table>        """
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
         return Response(status=200)
@@ -152,18 +156,22 @@ class ChallengeScore(UpdateAPIView):
             email.to = [candidate.email]
             if challenge.score < 40:
                 result = 'Failed'
-                html_content = f"""<h3 style="font-weight:normal">Unfortunately you didn't made it.</h3>
-                        <h3 style="font-weight:normal">Better luck next time</h3>
+                html_content = f"""<h3 style="font-weight:normal">Dear {candidate.first_name},</h3>
+                        <h3 style="font-weight:normal">Though you demonstrated excellent motivation and willingness to learn in trying to pass the technical challenge, additional work is required to reach the level needed to get into the program. We recommend that you keep practicing with the intention of joining a future program.</h3>
+                        <h3 style="font-weight:normal">Please continue reviewing the materials for the technical challenge as well as other similar online resources and let us know when you are ready to try again.</h3>
+                        <h3 style="font-weight:normal">All the very best,</h3>
+                        <br></br>
                         <p><strong>Propulsion Academy</strong><br>
                         Technoparkstrasse 1<br>
                         8005 Zürich, Switzerland<br>
                         https://propulsion.academy/full-stack</p>
-                        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
-                        """
+                        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68">                        """
             elif 40 <= challenge.score < 70:
                 result = 'Need review'
-                html_content = f"""<h3 style="font-weight:normal">Good job.</h3>
-                         <h3 style="font-weight:normal">You will be contacted by Propulsion with your results soon</h3>
+                html_content = f"""<h2 style="font-weight:normal">Hi, {candidate.first_name}! You got {score}% on your Propulsion Academy Technical Challenge.</h2>
+                         <h3 style="font-weight:normal">We can see that you are almost there! However, we believe that a little more time and practice can be decisive for you to pass the test and for this, we would like to invite you for a second technical challenge within the next 7 days. We are confident that you can do it!</h3>
+                         <h3 style="font-weight:normal">Expect an email from us when the next challenge becomes available on your personal area.</h3>
+                         <h3 style="font-weight:normal">Regards,</h3>
                          <p><strong>Propulsion Academy</strong><br>
                          Technoparkstrasse 1<br>
                          8005 Zürich, Switzerland<br>
@@ -172,8 +180,12 @@ class ChallengeScore(UpdateAPIView):
                          """
             else:
                 result = 'Passed'
-                html_content = f"""<h3 style="font-weight:normal">Great job</h3>
-                        <h3 style="font-weight:normal">You passed the challenge.</h3>
+                html_content = f"""<h2 style="font-weight:normal">Hi, {candidate.first_name}! Congratulations! You passed the Propulsion Academy Technical Challenge!</h2>
+                        <img height="150" src="https://66.media.tumblr.com/5dd57c2cb2e5801f662bf8c8a7fa91ab/c073e7987cb0c13a-be/s500x750/4919f4c52044d0e2654f92f6fc28c190c1ac8f52.gif">
+                        <br></br>
+                        <h3 style="font-weight:normal">We are very happy to see that you have completed the JavaScript test! You’ve proved that dedication and continuous learning end in an excellent outcome.</h3>
+                        <h3 style="font-weight:normal">For the next step, we will send you an email with all the documents we need from you to make official your enrollment into the Full-Stack Development Program!</h3>
+                        <h3 style="font-weight:normal">Regards,</h3>
                         <p><strong>Propulsion Academy</strong><br>
                         Technoparkstrasse 1<br>
                         8005 Zürich, Switzerland<br>
