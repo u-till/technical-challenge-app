@@ -92,7 +92,7 @@ const EditMiddleBig = styled.div`
   padding-bottom: 16px;
 
   width: 100%;
-  height: 76%;
+  height: 40%;
   justify-content: space-between;
   > div:first-child {
     width: 70%;
@@ -192,7 +192,14 @@ const CategorySelect = styled.select`
 `;
 
 const TestInputContainer = styled.div`
-  height: 100%;
+  height: 80%;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+`;
+
+const TestInputContainerAdd = styled.div`
+  height: 30%;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
@@ -540,7 +547,7 @@ const Questions = ({
                 </EditMiddle>
                 <EditBottom>
                   <InputLabelDiv>
-                    <StyledLabel>Tests:</StyledLabel>
+                    <StyledLabel>Test Case Examples:</StyledLabel>
                     <TestInputContainer>
                       {questionData.tests_for_question
                         ? questionData.tests_for_question.map((test, index) => {
@@ -688,6 +695,15 @@ const Questions = ({
                     </CategorySelect>
                   </InputLabelDiv>
                 </EditMiddleBig>
+                <TestInputContainerAdd>
+                  <InputLabelDiv>
+                    <StyledLabel>Test Case Examples:</StyledLabel>
+                    <TestInput type="text" />
+                    <TestInput type="text" />
+                    <TestInput type="text" />
+                  </InputLabelDiv>
+                </TestInputContainerAdd>
+
                 <DeleteSave>
                   <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
                 </DeleteSave>
