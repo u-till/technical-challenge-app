@@ -33,6 +33,7 @@ export const getAllUsersAction = () => async (dispatch) => {
   try {
     const response = await Axios.get("users/list/");
     dispatch(getAllUsers(response.data));
+    return response
   } catch (error) {
     console.log("Error during Get All Users>", error);
     return error;

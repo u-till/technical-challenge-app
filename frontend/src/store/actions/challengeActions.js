@@ -28,11 +28,11 @@ export const getAllUserChallengesAction = () => async (dispatch) => {
   }
 };
 
-export const getUserChallengeAction = (challengeId) => async (dispatch) => {
+export const getUserChallengeAction = (challengeId) => async (dispatch, getState) => {
   try {
     const response = await Axios.get(`challenges/challenge/${challengeId}/`);
     dispatch(getUserChallenge(response.data));
-    return response;
+    return [response, getState().challengeReducer.targetChallenge.started];
   } catch (error) {
     console.log("Error getting a specific User Challenge>", error);
     return error;
