@@ -1,6 +1,6 @@
 const test = require('tape');
 
-
+const firstElement = arr => arr[0]
 
 test('should return the first element of an array', function(t) {
     const result = firstElement([1, 2, 3]);
