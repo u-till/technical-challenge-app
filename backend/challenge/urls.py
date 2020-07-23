@@ -9,4 +9,6 @@ urlpatterns = [
     path('me/', ListUserChallengesView.as_view()),
     path('start/<int:id>/', StartChallenge.as_view()),
     path('score/<int:id>/', ChallengeScore.as_view()),
+    path('resend/challenge/<int:id>/', ResendChallengeCreatedEmail.as_view()),
+    path('resend/score/<int:id>/', ResendChallengeScoreEmail.as_view()),
 ]
