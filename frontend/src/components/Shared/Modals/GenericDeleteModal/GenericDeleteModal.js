@@ -1,18 +1,19 @@
 import React from "react";
-import { rem } from "polished";
+import {rem} from "polished";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { Styledh2 } from "../../../../style/GlobalTitles";
-import { BaseContainer } from "../../../../style/GlobalWrappers";
-import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
-import { useDispatch } from "react-redux";
-import { deleteItemAction } from "../../../../store/actions/deleteAction";
-import { getAllUsersAction } from "../../../../store/actions/userActions";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {Styledh2} from "../../../../style/GlobalTitles";
+import {BaseContainer} from "../../../../style/GlobalWrappers";
+import {BlueButton, RedButton} from "../../../../style/GlobalButtons";
+import {useDispatch} from "react-redux";
+import {deleteItemAction} from "../../../../store/actions/deleteAction";
+import {getAllUsersAction} from "../../../../store/actions/userActions";
 import {
-  getAllQuestionsAction,
-  resetTargetQuestion,
+    getAllQuestionsAction,
+    resetTargetQuestion,
 } from "../../../../store/actions/questionActions";
-import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
+import {getTipsForQuestionAction} from "../../../../store/actions/tipActions";
+import {getAllChallengesAction} from "../../../../store/actions/challengeActions";
 
 const DeleteModalOverlay = styled.div`
   position: fixed;
@@ -45,61 +46,67 @@ const DeleteModalContainer = styled(BaseContainer)`
 `;
 
 const GenericDeleteModal = ({
-  ModalDeleteOpenCloseHandler,
-  children,
-  type,
-  typeId,
-  questionId,
-  setQuestionData,
-}) => {
-  const dispatch = useDispatch();
+                                ModalDeleteOpenCloseHandler,
+                                children,
+                                type,
+                                typeId,
+                                questionId,
+                                setQuestionData,
+                                from
+                            }) => {
+    const dispatch = useDispatch();
 
-  const onDeleteHandler = async (e) => {
-    e.preventDefault();
-    const response = await dispatch(deleteItemAction(type, typeId));
-    if (response.status === 204) {
-      switch (type) {
-        case "users": {
-          return await dispatch(getAllUsersAction());
+    const onDeleteHandler = async (e) => {
+        e.preventDefault();
+        const response = await dispatch(deleteItemAction(type, typeId));
+        if (response.status === 204) {
+            switch (type) {
+                case "users": {
+                    return await dispatch(getAllUsersAction());
+                }
+                case "questions": {
+                    setQuestionData({
+                        name: "",
+                        instructions: "",
+                        difficulty: "E",
+                        program: [],
+                    });
+                    ModalDeleteOpenCloseHandler();
+                    await dispatch(resetTargetQuestion());
+                    return await dispatch(getAllQuestionsAction());
+                }
+                case "tips": {
+                    return await dispatch(getTipsForQuestionAction(questionId));
+                }
+                case "challenges": {
+                    ModalDeleteOpenCloseHandler();
+                    if (from === "managechallenges") {
+                        return await dispatch(getAllChallengesAction())
+                    }
+                    if (from === "manageusers") {
+                        return await dispatch(getAllUsersAction());
+                    }
+                }
+                default:
+                    return null;
+            }
         }
-        case "questions": {
-          setQuestionData({
-            name: "",
-            instructions: "",
-            difficulty: "E",
-            program: [],
-          });
-          ModalDeleteOpenCloseHandler();
-          await dispatch(resetTargetQuestion());
-          return await dispatch(getAllQuestionsAction());
-        }
-        case "tips": {
-          return await dispatch(getTipsForQuestionAction(questionId));
-        }
-        case "challenges": {
-          ModalDeleteOpenCloseHandler();
-          return await dispatch(getAllUsersAction());
-        }
-        default:
-          return null;
-      }
-    }
-  };
+    };
 
-  return (
-    <DeleteModalOverlay>
-      <DeleteModalContainer>
-        <Styledh2>
-          <FontAwesomeIcon icon={["fas", "exclamation-triangle"]} /> Warning
-        </Styledh2>
-        {children}
-        <div>
-          <BlueButton onClick={ModalDeleteOpenCloseHandler}>Cancel</BlueButton>
-          <RedButton onClick={onDeleteHandler}>Delete</RedButton>
-        </div>
-      </DeleteModalContainer>
-    </DeleteModalOverlay>
-  );
+    return (
+        <DeleteModalOverlay>
+            <DeleteModalContainer>
+                <Styledh2>
+                    <FontAwesomeIcon icon={["fas", "exclamation-triangle"]}/> Warning
+                </Styledh2>
+                {children}
+                <div>
+                    <BlueButton onClick={ModalDeleteOpenCloseHandler}>Cancel</BlueButton>
+                    <RedButton onClick={onDeleteHandler}>Delete</RedButton>
+                </div>
+            </DeleteModalContainer>
+        </DeleteModalOverlay>
+    );
 };
 
 export default GenericDeleteModal;

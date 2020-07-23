@@ -1,5 +1,6 @@
 import Axios from "../../axios";
 import {
+  GET_ALL_CHALLENGES,
   GET_ALL_CHALLENGES_FOR_USER,
   GET_USERS_CHALLENGE,
 } from "../actionTypes";
@@ -16,6 +17,13 @@ export const getUserChallenge = (challenge) => {
     type: GET_USERS_CHALLENGE,
     payload: challenge,
   };
+};
+
+export const getAllChallenges = (challenges) => {
+  return {
+    type: GET_ALL_CHALLENGES,
+    payload: challenges
+  }
 };
 
 export const getAllUserChallengesAction = () => async (dispatch) => {
@@ -73,3 +81,14 @@ export const setChallengeStartTimeAction = (challengeId, time) => async (dispatc
     return error
   }
 };
+
+export const getAllChallengesAction = () => async (dispatch) => {
+  try {
+    const response = await Axios.get('challenges/list/');
+    dispatch(getAllChallenges(response.data));
+    return response
+  } catch (error) {
+    console.log("Error getting all Challenges>", error);
+    return error
+  }
+}
