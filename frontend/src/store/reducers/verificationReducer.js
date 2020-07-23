@@ -15,6 +15,9 @@ const initialState = {
     password_repeat: null,
     phone: null,
     avatar: null,
+    name: null,
+    instructions: null,
+    program: null
   },
 };
 

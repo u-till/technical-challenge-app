@@ -4,6 +4,7 @@ import {
   RESET_TARGET_QUESTION,
   SET_TARGET_QUESTION,
 } from "../actionTypes";
+import {nonFieldVerificationError, verificationError} from "./verificationAction";
 
 export const getAllQuestions = (data) => {
   return {
@@ -55,6 +56,17 @@ export const createNewQuestionAction = (questionData) => async (dispatch) => {
     const response = await Axios.post("questions/create/", questionData);
     return response;
   } catch (error) {
-    console.log("Error during Create a Question>", error);
+    let errors = {};
+    for (let i of Object.keys(error.response.data)) {
+      errors[i] = error.response.data[i].join(" ");
+    }
+    if (
+      errors.detail === ""
+    ) {
+      dispatch(nonFieldVerificationError(errors.detail));
+    } else {
+      dispatch(verificationError(errors));
+    }
+    return error;
   }
 };
