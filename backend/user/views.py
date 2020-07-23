@@ -31,17 +31,21 @@ class CreateUserView(CreateAPIView):
         email = EmailMultiAlternatives()
         email.subject = f'Propulsion Academy - New Candidate Validation'
         email.to = [new_user.email]
-        html_content = f"""<h2 style="font-weight:normal">Congratulations!</h2>
-        <h3 style="font-weight:normal">You have been selected to continue the process of applying for a position at one of our Bootcamps!</h3>
-        <h3 style="font-weight:normal">Please click the link below to verify your user information:</h3>
-        <h3 style="font-weight:normal">https://tech-challenge.propulsion-learn.ch/verification/{new_user.id}?email={new_user.email}&first_name={new_user.first_name}&last_name={new_user.last_name}&phone={new_user.phone}</h3>
-        <h3 style="font-weight:normal">You will receive a follow-up email when your Technical Interview is ready.</h3>
-        <p><strong>Propulsion Academy</strong><br>
-        Technoparkstrasse 1<br>
-        8005 Zürich, Switzerland<br>
-        https://propulsion.academy/full-stack</p>
-        <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
-        """
+        html_content = f"""<table border="0" align="center" cellpadding="0" cellspacing="0"><h2 style="font-weight:normal">Hi, {new_user.first_name}! Welcome to your Propulsion Academy Technical Interview!</h2>
+                <br></br>
+                <h3 style="font-weight:normal">In order to start using the platform, you need to verify your email.</h3>
+                <h3 style="font-weight:normal">Please click the button below to confirm your user information:</h3>
+                <br></br>
+                <a href="https://tech-challenge.propulsion-learn.ch/verification/{new_user.id}?email={new_user.email}&first_name={new_user.first_name}&last_name={new_user.last_name}&phone={new_user.phone}"><button style="outline:none; background: #EF485C; border-radius: 40px; width: 180px; height: 40px; color: white; font-size: 16px; border: none;" >Go to verification</button></a>
+                <br></br>
+                <br></br>
+                <h3 style="font-weight:normal">You will receive a follow-up email when your Technical Interview Challenge is ready.</h3>
+                <h3 style="font-weight:normal">Regards,</h3>
+                <p><strong>Full-Stack Propulsion Team</strong><br>
+                Technoparkstrasse 1<br>
+                8005 Zürich, Switzerland<br>
+                https://propulsion.academy/full-stack</p>
+                <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd"></table>        """
         email.attach_alternative(html_content, "text/html")
         email.send(fail_silently=False)
         return new_user
