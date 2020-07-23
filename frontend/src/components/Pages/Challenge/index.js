@@ -45,7 +45,8 @@ const StyledResizeBar = styled(Bar)`
 `;
 
 const DescriptionColumn = styled(Section)`
-  background-color: #f2f2f2;
+  background-color: #adadad;
+
   overflow-y: auto !important;
   padding: 8px;
   display: flex;
@@ -89,7 +90,8 @@ const DescriptionContent = styled.div`
 `;
 
 const InputColumn = styled(Section)`
-  background-color: #fff;
+  padding: 8px;
+  background-color: #adadad;
 `;
 
 const TestsContainer = styled(BaseContainer)`
@@ -243,14 +245,16 @@ const Timer = styled.div`
 /// Codemirror
 
 const StyledCodeMirror = styled(CodeMirror)`
+  font-family: "Courier New", Courier, monospace !important;
   height: 100%;
-
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
   > div {
     height: 100%;
   }
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
+  font-family: "Courier New", Courier, monospace !important;
   height: ${rem("32px")};
   > div {
     height: 100%;
@@ -285,6 +289,12 @@ const FontAwesomeIconFail = styled(FontAwesomeIcon)`
   border-radius: 50%;
   border: 1px solid white;
   background-color: white;
+`;
+
+const CodeMirrorWrapper = styled.div`
+  height: 100%;
+  border-radius: 5px;
+  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
 `;
 
 const DoneButton = styled(RedButton)``;
@@ -541,18 +551,23 @@ const Challenge = ({
             ) : null}
           </DescriptionColumn>
           <StyledResizeBar />
-          <InputColumn>
-            <StyledCodeMirror
-              value={codeData[progressValue].code}
-              options={options}
-              onBeforeChange={(editor, data, value) => {
-                setCodeData({
-                  ...codeData,
-                  [progressValue]: { ...codeData[progressValue], code: value },
-                });
-              }}
-              onChange={(editor, data, value) => {}}
-            />
+          <InputColumn minSize={400}>
+            <CodeMirrorWrapper>
+              <StyledCodeMirror
+                value={codeData[progressValue].code}
+                options={options}
+                onBeforeChange={(editor, data, value) => {
+                  setCodeData({
+                    ...codeData,
+                    [progressValue]: {
+                      ...codeData[progressValue],
+                      code: value,
+                    },
+                  });
+                }}
+                onChange={(editor, data, value) => {}}
+              />
+            </CodeMirrorWrapper>
           </InputColumn>
         </StyledResizeContainer>
       </ChallengeContainer>
