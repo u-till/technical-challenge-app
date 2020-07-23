@@ -5,6 +5,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
 import { Styledh2 } from "../../../../style/GlobalTitles";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
+import ReactTooltip from "react-tooltip";
 
 //////////
 // STYLES
@@ -56,8 +57,12 @@ const GenericChallengeCardSmall = ({ challenge }) => {
     <ChallengeCard>
       <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
       <p>{`Status: ${challenge.status}`}</p>
-      <DeleteButton onClick={ModalDeleteOpenCloseHandler}>
+      <DeleteButton
+        onClick={ModalDeleteOpenCloseHandler}
+        data-tip="Delete Challenge"
+      >
         <FontAwesomeIcon icon={["far", "trash-alt"]} />
+        <ReactTooltip place="top" type="dark" effect="solid" />
       </DeleteButton>
       {isModalDeleteOpen ? (
         <GenericDeleteModal
@@ -68,8 +73,13 @@ const GenericChallengeCardSmall = ({ challenge }) => {
           <p>{`Are you sure you want to delete the Challenge #${challenge.id}?`}</p>
         </GenericDeleteModal>
       ) : null}
-      <SendButton>
-        <FontAwesomeIcon icon={["far", "paper-plane"]} />
+      <SendButton data-tip="Resend Challenge Invitation Email">
+        <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
+        <ReactTooltip place="top" type="dark" effect="solid" />
+      </SendButton>
+      <SendButton data-tip="Resend Challenge Score Email">
+        <FontAwesomeIcon icon={["fas", "trophy"]} />
+        <ReactTooltip place="top" type="dark" effect="solid" />
       </SendButton>
     </ChallengeCard>
   );
