@@ -112,12 +112,13 @@ const TestsHeader = styled.div`
   margin-bottom: 8px;
   border-bottom: 1px solid #dddddd;
   span {
-    font-size: ${rem("18px")};
+    font-size: ${rem("16px")};
     margin-bottom: 12px;
+    font-family: "Courier New", Courier, monospace !important;
   }
 `;
 
-const RunButton = styled.div`
+const RunButton = styled.button`
   background-color: #00bae5;
   margin-top: 16px;
   min-height: 44px;
@@ -137,6 +138,9 @@ const RunButton = styled.div`
   }
   p {
     display: inline;
+  }
+  span {
+    white-space: nowrap;
   }
 `;
 
@@ -245,7 +249,10 @@ const Timer = styled.div`
 /// Codemirror
 
 const StyledCodeMirror = styled(CodeMirror)`
-  font-family: "Courier New", Courier, monospace !important;
+  * {
+    font-size: 18px;
+    font-family: "Courier New", Courier, monospace !important;
+  }
   height: 100%;
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
   > div {
@@ -254,7 +261,10 @@ const StyledCodeMirror = styled(CodeMirror)`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
-  font-family: "Courier New", Courier, monospace !important;
+  * {
+    font-size: 18px;
+    font-family: "Courier New", Courier, monospace !important;
+  }
   height: ${rem("32px")};
   > div {
     height: 100%;
@@ -313,7 +323,9 @@ const Challenge = ({
 }) => {
   // const dispatch = useDispatch();
   const match = useRouteMatch();
-  const [getRunError, setRunError] = useState(null);
+  const [getRunError, setRunError] = useState(
+    "Tests Failed due to Naming or Syntax problems"
+  );
   const [isRunningCode, setRunningCode] = useState(false);
 
   const [progressValue, setProgressValue] = useState(0);
@@ -534,10 +546,10 @@ const Challenge = ({
                   </SmallCodeMirrorWrapper>
                   {isRunningCode ? (
                     <RunButton onClick={runTestHandler} disabled>
-                      <div>
+                      <span>
                         <p>Run Code and Submit</p>
                         <GenericSpinnerSmall />
-                      </div>
+                      </span>
                     </RunButton>
                   ) : (
                     <RunButton onClick={runTestHandler}>
