@@ -22,18 +22,22 @@ const ChallengeCard = styled.div`
   padding: 16px;
   height: ${rem("100px")};
   margin-bottom: 8px;
-  p:first-child {
-    width: 70%;
-  }
+
   overflow: hidden;
+  > div:last-child {
+    min-width: 200px;
+    width: 14%;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
-const StartChallengeButton = styled(BlueButton)`
-  width: ${rem("120px")};
-  p {
-    padding-right: 12px;
-    display: inline;
-  }
+const ChallengeInfo = styled.div`
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  min-width: 200px;
+  height: 100%;
 `;
 
 const Challengeh2 = styled(Styledh2)`
@@ -66,35 +70,41 @@ const GenericChallengeCardManage = ({}) => {
   return (
     <ChallengeCard>
       <Challengeh2>Full Stack</Challengeh2>
-      <p>Candidate: </p>
-      {/*${challenge.status}*/}
-      <p>Status: </p>
-      {/*${challenge.status}*/}
-      <DeleteButton
-        onClick={ModalDeleteOpenCloseHandler}
-        data-tip="Delete Challenge"
-      >
-        <FontAwesomeIcon icon={["far", "trash-alt"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </DeleteButton>
-      {isModalDeleteOpen ? (
-        <GenericDeleteModal
-          ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-          type="challenges"
-          // typeId={challenge.id}
+      <ChallengeInfo>
+        <p>Candidate: </p>
+        {/*${challenge.status}*/}
+        <p>Created: </p>
+        {/*${challenge.status}*/}
+        <p>Status: </p>
+        {/*${challenge.status}*/}
+      </ChallengeInfo>
+      <div>
+        <DeleteButton
+          onClick={ModalDeleteOpenCloseHandler}
+          data-tip="Delete Challenge"
         >
-          <p>{`Are you sure you want to delete the Challenge #?`}</p>
-          {/*${challenge.id}*/}
-        </GenericDeleteModal>
-      ) : null}
-      <SendButton data-tip="Resend Challenge Invitation Email">
-        <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </SendButton>
-      <SendButton data-tip="Resend Challenge Score Email">
-        <FontAwesomeIcon icon={["fas", "trophy"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </SendButton>
+          <FontAwesomeIcon icon={["far", "trash-alt"]} />
+          <ReactTooltip place="top" type="dark" effect="solid" />
+        </DeleteButton>
+        {isModalDeleteOpen ? (
+          <GenericDeleteModal
+            ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+            type="challenges"
+            // typeId={challenge.id}
+          >
+            <p>{`Are you sure you want to delete the Challenge #?`}</p>
+            {/*${challenge.id}*/}
+          </GenericDeleteModal>
+        ) : null}
+        <SendButton data-tip="Resend Challenge Invitation Email">
+          <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
+          <ReactTooltip place="top" type="dark" effect="solid" />
+        </SendButton>
+        <SendButton data-tip="Resend Challenge Score Email">
+          <FontAwesomeIcon icon={["fas", "trophy"]} />
+          <ReactTooltip place="top" type="dark" effect="solid" />
+        </SendButton>
+      </div>
     </ChallengeCard>
   );
 };
