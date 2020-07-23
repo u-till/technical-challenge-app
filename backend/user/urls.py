@@ -7,4 +7,5 @@ urlpatterns = [
     path('validation/<int:id>/', ValidateUserView.as_view()),
     path('edit/<int:id>/', RetrieveUpdateDestroySpecificUserView.as_view()),
     path('me/', RetrieveUpdateDestroyLoggedInUserView.as_view()),
+    path('resend/create/<int:id>/', ResendChallengeScoreEmail.as_view()),
 ]
