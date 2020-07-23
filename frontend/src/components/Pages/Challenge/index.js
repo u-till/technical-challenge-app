@@ -348,19 +348,6 @@ const Challenge = ({
     5: 0,
   });
 
-  // const calculateTimeLeft = () => {
-  //     const dateNow = new Date();
-  //     const databaseDate = new Date(String(initDate));
-  //     let difference = dateNow - databaseDate;
-  //     difference = 1800000 - difference;
-  //     if (difference > 0) {
-  //         let timeLeft = `Time left: ${Math.floor(
-  //         (difference / 1000 / 60) % 60
-  //         )}:${Math.floor((difference / 1000) % 60)}`;
-  //     return timeLeft;
-  //     }
-  // };
-
   // const [timeLeft, setTimeLeft] = useState(calculateTimeLeft());
   //
   // useEffect(() => {

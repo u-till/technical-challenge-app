@@ -62,13 +62,14 @@ export const createUserChallengeAction = (candidateId) => async (dispatch) => {
     console.log("Error creating a new Challenge>", error);
     return error
   }
-}
+};
 
-// export const getChallenge = () => async (dispatch) => {
-//   let dateNow = new Date();
-//   const time = await Axios.patch("challenges/start/2/", { timer: dateNow });
-//   const response = await Axios.get("challenges/edit/2/");
-//   if (response.status === 200) {
-//     return response.data.timer;
-//   }
-// };
+export const setChallengeStartTimeAction = (challengeId, time) => async (dispatch) => {
+  try {
+    const response = await Axios.patch(`challenges/start/${challengeId}/`, time);
+    return response
+  } catch (error) {
+    console.log("Error setting Challenge Start Time>", error);
+    return error
+  }
+};
