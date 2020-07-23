@@ -76,6 +76,10 @@ const GenericDeleteModal = ({
         case "tips": {
           return await dispatch(getTipsForQuestionAction(questionId));
         }
+        case "challenges": {
+          ModalDeleteOpenCloseHandler();
+          return await dispatch(getAllUsersAction());
+        }
         default:
           return null;
       }

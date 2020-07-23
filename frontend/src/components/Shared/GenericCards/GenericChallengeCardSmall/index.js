@@ -62,8 +62,10 @@ const GenericChallengeCardSmall = ({ challenge }) => {
       {isModalDeleteOpen ? (
         <GenericDeleteModal
           ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+          type="challenges"
+          typeId={challenge.id}
         >
-          <p>Are you sure you want to delete the Challenge xyz?</p>
+          <p>{`Are you sure you want to delete the Challenge #${challenge.id}?`}</p>
         </GenericDeleteModal>
       ) : null}
       <SendButton>
