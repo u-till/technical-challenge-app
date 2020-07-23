@@ -27,9 +27,10 @@ const ChallengesListContainer = styled.div`
   border-radius: 5px;
   background: white;
   display: flex;
-  justify-content: space-between;
   align-items: flex-start;
   padding: 16px;
+  flex-direction: column;
+  overflow-y: auto;
 `;
 
 //////////
