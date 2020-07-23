@@ -10,6 +10,8 @@ import { useHistory } from "react-router";
 // STYLES
 //////////
 const ChallengeCard = styled.div`
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+
   width: 100%;
   display: flex;
   align-items: center;
@@ -18,7 +20,7 @@ const ChallengeCard = styled.div`
   box-sizing: border-box;
   border-radius: 5px;
   padding: 16px;
-  height: ${rem("100px")};
+  min-height: ${rem("100px")};
   margin-bottom: 8px;
   p:first-child {
     width: 70%;
