@@ -443,6 +443,7 @@ const GenericUserCard = ({
                 ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
                 type="users"
                 typeId={user.id}
+                from="manageusers"
               >
                 <p>
                   Are you sure you want to delete the User{" "}

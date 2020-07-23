@@ -1,4 +1,5 @@
 import {
+  GET_ALL_CHALLENGES,
   GET_ALL_CHALLENGES_FOR_USER,
   GET_USERS_CHALLENGE,
 } from "../actionTypes";
@@ -6,6 +7,7 @@ import {
 const initialState = {
   userChallenges: [],
   targetChallenge: null,
+  allChallenges: null,
 };
 
 export const challengeReducer = (state = initialState, action) => {
@@ -21,6 +23,12 @@ export const challengeReducer = (state = initialState, action) => {
         ...state,
         targetChallenge: action.payload,
       };
+    }
+    case GET_ALL_CHALLENGES: {
+      return {
+        ...state,
+        allChallenges: action.payload,
+      }
     }
     default:
       return state;
