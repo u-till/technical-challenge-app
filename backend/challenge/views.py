@@ -1,3 +1,4 @@
+import random
 from django.core.mail import EmailMultiAlternatives
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView, \
@@ -6,6 +7,7 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from challenge.models import Challenge
 from challenge.serializers import ChallengeSerializer
+from question.models import Question
 from user.models import User
 
 
@@ -18,14 +20,16 @@ class CreateChallenge(CreateAPIView):
 
     Candidate needs to be an user id.
     """
-
     serializer_class = ChallengeSerializer
 
     def create(self, request, *args, **kwargs):
         candidate = User.objects.get(id=request.data['candidate'])
         challenge = Challenge(creator=request.user, candidate=candidate)
         challenge.save()
-        challenge.questions.set(request.data['questions'])
+        easy_questions = random.sample(list(Question.objects.filter(difficulty='E')), 3)
+        intermediate_questions = random.sample(list(Question.objects.filter(difficulty='I')), 2)
+        hard_questions = random.sample(list(Question.objects.filter(difficulty='H')), 1)
+        challenge.questions.set(easy_questions + intermediate_questions + hard_questions)
         email = EmailMultiAlternatives()
         email.subject = f'Propulsion Academy - You have a new Challenge!'
         email.to = [candidate.email]
