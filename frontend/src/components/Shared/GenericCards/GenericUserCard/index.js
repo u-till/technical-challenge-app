@@ -370,7 +370,7 @@ const GenericUserCard = ({
                   <StyledLabel>Avatar:</StyledLabel>
                   <BtnWrapper>
                     <UploadButton onClick={handleClick}>
-                      {data.avatar ? 'Image File Uploaded' : 'Upload Avatar'}
+                      {data.avatar ? "Image File Uploaded" : "Upload Avatar"}
                     </UploadButton>
                     <input
                       type="file"
