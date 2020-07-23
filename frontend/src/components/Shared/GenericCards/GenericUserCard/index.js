@@ -369,7 +369,7 @@ const GenericUserCard = ({
                                     <StyledLabel>Avatar:</StyledLabel>
                                     <BtnWrapper>
                                         <UploadButton onClick={handleClick}>
-                                            Upload Avatar
+                                            {data.avatar ? 'Image File Uploaded' : 'Upload Avatar'}
                                         </UploadButton>
                                         <input
                                             type="file"
@@ -463,6 +463,7 @@ const GenericUserCard = ({
             )}
         </>
     );
+
 };
 
 const mapStateToProps = (state) => {
