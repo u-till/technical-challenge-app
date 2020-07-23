@@ -463,6 +463,7 @@ const GenericUserCard = ({
             )}
         </>
     );
+
 };
 
 const mapStateToProps = (state) => {
