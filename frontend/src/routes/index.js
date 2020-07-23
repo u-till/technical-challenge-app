@@ -11,6 +11,7 @@ import Navigation from "../components/Shared/Navigation";
 import Challenge from "../components/Pages/Challenge";
 import MyChallenges from "../components/Pages/MyChallenges";
 import AuthComponent from "../HOC";
+import ManageChallenges from "../components/Pages/ManageChallenges";
 
 const Routes = () => {
   return (
@@ -47,6 +48,11 @@ const Routes = () => {
               exact
               path="/managequestions"
               component={AuthComponent(ManageQuestions)}
+            />
+            <Route
+              exact
+              path="/managechallenges"
+              component={AuthComponent(ManageChallenges)}
             />
           </Navigation>
         </Switch>

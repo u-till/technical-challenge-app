@@ -151,8 +151,9 @@ const Navigation = ({ children, userObj, logoutUser }) => {
         <NavSectionRight>
           {userObj && userObj.is_staff ? (
             <>
-              <StyledNavLink to="/managequestions">Questions</StyledNavLink>
               <StyledNavLink to="/manageusers">Users</StyledNavLink>{" "}
+              <StyledNavLink to="/managequestions">Questions</StyledNavLink>
+              <StyledNavLink to="/managechallenges">Challenges</StyledNavLink>
             </>
           ) : null}
           {userObj && !userObj.is_staff ? (
