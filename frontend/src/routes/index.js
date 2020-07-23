@@ -36,7 +36,7 @@ const Routes = () => {
               component={AuthComponent(Challenge)}
             />
             <Route
-              path="/finishedchallenge/:challengeId"
+              exact path="/finishedchallenge"
               component={AuthComponent(FinishedChallenge)}
             />
             <Route
