@@ -1,25 +1,25 @@
-import React, { useState } from "react";
-import { rem } from "polished";
+import React, {useState} from "react";
+import {rem} from "polished";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {
-  BaseButton,
-  BlueButton,
-  RedButton,
-  RoundGreyButton,
+    BaseButton,
+    BlueButton,
+    RedButton,
+    RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import { Styledh2 } from "../../../../style/GlobalTitles";
-import { BaseInput } from "../../../../style/GlobalInputs";
+import {Styledh2} from "../../../../style/GlobalTitles";
+import {BaseInput} from "../../../../style/GlobalInputs";
 import GenericChallengeCardSmall from "../GenericChallengeCardSmall";
 import Error from "../../Error";
-import { connect, useDispatch } from "react-redux";
-import { resetError } from "../../../../store/actions/verificationAction";
+import {connect, useDispatch} from "react-redux";
+import {resetError} from "../../../../store/actions/verificationAction";
 import {
-  editSpecificUserAction,
-  getAllUsersAction,
+    editSpecificUserAction,
+    getAllUsersAction,
 } from "../../../../store/actions/userActions";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
-import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
+import {setLoggedInUserAction} from "../../../../store/actions/loginActions";
 
 //////////
 // STYLES
@@ -222,258 +222,258 @@ const UploadButton = styled(BaseButton)`
 //////////
 
 const GenericUserCard = ({
-  user,
-  non_field_error,
-  fieldErrors,
-  editSpecificUserAction,
-}) => {
-  const dispatch = useDispatch();
+                             user,
+                             non_field_error,
+                             fieldErrors,
+                             editSpecificUserAction,
+                         }) => {
+    const dispatch = useDispatch();
 
-  const [isUserEditing, setUserEditing] = useState(false);
-  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [isUserEditing, setUserEditing] = useState(false);
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
-  const ModalDeleteOpenCloseHandler = () => {
-    setModalDeleteOpen(!isModalDeleteOpen);
-  };
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
+    };
 
-  const [data, setData] = useState({
-    email: user.email,
-    first_name: user.first_name,
-    last_name: user.last_name,
-    phone: user.phone ? user.phone : "",
-    avatar: null,
-    is_staff: user.is_staff,
-  });
-
-  const editUserHandler = () => {
-    dispatch(resetError());
-    setData({
-      email: user.email,
-      first_name: user.first_name,
-      last_name: user.last_name,
-      phone: user.phone ? user.phone : "",
-      avatar: null,
-      is_staff: user.is_staff,
+    const [data, setData] = useState({
+        email: user.email,
+        first_name: user.first_name,
+        last_name: user.last_name,
+        phone: user.phone ? user.phone : "",
+        avatar: null,
+        is_staff: user.is_staff,
     });
-    setUserEditing(!isUserEditing);
-  };
 
-  const userSaveHandler = async (e) => {
-    e.preventDefault();
-    dispatch(resetError());
-    const userData = new FormData();
-    userData.append("email", data.email);
-    userData.append("first_name", data.first_name);
-    userData.append("last_name", data.last_name);
-    userData.append("phone", data.phone);
-    if (data.avatar) {
-      userData.append("avatar", data.avatar);
-    }
-    const response = await editSpecificUserAction(user.id, userData);
-    if (response.status === 200) {
-      setUserEditing(!isUserEditing);
-      dispatch(setLoggedInUserAction());
-      dispatch(getAllUsersAction());
-    }
-  };
+    const editUserHandler = () => {
+        dispatch(resetError());
+        setData({
+            email: user.email,
+            first_name: user.first_name,
+            last_name: user.last_name,
+            phone: user.phone ? user.phone : "",
+            avatar: null,
+            is_staff: user.is_staff,
+        });
+        setUserEditing(!isUserEditing);
+    };
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setData({ ...data, [name]: value });
-  };
+    const userSaveHandler = async (e) => {
+        e.preventDefault();
+        dispatch(resetError());
+        const userData = new FormData();
+        userData.append("email", data.email);
+        userData.append("first_name", data.first_name);
+        userData.append("last_name", data.last_name);
+        userData.append("phone", data.phone);
+        if (data.avatar) {
+            userData.append("avatar", data.avatar);
+        }
+        const response = await editSpecificUserAction(user.id, userData);
+        if (response.status === 200) {
+            setUserEditing(!isUserEditing);
+            dispatch(setLoggedInUserAction());
+            dispatch(getAllUsersAction());
+        }
+    };
 
-  const hiddenFileInput = React.useRef(null);
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    };
 
-  const handleClick = () => {
-    hiddenFileInput.current.click();
-  };
+    const hiddenFileInput = React.useRef(null);
 
-  const imageSelectHandler = (e) => {
-    if (e.target.files[0]) {
-      setData({ ...data, avatar: e.target.files[0] });
-    }
-  };
+    const handleClick = () => {
+        hiddenFileInput.current.click();
+    };
 
-  return (
-    <>
-      {isUserEditing ? (
-        <UserCardBig>
-          <div>
-            <EditUserInfo>
-              <div>
-                <InputLabelDiv>
-                  <StyledLabel>First Name:</StyledLabel>
-                  <StyledInput
-                    type="text"
-                    placeholder="First Name"
-                    required
-                    value={data.first_name}
-                    onChange={handleInput}
-                    name="first_name"
-                  />
-                  <Error errorMessage={fieldErrors["first_name"]} />
-                </InputLabelDiv>
-                <InputLabelDiv>
-                  <StyledLabel>Last Name:</StyledLabel>
-                  <StyledInput
-                    type="text"
-                    placeholder="Last Name"
-                    required
-                    value={data.last_name}
-                    onChange={handleInput}
-                    name="last_name"
-                  />
-                  <Error errorMessage={fieldErrors["last_name"]} />
-                </InputLabelDiv>
-                <InputLabelDiv>
-                  <StyledLabel>Email:</StyledLabel>
-                  <StyledInput
-                    type="email"
-                    placeholder="Email"
-                    required
-                    value={data.email}
-                    onChange={handleInput}
-                    name="email"
-                  />
-                  <Error errorMessage={fieldErrors["email"]} />
-                </InputLabelDiv>
-              </div>
-              <div>
-                <InputLabelDiv>
-                  <StyledLabel>Phone:</StyledLabel>
-                  <StyledInput
-                    type="¨tel"
-                    placeholder="Phone Nr."
-                    required
-                    value={data.phone}
-                    onChange={handleInput}
-                    name="phone"
-                  />
-                  <Error errorMessage={fieldErrors["phone"]} />
-                </InputLabelDiv>
-                <InputLabelDiv>
-                  <StyledLabel>Role:</StyledLabel>
-                  <RoleDropdown
-                    id="role"
-                    name="Role"
-                    defaultValue={user.is_staff ? true : false}
-                    disabled
-                  >
-                    <option value={true}>Staff</option>
-                    <option value={false}>Candidate</option>
-                  </RoleDropdown>
-                  <Error />
-                </InputLabelDiv>
-                <InputLabelDiv>
-                  <StyledLabel>Avatar:</StyledLabel>
-                  <BtnWrapper>
-                    <UploadButton onClick={handleClick}>
-                      Upload Avatar
-                    </UploadButton>
-                    <input
-                      type="file"
-                      name="avatar"
-                      ref={hiddenFileInput}
-                      onChange={imageSelectHandler}
-                      style={{ display: "none" }}
-                    />
-                  </BtnWrapper>
-                </InputLabelDiv>
-              </div>
-            </EditUserInfo>
-            <EditUserChallenge>
-              <AddChallenge>
-                <InputLabelDiv>
-                  <StyledLabel>Add Challenge:</StyledLabel>
-                  <ChallengeCategoryDropdown>
-                    <option value="fullstack">Full Stack</option>
-                    <option value="datascience">Data Science</option>
-                    <option value="reactredux">React & Redux</option>
-                    <option value="dockerdeployment">
-                      Docker & Deployment
-                    </option>
-                    <option value="aiforleaders">AI for Leaders</option>
-                    <option value="pythonprogramming">
-                      Python programming
-                    </option>
-                  </ChallengeCategoryDropdown>
-                </InputLabelDiv>
-                <BlueButton>Create Challenge</BlueButton>
-                <InputLabelDiv>
-                  <StyledLabel>User Created:</StyledLabel>
-                  <p>{`on ${user.date_joined.slice(0, 10)}`}</p>
-                </InputLabelDiv>
-              </AddChallenge>
-              <ChallengeList>
-                {user.fk_challenges_assigned
-                  ? user.fk_challenges_assigned.map((challenge) => (
-                      <GenericChallengeCardSmall
-                        key={`challenge ${challenge.id}`}
-                        challenge={challenge}
-                      />
-                    ))
-                  : null}
-              </ChallengeList>
-            </EditUserChallenge>
-          </div>
-          <DeleteSave>
-            <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
-            {isModalDeleteOpen ? (
-              <GenericDeleteModal
-                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                type="users"
-                typeId={user.id}
-              >
-                <p>
-                  Are you sure you want to delete the User{" "}
-                  {user.first_name + " " + user.last_name}?
-                </p>
-              </GenericDeleteModal>
-            ) : null}
-            <Error errorMessage={non_field_error} />
-            <div>
-              <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
-              <BlueButton onClick={userSaveHandler}>Save</BlueButton>
-            </div>
-          </DeleteSave>
-        </UserCardBig>
-      ) : (
-        <UserCard>
-          <UserInfo>
-            <UserAvatar>
-              <img
-                src={
-                  user.avatar
-                    ? user.avatar
-                    : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`
-                }
-                alt="avatar"
-              />
-            </UserAvatar>
-            <div>
-              <Styledh2>{`${user.first_name} ${user.last_name}`}</Styledh2>
-              <p>{user.is_staff ? "Staff" : "Candidate"}</p>
-            </div>
-          </UserInfo>
-          <RoundGreyButton onClick={editUserHandler}>
-            <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
-          </RoundGreyButton>
-        </UserCard>
-      )}
-    </>
-  );
+    const imageSelectHandler = (e) => {
+        if (e.target.files[0]) {
+            setData({...data, avatar: e.target.files[0]});
+        }
+    };
+
+    return (
+        <>
+            {isUserEditing ? (
+                <UserCardBig>
+                    <div>
+                        <EditUserInfo>
+                            <div>
+                                <InputLabelDiv>
+                                    <StyledLabel>First Name:</StyledLabel>
+                                    <StyledInput
+                                        type="text"
+                                        placeholder="First Name"
+                                        required
+                                        value={data.first_name}
+                                        onChange={handleInput}
+                                        name="first_name"
+                                    />
+                                    <Error errorMessage={fieldErrors["first_name"]}/>
+                                </InputLabelDiv>
+                                <InputLabelDiv>
+                                    <StyledLabel>Last Name:</StyledLabel>
+                                    <StyledInput
+                                        type="text"
+                                        placeholder="Last Name"
+                                        required
+                                        value={data.last_name}
+                                        onChange={handleInput}
+                                        name="last_name"
+                                    />
+                                    <Error errorMessage={fieldErrors["last_name"]}/>
+                                </InputLabelDiv>
+                                <InputLabelDiv>
+                                    <StyledLabel>Email:</StyledLabel>
+                                    <StyledInput
+                                        type="email"
+                                        placeholder="Email"
+                                        required
+                                        value={data.email}
+                                        onChange={handleInput}
+                                        name="email"
+                                    />
+                                    <Error errorMessage={fieldErrors["email"]}/>
+                                </InputLabelDiv>
+                            </div>
+                            <div>
+                                <InputLabelDiv>
+                                    <StyledLabel>Phone:</StyledLabel>
+                                    <StyledInput
+                                        type="¨tel"
+                                        placeholder="Phone Nr."
+                                        required
+                                        value={data.phone}
+                                        onChange={handleInput}
+                                        name="phone"
+                                    />
+                                    <Error errorMessage={fieldErrors["phone"]}/>
+                                </InputLabelDiv>
+                                <InputLabelDiv>
+                                    <StyledLabel>Role:</StyledLabel>
+                                    <RoleDropdown
+                                        id="role"
+                                        name="Role"
+                                        defaultValue={user.is_staff ? true : false}
+                                        disabled
+                                    >
+                                        <option value={true}>Staff</option>
+                                        <option value={false}>Candidate</option>
+                                    </RoleDropdown>
+                                    <Error/>
+                                </InputLabelDiv>
+                                <InputLabelDiv>
+                                    <StyledLabel>Avatar:</StyledLabel>
+                                    <BtnWrapper>
+                                        <UploadButton onClick={handleClick}>
+                                            Upload Avatar
+                                        </UploadButton>
+                                        <input
+                                            type="file"
+                                            name="avatar"
+                                            ref={hiddenFileInput}
+                                            onChange={imageSelectHandler}
+                                            style={{display: "none"}}
+                                        />
+                                    </BtnWrapper>
+                                </InputLabelDiv>
+                            </div>
+                        </EditUserInfo>
+                        <EditUserChallenge>
+                            <AddChallenge>
+                                <InputLabelDiv>
+                                    <StyledLabel>Add Challenge:</StyledLabel>
+                                    <ChallengeCategoryDropdown>
+                                        <option value="fullstack">Full Stack</option>
+                                        <option value="datascience">Data Science</option>
+                                        <option value="reactredux">React & Redux</option>
+                                        <option value="dockerdeployment">
+                                            Docker & Deployment
+                                        </option>
+                                        <option value="aiforleaders">AI for Leaders</option>
+                                        <option value="pythonprogramming">
+                                            Python programming
+                                        </option>
+                                    </ChallengeCategoryDropdown>
+                                </InputLabelDiv>
+                                <BlueButton>Create Challenge</BlueButton>
+                                <InputLabelDiv>
+                                    <StyledLabel>User Created:</StyledLabel>
+                                    <p>{`on ${user.date_joined.slice(0, 10)}`}</p>
+                                </InputLabelDiv>
+                            </AddChallenge>
+                            <ChallengeList>
+                                {user.fk_challenges_assigned
+                                    ? user.fk_challenges_assigned.map((challenge) => (
+                                        <GenericChallengeCardSmall
+                                            key={`challenge ${challenge.id}`}
+                                            challenge={challenge}
+                                        />
+                                    ))
+                                    : null}
+                            </ChallengeList>
+                        </EditUserChallenge>
+                    </div>
+                    <DeleteSave>
+                        <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
+                        {isModalDeleteOpen ? (
+                            <GenericDeleteModal
+                                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                                type="users"
+                                typeId={user.id}
+                            >
+                                <p>
+                                    Are you sure you want to delete the User{" "}
+                                    {user.first_name + " " + user.last_name}?
+                                </p>
+                            </GenericDeleteModal>
+                        ) : null}
+                        <Error errorMessage={non_field_error}/>
+                        <div>
+                            <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
+                            <BlueButton onClick={userSaveHandler}>Save</BlueButton>
+                        </div>
+                    </DeleteSave>
+                </UserCardBig>
+            ) : (
+                <UserCard>
+                    <UserInfo>
+                        <UserAvatar>
+                            <img
+                                src={
+                                    user.avatar
+                                        ? user.avatar
+                                        : `https://eu.ui-avatars.com/api/?name=${user.first_name}+${user.last_name}`
+                                }
+                                alt="avatar"
+                            />
+                        </UserAvatar>
+                        <div>
+                            <Styledh2>{`${user.first_name} ${user.last_name}`}</Styledh2>
+                            <p>{user.is_staff ? "Staff" : "Candidate"}</p>
+                        </div>
+                    </UserInfo>
+                    <RoundGreyButton onClick={editUserHandler}>
+                        <FontAwesomeIcon icon={["fas", "pencil-alt"]}/>
+                    </RoundGreyButton>
+                </UserCard>
+            )}
+        </>
+    );
 };
 
 const mapStateToProps = (state) => {
-  return {
-    fieldErrors: state.verificationReducer.verificationErrors,
-    non_field_error: state.verificationReducer.non_field_error,
-    allUsers: state.userReducer.allUsers,
-  };
+    return {
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error,
+        allUsers: state.userReducer.allUsers,
+    };
 };
 
 export default connect(mapStateToProps, {
-  editSpecificUserAction,
-  getAllUsersAction,
+    editSpecificUserAction,
+    getAllUsersAction,
 })(GenericUserCard);
