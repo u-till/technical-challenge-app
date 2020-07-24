@@ -37,7 +37,6 @@ const NavSectionLeft = styled.div`
   justify-content: flex-start;
   align-items: center;
   min-width: 20%;
-  cursor: pointer;
 `;
 
 const NavSectionRight = styled.div`
@@ -73,6 +72,9 @@ const NavbarAvatar = styled.div`
   img {
     width: ${rem("40px")};
     height: ${rem("40px")};
+  }
+  :hover {
+    cursor: pointer;
   }
 `;
 
