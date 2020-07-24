@@ -7,7 +7,7 @@ import { Styledh2 } from "../../../../style/GlobalTitles";
 import { useDispatch } from "react-redux";
 import { setTargetQuestion } from "../../../../store/actions/questionActions";
 import { getTipsForQuestionAction } from "../../../../store/actions/tipActions";
-import {resetError} from "../../../../store/actions/verificationAction";
+import { resetError } from "../../../../store/actions/verificationAction";
 
 //////////
 // STYLES
@@ -42,7 +42,7 @@ const GenericQuestionCard = ({ question, setData }) => {
   const dispatch = useDispatch();
 
   const onClickHandler = async () => {
-    dispatch(resetError())
+    dispatch(resetError());
     const response = await dispatch(getTipsForQuestionAction(question.id));
     if (response.status === 200) {
       dispatch(setTargetQuestion(question));

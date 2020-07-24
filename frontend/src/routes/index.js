@@ -13,6 +13,9 @@ import MyChallenges from "../components/Pages/MyChallenges";
 import AuthComponent from "../HOC";
 import ManageChallenges from "../components/Pages/ManageChallenges";
 
+import SendPasswordReset from "../components/Pages/Authentication/PasswordReset/SendReset";
+import ConfirmPasswordReset from "../components/Pages/Authentication/PasswordReset/ConfirmReset";
+
 const Routes = () => {
   return (
     <>
@@ -22,6 +25,12 @@ const Routes = () => {
             <Route exact path="/" component={AuthComponent(Home)} />
             <Route exact path="/login" component={Login} />
             <Route path="/verification/:userId" component={Registration} />
+            <Route path="/sendpasswordreset/" component={SendPasswordReset} />
+            <Route
+              path="/confirmpasswordreset/"
+              component={ConfirmPasswordReset}
+            />
+
             <Route
               exact
               path="/mychallenges"
@@ -36,7 +45,8 @@ const Routes = () => {
               component={AuthComponent(Challenge)}
             />
             <Route
-              exact path="/finishedchallenge"
+              exact
+              path="/finishedchallenge"
               component={AuthComponent(FinishedChallenge)}
             />
             <Route

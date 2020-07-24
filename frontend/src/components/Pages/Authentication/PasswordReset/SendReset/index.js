@@ -2,18 +2,21 @@ import React, { useState } from "react";
 import styled from "styled-components";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { rem } from "polished";
-import { BaseContainer, PageContainer } from "../../../../style/GlobalWrappers";
-import { Styledh1 } from "../../../../style/GlobalTitles";
-import { BigRedButton } from "../../../../style/GlobalButtons";
-import { BaseInput } from "../../../../style/GlobalInputs";
+
 import { connect, useDispatch } from "react-redux";
 import {
   loginAction,
   setLoggedInUserAction,
-} from "../../../../store/actions/loginActions";
-import Error from "../../../Shared/Error";
-import { resetError } from "../../../../store/actions/verificationAction";
-import { Link } from "react-router-dom";
+} from "../../../../../store/actions/loginActions";
+import Error from "../../../../Shared/Error";
+import { resetError } from "../../../../../store/actions/verificationAction";
+import { BigRedButton } from "../../../../../style/GlobalButtons";
+import { Styledh1 } from "../../../../../style/GlobalTitles";
+import { BaseInput } from "../../../../../style/GlobalInputs";
+import {
+  BaseContainer,
+  PageContainer,
+} from "../../../../../style/GlobalWrappers";
 
 //////////
 // STYLE
@@ -24,8 +27,8 @@ const LoginContainer = styled(BaseContainer)`
   width: ${rem("700px")};
   height: ${rem("700px")};
   display: flex;
-  justify-content: space-evenly;
   flex-direction: column;
+    justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -36,7 +39,7 @@ const LoginInput = styled(BaseInput)`
 `;
 
 const InteriorContainer = styled.div`
-  height: ${rem("350px")};
+  height: ${rem("300px")};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -49,30 +52,16 @@ const EmailField = styled.div`
   border-radius: 5px;
 `;
 
-const PasswordField = styled.div`
-  padding-left: 15px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-`;
-
 const Icon = styled(FontAwesomeIcon)`
   font-size: ${rem("20px")};
-`;
-
-const StyledLink = styled(Link)`
-  font-size: 14px;
-  color: #00bae5;
-  :hover {
-    color: #05d0ff;
-  }
 `;
 
 //////////
 // REACT
 //////////
 
-const Login = ({
-  loginAction,
+const SendPasswordReset = ({
+//  loginAction,
   history,
   fieldErrors,
   non_field_error,
@@ -81,7 +70,6 @@ const Login = ({
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const inputHandler = (e, func) => {
     func(e.currentTarget.value);
@@ -90,20 +78,20 @@ const Login = ({
   const onSubmitForm = async (e) => {
     e.preventDefault();
     dispatch(resetError());
-    const loginData = { email, password };
-    const response = await loginAction(loginData);
-    if (response.status === 200) {
-      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
-      setUserResponse.status === 200 && isStaff
-        ? history.push("/manageusers")
-        : history.push("/mychallenges");
-    }
+    const passwordResetData = { email};
+//    const response = await loginAction(passwordResetData);
+//    if (response.status === 200) {
+//      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
+//      setUserResponse.status === 200 && isStaff
+//        ? history.push("/manageusers")
+//        : history.push("/mychallenges");
+//    }
   };
 
   return (
     <PageContainer>
       <LoginContainer>
-        <Styledh1>Login</Styledh1>
+        <Styledh1>Password Reset</Styledh1>
         <InteriorContainer>
           <EmailField>
             <Icon icon={["fas", "user"]} />
@@ -117,21 +105,8 @@ const Login = ({
             />
           </EmailField>
           <Error errorMessage={fieldErrors["email"]} />
-          <PasswordField>
-            <Icon icon={["fas", "lock"]} />
-            <LoginInput
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => inputHandler(e, setPassword)}
-              required
-            />
-          </PasswordField>
-          <Error errorMessage={fieldErrors["password"]} />
-          <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
+          <BigRedButton onClick={onSubmitForm}>Send code</BigRedButton>
           <Error errorMessage={non_field_error} />
-          <StyledLink to="/sendpasswordreset">Forgot Password?</StyledLink>
         </InteriorContainer>
       </LoginContainer>
     </PageContainer>
@@ -146,5 +121,5 @@ const mapStateToProps = (state) => {
 };
 
 export default connect(mapStateToProps, { loginAction, setLoggedInUserAction })(
-  Login
+  SendPasswordReset
 );
