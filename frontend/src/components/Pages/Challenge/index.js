@@ -28,7 +28,6 @@ import { runTestAction } from "../../../store/actions/testActions";
 import Error from "../../Shared/Error";
 import { GenericSpinnerSmall } from "../../Shared/GenericSpinner";
 import Timer from "react-compound-timer";
-import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 import GenericDoneModal from "../../Shared/Modals/GenericDoneModal/GenericDoneModal";
 
 //////////
@@ -126,6 +125,7 @@ const TestsHeader = styled.div`
 `;
 
 const ErrorDiv = styled.div`
+  display: ${(props) => (props.visibility ? "flex" : "none")};
   padding: 8px;
   background-color: #f2dede;
   border-color: #ebccd1;
@@ -340,9 +340,7 @@ const Challenge = ({
   history,
 }) => {
   const match = useRouteMatch();
-  const [getRunError, setRunError] = useState(
-    "Server Error, contact administrator"
-  );
+  const [getRunError, setRunError] = useState("");
 
   const [isModalDoneOpen, setModalDoneOpen] = useState(false);
 
@@ -537,7 +535,7 @@ const Challenge = ({
                 <TestsContainer>
                   <TestsHeader>
                     <Styledh2>Tests</Styledh2>
-                    <ErrorDiv>
+                    <ErrorDiv visibility={getRunError}>
                       <FontAwesomeIcon icon={["fas", "exclamation-triangle"]} />
                       <Error errorMessage={getRunError} />
                     </ErrorDiv>

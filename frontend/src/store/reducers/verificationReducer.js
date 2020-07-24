@@ -19,7 +19,7 @@ const initialState = {
     name: null,
     instructions: null,
     program: null,
-    tests_for_question: ['', '', '']
+    tests_for_question: ["", "", ""],
   },
 };
 
