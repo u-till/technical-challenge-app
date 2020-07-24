@@ -95,14 +95,13 @@ const GenericChallengeCardSmall = ({challenge}) => {
                     <p>{`Are you sure you want to delete the Challenge #${challenge.id}?`}</p>
                 </GenericDeleteModal>
             ) : null}
-            {challenge.status === "PASSED" || challenge.status === "FAILED" ? null : (<SendButton data-tip="Resend Challenge Invitation Email" onClick={resendInvitationEmail}>
-                <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
-                <ReactTooltip place="top" type="dark" effect="solid"/>
-            </SendButton>)}
             {challenge.status === "PASSED" || challenge.status === "FAILED" ? (<SendButton data-tip="Resend Challenge Score Email" onClick={resendResultEmail}>
                 <FontAwesomeIcon icon={["fas", "trophy"]}/>
                 <ReactTooltip place="top" type="dark" effect="solid"/>
-            </SendButton>) : null }
+            </SendButton>) : (<SendButton data-tip="Resend Challenge Invitation Email" onClick={resendInvitationEmail}>
+                <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </SendButton>)}
         </ChallengeCard>
     );
 };
