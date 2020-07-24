@@ -2,14 +2,9 @@ import React, {useState} from "react";
 import styled from "styled-components";
 import {rem} from "polished";
 import {connect, useDispatch} from "react-redux";
-import {
-    resetError,
-    verificationAction,
-} from "../../../../../store/actions/verificationAction";
-import {getUserInformationAction} from "../../../../../store/actions/userActions";
-import {useRouteMatch} from "react-router-dom";
+import {resetError} from "../../../../../store/actions/verificationAction";
 import Error from "../../../../Shared/Error";
-import {BaseButton, BigRedButton} from "../../../../../style/GlobalButtons";
+import {BigRedButton} from "../../../../../style/GlobalButtons";
 import {BaseInput} from "../../../../../style/GlobalInputs";
 import {Styledh1} from "../../../../../style/GlobalTitles";
 import {
@@ -93,21 +88,22 @@ const ConfirmPasswordReset = ({
                                   confirmPasswordResetAction
                               }) => {
     const dispatch = useDispatch();
-
+    // Used to toggle text of button during Password Reset request
     const [sendStatus, setSendStatus] = useState(false);
+    // Used to manage local state of text input for Password Reset
     const [data, setData] = useState({
         email: "",
         code: "",
         password: "",
         password_repeat: "",
     });
-
+    // Used to change all local state values
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setData({...data, [name]: value});
     };
-
+    // Used by Confirm button during password reset
     const onSubmitForm = async (e) => {
         console.log('click')
         e.preventDefault();
