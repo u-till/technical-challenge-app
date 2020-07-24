@@ -28,7 +28,7 @@ const LoginContainer = styled(BaseContainer)`
   height: ${rem("700px")};
   display: flex;
   flex-direction: column;
-    justify-content: space-evenly;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -61,7 +61,7 @@ const Icon = styled(FontAwesomeIcon)`
 //////////
 
 const SendPasswordReset = ({
-//  loginAction,
+  //  loginAction,
   history,
   fieldErrors,
   non_field_error,
@@ -78,14 +78,14 @@ const SendPasswordReset = ({
   const onSubmitForm = async (e) => {
     e.preventDefault();
     dispatch(resetError());
-    const passwordResetData = { email};
-//    const response = await loginAction(passwordResetData);
-//    if (response.status === 200) {
-//      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
-//      setUserResponse.status === 200 && isStaff
-//        ? history.push("/manageusers")
-//        : history.push("/mychallenges");
-//    }
+    const passwordResetData = { email };
+    //    const response = await loginAction(passwordResetData);
+    //    if (response.status === 200) {
+    //      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
+    //      setUserResponse.status === 200 && isStaff
+    //        ? history.push("/manageusers")
+    //        : history.push("/mychallenges");
+    //    }
   };
 
   return (
