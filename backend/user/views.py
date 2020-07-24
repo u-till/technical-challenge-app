@@ -93,6 +93,7 @@ class ListUsersView(ListAPIView):
     serializer_class = UserSerializer
     search_fields = ['first_name', 'last_name', 'username']
     filter_backends = (filters.SearchFilter,)
+    permission_classes = [IsAuthenticated]
 
 
 class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
@@ -109,6 +110,7 @@ class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
+    permission_classes = [IsAuthenticated]
 
     def patch(self, request, *args, **kwargs):
         user = User.objects.get(id=kwargs['id'])

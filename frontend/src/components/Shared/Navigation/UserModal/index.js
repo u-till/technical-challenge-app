@@ -111,6 +111,7 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
     e.preventDefault();
     dispatch(resetError());
     const userData = new FormData();
+    userData.append("email", userObj.email)
     userData.append("first_name", data.first_name);
     userData.append("last_name", data.last_name);
     userData.append("phone", data.phone);
