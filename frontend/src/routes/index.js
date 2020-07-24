@@ -25,9 +25,9 @@ const Routes = () => {
             <Route exact path="/" component={AuthComponent(Home)} />
             <Route exact path="/login" component={Login} />
             <Route path="/verification/:userId" component={Registration} />
-            <Route path="/sendpasswordreset/" component={SendPasswordReset} />
+            <Route path="/sendpasswordreset" component={SendPasswordReset} />
             <Route
-              path="/confirmpasswordreset/"
+              path="/confirmpasswordreset"
               component={ConfirmPasswordReset}
             />
 
