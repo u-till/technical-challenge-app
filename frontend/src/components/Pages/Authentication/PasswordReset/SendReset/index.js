@@ -27,7 +27,7 @@ const LoginContainer = styled(BaseContainer)`
   height: ${rem("700px")};
   display: flex;
   flex-direction: column;
-    justify-content: space-evenly;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
