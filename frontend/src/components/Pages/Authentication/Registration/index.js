@@ -170,7 +170,7 @@ const Registration = ({
   return (
     <PageContainer>
       <SignupContainer>
-        <Styledh1>Registration</Styledh1>
+        <Styledh1>Verification</Styledh1>
         <SignupSplitContainer>
           <div>
             <InputLabelDiv>

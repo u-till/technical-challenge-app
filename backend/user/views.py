@@ -29,9 +29,9 @@ class CreateUserView(CreateAPIView):
         new_user.set_password("Propulsion2020")
         new_user.save()
         email = EmailMultiAlternatives()
-        email.subject = f'Propulsion Academy - New Candidate Validation'
+        email.subject = f'Propulsion Academy - New User Verification'
         email.to = [new_user.email]
-        html_content = f"""<table border="0" align="center" cellpadding="0" cellspacing="0"><h2 style="font-weight:normal">Hi, {new_user.first_name}! Welcome to your Propulsion Academy Technical Interview!</h2>
+        html_content = f"""<table border="0" align="center" cellpadding="0" cellspacing="0"><h2 style="font-weight:normal">Hi, {new_user.first_name}! Welcome to your Propulsion Academy Technical Challenge Platform!</h2>
                 <br></br>
                 <h3 style="font-weight:normal">In order to start using the platform, you need to verify your email.</h3>
                 <h3 style="font-weight:normal">Please click the button below to confirm your user information:</h3>
