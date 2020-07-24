@@ -4,9 +4,7 @@ import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { rem } from "polished";
 
 import { connect, useDispatch } from "react-redux";
-import {
-  passwordResetCodeAction
-} from "../../../../../store/actions/passwordResetAction";
+import { passwordResetCodeAction } from "../../../../../store/actions/passwordResetAction";
 import Error from "../../../../Shared/Error";
 import { resetError } from "../../../../../store/actions/verificationAction";
 import { BigRedButton } from "../../../../../style/GlobalButtons";
@@ -63,7 +61,7 @@ const SendPasswordReset = ({
   passwordResetCodeAction,
   history,
   fieldErrors,
-  non_field_error
+  non_field_error,
 }) => {
   const dispatch = useDispatch();
 
@@ -76,13 +74,13 @@ const SendPasswordReset = ({
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
-    setSendStatus(true)
+    setSendStatus(true);
     dispatch(resetError());
-    const passwordResetData = { email};
+    const passwordResetData = { email };
     const response = await passwordResetCodeAction(passwordResetData);
     setSendStatus(false);
     if (response.status === 202) {
-      history.push("/confirmpasswordreset")
+      history.push("/confirmpasswordreset");
     }
   };
 
@@ -103,7 +101,9 @@ const SendPasswordReset = ({
             />
           </EmailField>
           <Error errorMessage={fieldErrors["email"]} />
-          <BigRedButton onClick={onSubmitForm}>{sendStatus ? "Sending..." : "Send code"}</BigRedButton>
+          <BigRedButton onClick={onSubmitForm}>
+            {sendStatus ? "Sending..." : "Send code"}
+          </BigRedButton>
           <Error errorMessage={non_field_error} />
         </InteriorContainer>
       </LoginContainer>
@@ -118,6 +118,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { passwordResetCodeAction})(
+export default connect(mapStateToProps, { passwordResetCodeAction })(
   SendPasswordReset
 );
