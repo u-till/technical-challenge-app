@@ -239,14 +239,6 @@ const FooterSectionRight = styled.div`
   align-items: center;
 `;
 
-// const Timer = styled.div`
-//   margin: 0 16px 0 16px;
-//   p {
-//     font-size: ${rem("20px")};
-//     font-weight: bold;
-//   }
-// `;
-
 /// Codemirror
 
 const StyledCodeMirror = styled(CodeMirror)`
@@ -322,15 +314,13 @@ const Challenge = ({
                        setUserChallengeScoreAction,
                        history,
                    }) => {
-    // const dispatch = useDispatch();
     const match = useRouteMatch();
     const [getRunError, setRunError] = useState(
-        "Tests Failed due to Naming or Syntax problems"
+        ""
     );
     const [isRunningCode, setRunningCode] = useState(false);
     const [timerValue, setTimerValue] = useState(null);
     const [progressValue, setProgressValue] = useState(0);
-    // const [initDate, getInitDate] = useState(0);
     const [codeData, setCodeData] = useState({
         0: {code: "", status: {0: null, 1: null, 2: null}},
         1: {code: "", status: {0: null, 1: null, 2: null}},
@@ -350,6 +340,12 @@ const Challenge = ({
     });
 
     useEffect(() => {
+        let prevText = localStorage.getItem('challenge');
+        prevText = (JSON.parse(prevText));
+        if (prevText && prevText.challenge === match.params.challengeId) {
+            setCodeData(prevText.content);
+            setScore(prevText.score);
+        }
         const challengeStart = async () => {
             const [response, started] = await getUserChallengeAction(match.params.challengeId);
             if (response.status === 200) {
@@ -403,13 +399,18 @@ const Challenge = ({
                             : 8,
                 });
             } else {
-                setRunError("Tests Failed due to Naming or Syntax problems");
+                setRunError("Failed due to Naming/Syntax -- Try Again");
             }
         }
         if (response.status > "399") {
-            setRunError("Tests Failed due to Backend problems");
+            setRunError("Server Error, contact administrator");
         }
         setRunningCode(false);
+        localStorage.setItem("challenge", JSON.stringify({
+                                        challenge: match.params.challengeId,
+                                        content: codeData,
+                                        score: score
+                                    }));
     };
 
     const getMaxScore = () => {
@@ -423,7 +424,9 @@ const Challenge = ({
     };
 
     const doneHandler = async (e) => {
-        e.preventDefault();
+        if (e) {
+            e.preventDefault();
+        }
         const candidateScore = {
             score:
                 (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100,
@@ -433,6 +436,7 @@ const Challenge = ({
             candidateScore
         );
         if (response.status === 200) {
+            localStorage.removeItem('challenge');
             history.push('/finishedchallenge');
         }
     };
@@ -560,6 +564,11 @@ const Challenge = ({
                                     });
                                 }}
                                 onChange={(editor, data, value) => {
+                                    localStorage.setItem("challenge", JSON.stringify({
+                                        challenge: match.params.challengeId,
+                                        content: codeData,
+                                        score: score
+                                    }));
                                 }}
                             />
                         </CodeMirrorWrapper>
@@ -578,7 +587,7 @@ const Challenge = ({
                         checkpoints={[
                             {
                                 time: 0,
-                                callback: () => history.push('/finishedchallenge'),
+                                callback: () => doneHandler(),
                             },
                         ]}
                     >

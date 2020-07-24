@@ -83,7 +83,7 @@ const GenericDeleteModal = ({
                     if (from === "managechallenges") {
                         return await dispatch(getAllChallengesAction())
                     }
-                    if (from === "manageusers") {
+                    if (from === "challenges") {
                         return await dispatch(getAllUsersAction());
                     }
                 }
