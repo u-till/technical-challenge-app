@@ -39,3 +39,34 @@ class ValidationUserSerializer(UserSerializer):
         if data.get('password').lower() == "propulsion2020":
             raise serializers.ValidationError({"detail": "You must choose a different password"})
         return data
+
+
+class PasswordResetSerializer(UserSerializer):
+    password_repeat = serializers.CharField(
+        min_length=4,
+        write_only=True,
+        required=True,
+        style={'input_type': 'password'}
+    )
+
+    code = serializers.CharField(
+        write_only=True,
+        required=True,
+    )
+
+    email = serializers.CharField(
+        write_only=True,
+        required=True,
+    )
+
+    class Meta:
+        model = User
+        fields = ['email', 'code', 'password', 'password_repeat']
+
+    def validate(self, data):
+        target_profile = User.objects.get(email=data.get('email'))
+        if data.get('code') != target_profile.code:
+            raise serializers.ValidationError({"detail": "Your Validation Code is incorrect"})
+        if data.get('password') != data.get('password_repeat'):
+            raise serializers.ValidationError({"detail": "Password and Password Repeat do not match"})
+        return data
