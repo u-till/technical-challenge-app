@@ -2,7 +2,7 @@ import random
 from django.core.mail import EmailMultiAlternatives
 from rest_framework import status
 from rest_framework.generics import CreateAPIView, RetrieveUpdateDestroyAPIView, ListAPIView, UpdateAPIView, \
-    RetrieveAPIView, GenericAPIView
+    RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from challenge.models import Challenge
@@ -20,6 +20,7 @@ class CreateChallenge(CreateAPIView):
 
     Candidate needs to be an user id.
     """
+
     serializer_class = ChallengeSerializer
 
     def create(self, request, *args, **kwargs):
@@ -102,6 +103,7 @@ class ListUserChallengesView(ListAPIView):
 
     Candidates have permissions
     """
+
     serializer_class = ChallengeSerializer
     permission_classes = [IsAuthenticated]
 
@@ -243,6 +245,12 @@ class ChallengeScore(UpdateAPIView):
 
 
 class ResendChallengeCreatedEmail(UpdateAPIView):
+    """
+    patch:
+    Resend the email informing the candidate that a challenge was created.
+    Only works if the challenge wasn't started yet.
+    """
+
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
@@ -274,6 +282,12 @@ class ResendChallengeCreatedEmail(UpdateAPIView):
 
 
 class ResendChallengeScoreEmail(UpdateAPIView):
+    """
+    patch:
+    Resend the email informing the candidate his score. Also send an email to the creator of the challenge with the challenge score.
+    Only works if the challenge already have a score.
+    """
+
     serializer_class = ChallengeSerializer
     queryset = Challenge.objects.all()
     lookup_field = 'id'
