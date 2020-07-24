@@ -1,27 +1,24 @@
-import React, { useEffect, useState } from "react";
+import React, {useEffect, useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
-import { BaseInput, BaseTextArea } from "../../../style/GlobalInputs";
-import { RedButton, RoundGreyButton } from "../../../style/GlobalButtons";
-import { BlueButton } from "../../../style/GlobalButtons";
-import { Styledh1 } from "../../../style/GlobalTitles";
-import GenericTipCard from "../../Shared/GenericCards/GenericTipCard";
+import {rem} from "polished";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {BaseContainer, PageContainer} from "../../../style/GlobalWrappers";
+import {BaseInput} from "../../../style/GlobalInputs";
+import {RoundGreyButton} from "../../../style/GlobalButtons";
+import {Styledh1} from "../../../style/GlobalTitles";
 import GenericQuestionCard from "../../Shared/GenericCards/GenericQuestionCard";
-import { connect, useDispatch } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import {
-  createNewQuestionAction,
-  getAllQuestionsAction,
-  resetTargetQuestion,
-  updateQuestionAction,
+    createNewQuestionAction,
+    getAllQuestionsAction,
+    resetTargetQuestion,
+    updateQuestionAction,
 } from "../../../store/actions/questionActions";
-import { GenericSpinner } from "../../Shared/GenericSpinner";
-import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
-import TipAddModal from "../../Shared/Modals/TipAddModal/TipAddModal";
-import { Fade } from "react-reveal";
-import Error from "../../Shared/Error";
-import { resetError } from "../../../store/actions/verificationAction";
+import {GenericSpinner} from "../../Shared/GenericSpinner";
+import {resetError} from "../../../store/actions/verificationAction";
+import EditQuestion from "./EditQuestion";
+import AddQuestion from "./AddQuestion";
+import {sortByCreated, sortByDifficulty, sortByPointValue} from "../../../Helpers";
 
 //////////
 // STYLE
@@ -52,176 +49,6 @@ const EditContainer = styled(BaseContainer)`
   justify-content: space-between;
   display: flex;
   flex-direction: column;
-`;
-
-const EditTop = styled.div`
-  display: inline-flex;
-  padding-bottom: 16px;
-  width: 100%;
-  height: 15%;
-  justify-content: space-between;
-  > div:first-child {
-    width: 56%;
-    margin-right: 12px;
-  }
-  > div:last-child {
-    width: 30%;
-    margin-left: 12px;
-  }
-  > div {
-    width: ${rem("120px")};
-  }
-`;
-
-const EditMiddle = styled.div`
-  display: inline-flex;
-  padding-bottom: 16px;
-
-  width: 100%;
-  height: 35%;
-  justify-content: space-between;
-  > div:first-child {
-    width: 70%;
-    margin-right: 12px;
-  }
-  > div:last-child {
-    width: 30%;
-  }
-`;
-
-const EditMiddleBig = styled.div`
-  display: inline-flex;
-  padding-bottom: 16px;
-
-  width: 100%;
-  height: 40%;
-  justify-content: space-between;
-  > div:first-child {
-    width: 70%;
-    margin-right: 12px;
-  }
-  > div:last-child {
-    width: 30%;
-  }
-`;
-
-const EditBottom = styled.div`
-  display: inline-flex;
-  padding-bottom: 16px;
-
-  width: 100%;
-  height: 40%;
-  justify-content: space-between;
-  > div:first-child {
-    width: 30%;
-    margin-right: 12px;
-  }
-  > div:last-child {
-    width: 70%;
-  }
-`;
-
-const DeleteSave = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div:last-child {
-    display: flex;
-    justify-content: space-between;
-    width: ${rem("180px")};
-  }
-`;
-
-const InputLabelDiv = styled.div`
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-  height: 100%;
-`;
-
-const StyledLabel = styled.label`
-  font-weight: bold;
-  margin-bottom: 8px;
-`;
-
-const NameInput = styled(BaseInput)`
-  width: 100%;
-  height: ${rem("6px")};
-`;
-
-const TestInput = styled(BaseInput)`
-  font-size: ${rem("16px")};
-  width: 100%;
-  height: ${rem("6px")};
-`;
-
-const NumberInput = styled(BaseInput)`
-  width: 100%;
-  height: ${rem("6px")};
-`;
-
-const DescriptionInput = styled(BaseTextArea)`
-  width: 100%;
-  resize: none;
-  height: 100%;
-  font-size: ${rem("16px")};
-`;
-
-const DifficultyDropdown = styled.select`
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  height: ${rem("38px")};
-  width: 100%;
-
-  &:focus {
-    outline: none;
-  }
-`;
-
-const CategorySelect = styled.select`
-  background: #ffffff;
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  height: 100%;
-  &:focus {
-    outline: none;
-  }
-  option {
-    padding: 8px;
-  }
-`;
-
-const TestInputContainer = styled.div`
-  height: 80%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-const TestInputContainerAdd = styled.div`
-  height: 30%;
-  display: flex;
-  justify-content: space-between;
-  flex-direction: column;
-`;
-
-const LabelAndBtn = styled.div`
-  display: flex;
-  justify-content: space-between;
-  > div:nth-child(2) {
-    margin-top: -12px;
-  }
-`;
-
-const TipsList = styled.div`
-  border: 1px solid #dbdbdb;
-  box-sizing: border-box;
-  border-radius: 5px;
-  overflow-y: scroll;
-  padding: 8px;
-  height: 100%;
 `;
 
 const BrowseContainer = styled(BaseContainer)`
@@ -284,533 +111,258 @@ const QuestionList = styled.div`
 //////////
 
 const Questions = ({
-  getAllQuestionsAction,
-  allQuestions,
-  targetQuestion,
-  targetQuestionTips,
-  updateQuestionAction,
-  resetTargetQuestion,
-  createNewQuestionAction,
-  fieldErrors,
-}) => {
-  const [sort, setSort] = useState("date");
-  const [search, setSearch] = useState("");
-  // setQuestionData is called in GenericQuestionCard to set the state to the Question Object
-  const [questionData, setQuestionData] = useState({
-    name: "",
-    instructions: "",
-    program: [],
-    difficulty: "E",
-    tests_for_question: ["", "", ""],
-  });
-
-  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
-
-  const ModalDeleteOpenCloseHandler = () => {
-    setModalDeleteOpen(!isModalDeleteOpen);
-  };
-
-  const [isModalTipAddOpen, setModalTipAddOpen] = useState(false);
-
-  const ModalTipAddOpenCloseHandler = () => {
-    setModalTipAddOpen(!isModalTipAddOpen);
-  };
-
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    resetTargetQuestion();
-    getAllQuestionsAction();
-  }, [getAllQuestionsAction, resetTargetQuestion]);
-
-  const inputSortSearchHandler = (e, func) => {
-    func(e.currentTarget.value);
-  };
-
-  const handleTextInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setQuestionData({ ...questionData, [name]: value });
-  };
-
-  const handleTestsChange = (e, index) => {
-    let newArray = [...questionData.tests_for_question];
-    newArray[index] = e.target.value;
-    setQuestionData({ ...questionData, tests_for_question: newArray });
-  };
-
-  const handleProgramSelectorChange = (e) => {
-    let options = e.target.options;
-    let value = [];
-    for (let i = 0, l = options.length; i < l; i++) {
-      if (options[i].selected) {
-        value.push(options[i].value);
-      }
-    }
-    setQuestionData({ ...questionData, program: value });
-  };
-
-  const handleSave = async (e) => {
-    e.preventDefault();
-    const editQuestionPrograms = [];
-    questionData.program.forEach((program) =>
-      editQuestionPrograms.push(parseInt(program))
-    );
-    const questionForm = {
-      name: questionData.name,
-      difficulty: questionData.difficulty,
-      instructions: questionData.instructions,
-      program: editQuestionPrograms,
-      tests_for_question: questionData.tests_for_question,
-    };
-    const response = await updateQuestionAction(questionData.id, questionForm);
-    if (response.status === 200) {
-      getAllQuestionsAction();
-      resetTargetQuestion();
-      setQuestionData({
+                       getAllQuestionsAction,
+                       allQuestions,
+                       targetQuestion,
+                       targetQuestionTips,
+                       updateQuestionAction,
+                       resetTargetQuestion,
+                       createNewQuestionAction,
+                       fieldErrors,
+                   }) => {
+    const dispatch = useDispatch();
+    // Used to sort by difficulty, points, and date created
+    const [sort, setSort] = useState("date");
+    const [search, setSearch] = useState("");
+    // Used to manage displaying Question Data for adding / editing
+    const [questionData, setQuestionData] = useState({
         name: "",
         instructions: "",
-        difficulty: "E",
         program: [],
+        difficulty: "E",
         tests_for_question: ["", "", ""],
-      });
-    }
-  };
-
-  const handleCancel = (e) => {
-    e.preventDefault();
-    resetTargetQuestion();
-    setQuestionData({
-      name: "",
-      instructions: "",
-      difficulty: "E",
-      program: [],
-      tests_for_question: ["", "", ""],
     });
-  };
-
-  const handleGreyAddButton = (e) => {
-    e.preventDefault();
-    dispatch(resetError);
-    setQuestionData({
-      name: "",
-      instructions: "",
-      difficulty: "E",
-      program: [],
-      tests_for_question: ["", "", ""],
-    });
-    resetTargetQuestion();
-  };
-
-  const handleAddQuestion = async (e) => {
-    dispatch(resetError());
-    e.preventDefault();
-    const newQuestionPrograms = [];
-    questionData.program.forEach((program) =>
-      newQuestionPrograms.push(parseInt(program))
-    );
-    const newQuestion = {
-      name: questionData.name,
-      difficulty: questionData.difficulty,
-      instructions: questionData.instructions,
-      program: newQuestionPrograms,
-      tests_for_question: questionData.tests_for_question,
+    // Used to manage the Delete / Tip Modal display status
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+    const [isModalTipAddOpen, setModalTipAddOpen] = useState(false);
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
     };
-    const response = await createNewQuestionAction(newQuestion);
-    if (response.status === 201) {
-      setQuestionData({
-        name: "",
-        instructions: "",
-        difficulty: "E",
-        program: [],
-        tests_for_question: ["", "", ""],
-      });
-      getAllQuestionsAction();
-    }
-  };
-
-  const searchedQuestions = allQuestions
-    ? allQuestions.filter(
-        (question) =>
-          question.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
-      )
-    : null;
-
-  const renderQuestions = (searchedQuestions) => {
-    if (sort === "date") {
-      return searchedQuestions
-        .sort((a, b) =>
-          a.created > b.created ? -1 : b.created > a.created ? 1 : 0
+    const ModalTipAddOpenCloseHandler = () => {
+        setModalTipAddOpen(!isModalTipAddOpen);
+    };
+    // Resets the displayed question data and Fetches all Questions on component load
+    useEffect(() => {
+        resetTargetQuestion();
+        getAllQuestionsAction();
+    }, [getAllQuestionsAction, resetTargetQuestion]);
+    // Used to change local state of search input
+    const inputSortSearchHandler = (e, func) => {
+        func(e.currentTarget.value);
+    };
+    // Used to change local state of all question data text inputs, except Test Case Examples
+    const handleTextInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setQuestionData({...questionData, [name]: value});
+    };
+    // Used to change local state of Test Case Examples inputs
+    const handleTestsChange = (e, index) => {
+        let newArray = [...questionData.tests_for_question];
+        newArray[index] = e.target.value;
+        setQuestionData({...questionData, tests_for_question: newArray});
+    };
+    // Used to change local state of Program Selector input
+    const handleProgramSelectorChange = (e) => {
+        let options = e.target.options;
+        let value = [];
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        setQuestionData({...questionData, program: value});
+    };
+    // Used by Save button during editing a Question
+    const handleSave = async (e) => {
+        e.preventDefault();
+        const editQuestionPrograms = [];
+        questionData.program.forEach((program) =>
+            editQuestionPrograms.push(parseInt(program))
+        );
+        const questionForm = {
+            name: questionData.name,
+            difficulty: questionData.difficulty,
+            instructions: questionData.instructions,
+            program: editQuestionPrograms,
+            tests_for_question: questionData.tests_for_question,
+        };
+        const response = await updateQuestionAction(questionData.id, questionForm);
+        if (response.status === 200) {
+            getAllQuestionsAction();
+            resetTargetQuestion();
+            setQuestionData({
+                name: "",
+                instructions: "",
+                difficulty: "E",
+                program: [],
+                tests_for_question: ["", "", ""],
+            });
+        }
+    };
+    // Used by Cancel button, resets Question inputs to initial state
+    const handleCancel = (e) => {
+        e.preventDefault();
+        resetTargetQuestion();
+        setQuestionData({
+            name: "",
+            instructions: "",
+            difficulty: "E",
+            program: [],
+            tests_for_question: ["", "", ""],
+        });
+    };
+    // Used by Grey Plus Sign button to render Add Question input area
+    const handleGreyAddButton = (e) => {
+        e.preventDefault();
+        dispatch(resetError);
+        setQuestionData({
+            name: "",
+            instructions: "",
+            difficulty: "E",
+            program: [],
+            tests_for_question: ["", "", ""],
+        });
+        resetTargetQuestion();
+    };
+    // Used by Add Button during adding a new Question
+    const handleAddQuestion = async (e) => {
+        dispatch(resetError());
+        e.preventDefault();
+        const newQuestionPrograms = [];
+        questionData.program.forEach((program) =>
+            newQuestionPrograms.push(parseInt(program))
+        );
+        const newQuestion = {
+            name: questionData.name,
+            difficulty: questionData.difficulty,
+            instructions: questionData.instructions,
+            program: newQuestionPrograms,
+            tests_for_question: questionData.tests_for_question,
+        };
+        const response = await createNewQuestionAction(newQuestion);
+        if (response.status === 201) {
+            setQuestionData({
+                name: "",
+                instructions: "",
+                difficulty: "E",
+                program: [],
+                tests_for_question: ["", "", ""],
+            });
+            getAllQuestionsAction();
+        }
+    };
+    // Used by search input to filter Questions by name
+    const searchedQuestions = allQuestions
+        ? allQuestions.filter(
+            (question) =>
+                question.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
         )
-        .map((question) => (
-          <GenericQuestionCard
-            key={`Question ${question.id}`}
-            question={question}
-            setData={setQuestionData}
-          />
-        ));
-    }
-    if (sort === "difficulty") {
-      return searchedQuestions
-        .sort((a, b) =>
-          a.difficulty > b.difficulty ? -1 : b.difficulty > a.difficulty ? 1 : 0
-        )
-        .map((question) => (
-          <GenericQuestionCard
-            key={`Question ${question.id}`}
-            question={question}
-            setData={setQuestionData}
-          />
-        ));
-    }
-    return searchedQuestions
-      .sort((a, b) =>
-        a.points_value > b.points_value
-          ? 1
-          : b.points_value > a.points_value
-          ? -1
-          : 0
-      )
-      .map((question) => (
-        <GenericQuestionCard
-          key={`Question ${question.id}`}
-          question={question}
-          setData={setQuestionData}
-        />
-      ));
-  };
+        : null;
+    // Renders Question Card based on returns from sort/filter/search functions
+    const renderQuestions = (searchedQuestions) => {
+        if (sort === "date") {
+            return mapQuestionCard(sortByCreated(searchedQuestions));
+        }
+        if (sort === "difficulty") {
+            return mapQuestionCard(sortByDifficulty(searchedQuestions));
+        }
+        return mapQuestionCard(sortByPointValue(searchedQuestions));
+    };
 
-  return (
-    <PageContainer>
-      <ManageQuestionsContainer>
-        <Styledh1>Questions</Styledh1>
-        <ManageContainer>
-          <EditContainer>
-            {targetQuestion ? (
-              <>
-                {/*--------EDIT-----------*/}
-                <EditTop>
-                  <InputLabelDiv>
-                    <StyledLabel>Name:</StyledLabel>
-                    <NameInput
-                      type="text"
-                      placeholder="Question Name"
-                      required
-                      name="name"
-                      value={questionData.name}
-                      onChange={handleTextInput}
-                    />
-                    <Error errorMessage={fieldErrors["name"]} />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Points:</StyledLabel>
-                    <NumberInput
-                      type="text"
-                      placeholder="0"
-                      required
-                      value={
-                        questionData.difficulty === "H"
-                          ? "8"
-                          : questionData.difficulty === "I"
-                          ? "5"
-                          : "3"
-                      }
-                      disabled
-                    />
-                    <Error />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Difficulty:</StyledLabel>
-                    <DifficultyDropdown
-                      id="difficulty"
-                      value={questionData.difficulty}
-                      onChange={handleTextInput}
-                      name="difficulty"
-                    >
-                      <option value="E">Easy</option>
-                      <option value="I">Intermediate</option>
-                      <option value="H">Hard</option>
-                    </DifficultyDropdown>
-                    <Error />
-                  </InputLabelDiv>
-                </EditTop>
-                <EditMiddle>
-                  <InputLabelDiv>
-                    <StyledLabel>Description:</StyledLabel>
-                    <DescriptionInput
-                      type="text"
-                      placeholder="Description"
-                      required
-                      name="instructions"
-                      value={questionData.instructions}
-                      onChange={handleTextInput}
-                    />
-                    <Error errorMessage={fieldErrors["instructions"]} />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Catergories:</StyledLabel>
-                    <CategorySelect
-                      name="program"
-                      multiple
-                      value={questionData.program}
-                      onChange={handleProgramSelectorChange}
-                    >
-                      <option value="1">Full Stack</option>
-                      <option value="2">Data Science</option>
-                      <option value="3">React & Redux</option>
-                      <option value="4">Docker & Deployment</option>
-                      <option value="5">AI for Leaders</option>
-                      <option value="6">Python programming</option>
-                    </CategorySelect>
-                    <Error errorMessage={fieldErrors["program"]} />
-                  </InputLabelDiv>
-                </EditMiddle>
-                <EditBottom>
-                  <InputLabelDiv>
-                    <StyledLabel>Test Case Examples:</StyledLabel>
-                    <TestInputContainer>
-                      {questionData.tests_for_question
-                        ? questionData.tests_for_question.map((test, index) => {
-                            return (
-                              <TestInput
-                                type="text"
-                                index={index}
-                                value={questionData.tests_for_question[index]}
-                                key={`test_for_question ${index}`}
-                                onChange={(e) => handleTestsChange(e, index)}
-                              />
-                            );
-                          })
-                        : null}
-                    </TestInputContainer>
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <LabelAndBtn>
-                      <StyledLabel>Tips:</StyledLabel>
-                      <RoundGreyButton onClick={ModalTipAddOpenCloseHandler}>
-                        <FontAwesomeIcon icon={["fas", "plus"]} />
-                      </RoundGreyButton>
-                      {isModalTipAddOpen ? (
-                        <TipAddModal
-                          ModalTipAddOpenCloseHandler={
-                            ModalTipAddOpenCloseHandler
-                          }
-                          questionId={targetQuestion.id}
-                        />
-                      ) : null}
-                    </LabelAndBtn>
-                    <TipsList>
-                      {targetQuestionTips === null ? (
-                        <GenericSpinner />
-                      ) : targetQuestionTips.length > 0 ? (
-                        targetQuestionTips.map((tip) => {
-                          return (
-                            <GenericTipCard
-                              key={`Tip ${tip.id}`}
-                              tip={tip}
-                              questionId={targetQuestion.id}
+    const mapQuestionCard = (arr) => {
+        return arr.map((question) => (
+            <GenericQuestionCard key={`Question ${question.id}`} question={question} setData={setQuestionData}/>));
+    };
+
+    return (
+        <PageContainer>
+            <ManageQuestionsContainer>
+                <Styledh1>Questions</Styledh1>
+                <ManageContainer>
+                    <EditContainer>
+                        {targetQuestion ? (
+                            <EditQuestion
+                                questionData={questionData}
+                                handleTextInput={handleTextInput}
+                                fieldErrors={fieldErrors}
+                                handleProgramSelectorChange={handleProgramSelectorChange}
+                                handleTestsChange={handleTestsChange}
+                                ModalTipAddOpenCloseHandler={ModalTipAddOpenCloseHandler}
+                                isModalTipAddOpen={isModalTipAddOpen}
+                                targetQuestion={targetQuestion}
+                                targetQuestionTips={targetQuestionTips}
+                                ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                                isModalDeleteOpen={isModalDeleteOpen}
+                                setQuestionData={setQuestionData}
+                                handleSave={handleSave}
+                                handleCancel={handleCancel}
                             />
-                          );
-                        })
-                      ) : (
-                        <div>No Tips to Display</div>
-                      )}
-                    </TipsList>
-                  </InputLabelDiv>
-                </EditBottom>
-                <DeleteSave>
-                  <RedButton onClick={ModalDeleteOpenCloseHandler}>
-                    Delete
-                  </RedButton>
-                  {isModalDeleteOpen ? (
-                    <GenericDeleteModal
-                      ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                      type="questions"
-                      typeId={questionData.id}
-                      setQuestionData={setQuestionData}
-                    >
-                      <p>
-                        Are you sure you want to delete the Question "
-                        {questionData.name}"?
-                      </p>
-                    </GenericDeleteModal>
-                  ) : null}
-                  <div>
-                    <BlueButton onClick={handleCancel}>Cancel</BlueButton>
-                    <BlueButton onClick={handleSave}>Save</BlueButton>
-                  </div>
-                </DeleteSave>
-              </>
-            ) : (
-              <>
-                {/*--------ADD-----------*/}
-                <EditTop>
-                  <InputLabelDiv>
-                    <StyledLabel>Name:</StyledLabel>
-                    <NameInput
-                      type="text"
-                      placeholder="Question Name"
-                      value={questionData.name}
-                      required
-                      name="name"
-                      onChange={handleTextInput}
-                    />
-                    <Error errorMessage={fieldErrors["name"]} />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Points:</StyledLabel>
-                    <NumberInput
-                      type="text"
-                      placeholder="0"
-                      required
-                      value={
-                        questionData.difficulty === "H"
-                          ? "8"
-                          : questionData.difficulty === "I"
-                          ? "5"
-                          : "3"
-                      }
-                      disabled
-                    />
-                    <Error />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Difficulty:</StyledLabel>
-                    <DifficultyDropdown
-                      id="difficulty"
-                      name="difficulty"
-                      value={questionData.difficulty}
-                      onChange={handleTextInput}
-                    >
-                      <option value="E">Easy</option>
-                      <option value="I">Intermediate</option>
-                      <option value="H">Hard</option>
-                    </DifficultyDropdown>
-                    <Error />
-                  </InputLabelDiv>
-                </EditTop>
-                <EditMiddleBig>
-                  <InputLabelDiv>
-                    <StyledLabel>Description:</StyledLabel>
-                    <DescriptionInput
-                      type="text"
-                      placeholder="Description"
-                      value={questionData.instructions}
-                      required
-                      name="instructions"
-                      onChange={handleTextInput}
-                    />
-                    <Error errorMessage={fieldErrors["instructions"]} />
-                  </InputLabelDiv>
-                  <InputLabelDiv>
-                    <StyledLabel>Catergories:</StyledLabel>
-                    <CategorySelect
-                      name="program"
-                      multiple
-                      value={questionData.program}
-                      onChange={handleProgramSelectorChange}
-                    >
-                      <option value="1">Full Stack</option>
-                      <option value="2">Data Science</option>
-                      <option value="3">React & Redux</option>
-                      <option value="4">Docker & Deployment</option>
-                      <option value="5">AI for Leaders</option>
-                      <option value="6">Python programming</option>
-                    </CategorySelect>
-                    <Error errorMessage={fieldErrors["program"]} />
-                  </InputLabelDiv>
-                </EditMiddleBig>
-                <TestInputContainerAdd>
-                  <InputLabelDiv>
-                    <StyledLabel>Test Case Examples:</StyledLabel>
-                    <TestInput
-                      type="text"
-                      value={questionData.tests_for_question[0]}
-                      onChange={(e) => handleTestsChange(e, 0)}
-                    />
-                    <Error
-                      errorMessage={fieldErrors["tests_for_question"][0]}
-                    />
-                    <TestInput
-                      type="text"
-                      value={questionData.tests_for_question[1]}
-                      onChange={(e) => handleTestsChange(e, 1)}
-                    />
-                    <Error
-                      errorMessage={fieldErrors["tests_for_question"][1]}
-                    />
-                    <TestInput
-                      type="text"
-                      value={questionData.tests_for_question[2]}
-                      onChange={(e) => handleTestsChange(e, 2)}
-                    />
-                    <Error
-                      errorMessage={fieldErrors["tests_for_question"][2]}
-                    />
-                  </InputLabelDiv>
-                </TestInputContainerAdd>
-
-                <DeleteSave>
-                  <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
-                </DeleteSave>
-              </>
-            )}
-          </EditContainer>
-          <BrowseContainer>
-            <BrowseHeader>
-              <RoundGreyButton onClick={handleGreyAddButton}>
-                <FontAwesomeIcon icon={["fas", "plus"]} />
-              </RoundGreyButton>
-              <div>
-                <p>Sort by:</p>
-                <SortQDropdown
-                  id="sort"
-                  name="Sort by"
-                  value={sort}
-                  onChange={(e) => inputSortSearchHandler(e, setSort)}
-                >
-                  <option value="date">Date</option>
-                  <option value="difficulty">Difficulty</option>
-                  <option value="points">Points</option>
-                </SortQDropdown>
-                <SearchQInput
-                  type="text"
-                  placeholder="Search..."
-                  required
-                  value={search}
-                  onChange={(e) => inputSortSearchHandler(e, setSearch)}
-                />
-              </div>
-            </BrowseHeader>
-            <QuestionList>
-              {allQuestions === null ? (
-                <GenericSpinner />
-              ) : allQuestions.length > 0 ? (
-                renderQuestions(searchedQuestions)
-              ) : (
-                <div>No Questions to Display</div>
-              )}
-            </QuestionList>
-          </BrowseContainer>
-        </ManageContainer>
-      </ManageQuestionsContainer>
-    </PageContainer>
-    // </Fade>
-  );
+                        ) : (
+                            <AddQuestion
+                                questionData={questionData}
+                                handleTextInput={handleTextInput}
+                                fieldErrors={fieldErrors}
+                                handleProgramSelectorChange={handleProgramSelectorChange}
+                                handleTestsChange={handleTestsChange}
+                                handleAddQuestion={handleAddQuestion}
+                            />
+                        )}
+                    </EditContainer>
+                    <BrowseContainer>
+                        <BrowseHeader>
+                            <RoundGreyButton onClick={handleGreyAddButton}>
+                                <FontAwesomeIcon icon={["fas", "plus"]}/>
+                            </RoundGreyButton>
+                            <div>
+                                <p>Sort by:</p>
+                                <SortQDropdown
+                                    id="sort"
+                                    name="Sort by"
+                                    value={sort}
+                                    onChange={(e) => inputSortSearchHandler(e, setSort)}
+                                >
+                                    <option value="date">Date</option>
+                                    <option value="difficulty">Difficulty</option>
+                                    <option value="points">Points</option>
+                                </SortQDropdown>
+                                <SearchQInput
+                                    type="text"
+                                    placeholder="Search..."
+                                    required
+                                    value={search}
+                                    onChange={(e) => inputSortSearchHandler(e, setSearch)}
+                                />
+                            </div>
+                        </BrowseHeader>
+                        <QuestionList>
+                            {allQuestions === null ? (
+                                <GenericSpinner/>
+                            ) : allQuestions.length > 0 ? (
+                                renderQuestions(searchedQuestions)
+                            ) : (
+                                <div>No Questions to Display</div>
+                            )}
+                        </QuestionList>
+                    </BrowseContainer>
+                </ManageContainer>
+            </ManageQuestionsContainer>
+        </PageContainer>
+    );
 };
 
 const mapStateToProps = (state) => {
-  return {
-    allQuestions: state.questionReducer.allQuestions,
-    targetQuestion: state.questionReducer.targetQuestion,
-    targetQuestionTips: state.tipReducer.targetQuestionTips,
-    fieldErrors: state.verificationReducer.verificationErrors,
-  };
+    return {
+        allQuestions: state.questionReducer.allQuestions,
+        targetQuestion: state.questionReducer.targetQuestion,
+        targetQuestionTips: state.tipReducer.targetQuestionTips,
+        fieldErrors: state.verificationReducer.verificationErrors,
+    };
 };
 
 export default connect(mapStateToProps, {
-  getAllQuestionsAction,
-  updateQuestionAction,
-  resetTargetQuestion,
-  createNewQuestionAction,
+    getAllQuestionsAction,
+    updateQuestionAction,
+    resetTargetQuestion,
+    createNewQuestionAction,
 })(Questions);
