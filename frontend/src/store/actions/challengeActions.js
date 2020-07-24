@@ -91,4 +91,24 @@ export const getAllChallengesAction = () => async (dispatch) => {
     console.log("Error getting all Challenges>", error);
     return error
   }
-}
+};
+
+export const resendChallengeInvitationAction = (challengeId) => async (dispatch) => {
+  try {
+    const response = await Axios.patch(`challenges/resend/challenge/${challengeId}/`);
+    return response
+  } catch (error) {
+    console.log("Error resending Challenge Invitation Email");
+    return error
+  }
+};
+
+export const resendChallengeResultAction = (challengeId) => async (dispatch) => {
+  try {
+    const response = await Axios.patch(`challenges/resend/score/${challengeId}/`);
+    return response
+  } catch (error) {
+    console.log("Error resending Challenge Result Score")
+    return error
+  }
+};
