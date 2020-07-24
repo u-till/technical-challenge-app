@@ -10,6 +10,7 @@ class Challenge(models.Model):
         ('SENT', 'SENT'),
         ('STARTED', 'STARTED'),
         ('PASSED', 'PASSED'),
+        ('NEEDS REVIEW', 'NEEDS REVIEW'),
         ('FAILED', 'FAILED')
     ]
 
