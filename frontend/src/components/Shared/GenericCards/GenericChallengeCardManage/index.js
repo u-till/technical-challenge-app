@@ -29,20 +29,24 @@ const ChallengeCard = styled.div`
   margin-bottom: 8px;
 
   overflow: hidden;
+  > div:first-child {
+    min-width: 20px;
+  }
   > div:last-child {
-    min-width: 200px;
-    width: 14%;
     display: flex;
     justify-content: space-between;
   }
 `;
 
 const ChallengeInfo = styled.div`
-  display: flex;
-  justify-content: space-between;
+  display: inline-flex;
   flex-direction: column;
+  justify-content: center;
   min-width: 200px;
   height: 100%;
+  p:last-child {
+    font-size: 14px;
+  }
 `;
 
 const Challengeh2 = styled(Styledh2)`
@@ -59,6 +63,7 @@ const SendButton = styled(BlueButton)`
   padding: 8px;
   width: ${rem("34px")};
   height: ${rem("34px")};
+  margin-left: 32px;
 `;
 
 //////////
@@ -96,20 +101,24 @@ const GenericChallengeCardManage = ({ challenge }) => {
 
   return (
     <ChallengeCard>
-      <Challengeh2>{`Full Stack - Challenge #${challenge.id}`}</Challengeh2>
-      <ChallengeInfo>
-        <p>
-          Candidate:{" "}
-          {`${challenge.candidate.first_name} ${challenge.candidate.last_name}`}
-        </p>
-        <p>Created: {challenge.created.slice(0, 10)}</p>
-        <p>Status: {challenge.status}</p>
-        <p>
-          Created by:{" "}
-          {`${challenge.creator.first_name} ${challenge.creator.last_name}`}
-        </p>
-      </ChallengeInfo>
       <div>
+        <Challengeh2>{`Full Stack - Challenge #${challenge.id}`}</Challengeh2>
+      </div>
+      <div>
+        <ChallengeInfo>
+          <p>
+            Candidate:{" "}
+            {`${challenge.candidate.first_name} ${challenge.candidate.last_name}`}
+          </p>
+          <p>Status: {challenge.status}</p>
+        </ChallengeInfo>
+        <ChallengeInfo>
+          <p>Created: {challenge.created.slice(0, 10)}</p>
+          <p>
+            Created by:{" "}
+            {`${challenge.creator.first_name} ${challenge.creator.last_name}`}
+          </p>
+        </ChallengeInfo>
         <DeleteButton
           onClick={ModalDeleteOpenCloseHandler}
           data-tip="Delete Challenge"
