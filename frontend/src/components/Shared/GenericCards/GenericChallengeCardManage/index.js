@@ -136,7 +136,9 @@ const GenericChallengeCardManage = ({ challenge }) => {
             <p>{`Are you sure you want to delete the Challenge #${challenge.id}`}</p>
           </GenericDeleteModal>
         ) : null}
-        {challenge.status === "PASSED" || challenge.status === "FAILED" || challenge.status === "NEEDS REVIEW" ? (
+        {challenge.status === "PASSED" ||
+        challenge.status === "FAILED" ||
+        challenge.status === "NEEDS REVIEW" ? (
           <SendButton
             data-tip="Resend Challenge Score Email"
             onClick={resendResultEmail}

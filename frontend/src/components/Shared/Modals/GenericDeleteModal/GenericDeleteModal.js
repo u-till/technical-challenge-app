@@ -70,7 +70,7 @@ const GenericDeleteModal = ({
             instructions: "",
             difficulty: "E",
             program: [],
-            tests_for_question: ["", "", ""]
+            tests_for_question: ["", "", ""],
           });
           ModalDeleteOpenCloseHandler();
           await dispatch(resetTargetQuestion());
