@@ -9,7 +9,7 @@ import json
 class RunTestOne(GenericAPIView):
     permission_classes = [IsAuthenticated]
     tape_one = """test('function should return the sum of two numbers', function(t) {
-    const result = sum(1,2); 
+    const result = sum(1,2);
     const expected = 3;
     t.deepEqual(result, expected);
     t.end();
