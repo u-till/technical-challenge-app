@@ -5,9 +5,8 @@ import { rem } from "polished";
 
 import { connect, useDispatch } from "react-redux";
 import {
-  loginAction,
-  setLoggedInUserAction,
-} from "../../../../../store/actions/loginActions";
+  passwordResetCodeAction
+} from "../../../../../store/actions/passwordResetAction";
 import Error from "../../../../Shared/Error";
 import { resetError } from "../../../../../store/actions/verificationAction";
 import { BigRedButton } from "../../../../../style/GlobalButtons";
@@ -28,7 +27,7 @@ const LoginContainer = styled(BaseContainer)`
   height: ${rem("700px")};
   display: flex;
   flex-direction: column;
-    justify-content: space-evenly;
+  justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -61,15 +60,15 @@ const Icon = styled(FontAwesomeIcon)`
 //////////
 
 const SendPasswordReset = ({
-//  loginAction,
+  passwordResetCodeAction,
   history,
   fieldErrors,
-  non_field_error,
-  setLoggedInUserAction,
+  non_field_error
 }) => {
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
+  const [sendStatus, setSendStatus] = useState(false);
 
   const inputHandler = (e, func) => {
     func(e.currentTarget.value);
@@ -77,15 +76,14 @@ const SendPasswordReset = ({
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    setSendStatus(true)
     dispatch(resetError());
     const passwordResetData = { email};
-//    const response = await loginAction(passwordResetData);
-//    if (response.status === 200) {
-//      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
-//      setUserResponse.status === 200 && isStaff
-//        ? history.push("/manageusers")
-//        : history.push("/mychallenges");
-//    }
+    const response = await passwordResetCodeAction(passwordResetData);
+    setSendStatus(false);
+    if (response.status === 202) {
+      history.push("/confirmpasswordreset")
+    }
   };
 
   return (
@@ -105,7 +103,7 @@ const SendPasswordReset = ({
             />
           </EmailField>
           <Error errorMessage={fieldErrors["email"]} />
-          <BigRedButton onClick={onSubmitForm}>Send code</BigRedButton>
+          <BigRedButton onClick={onSubmitForm}>{sendStatus ? "Sending..." : "Send code"}</BigRedButton>
           <Error errorMessage={non_field_error} />
         </InteriorContainer>
       </LoginContainer>
@@ -120,6 +118,6 @@ const mapStateToProps = (state) => {
   };
 };
 
-export default connect(mapStateToProps, { loginAction, setLoggedInUserAction })(
+export default connect(mapStateToProps, { passwordResetCodeAction})(
   SendPasswordReset
 );

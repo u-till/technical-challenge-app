@@ -517,6 +517,7 @@ const Questions = ({
                       }
                       disabled
                     />
+                    <Error />
                   </InputLabelDiv>
                   <InputLabelDiv>
                     <StyledLabel>Difficulty:</StyledLabel>
@@ -530,6 +531,7 @@ const Questions = ({
                       <option value="I">Intermediate</option>
                       <option value="H">Hard</option>
                     </DifficultyDropdown>
+                    <Error />
                   </InputLabelDiv>
                 </EditTop>
                 <EditMiddle>
@@ -670,6 +672,7 @@ const Questions = ({
                       }
                       disabled
                     />
+                    <Error />
                   </InputLabelDiv>
                   <InputLabelDiv>
                     <StyledLabel>Difficulty:</StyledLabel>
@@ -683,6 +686,7 @@ const Questions = ({
                       <option value="I">Intermediate</option>
                       <option value="H">Hard</option>
                     </DifficultyDropdown>
+                    <Error />
                   </InputLabelDiv>
                 </EditTop>
                 <EditMiddleBig>
