@@ -28,7 +28,7 @@ export const challengeReducer = (state = initialState, action) => {
       return {
         ...state,
         allChallenges: action.payload,
-      }
+      };
     }
     default:
       return state;

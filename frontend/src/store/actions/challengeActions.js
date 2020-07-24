@@ -22,8 +22,8 @@ export const getUserChallenge = (challenge) => {
 export const getAllChallenges = (challenges) => {
   return {
     type: GET_ALL_CHALLENGES,
-    payload: challenges
-  }
+    payload: challenges,
+  };
 };
 
 export const getAllUserChallengesAction = () => async (dispatch) => {
@@ -36,7 +36,10 @@ export const getAllUserChallengesAction = () => async (dispatch) => {
   }
 };
 
-export const getUserChallengeAction = (challengeId) => async (dispatch, getState) => {
+export const getUserChallengeAction = (challengeId) => async (
+  dispatch,
+  getState
+) => {
   try {
     const response = await Axios.get(`challenges/challenge/${challengeId}/`);
     dispatch(getUserChallenge(response.data));
@@ -72,43 +75,56 @@ export const createUserChallengeAction = (candidateId) => async (dispatch) => {
   }
 };
 
-export const setChallengeStartTimeAction = (challengeId, time) => async (dispatch) => {
+export const setChallengeStartTimeAction = (challengeId, time) => async (
+  dispatch
+) => {
   try {
-    const response = await Axios.patch(`challenges/start/${challengeId}/`, time);
-    return response
+    const response = await Axios.patch(
+      `challenges/start/${challengeId}/`,
+      time
+    );
+    return response;
   } catch (error) {
     console.log("Error setting Challenge Start Time>", error);
-    return error
+    return error;
   }
 };
 
 export const getAllChallengesAction = () => async (dispatch) => {
   try {
-    const response = await Axios.get('challenges/list/');
+    const response = await Axios.get("challenges/list/");
     dispatch(getAllChallenges(response.data));
-    return response
+    return response;
   } catch (error) {
     console.log("Error getting all Challenges>", error);
-    return error
+    return error;
   }
 };
 
-export const resendChallengeInvitationAction = (challengeId) => async (dispatch) => {
+export const resendChallengeInvitationAction = (challengeId) => async (
+  dispatch
+) => {
   try {
-    const response = await Axios.patch(`challenges/resend/challenge/${challengeId}/`);
-    return response
+    const response = await Axios.patch(
+      `challenges/resend/challenge/${challengeId}/`
+    );
+    return response;
   } catch (error) {
     console.log("Error resending Challenge Invitation Email");
-    return error
+    return error;
   }
 };
 
-export const resendChallengeResultAction = (challengeId) => async (dispatch) => {
+export const resendChallengeResultAction = (challengeId) => async (
+  dispatch
+) => {
   try {
-    const response = await Axios.patch(`challenges/resend/score/${challengeId}/`);
-    return response
+    const response = await Axios.patch(
+      `challenges/resend/score/${challengeId}/`
+    );
+    return response;
   } catch (error) {
-    console.log("Error resending Challenge Result Score")
-    return error
+    console.log("Error resending Challenge Result Score");
+    return error;
   }
 };

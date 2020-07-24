@@ -17,7 +17,7 @@ const initialState = {
     avatar: null,
     name: null,
     instructions: null,
-    program: null
+    program: null,
   },
 };
 

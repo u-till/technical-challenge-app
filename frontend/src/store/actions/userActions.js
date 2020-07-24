@@ -33,7 +33,7 @@ export const getAllUsersAction = () => async (dispatch) => {
   try {
     const response = await Axios.get("users/list/");
     dispatch(getAllUsers(response.data));
-    return response
+    return response;
   } catch (error) {
     console.log("Error during Get All Users>", error);
     return error;
@@ -83,9 +83,9 @@ export const createUserAction = (userData) => async (dispatch) => {
 export const resendUserValidationAction = (userId) => async (dispatch) => {
   try {
     const response = await Axios.patch(`/users/resend/create/${userId}/`);
-    return response
+    return response;
   } catch (error) {
-    console.log('Error during Resend Validation Email>', error);
-    return error
+    console.log("Error during Resend Validation Email>", error);
+    return error;
   }
-}
+};
