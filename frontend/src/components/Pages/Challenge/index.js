@@ -341,7 +341,8 @@ const Challenge = ({
 }) => {
   const match = useRouteMatch();
   const [getRunError, setRunError] = useState("");
-
+  // Used in GenericDoneModal to change button text during request
+  const [sendStatus, setSendStatus] = useState(false);
   const [isModalDoneOpen, setModalDoneOpen] = useState(false);
 
   const ModalDoneOpenCloseHandler = () => {
@@ -458,6 +459,7 @@ const Challenge = ({
   };
 
   const doneHandler = async (e) => {
+    setSendStatus(true);
     if (e) {
       e.preventDefault();
     }
@@ -469,6 +471,7 @@ const Challenge = ({
       targetChallenge.id,
       candidateScore
     );
+    setSendStatus(false);
     if (response.status === 200) {
       localStorage.removeItem("challenge");
       history.push("/finishedchallenge");
@@ -655,6 +658,7 @@ const Challenge = ({
             <GenericDoneModal
               ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
               doneHandler={doneHandler}
+              sendStatus={sendStatus}
             />
           ) : null}
         </FooterSectionRight>
