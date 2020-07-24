@@ -261,6 +261,10 @@ const Questions = ({
         : null;
     // Renders Question Card based on returns from sort/filter/search functions
     const renderQuestions = (searchedQuestions) => {
+        const mapQuestionCard = (arr) => {
+            return arr.map((question) => (
+                <GenericQuestionCard key={`Question ${question.id}`} question={question} setData={setQuestionData}/>));
+        };
         if (sort === "date") {
             return mapQuestionCard(sortByCreated(searchedQuestions));
         }
@@ -268,11 +272,6 @@ const Questions = ({
             return mapQuestionCard(sortByDifficulty(searchedQuestions));
         }
         return mapQuestionCard(sortByPointValue(searchedQuestions));
-    };
-
-    const mapQuestionCard = (arr) => {
-        return arr.map((question) => (
-            <GenericQuestionCard key={`Question ${question.id}`} question={question} setData={setQuestionData}/>));
     };
 
     return (
