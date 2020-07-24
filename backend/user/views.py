@@ -1,5 +1,5 @@
 from django.contrib.auth import get_user_model
-from django.core.mail import EmailMultiAlternatives, EmailMessage
+from django.core.mail import EmailMultiAlternatives
 from rest_framework import filters, status
 from rest_framework.generics import ListAPIView, RetrieveUpdateDestroyAPIView, CreateAPIView, UpdateAPIView
 from rest_framework.permissions import IsAuthenticated, AllowAny
@@ -17,6 +17,7 @@ class CreateUserView(CreateAPIView):
 
     The default username it's the email of the user.
     """
+
     User = get_user_model()
     queryset = User.objects.all()
     serializer_class = UserSerializer
@@ -53,11 +54,12 @@ class CreateUserView(CreateAPIView):
 
 class ValidateUserView(UpdateAPIView):
     """
-     patch:
-     A user can validate the profile.
+    patch:
+    A user can validate the profile.
 
-     The password needs to be change.
-     """
+    The password needs to be change.
+    """
+
     http_method_names = ['patch']
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
@@ -86,6 +88,7 @@ class ListUsersView(ListAPIView):
 
     Search can be made by first_name, last_name or username
     """
+
     queryset = User.objects.all()
     serializer_class = UserSerializer
     search_fields = ['first_name', 'last_name', 'username']
@@ -101,6 +104,7 @@ class RetrieveUpdateDestroySpecificUserView(RetrieveUpdateDestroyAPIView):
     delete:
     Delete a user with the given id.
     """
+
     http_method_names = ['get', 'patch', 'delete']
     serializer_class = UserSerializer
     queryset = User.objects.all()
@@ -122,6 +126,7 @@ class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
     delete:
     Delete the logged user.
     """
+
     http_method_names = ['get', 'patch', 'delete']
     permission_classes = [IsAuthenticated]
     queryset = User.objects.all()
@@ -138,6 +143,11 @@ class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
 
 
 class ResendUserValidationEmail(UpdateAPIView):
+    """
+    patch:
+    Resend the email asking user to verify profile.
+    """
+
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
@@ -173,6 +183,7 @@ class CreatePasswordResetRequestView(CreateAPIView):
     Creates a reset password email with validation code sent to the email provided.
     email required
     """
+
     permission_classes = [AllowAny]
     serializer_class = PasswordResetSerializer
 
@@ -208,6 +219,7 @@ class ValidatePasswordResetRequestView(UpdateAPIView):
     Updates the password of the User tied to the email address.
     email, code, password, password_repeat required
     """
+
     permission_classes = [AllowAny]
     serializer_class = PasswordResetSerializer
 
