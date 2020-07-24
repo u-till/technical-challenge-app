@@ -64,7 +64,7 @@ class ValidateUserView(UpdateAPIView):
     permission_classes = [AllowAny]
     serializer_class = ValidationUserSerializer
     lookup_field = "id"
-    disabled_fields = set()  # type: Set[str]
+    disabled_fields = set()
     disabled_fields |= {
         'is_staff'
     }

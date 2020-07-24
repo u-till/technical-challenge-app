@@ -31,7 +31,7 @@ class ValidationUserSerializer(UserSerializer):
 
     def validate(self, data):
         try:
-            target_profile = User.objects.get(email=data.get('email'))
+            User.objects.get(email=data.get('email'))
         except User.DoesNotExist:
             raise serializers.ValidationError({"detail": "Your email doesn't match any User or is invalid."})
         if data.get('password') != data.get('password_repeat'):
