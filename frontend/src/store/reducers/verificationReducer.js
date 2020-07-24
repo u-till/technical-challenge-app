@@ -8,6 +8,7 @@ const initialState = {
   email: "",
   non_field_error: null,
   verificationErrors: {
+    code: null,
     email: null,
     first_name: null,
     last_name: null,

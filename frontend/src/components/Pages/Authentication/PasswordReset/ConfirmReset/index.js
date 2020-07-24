@@ -1,23 +1,22 @@
-import React, { useState } from "react";
+import React, {useState} from "react";
 import styled from "styled-components";
-import { rem } from "polished";
-
-import { connect, useDispatch } from "react-redux";
+import {rem} from "polished";
+import {connect, useDispatch} from "react-redux";
 import {
-  resetError,
-  verificationAction,
+    resetError,
+    verificationAction,
 } from "../../../../../store/actions/verificationAction";
-import { getUserInformationAction } from "../../../../../store/actions/userActions";
-import { useRouteMatch } from "react-router-dom";
-import queryString from "query-string";
+import {getUserInformationAction} from "../../../../../store/actions/userActions";
+import {useRouteMatch} from "react-router-dom";
 import Error from "../../../../Shared/Error";
-import { BaseButton, BigRedButton } from "../../../../../style/GlobalButtons";
-import { BaseInput } from "../../../../../style/GlobalInputs";
-import { Styledh1 } from "../../../../../style/GlobalTitles";
+import {BaseButton, BigRedButton} from "../../../../../style/GlobalButtons";
+import {BaseInput} from "../../../../../style/GlobalInputs";
+import {Styledh1} from "../../../../../style/GlobalTitles";
 import {
-  BaseContainer,
-  PageContainer,
+    BaseContainer,
+    PageContainer,
 } from "../../../../../style/GlobalWrappers";
+import {confirmPasswordResetAction} from "../../../../../store/actions/passwordResetAction";
 
 //////////
 // STYLE
@@ -88,135 +87,122 @@ const StyledLabel = styled.label`
 //////////
 
 const ConfirmPasswordReset = ({
-  verificationAction,
-  history,
-  location,
-  fieldErrors,
-  non_field_error,
-}) => {
-  const dispatch = useDispatch();
+                                  history,
+                                  fieldErrors,
+                                  non_field_error,
+                                  confirmPasswordResetAction
+                              }) => {
+    const dispatch = useDispatch();
 
-  const match = useRouteMatch();
+    const [sendStatus, setSendStatus] = useState(false);
+    const [data, setData] = useState({
+        email: "",
+        code: "",
+        password: "",
+        password_repeat: "",
+    });
 
-  const queryStringObject = queryString.parse(location.search);
+    const handleInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setData({...data, [name]: value});
+    };
 
-  const [data, setData] = useState({
-    email: queryStringObject.email,
-    phone: queryStringObject.phone,
-    password: "",
-    password_repeat: "",
-  });
+    const onSubmitForm = async (e) => {
+        console.log('click')
+        e.preventDefault();
+        setSendStatus(true);
+        dispatch(resetError());
+        const userData = {
+            email: data.email,
+            code: data.code,
+            password: data.password,
+            password_repeat: data.password_repeat
+        };
+        const response = await confirmPasswordResetAction(userData);
+        setSendStatus(false);
+        if (response.status === 202) {
+            history.push("/login");
+        }
+    };
 
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setData({ ...data, [name]: value });
-  };
+    return (
+        <PageContainer>
+            <ConfirmResetContainer>
+                <Styledh1>Confirm Password Reset</Styledh1>
+                <ResetSplitContainer>
+                    <div>
+                        <InputLabelDiv>
+                            <StyledLabel>Email:</StyledLabel>
+                            <ConfirmInput
+                                name="email"
+                                value={data.email}
+                                type="email"
+                                placeholder="Email"
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["email"]}/>
+                        </InputLabelDiv>
 
-  const onSubmitForm = async (e) => {
-    e.preventDefault();
-    dispatch(resetError());
-    const msgData = new FormData();
-    msgData.append("email", data.email);
-    msgData.append("first_name", data.first_name);
-    msgData.append("last_name", data.last_name);
-    msgData.append("password", data.password);
-    msgData.append("password_repeat", data.password_repeat);
-    msgData.append("phone", data.phone);
-    if (data.avatar) {
-      msgData.append("avatar", data.avatar);
-    }
-    const response = await verificationAction(match.params.userId, msgData);
-    if (response.status === 202) {
-      history.push("/");
-    }
-  };
+                        <InputLabelDiv>
+                            <StyledLabel>Code:</StyledLabel>
+                            <ConfirmInput
+                                name="code"
+                                value={data.first_name}
+                                type="text"
+                                placeholder="Confirmation Code"
+                                required
+                                onChange={handleInput}
+                            />{" "}
+                            <Error errorMessage={fieldErrors["code"]}/>
+                        </InputLabelDiv>
+                    </div>
+                    <div>
+                        <InputLabelDiv>
+                            <StyledLabel>Password:</StyledLabel>
+                            <ConfirmInput
+                                name="password"
+                                value={data.password}
+                                type="password"
+                                placeholder="Password"
+                                required
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["password"]}/>
+                        </InputLabelDiv>
 
-  const hiddenFileInput = React.useRef(null);
+                        <InputLabelDiv>
+                            <StyledLabel>Repeat Password:</StyledLabel>
+                            <ConfirmInput
+                                name="password_repeat"
+                                value={data.password_repeat}
+                                type="password"
+                                placeholder="Repeat Password"
+                                required
+                                onChange={handleInput}
+                            />
+                            <Error errorMessage={fieldErrors["password_repeat"]}/>
+                        </InputLabelDiv>
+                    </div>
 
-  const handleClick = (event) => {
-    hiddenFileInput.current.click();
-  };
-
-  return (
-    <PageContainer>
-      <ConfirmResetContainer>
-        <Styledh1>Confirm Password Reset</Styledh1>
-        <ResetSplitContainer>
-          <div>
-            <InputLabelDiv>
-              <StyledLabel>Email:</StyledLabel>
-              <ConfirmInput
-                name="email"
-                value={data.email}
-                type="email"
-                placeholder="Email"
-                disabled
-              />
-              <Error errorMessage={fieldErrors["email"]} />
-            </InputLabelDiv>
-
-            <InputLabelDiv>
-              <StyledLabel>Code:</StyledLabel>
-              <ConfirmInput
-                name="first_name"
-                value={data.first_name}
-                type="text"
-                placeholder="Confirmation Code"
-                required
-                onChange={handleInput}
-              />{" "}
-              <Error errorMessage={fieldErrors["first_name"]} />
-            </InputLabelDiv>
-          </div>
-          <div>
-            <InputLabelDiv>
-              <StyledLabel>Password:</StyledLabel>
-              <ConfirmInput
-                name="password"
-                value={data.password}
-                type="password"
-                placeholder="Password"
-                required
-                onChange={handleInput}
-              />
-              <Error errorMessage={fieldErrors["password"]} />
-            </InputLabelDiv>
-
-            <InputLabelDiv>
-              <StyledLabel>Repeat Password:</StyledLabel>
-              <ConfirmInput
-                name="password_repeat"
-                value={data.password_repeat}
-                type="password"
-                placeholder="Repeat Password"
-                required
-                onChange={handleInput}
-              />
-              <Error errorMessage={fieldErrors["password_repeat"]} />
-            </InputLabelDiv>
-          </div>
-
-          <InputLabelDiv>
-            <ConfirmBtnWrapper>
-              <ConfirmButton onClick={onSubmitForm}>Confirm</ConfirmButton>
-            </ConfirmBtnWrapper>
-            <Error errorMessage={non_field_error} />
-          </InputLabelDiv>
-        </ResetSplitContainer>
-      </ConfirmResetContainer>
-    </PageContainer>
-  );
+                    <InputLabelDiv>
+                        <ConfirmBtnWrapper>
+                            <ConfirmButton
+                                onClick={onSubmitForm}>{sendStatus ? "Confirming..." : "Confirm"}</ConfirmButton>
+                        </ConfirmBtnWrapper>
+                        <Error errorMessage={non_field_error}/>
+                    </InputLabelDiv>
+                </ResetSplitContainer>
+            </ConfirmResetContainer>
+        </PageContainer>
+    );
 };
 
 const mapStateToProps = (state) => {
-  return {
-    fieldErrors: state.verificationReducer.verificationErrors,
-    non_field_error: state.verificationReducer.non_field_error,
-  };
+    return {
+        fieldErrors: state.verificationReducer.verificationErrors,
+        non_field_error: state.verificationReducer.non_field_error,
+    };
 };
 
-export default connect(mapStateToProps, {
-  getUserInformationAction,
-  verificationAction,
-})(ConfirmPasswordReset);
+export default connect(mapStateToProps, {confirmPasswordResetAction})(ConfirmPasswordReset);
