@@ -6,9 +6,10 @@ import { HeaderLogo } from "../../../style/GlobalIcons";
 import { RedButton } from "../../../style/GlobalButtons";
 import { NavLink, useHistory } from "react-router-dom";
 import UserModal from "./UserModal";
-import { connect } from "react-redux";
+import {connect, useDispatch} from "react-redux";
 import { logoutUser } from "../../../store/actions/loginActions";
 import Fade from "react-reveal/Fade";
+import {resetError} from "../../../store/actions/verificationAction";
 //////////
 // STYLE
 //////////
@@ -129,6 +130,7 @@ const StyledFade = styled.div`
 //////////
 const Navigation = ({ children, userObj, logoutUser }) => {
   const history = useHistory();
+  const dispatch = useDispatch();
 
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
 
@@ -137,6 +139,7 @@ const Navigation = ({ children, userObj, logoutUser }) => {
   };
 
   const handleLoginClick = () => {
+    dispatch(resetError());
     history.push("/login");
   };
 
