@@ -27,8 +27,8 @@ const LoginContainer = styled(BaseContainer)`
   width: ${rem("700px")};
   height: ${rem("700px")};
   display: flex;
-  justify-content: space-evenly;
   flex-direction: column;
+    justify-content: space-evenly;
   align-items: center;
 `;
 
@@ -39,7 +39,7 @@ const LoginInput = styled(BaseInput)`
 `;
 
 const InteriorContainer = styled.div`
-  height: ${rem("350px")};
+  height: ${rem("300px")};
   display: flex;
   flex-direction: column;
   justify-content: space-between;
@@ -47,12 +47,6 @@ const InteriorContainer = styled.div`
 `;
 
 const EmailField = styled.div`
-  padding-left: 15px;
-  border: 1px solid #dbdbdb;
-  border-radius: 5px;
-`;
-
-const PasswordField = styled.div`
   padding-left: 15px;
   border: 1px solid #dbdbdb;
   border-radius: 5px;
@@ -67,7 +61,7 @@ const Icon = styled(FontAwesomeIcon)`
 //////////
 
 const SendPasswordReset = ({
-  loginAction,
+//  loginAction,
   history,
   fieldErrors,
   non_field_error,
@@ -76,7 +70,6 @@ const SendPasswordReset = ({
   const dispatch = useDispatch();
 
   const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const inputHandler = (e, func) => {
     func(e.currentTarget.value);
@@ -85,20 +78,20 @@ const SendPasswordReset = ({
   const onSubmitForm = async (e) => {
     e.preventDefault();
     dispatch(resetError());
-    const loginData = { email, password };
-    const response = await loginAction(loginData);
-    if (response.status === 200) {
-      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
-      setUserResponse.status === 200 && isStaff
-        ? history.push("/manageusers")
-        : history.push("/mychallenges");
-    }
+    const passwordResetData = { email};
+//    const response = await loginAction(passwordResetData);
+//    if (response.status === 200) {
+//      const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
+//      setUserResponse.status === 200 && isStaff
+//        ? history.push("/manageusers")
+//        : history.push("/mychallenges");
+//    }
   };
 
   return (
     <PageContainer>
       <LoginContainer>
-        <Styledh1>Login</Styledh1>
+        <Styledh1>Password Reset</Styledh1>
         <InteriorContainer>
           <EmailField>
             <Icon icon={["fas", "user"]} />
@@ -112,19 +105,7 @@ const SendPasswordReset = ({
             />
           </EmailField>
           <Error errorMessage={fieldErrors["email"]} />
-          <PasswordField>
-            <Icon icon={["fas", "lock"]} />
-            <LoginInput
-              type="password"
-              name="password"
-              placeholder="Password"
-              value={password}
-              onChange={(e) => inputHandler(e, setPassword)}
-              required
-            />
-          </PasswordField>
-          <Error errorMessage={fieldErrors["password"]} />
-          <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
+          <BigRedButton onClick={onSubmitForm}>Send code</BigRedButton>
           <Error errorMessage={non_field_error} />
         </InteriorContainer>
       </LoginContainer>
