@@ -25,6 +25,7 @@ class CreateChallenge(CreateAPIView):
     def create(self, request, *args, **kwargs):
         candidate = User.objects.get(id=request.data['candidate'])
         challenge = Challenge(creator=request.user, candidate=candidate)
+        challenge.status = 'SENT'
         challenge.save()
         easy_questions = random.sample(list(Question.objects.filter(difficulty='E')), 3)
         intermediate_questions = random.sample(list(Question.objects.filter(difficulty='I')), 2)
@@ -129,6 +130,7 @@ class StartChallenge(UpdateAPIView):
         challenge = Challenge.objects.get(id=kwargs['id'])
         if challenge.started is None:
             challenge.started = started
+            challenge.status = 'STARTED'
             challenge.save()
         return Response(status=200)
 
@@ -162,6 +164,8 @@ class ChallengeScore(UpdateAPIView):
             creator_email.subject = f'Challenge Results - Candidate: {candidate.first_name} {candidate.last_name}'
             creator_email.to = [creator.email]
             if challenge.score < 40:
+                challenge.status = 'FAILED'
+                challenge.save()
                 html_content_candidate_email = f"""<h3 style="font-weight:normal">Dear {candidate.first_name},</h3>
                         <h3 style="font-weight:normal">Though you demonstrated excellent motivation and willingness to learn in trying to pass the technical challenge, additional work is required to reach the level needed to get into the program. We recommend that you keep practicing with the intention of joining a future program.</h3>
                         <h3 style="font-weight:normal">Please continue reviewing the materials for the technical challenge as well as other similar online resources and let us know when you are ready to try again.</h3>
@@ -184,6 +188,8 @@ class ChallengeScore(UpdateAPIView):
                         <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
                         """
             elif 40 <= challenge.score < 70:
+                challenge.status = 'NEEDS REVIEW'
+                challenge.save()
                 html_content_candidate_email = f"""<h2 style="font-weight:normal">Hi, {candidate.first_name}! You got {challenge.score}% on your Propulsion Academy Technical Challenge.</h2>
                          <h3 style="font-weight:normal">We can see that you are almost there! However, we believe that a little more time and practice can be decisive for you to pass the test and for this, we would like to invite you for a second technical challenge within the next 7 days. We are confident that you can do it!</h3>
                          <h3 style="font-weight:normal">Expect an email from us when the next challenge becomes available on your personal area.</h3>
@@ -205,6 +211,8 @@ class ChallengeScore(UpdateAPIView):
                          <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
                          """
             else:
+                challenge.status = 'PASSED'
+                challenge.save()
                 html_content_candidate_email = f"""<h2 style="font-weight:normal">Hi, {candidate.first_name}! Congratulations! You passed the Propulsion Academy Technical Challenge!</h2>
                         <img height="150" src="https://66.media.tumblr.com/5dd57c2cb2e5801f662bf8c8a7fa91ab/c073e7987cb0c13a-be/s500x750/4919f4c52044d0e2654f92f6fc28c190c1ac8f52.gif">
                         <br></br>
