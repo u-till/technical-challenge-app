@@ -79,3 +79,13 @@ export const createUserAction = (userData) => async (dispatch) => {
     return error;
   }
 };
+
+export const resendUserValidationAction = (userId) => async (dispatch) => {
+  try {
+    const response = await Axios.patch(`/users/resend/create/${userId}/`);
+    return response
+  } catch (error) {
+    console.log('Error during Resend Validation Email>', error);
+    return error
+  }
+}

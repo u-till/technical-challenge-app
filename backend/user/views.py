@@ -136,7 +136,8 @@ class RetrieveUpdateDestroyLoggedInUserView(RetrieveUpdateDestroyAPIView):
         user.save()
         return self.partial_update(request, *args, **kwargs)
 
-class ResendChallengeScoreEmail(UpdateAPIView):
+
+class ResendUserValidationEmail(UpdateAPIView):
     serializer_class = UserSerializer
     queryset = User.objects.all()
     lookup_field = 'id'
