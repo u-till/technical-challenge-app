@@ -7,6 +7,8 @@ import {Styledh2} from "../../../../style/GlobalTitles";
 import {useHistory} from "react-router";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 import ReactTooltip from "react-tooltip";
+import {resendChallengeInvitationAction, resendChallengeResultAction} from "../../../../store/actions/challengeActions";
+import {useDispatch} from "react-redux";
 
 //////////
 // STYLES
@@ -61,10 +63,30 @@ const SendButton = styled(BlueButton)`
 //////////
 
 const GenericChallengeCardManage = ({challenge}) => {
+    const dispatch = useDispatch();
+
     const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
     const ModalDeleteOpenCloseHandler = () => {
         setModalDeleteOpen(!isModalDeleteOpen);
+    };
+
+    const resendInvitationEmail = async (e) => {
+        e.preventDefault();
+        //start animation
+        const response = await dispatch(resendChallengeInvitationAction(challenge.id));
+        if (response.status === 200) {
+            //stop animation
+        }
+    };
+
+    const resendResultEmail = async (e) => {
+        e.preventDefault();
+        //start animation
+        const response = await dispatch(resendChallengeResultAction(challenge.id));
+        if (response.status === 200) {
+            //stop animation
+        }
     };
 
     return (
@@ -94,14 +116,13 @@ const GenericChallengeCardManage = ({challenge}) => {
                         <p>{`Are you sure you want to delete the Challenge #${challenge.id}`}</p>
                     </GenericDeleteModal>
                 ) : null}
-                <SendButton data-tip="Resend Challenge Invitation Email">
-                    <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
-                    <ReactTooltip place="top" type="dark" effect="solid"/>
-                </SendButton>
-                <SendButton data-tip="Resend Challenge Score Email">
-                    <FontAwesomeIcon icon={["fas", "trophy"]}/>
-                    <ReactTooltip place="top" type="dark" effect="solid"/>
-                </SendButton>
+                {challenge.status === "PASSED" || challenge.status === "FAILED" ? (<SendButton data-tip="Resend Challenge Score Email" onClick={resendResultEmail}>
+                <FontAwesomeIcon icon={["fas", "trophy"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </SendButton>) : (<SendButton data-tip="Resend Challenge Invitation Email" onClick={resendInvitationEmail}>
+                <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </SendButton>)}
             </div>
         </ChallengeCard>
     );

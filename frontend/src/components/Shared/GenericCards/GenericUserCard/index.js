@@ -316,10 +316,10 @@ const GenericUserCard = ({
 
     const resendEmailHandler = async (e) => {
         e.preventDefault();
-        console.log('clicked')
-        const response = await resendUserValidationAction(user.id)
+        //start animation
+        const response = await resendUserValidationAction(user.id);
         if (response.status === 200) {
-            console.log('Email Sent');
+            //stop animation
         }
     };
 

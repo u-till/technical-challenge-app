@@ -1,11 +1,13 @@
-import React, { useState } from "react";
-import { rem } from "polished";
+import React, {useState} from "react";
+import {rem} from "polished";
 import styled from "styled-components";
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
-import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
-import { Styledh2 } from "../../../../style/GlobalTitles";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {BlueButton, RedButton} from "../../../../style/GlobalButtons";
+import {Styledh2} from "../../../../style/GlobalTitles";
 import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteModal";
 import ReactTooltip from "react-tooltip";
+import {useDispatch} from "react-redux";
+import {resendChallengeInvitationAction, resendChallengeResultAction} from "../../../../store/actions/challengeActions";
 
 //////////
 // STYLES
@@ -46,43 +48,62 @@ const SendButton = styled(BlueButton)`
 // REACT
 //////////
 
-const GenericChallengeCardSmall = ({ challenge }) => {
-  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+const GenericChallengeCardSmall = ({challenge}) => {
+    const dispatch = useDispatch();
 
-  const ModalDeleteOpenCloseHandler = () => {
-    setModalDeleteOpen(!isModalDeleteOpen);
-  };
+    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
 
-  return (
-    <ChallengeCard>
-      <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
-      <p>{`Status: ${challenge.status}`}</p>
-      <DeleteButton
-        onClick={ModalDeleteOpenCloseHandler}
-        data-tip="Delete Challenge"
-      >
-        <FontAwesomeIcon icon={["far", "trash-alt"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </DeleteButton>
-      {isModalDeleteOpen ? (
-        <GenericDeleteModal
-          ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-          type="challenges"
-          typeId={challenge.id}
-        >
-          <p>{`Are you sure you want to delete the Challenge #${challenge.id}?`}</p>
-        </GenericDeleteModal>
-      ) : null}
-      <SendButton data-tip="Resend Challenge Invitation Email">
-        <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </SendButton>
-      <SendButton data-tip="Resend Challenge Score Email">
-        <FontAwesomeIcon icon={["fas", "trophy"]} />
-        <ReactTooltip place="top" type="dark" effect="solid" />
-      </SendButton>
-    </ChallengeCard>
-  );
+    const ModalDeleteOpenCloseHandler = () => {
+        setModalDeleteOpen(!isModalDeleteOpen);
+    };
+
+    const resendInvitationEmail = async (e) => {
+        e.preventDefault();
+        //start animation
+        const response = await dispatch(resendChallengeInvitationAction(challenge.id));
+        if (response.status === 200) {
+            //stop animation
+        }
+    };
+
+    const resendResultEmail = async (e) => {
+        e.preventDefault();
+        //start animation
+        const response = await dispatch(resendChallengeResultAction(challenge.id));
+        if (response.status === 200) {
+            //stop animation
+        }
+    };
+
+    return (
+        <ChallengeCard>
+            <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
+            <p>{`Status: ${challenge.status}`}</p>
+            <DeleteButton
+                onClick={ModalDeleteOpenCloseHandler}
+                data-tip="Delete Challenge"
+            >
+                <FontAwesomeIcon icon={["far", "trash-alt"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </DeleteButton>
+            {isModalDeleteOpen ? (
+                <GenericDeleteModal
+                    ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                    type="challenges"
+                    typeId={challenge.id}
+                >
+                    <p>{`Are you sure you want to delete the Challenge #${challenge.id}?`}</p>
+                </GenericDeleteModal>
+            ) : null}
+            {challenge.status === "PASSED" || challenge.status === "FAILED" ? (<SendButton data-tip="Resend Challenge Score Email" onClick={resendResultEmail}>
+                <FontAwesomeIcon icon={["fas", "trophy"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </SendButton>) : (<SendButton data-tip="Resend Challenge Invitation Email" onClick={resendInvitationEmail}>
+                <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
+                <ReactTooltip place="top" type="dark" effect="solid"/>
+            </SendButton>)}
+        </ChallengeCard>
+    );
 };
 
 export default GenericChallengeCardSmall;
