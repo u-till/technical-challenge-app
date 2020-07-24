@@ -3,7 +3,11 @@ import styled from "styled-components";
 import { rem } from "polished";
 import { BaseContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import { BlueButton, RedButton } from "../../../style/GlobalButtons";
+import {
+  BlueButton,
+  RedButton,
+  RoundGreyButton,
+} from "../../../style/GlobalButtons";
 import {
   Container as ResizeContainer,
   Section,
@@ -24,6 +28,8 @@ import { runTestAction } from "../../../store/actions/testActions";
 import Error from "../../Shared/Error";
 import { GenericSpinnerSmall } from "../../Shared/GenericSpinner";
 import Timer from "react-compound-timer";
+import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
+import GenericDoneModal from "../../Shared/Modals/GenericDoneModal/GenericDoneModal";
 
 //////////
 // STYLE
@@ -116,6 +122,18 @@ const TestsHeader = styled.div`
     font-size: ${rem("16px")};
     margin-bottom: 12px;
     font-family: "Courier New", Courier, monospace !important;
+  }
+`;
+
+const ErrorDiv = styled.div`
+  padding: 8px;
+  background-color: #f2dede;
+  border-color: #ebccd1;
+  span {
+    margin-left: 8px;
+  }
+  svg {
+    color: red;
   }
 `;
 
@@ -237,6 +255,13 @@ const FooterSectionRight = styled.div`
   display: flex;
   justify-content: space-between;
   align-items: center;
+  p {
+    font-size: 24px;
+    padding-left: 12px;
+  }
+  div {
+    display: flex;
+  }
 `;
 
 /// Codemirror
@@ -315,7 +340,16 @@ const Challenge = ({
   history,
 }) => {
   const match = useRouteMatch();
-  const [getRunError, setRunError] = useState("");
+  const [getRunError, setRunError] = useState(
+    "Server Error, contact administrator"
+  );
+
+  const [isModalDoneOpen, setModalDoneOpen] = useState(false);
+
+  const ModalDoneOpenCloseHandler = () => {
+    setModalDoneOpen(!isModalDoneOpen);
+  };
+
   const [isRunningCode, setRunningCode] = useState(false);
   const [timerValue, setTimerValue] = useState(null);
   const [progressValue, setProgressValue] = useState(0);
@@ -503,7 +537,10 @@ const Challenge = ({
                 <TestsContainer>
                   <TestsHeader>
                     <Styledh2>Tests</Styledh2>
-                    <Error errorMessage={getRunError} />
+                    <ErrorDiv>
+                      <FontAwesomeIcon icon={["fas", "exclamation-triangle"]} />
+                      <Error errorMessage={getRunError} />
+                    </ErrorDiv>
                   </TestsHeader>
                   <SmallCodeMirrorWrapper>
                     {targetChallenge.questions[
@@ -584,27 +621,44 @@ const Challenge = ({
           {renderControlPanelV2(progressValue)}
         </FooterSectionLeft>
         <FooterSectionRight>
-          <p>Time Left: </p>
-          {timerValue ? (
-            <Timer
-              initialTime={timerValue}
-              direction="backward"
-              checkpoints={[
-                {
-                  time: 0,
-                  callback: () => doneHandler(),
-                },
-              ]}
-            >
-              {() => (
-                <React.Fragment>
-                  <Timer.Minutes /> mins
-                  <Timer.Seconds /> secs
-                </React.Fragment>
-              )}
-            </Timer>
+          <div>
+            <p>
+              <FontAwesomeIcon icon={["fas", "hourglass-half"]} />
+            </p>
+            {timerValue ? (
+              <Timer
+                initialTime={timerValue}
+                direction="backward"
+                checkpoints={[
+                  {
+                    time: 0,
+                    callback: () => doneHandler(),
+                  },
+                ]}
+              >
+                {() => (
+                  <React.Fragment>
+                    <p>
+                      <Timer.Minutes />:
+                      <Timer.Seconds
+                        formatValue={(value) =>
+                          `${value < 10 ? `0${value}` : value}`
+                        }
+                      />
+                    </p>
+                  </React.Fragment>
+                )}
+              </Timer>
+            ) : null}
+          </div>
+          <DoneButton onClick={ModalDoneOpenCloseHandler}>Finish!</DoneButton>
+
+          {isModalDoneOpen ? (
+            <GenericDoneModal
+              ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
+              doneHandler={doneHandler}
+            />
           ) : null}
-          <DoneButton onClick={doneHandler}>Done!</DoneButton>
         </FooterSectionRight>
       </Footer>
     </>

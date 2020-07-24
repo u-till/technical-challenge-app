@@ -4,10 +4,9 @@ import {
   verificationError,
 } from "./verificationAction";
 
-
 export const passwordResetCodeAction = ({ email }) => async (dispatch) => {
   try {
-    const response = await Axios.post("users/password/reset/code/", { email});
+    const response = await Axios.post("users/password/reset/code/", { email });
     return response;
   } catch (error) {
     if (
