@@ -1,27 +1,27 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BaseContainer, PageContainer} from "../../../style/GlobalWrappers";
-import {BaseInput, BaseTextArea} from "../../../style/GlobalInputs";
-import {RedButton, RoundGreyButton} from "../../../style/GlobalButtons";
-import {BlueButton} from "../../../style/GlobalButtons";
-import {Styledh1} from "../../../style/GlobalTitles";
+import { rem } from "polished";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BaseContainer, PageContainer } from "../../../style/GlobalWrappers";
+import { BaseInput, BaseTextArea } from "../../../style/GlobalInputs";
+import { RedButton, RoundGreyButton } from "../../../style/GlobalButtons";
+import { BlueButton } from "../../../style/GlobalButtons";
+import { Styledh1 } from "../../../style/GlobalTitles";
 import GenericTipCard from "../../Shared/GenericCards/GenericTipCard";
 import GenericQuestionCard from "../../Shared/GenericCards/GenericQuestionCard";
-import {connect, useDispatch} from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import {
-    createNewQuestionAction,
-    getAllQuestionsAction,
-    resetTargetQuestion,
-    updateQuestionAction,
+  createNewQuestionAction,
+  getAllQuestionsAction,
+  resetTargetQuestion,
+  updateQuestionAction,
 } from "../../../store/actions/questionActions";
-import {GenericSpinner} from "../../Shared/GenericSpinner";
+import { GenericSpinner } from "../../Shared/GenericSpinner";
 import GenericDeleteModal from "../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
 import TipAddModal from "../../Shared/Modals/TipAddModal/TipAddModal";
-import {Fade} from "react-reveal";
+import { Fade } from "react-reveal";
 import Error from "../../Shared/Error";
-import {resetError} from "../../../store/actions/verificationAction";
+import { resetError } from "../../../store/actions/verificationAction";
 
 //////////
 // STYLE
@@ -284,520 +284,520 @@ const QuestionList = styled.div`
 //////////
 
 const Questions = ({
-                       getAllQuestionsAction,
-                       allQuestions,
-                       targetQuestion,
-                       targetQuestionTips,
-                       updateQuestionAction,
-                       resetTargetQuestion,
-                       createNewQuestionAction,
-                       fieldErrors
-                   }) => {
-    const [sort, setSort] = useState("date");
-    const [search, setSearch] = useState("");
-    // setQuestionData is called in GenericQuestionCard to set the state to the Question Object
-    const [questionData, setQuestionData] = useState({
+  getAllQuestionsAction,
+  allQuestions,
+  targetQuestion,
+  targetQuestionTips,
+  updateQuestionAction,
+  resetTargetQuestion,
+  createNewQuestionAction,
+  fieldErrors,
+}) => {
+  const [sort, setSort] = useState("date");
+  const [search, setSearch] = useState("");
+  // setQuestionData is called in GenericQuestionCard to set the state to the Question Object
+  const [questionData, setQuestionData] = useState({
+    name: "",
+    instructions: "",
+    program: [],
+    difficulty: "E",
+    tests_for_question: [],
+  });
+
+  const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+
+  const ModalDeleteOpenCloseHandler = () => {
+    setModalDeleteOpen(!isModalDeleteOpen);
+  };
+
+  const [isModalTipAddOpen, setModalTipAddOpen] = useState(false);
+
+  const ModalTipAddOpenCloseHandler = () => {
+    setModalTipAddOpen(!isModalTipAddOpen);
+  };
+
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    resetTargetQuestion();
+    getAllQuestionsAction();
+  }, [getAllQuestionsAction, resetTargetQuestion]);
+
+  const inputSortSearchHandler = (e, func) => {
+    func(e.currentTarget.value);
+  };
+
+  const handleTextInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setQuestionData({ ...questionData, [name]: value });
+  };
+
+  const handleTestsChange = (e, index) => {
+    let newArray = [...questionData.tests_for_question];
+    newArray[index] = e.target.value;
+    setQuestionData({ ...questionData, tests_for_question: newArray });
+  };
+
+  const handleProgramSelectorChange = (e) => {
+    let options = e.target.options;
+    let value = [];
+    for (let i = 0, l = options.length; i < l; i++) {
+      if (options[i].selected) {
+        value.push(options[i].value);
+      }
+    }
+    setQuestionData({ ...questionData, program: value });
+  };
+
+  const handleSave = async (e) => {
+    e.preventDefault();
+    const editQuestionPrograms = [];
+    questionData.program.forEach((program) =>
+      editQuestionPrograms.push(parseInt(program))
+    );
+    const questionForm = {
+      name: questionData.name,
+      difficulty: questionData.difficulty,
+      instructions: questionData.instructions,
+      program: editQuestionPrograms,
+      tests_for_question: questionData.tests_for_question,
+    };
+    const response = await updateQuestionAction(questionData.id, questionForm);
+    if (response.status === 200) {
+      getAllQuestionsAction();
+      resetTargetQuestion();
+      setQuestionData({
         name: "",
         instructions: "",
-        program: [],
         difficulty: "E",
+        program: [],
         tests_for_question: [],
+      });
+    }
+  };
+
+  const handleCancel = (e) => {
+    e.preventDefault();
+    resetTargetQuestion();
+    setQuestionData({
+      name: "",
+      instructions: "",
+      difficulty: "E",
+      program: [],
+      tests_for_question: ["", "", ""],
     });
+  };
 
-    const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
+  const handleGreyAddButton = (e) => {
+    e.preventDefault();
+    dispatch(resetError);
+    setQuestionData({
+      name: "",
+      instructions: "",
+      difficulty: "E",
+      program: [],
+      tests_for_question: ["", "", ""],
+    });
+    resetTargetQuestion();
+  };
 
-    const ModalDeleteOpenCloseHandler = () => {
-        setModalDeleteOpen(!isModalDeleteOpen);
-    };
-
-    const [isModalTipAddOpen, setModalTipAddOpen] = useState(false);
-
-    const ModalTipAddOpenCloseHandler = () => {
-        setModalTipAddOpen(!isModalTipAddOpen);
-    };
-
-    const dispatch = useDispatch();
-
-    useEffect(() => {
-        resetTargetQuestion();
-        getAllQuestionsAction();
-    }, [getAllQuestionsAction, resetTargetQuestion]);
-
-    const inputSortSearchHandler = (e, func) => {
-        func(e.currentTarget.value);
-    };
-
-    const handleTextInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setQuestionData({...questionData, [name]: value});
-    };
-
-    const handleTestsChange = (e, index) => {
-        let newArray = [...questionData.tests_for_question];
-        newArray[index] = e.target.value;
-        setQuestionData({...questionData, tests_for_question: newArray});
-    };
-
-    const handleProgramSelectorChange = (e) => {
-        let options = e.target.options;
-        let value = [];
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        setQuestionData({...questionData, program: value});
-    };
-
-    const handleSave = async (e) => {
-        e.preventDefault();
-        const editQuestionPrograms = [];
-        questionData.program.forEach((program) =>
-            editQuestionPrograms.push(parseInt(program))
-        );
-        const questionForm = {
-            name: questionData.name,
-            difficulty: questionData.difficulty,
-            instructions: questionData.instructions,
-            program: editQuestionPrograms,
-            tests_for_question: questionData.tests_for_question,
-        };
-        const response = await updateQuestionAction(questionData.id, questionForm);
-        if (response.status === 200) {
-            getAllQuestionsAction();
-            resetTargetQuestion();
-            setQuestionData({
-                name: "",
-                instructions: "",
-                difficulty: "E",
-                program: [],
-                tests_for_question: [],
-            });
-        }
-    };
-
-    const handleCancel = (e) => {
-        e.preventDefault();
-        resetTargetQuestion();
-        setQuestionData({
-                name: "",
-                instructions: "",
-                difficulty: "E",
-                program: [],
-                tests_for_question: ['', '', ''],
-            });
-    };
-
-    const handleGreyAddButton = (e) => {
-        e.preventDefault();
-        dispatch(resetError);
-        setQuestionData({
-            name: "",
-            instructions: "",
-            difficulty: "E",
-            program: [],
-            tests_for_question: ['', '', ''],
-        });
-        resetTargetQuestion();
-    };
-
-    const handleAddQuestion = async (e) => {
-        dispatch(resetError())
-        e.preventDefault();
-        const newQuestionPrograms = [];
-        questionData.program.forEach((program) =>
-            newQuestionPrograms.push(parseInt(program))
-        );
-        const newQuestion = {
-            name: questionData.name,
-            difficulty: questionData.difficulty,
-            instructions: questionData.instructions,
-            program: newQuestionPrograms,
-            tests_for_question: questionData.tests_for_question
-        };
-        const response = await createNewQuestionAction(newQuestion);
-        if (response.status === 201) {
-            setQuestionData({
-                name: "",
-                instructions: "",
-                difficulty: "E",
-                program: [],
-                tests_for_question: ['', '', ''],
-            });
-            getAllQuestionsAction();
-        }
-    };
-
-    const searchedQuestions = allQuestions
-        ? allQuestions.filter(
-            (question) =>
-                question.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
-        )
-        : null;
-
-    const renderQuestions = (searchedQuestions) => {
-        if (sort === "date") {
-            return searchedQuestions
-                .sort((a, b) =>
-                    a.created > b.created ? -1 : b.created > a.created ? 1 : 0
-                )
-                .map((question) => (
-                    <GenericQuestionCard
-                        key={`Question ${question.id}`}
-                        question={question}
-                        setData={setQuestionData}
-                    />
-                ));
-        }
-        if (sort === "difficulty") {
-            return searchedQuestions
-                .sort((a, b) =>
-                    a.difficulty > b.difficulty ? -1 : b.difficulty > a.difficulty ? 1 : 0
-                )
-                .map((question) => (
-                    <GenericQuestionCard
-                        key={`Question ${question.id}`}
-                        question={question}
-                        setData={setQuestionData}
-                    />
-                ));
-        }
-        return searchedQuestions
-            .sort((a, b) =>
-                a.points_value > b.points_value
-                    ? 1
-                    : b.points_value > a.points_value
-                    ? -1
-                    : 0
-            )
-            .map((question) => (
-                <GenericQuestionCard
-                    key={`Question ${question.id}`}
-                    question={question}
-                    setData={setQuestionData}
-                />
-            ));
-    };
-
-    return (
-        <PageContainer>
-            <ManageQuestionsContainer>
-                <Styledh1>Questions</Styledh1>
-                <ManageContainer>
-                    <EditContainer>
-                        {targetQuestion ? (
-                            <>
-                                {/*--------EDIT-----------*/}
-                                <EditTop>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Name:</StyledLabel>
-                                        <NameInput
-                                            type="text"
-                                            placeholder="Question Name"
-                                            required
-                                            name="name"
-                                            value={questionData.name}
-                                            onChange={handleTextInput}
-                                        />
-                                        <Error errorMessage={fieldErrors["name"]}/>
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Points:</StyledLabel>
-                                        <NumberInput
-                                            type="text"
-                                            placeholder="0"
-                                            required
-                                            value={
-                                                questionData.difficulty === "H"
-                                                    ? "8"
-                                                    : questionData.difficulty === "I"
-                                                    ? "5"
-                                                    : "3"
-                                            }
-                                            disabled
-                                        />
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Difficulty:</StyledLabel>
-                                        <DifficultyDropdown
-                                            id="difficulty"
-                                            value={questionData.difficulty}
-                                            onChange={handleTextInput}
-                                            name="difficulty"
-                                        >
-                                            <option value="E">Easy</option>
-                                            <option value="I">Intermediate</option>
-                                            <option value="H">Hard</option>
-                                        </DifficultyDropdown>
-                                    </InputLabelDiv>
-                                </EditTop>
-                                <EditMiddle>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Description:</StyledLabel>
-                                        <DescriptionInput
-                                            type="text"
-                                            placeholder="Description"
-                                            required
-                                            name="instructions"
-                                            value={questionData.instructions}
-                                            onChange={handleTextInput}
-                                        />
-                                        <Error errorMessage={fieldErrors["instructions"]}/>
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Catergories:</StyledLabel>
-                                        <CategorySelect
-                                            name="program"
-                                            multiple
-                                            value={questionData.program}
-                                            onChange={handleProgramSelectorChange}
-                                        >
-                                            <option value="1">Full Stack</option>
-                                            <option value="2">Data Science</option>
-                                            <option value="3">React & Redux</option>
-                                            <option value="4">Docker & Deployment</option>
-                                            <option value="5">AI for Leaders</option>
-                                            <option value="6">Python programming</option>
-                                        </CategorySelect>
-                                        <Error errorMessage={fieldErrors["program"]}/>
-                                    </InputLabelDiv>
-                                </EditMiddle>
-                                <EditBottom>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Test Case Examples:</StyledLabel>
-                                        <TestInputContainer>
-                                            {questionData.tests_for_question
-                                                ? questionData.tests_for_question.map((test, index) => {
-                                                    return (
-                                                        <TestInput
-                                                            type="text"
-                                                            index={index}
-                                                            value={questionData.tests_for_question[index]}
-                                                            key={`test_for_question ${index}`}
-                                                            onChange={(e) => handleTestsChange(e, index)}
-                                                        />
-                                                    );
-                                                })
-                                                : null}
-                                        </TestInputContainer>
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <LabelAndBtn>
-                                            <StyledLabel>Tips:</StyledLabel>
-                                            <RoundGreyButton onClick={ModalTipAddOpenCloseHandler}>
-                                                <FontAwesomeIcon icon={["fas", "plus"]}/>
-                                            </RoundGreyButton>
-                                            {isModalTipAddOpen ? (
-                                                <TipAddModal
-                                                    ModalTipAddOpenCloseHandler={
-                                                        ModalTipAddOpenCloseHandler
-                                                    }
-                                                    questionId={targetQuestion.id}
-                                                />
-                                            ) : null}
-                                        </LabelAndBtn>
-                                        <TipsList>
-                                            {targetQuestionTips === null ? (
-                                                <GenericSpinner/>
-                                            ) : targetQuestionTips.length > 0 ? (
-                                                targetQuestionTips.map((tip) => {
-                                                    return (
-                                                        <GenericTipCard
-                                                            key={`Tip ${tip.id}`}
-                                                            tip={tip}
-                                                            questionId={targetQuestion.id}
-                                                        />
-                                                    );
-                                                })
-                                            ) : (
-                                                <div>No Tips to Display</div>
-                                            )}
-                                        </TipsList>
-                                    </InputLabelDiv>
-                                </EditBottom>
-                                <DeleteSave>
-                                    <RedButton onClick={ModalDeleteOpenCloseHandler}>
-                                        Delete
-                                    </RedButton>
-                                    {isModalDeleteOpen ? (
-                                        <GenericDeleteModal
-                                            ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                                            type="questions"
-                                            typeId={questionData.id}
-                                            setQuestionData={setQuestionData}
-                                        >
-                                            <p>
-                                                Are you sure you want to delete the Question "
-                                                {questionData.name}"?
-                                            </p>
-                                        </GenericDeleteModal>
-                                    ) : null}
-                                    <div>
-                                        <BlueButton onClick={handleCancel}>Cancel</BlueButton>
-                                        <BlueButton onClick={handleSave}>Save</BlueButton>
-                                    </div>
-                                </DeleteSave>
-                            </>
-                        ) : (
-                            <>
-                                {/*--------ADD-----------*/}
-                                <EditTop>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Name:</StyledLabel>
-                                        <NameInput
-                                            type="text"
-                                            placeholder="Question Name"
-                                            value={questionData.name}
-                                            required
-                                            name="name"
-                                            onChange={handleTextInput}
-                                        />
-                                        <Error errorMessage={fieldErrors["name"]}/>
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Points:</StyledLabel>
-                                        <NumberInput
-                                            type="text"
-                                            placeholder="0"
-                                            required
-                                            value={
-                                                questionData.difficulty === "H"
-                                                    ? "8"
-                                                    : questionData.difficulty === "I"
-                                                    ? "5"
-                                                    : "3"
-                                            }
-                                            disabled
-                                        />
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Difficulty:</StyledLabel>
-                                        <DifficultyDropdown
-                                            id="difficulty"
-                                            name="difficulty"
-                                            value={questionData.difficulty}
-                                            onChange={handleTextInput}
-                                        >
-                                            <option value="E">Easy</option>
-                                            <option value="I">Intermediate</option>
-                                            <option value="H">Hard</option>
-                                        </DifficultyDropdown>
-                                    </InputLabelDiv>
-                                </EditTop>
-                                <EditMiddleBig>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Description:</StyledLabel>
-                                        <DescriptionInput
-                                            type="text"
-                                            placeholder="Description"
-                                            value={questionData.instructions}
-                                            required
-                                            name="instructions"
-                                            onChange={handleTextInput}
-                                        />
-                                        <Error errorMessage={fieldErrors["instructions"]}/>
-                                    </InputLabelDiv>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Catergories:</StyledLabel>
-                                        <CategorySelect
-                                            name="program"
-                                            multiple
-                                            value={questionData.program}
-                                            onChange={handleProgramSelectorChange}
-                                        >
-                                            <option value="1">Full Stack</option>
-                                            <option value="2">Data Science</option>
-                                            <option value="3">React & Redux</option>
-                                            <option value="4">Docker & Deployment</option>
-                                            <option value="5">AI for Leaders</option>
-                                            <option value="6">Python programming</option>
-                                        </CategorySelect>
-                                        <Error errorMessage={fieldErrors["program"]}/>
-                                    </InputLabelDiv>
-                                </EditMiddleBig>
-                                <TestInputContainerAdd>
-                                    <InputLabelDiv>
-                                        <StyledLabel>Test Case Examples:</StyledLabel>
-                                        <TestInput
-                                            type="text"
-                                            value={questionData.tests_for_question[0]}
-                                            onChange={(e) => handleTestsChange(e, 0)}
-                                        />
-                                        <TestInput
-                                            type="text"
-                                            value={questionData.tests_for_question[1]}
-                                            onChange={(e) => handleTestsChange(e, 1)}
-                                        />
-                                        <TestInput
-                                            type="text"
-                                            value={questionData.tests_for_question[2]}
-                                            onChange={(e) => handleTestsChange(e, 2)}
-                                        />
-                                    </InputLabelDiv>
-                                </TestInputContainerAdd>
-
-                                <DeleteSave>
-                                    <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
-                                </DeleteSave>
-                            </>
-                        )}
-                    </EditContainer>
-                    <BrowseContainer>
-                        <BrowseHeader>
-                            <RoundGreyButton onClick={handleGreyAddButton}>
-                                <FontAwesomeIcon icon={["fas", "plus"]}/>
-                            </RoundGreyButton>
-                            <div>
-                                <p>Sort by:</p>
-                                <SortQDropdown
-                                    id="sort"
-                                    name="Sort by"
-                                    value={sort}
-                                    onChange={(e) => inputSortSearchHandler(e, setSort)}
-                                >
-                                    <option value="date">Date</option>
-                                    <option value="difficulty">Difficulty</option>
-                                    <option value="points">Points</option>
-                                </SortQDropdown>
-                                <SearchQInput
-                                    type="text"
-                                    placeholder="Search..."
-                                    required
-                                    value={search}
-                                    onChange={(e) => inputSortSearchHandler(e, setSearch)}
-                                />
-                            </div>
-                        </BrowseHeader>
-                        <QuestionList>
-                            {allQuestions === null ? (
-                                <GenericSpinner/>
-                            ) : allQuestions.length > 0 ? (
-                                renderQuestions(searchedQuestions)
-                            ) : (
-                                <div>No Questions to Display</div>
-                            )}
-                        </QuestionList>
-                    </BrowseContainer>
-                </ManageContainer>
-            </ManageQuestionsContainer>
-        </PageContainer>
-        // </Fade>
+  const handleAddQuestion = async (e) => {
+    dispatch(resetError());
+    e.preventDefault();
+    const newQuestionPrograms = [];
+    questionData.program.forEach((program) =>
+      newQuestionPrograms.push(parseInt(program))
     );
+    const newQuestion = {
+      name: questionData.name,
+      difficulty: questionData.difficulty,
+      instructions: questionData.instructions,
+      program: newQuestionPrograms,
+      tests_for_question: questionData.tests_for_question,
+    };
+    const response = await createNewQuestionAction(newQuestion);
+    if (response.status === 201) {
+      setQuestionData({
+        name: "",
+        instructions: "",
+        difficulty: "E",
+        program: [],
+        tests_for_question: ["", "", ""],
+      });
+      getAllQuestionsAction();
+    }
+  };
+
+  const searchedQuestions = allQuestions
+    ? allQuestions.filter(
+        (question) =>
+          question.name.toLowerCase().indexOf(search.toLowerCase()) !== -1
+      )
+    : null;
+
+  const renderQuestions = (searchedQuestions) => {
+    if (sort === "date") {
+      return searchedQuestions
+        .sort((a, b) =>
+          a.created > b.created ? -1 : b.created > a.created ? 1 : 0
+        )
+        .map((question) => (
+          <GenericQuestionCard
+            key={`Question ${question.id}`}
+            question={question}
+            setData={setQuestionData}
+          />
+        ));
+    }
+    if (sort === "difficulty") {
+      return searchedQuestions
+        .sort((a, b) =>
+          a.difficulty > b.difficulty ? -1 : b.difficulty > a.difficulty ? 1 : 0
+        )
+        .map((question) => (
+          <GenericQuestionCard
+            key={`Question ${question.id}`}
+            question={question}
+            setData={setQuestionData}
+          />
+        ));
+    }
+    return searchedQuestions
+      .sort((a, b) =>
+        a.points_value > b.points_value
+          ? 1
+          : b.points_value > a.points_value
+          ? -1
+          : 0
+      )
+      .map((question) => (
+        <GenericQuestionCard
+          key={`Question ${question.id}`}
+          question={question}
+          setData={setQuestionData}
+        />
+      ));
+  };
+
+  return (
+    <PageContainer>
+      <ManageQuestionsContainer>
+        <Styledh1>Questions</Styledh1>
+        <ManageContainer>
+          <EditContainer>
+            {targetQuestion ? (
+              <>
+                {/*--------EDIT-----------*/}
+                <EditTop>
+                  <InputLabelDiv>
+                    <StyledLabel>Name:</StyledLabel>
+                    <NameInput
+                      type="text"
+                      placeholder="Question Name"
+                      required
+                      name="name"
+                      value={questionData.name}
+                      onChange={handleTextInput}
+                    />
+                    <Error errorMessage={fieldErrors["name"]} />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Points:</StyledLabel>
+                    <NumberInput
+                      type="text"
+                      placeholder="0"
+                      required
+                      value={
+                        questionData.difficulty === "H"
+                          ? "8"
+                          : questionData.difficulty === "I"
+                          ? "5"
+                          : "3"
+                      }
+                      disabled
+                    />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Difficulty:</StyledLabel>
+                    <DifficultyDropdown
+                      id="difficulty"
+                      value={questionData.difficulty}
+                      onChange={handleTextInput}
+                      name="difficulty"
+                    >
+                      <option value="E">Easy</option>
+                      <option value="I">Intermediate</option>
+                      <option value="H">Hard</option>
+                    </DifficultyDropdown>
+                  </InputLabelDiv>
+                </EditTop>
+                <EditMiddle>
+                  <InputLabelDiv>
+                    <StyledLabel>Description:</StyledLabel>
+                    <DescriptionInput
+                      type="text"
+                      placeholder="Description"
+                      required
+                      name="instructions"
+                      value={questionData.instructions}
+                      onChange={handleTextInput}
+                    />
+                    <Error errorMessage={fieldErrors["instructions"]} />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Catergories:</StyledLabel>
+                    <CategorySelect
+                      name="program"
+                      multiple
+                      value={questionData.program}
+                      onChange={handleProgramSelectorChange}
+                    >
+                      <option value="1">Full Stack</option>
+                      <option value="2">Data Science</option>
+                      <option value="3">React & Redux</option>
+                      <option value="4">Docker & Deployment</option>
+                      <option value="5">AI for Leaders</option>
+                      <option value="6">Python programming</option>
+                    </CategorySelect>
+                    <Error errorMessage={fieldErrors["program"]} />
+                  </InputLabelDiv>
+                </EditMiddle>
+                <EditBottom>
+                  <InputLabelDiv>
+                    <StyledLabel>Test Case Examples:</StyledLabel>
+                    <TestInputContainer>
+                      {questionData.tests_for_question
+                        ? questionData.tests_for_question.map((test, index) => {
+                            return (
+                              <TestInput
+                                type="text"
+                                index={index}
+                                value={questionData.tests_for_question[index]}
+                                key={`test_for_question ${index}`}
+                                onChange={(e) => handleTestsChange(e, index)}
+                              />
+                            );
+                          })
+                        : null}
+                    </TestInputContainer>
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <LabelAndBtn>
+                      <StyledLabel>Tips:</StyledLabel>
+                      <RoundGreyButton onClick={ModalTipAddOpenCloseHandler}>
+                        <FontAwesomeIcon icon={["fas", "plus"]} />
+                      </RoundGreyButton>
+                      {isModalTipAddOpen ? (
+                        <TipAddModal
+                          ModalTipAddOpenCloseHandler={
+                            ModalTipAddOpenCloseHandler
+                          }
+                          questionId={targetQuestion.id}
+                        />
+                      ) : null}
+                    </LabelAndBtn>
+                    <TipsList>
+                      {targetQuestionTips === null ? (
+                        <GenericSpinner />
+                      ) : targetQuestionTips.length > 0 ? (
+                        targetQuestionTips.map((tip) => {
+                          return (
+                            <GenericTipCard
+                              key={`Tip ${tip.id}`}
+                              tip={tip}
+                              questionId={targetQuestion.id}
+                            />
+                          );
+                        })
+                      ) : (
+                        <div>No Tips to Display</div>
+                      )}
+                    </TipsList>
+                  </InputLabelDiv>
+                </EditBottom>
+                <DeleteSave>
+                  <RedButton onClick={ModalDeleteOpenCloseHandler}>
+                    Delete
+                  </RedButton>
+                  {isModalDeleteOpen ? (
+                    <GenericDeleteModal
+                      ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+                      type="questions"
+                      typeId={questionData.id}
+                      setQuestionData={setQuestionData}
+                    >
+                      <p>
+                        Are you sure you want to delete the Question "
+                        {questionData.name}"?
+                      </p>
+                    </GenericDeleteModal>
+                  ) : null}
+                  <div>
+                    <BlueButton onClick={handleCancel}>Cancel</BlueButton>
+                    <BlueButton onClick={handleSave}>Save</BlueButton>
+                  </div>
+                </DeleteSave>
+              </>
+            ) : (
+              <>
+                {/*--------ADD-----------*/}
+                <EditTop>
+                  <InputLabelDiv>
+                    <StyledLabel>Name:</StyledLabel>
+                    <NameInput
+                      type="text"
+                      placeholder="Question Name"
+                      value={questionData.name}
+                      required
+                      name="name"
+                      onChange={handleTextInput}
+                    />
+                    <Error errorMessage={fieldErrors["name"]} />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Points:</StyledLabel>
+                    <NumberInput
+                      type="text"
+                      placeholder="0"
+                      required
+                      value={
+                        questionData.difficulty === "H"
+                          ? "8"
+                          : questionData.difficulty === "I"
+                          ? "5"
+                          : "3"
+                      }
+                      disabled
+                    />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Difficulty:</StyledLabel>
+                    <DifficultyDropdown
+                      id="difficulty"
+                      name="difficulty"
+                      value={questionData.difficulty}
+                      onChange={handleTextInput}
+                    >
+                      <option value="E">Easy</option>
+                      <option value="I">Intermediate</option>
+                      <option value="H">Hard</option>
+                    </DifficultyDropdown>
+                  </InputLabelDiv>
+                </EditTop>
+                <EditMiddleBig>
+                  <InputLabelDiv>
+                    <StyledLabel>Description:</StyledLabel>
+                    <DescriptionInput
+                      type="text"
+                      placeholder="Description"
+                      value={questionData.instructions}
+                      required
+                      name="instructions"
+                      onChange={handleTextInput}
+                    />
+                    <Error errorMessage={fieldErrors["instructions"]} />
+                  </InputLabelDiv>
+                  <InputLabelDiv>
+                    <StyledLabel>Catergories:</StyledLabel>
+                    <CategorySelect
+                      name="program"
+                      multiple
+                      value={questionData.program}
+                      onChange={handleProgramSelectorChange}
+                    >
+                      <option value="1">Full Stack</option>
+                      <option value="2">Data Science</option>
+                      <option value="3">React & Redux</option>
+                      <option value="4">Docker & Deployment</option>
+                      <option value="5">AI for Leaders</option>
+                      <option value="6">Python programming</option>
+                    </CategorySelect>
+                    <Error errorMessage={fieldErrors["program"]} />
+                  </InputLabelDiv>
+                </EditMiddleBig>
+                <TestInputContainerAdd>
+                  <InputLabelDiv>
+                    <StyledLabel>Test Case Examples:</StyledLabel>
+                    <TestInput
+                      type="text"
+                      value={questionData.tests_for_question[0]}
+                      onChange={(e) => handleTestsChange(e, 0)}
+                    />
+                    <TestInput
+                      type="text"
+                      value={questionData.tests_for_question[1]}
+                      onChange={(e) => handleTestsChange(e, 1)}
+                    />
+                    <TestInput
+                      type="text"
+                      value={questionData.tests_for_question[2]}
+                      onChange={(e) => handleTestsChange(e, 2)}
+                    />
+                  </InputLabelDiv>
+                </TestInputContainerAdd>
+
+                <DeleteSave>
+                  <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
+                </DeleteSave>
+              </>
+            )}
+          </EditContainer>
+          <BrowseContainer>
+            <BrowseHeader>
+              <RoundGreyButton onClick={handleGreyAddButton}>
+                <FontAwesomeIcon icon={["fas", "plus"]} />
+              </RoundGreyButton>
+              <div>
+                <p>Sort by:</p>
+                <SortQDropdown
+                  id="sort"
+                  name="Sort by"
+                  value={sort}
+                  onChange={(e) => inputSortSearchHandler(e, setSort)}
+                >
+                  <option value="date">Date</option>
+                  <option value="difficulty">Difficulty</option>
+                  <option value="points">Points</option>
+                </SortQDropdown>
+                <SearchQInput
+                  type="text"
+                  placeholder="Search..."
+                  required
+                  value={search}
+                  onChange={(e) => inputSortSearchHandler(e, setSearch)}
+                />
+              </div>
+            </BrowseHeader>
+            <QuestionList>
+              {allQuestions === null ? (
+                <GenericSpinner />
+              ) : allQuestions.length > 0 ? (
+                renderQuestions(searchedQuestions)
+              ) : (
+                <div>No Questions to Display</div>
+              )}
+            </QuestionList>
+          </BrowseContainer>
+        </ManageContainer>
+      </ManageQuestionsContainer>
+    </PageContainer>
+    // </Fade>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        allQuestions: state.questionReducer.allQuestions,
-        targetQuestion: state.questionReducer.targetQuestion,
-        targetQuestionTips: state.tipReducer.targetQuestionTips,
-        fieldErrors: state.verificationReducer.verificationErrors,
-    };
+  return {
+    allQuestions: state.questionReducer.allQuestions,
+    targetQuestion: state.questionReducer.targetQuestion,
+    targetQuestionTips: state.tipReducer.targetQuestionTips,
+    fieldErrors: state.verificationReducer.verificationErrors,
+  };
 };
 
 export default connect(mapStateToProps, {
-    getAllQuestionsAction,
-    updateQuestionAction,
-    resetTargetQuestion,
-    createNewQuestionAction,
+  getAllQuestionsAction,
+  updateQuestionAction,
+  resetTargetQuestion,
+  createNewQuestionAction,
 })(Questions);

@@ -4,7 +4,10 @@ import {
   RESET_TARGET_QUESTION,
   SET_TARGET_QUESTION,
 } from "../actionTypes";
-import {nonFieldVerificationError, verificationError} from "./verificationAction";
+import {
+  nonFieldVerificationError,
+  verificationError,
+} from "./verificationAction";
 
 export const getAllQuestions = (data) => {
   return {
@@ -60,9 +63,7 @@ export const createNewQuestionAction = (questionData) => async (dispatch) => {
     for (let i of Object.keys(error.response.data)) {
       errors[i] = error.response.data[i].join(" ");
     }
-    if (
-      errors.detail === ""
-    ) {
+    if (errors.detail === "") {
       dispatch(nonFieldVerificationError(errors.detail));
     } else {
       dispatch(verificationError(errors));
