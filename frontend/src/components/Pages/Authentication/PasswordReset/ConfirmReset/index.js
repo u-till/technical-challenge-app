@@ -23,7 +23,7 @@ import {
 // STYLE
 //////////
 
-const SignupContainer = styled(BaseContainer)`
+const ConfirmResetContainer = styled(BaseContainer)`
   width: ${rem("1044px")};
   display: flex;
   flex-direction: column;
@@ -32,7 +32,7 @@ const SignupContainer = styled(BaseContainer)`
   padding: 24px 24px 48px 24px;
 `;
 
-const SignupSplitContainer = styled.div`
+const ResetSplitContainer = styled.div`
   width: 100%;
   height: 100%;
   display: flex;
@@ -50,16 +50,7 @@ const SignupSplitContainer = styled.div`
   }
 `;
 
-const BtnWrapper = styled.div`
-  height: ${rem("72px")};
-  margin-bottom: 56px;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-content: center;
-`;
-
-const RegisterBtnWrapper = styled.div`
+const ConfirmBtnWrapper = styled.div`
   height: ${rem("72px")};
   margin-bottom: 56px;
   display: flex;
@@ -69,27 +60,12 @@ const RegisterBtnWrapper = styled.div`
   margin-top: ${rem("27px")};
 `;
 
-const SignupInput = styled(BaseInput)`
+const ConfirmInput = styled(BaseInput)`
   width: ${rem("414px")};
   height: ${rem("72px")};
 `;
 
-const UploadButton = styled(BaseButton)`
-  width: ${rem("414px")};
-  height: ${rem("72px")};
-  border-radius: 5px;
-  color: #767676;
-  background-color: #fff;
-  border: 1px solid #dbdbdb;
-  font-size: ${rem("20px")};
-  text-align: start;
-  :hover {
-    border: 1px solid #9a9a9a;
-    color: #363636;
-  }
-`;
-
-const RegistrationButton = styled(BigRedButton)`
+const ConfirmButton = styled(BigRedButton)`
   width: ${rem("414px")};
   height: ${rem("72px")};
 `;
@@ -126,12 +102,9 @@ const ConfirmPasswordReset = ({
 
   const [data, setData] = useState({
     email: queryStringObject.email,
-    first_name: queryStringObject.first_name,
-    last_name: queryStringObject.last_name,
     phone: queryStringObject.phone,
     password: "",
     password_repeat: "",
-    avatar: null,
   });
 
   const handleInput = (e) => {
@@ -165,75 +138,41 @@ const ConfirmPasswordReset = ({
     hiddenFileInput.current.click();
   };
 
-  const imageSelectHandler = (e) => {
-    if (e.target.files[0]) {
-      setData({ ...data, avatar: e.target.files[0] });
-    }
-  };
-
   return (
     <PageContainer>
-      <SignupContainer>
-        <Styledh1>Verification</Styledh1>
-        <SignupSplitContainer>
+      <ConfirmResetContainer>
+        <Styledh1>Confirm Password Reset</Styledh1>
+        <ResetSplitContainer>
           <div>
             <InputLabelDiv>
               <StyledLabel>Email:</StyledLabel>
-              <SignupInput
+              <ConfirmInput
                 name="email"
                 value={data.email}
                 type="email"
                 placeholder="Email"
-                required
-                onChange={handleInput}
+                disabled
               />
               <Error errorMessage={fieldErrors["email"]} />
             </InputLabelDiv>
 
             <InputLabelDiv>
-              <StyledLabel>First Name:</StyledLabel>
-              <SignupInput
+              <StyledLabel>Code:</StyledLabel>
+              <ConfirmInput
                 name="first_name"
                 value={data.first_name}
                 type="text"
-                placeholder="First Name"
+                placeholder="Confirmation Code"
                 required
                 onChange={handleInput}
               />{" "}
               <Error errorMessage={fieldErrors["first_name"]} />
             </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Last Name:</StyledLabel>
-              <SignupInput
-                name="last_name"
-                value={data.last_name}
-                type="text"
-                placeholder="Last Name"
-                required
-                onChange={handleInput}
-              />
-              <Error errorMessage={fieldErrors["last_name"]} />
-            </InputLabelDiv>
-            <InputLabelDiv>
-              <StyledLabel>Avatar:</StyledLabel>
-              <BtnWrapper>
-                <UploadButton onClick={handleClick}>
-                  Upload an Avatar...
-                </UploadButton>
-                <input
-                  type="file"
-                  name="avatar"
-                  ref={hiddenFileInput}
-                  onChange={imageSelectHandler}
-                  style={{ display: "none" }}
-                />
-              </BtnWrapper>{" "}
-            </InputLabelDiv>
           </div>
           <div>
             <InputLabelDiv>
               <StyledLabel>Password:</StyledLabel>
-              <SignupInput
+              <ConfirmInput
                 name="password"
                 value={data.password}
                 type="password"
@@ -246,7 +185,7 @@ const ConfirmPasswordReset = ({
 
             <InputLabelDiv>
               <StyledLabel>Repeat Password:</StyledLabel>
-              <SignupInput
+              <ConfirmInput
                 name="password_repeat"
                 value={data.password_repeat}
                 type="password"
@@ -256,31 +195,16 @@ const ConfirmPasswordReset = ({
               />
               <Error errorMessage={fieldErrors["password_repeat"]} />
             </InputLabelDiv>
-
-            <InputLabelDiv>
-              <StyledLabel>Phone Nr.:</StyledLabel>
-              <SignupInput
-                name="phone"
-                value={data.phone}
-                type="text"
-                placeholder="Phone"
-                required
-                onChange={handleInput}
-              />
-              <Error errorMessage={fieldErrors["phone"]} />{" "}
-            </InputLabelDiv>
-
-            <InputLabelDiv>
-              <RegisterBtnWrapper>
-                <RegistrationButton onClick={onSubmitForm}>
-                  Register
-                </RegistrationButton>
-              </RegisterBtnWrapper>
-              <Error errorMessage={non_field_error} />
-            </InputLabelDiv>
           </div>
-        </SignupSplitContainer>
-      </SignupContainer>
+
+          <InputLabelDiv>
+            <ConfirmBtnWrapper>
+              <ConfirmButton onClick={onSubmitForm}>Confirm</ConfirmButton>
+            </ConfirmBtnWrapper>
+            <Error errorMessage={non_field_error} />
+          </InputLabelDiv>
+        </ResetSplitContainer>
+      </ConfirmResetContainer>
     </PageContainer>
   );
 };

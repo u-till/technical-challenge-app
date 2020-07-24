@@ -13,6 +13,7 @@ import {
 } from "../../../../store/actions/loginActions";
 import Error from "../../../Shared/Error";
 import { resetError } from "../../../../store/actions/verificationAction";
+import { Link } from "react-router-dom";
 
 //////////
 // STYLE
@@ -56,6 +57,14 @@ const PasswordField = styled.div`
 
 const Icon = styled(FontAwesomeIcon)`
   font-size: ${rem("20px")};
+`;
+
+const StyledLink = styled(Link)`
+  font-size: 14px;
+  color: #00bae5;
+  :hover {
+    color: #05d0ff;
+  }
 `;
 
 //////////
@@ -122,6 +131,7 @@ const Login = ({
           <Error errorMessage={fieldErrors["password"]} />
           <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
           <Error errorMessage={non_field_error} />
+          <StyledLink to="/sendpasswordreset">Forgot Password?</StyledLink>
         </InteriorContainer>
       </LoginContainer>
     </PageContainer>
