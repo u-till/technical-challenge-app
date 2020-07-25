@@ -28,7 +28,7 @@ class CreateUserView(CreateAPIView):
         new_user.set_password("Propulsion2020")
         new_user.save()
         email = EmailMultiAlternatives()
-        email.subject = f'Propulsion Academy - New User Verification'
+        email.subject = 'Propulsion Academy - New User Verification'
         email.to = [new_user.email]
         html_content = generate_new_user(new_user)
         email.attach_alternative(html_content, "text/html")
@@ -133,7 +133,7 @@ class ResendUserValidationEmail(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         new_user = User.objects.get(id=kwargs['id'])
         email = EmailMultiAlternatives()
-        email.subject = f'Propulsion Academy - New Candidate Validation'
+        email.subject = 'Propulsion Academy - New Candidate Validation'
         email.to = [new_user.email]
         html_content = generate_new_user(new_user)
         email.attach_alternative(html_content, "text/html")
