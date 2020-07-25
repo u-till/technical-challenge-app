@@ -121,8 +121,11 @@ const UserAddModal = ({
     is_staff: false,
   });
 
+  const [sendStatus, setSendStatus] = useState(false);
+
   const userSaveHandler = async (e) => {
     e.preventDefault();
+    setSendStatus(true);
     dispatch(resetError());
     const userData = {
       email: data.email,
@@ -135,6 +138,7 @@ const UserAddModal = ({
       userData["is_staff"] = JSON.parse(userData["is_staff"]);
     }
     const response = await createUserAction(userData);
+    setSendStatus(false);
     if (response.status === 201) {
       ModalCreateOpenCloseHandler();
       dispatch(getAllUsersAction());
@@ -229,7 +233,7 @@ const UserAddModal = ({
         <div>
           <RedButton onClick={userCancelHandler}>Cancel</RedButton>
           <Error errorMessage={non_field_error} />
-          <BlueButton onClick={userSaveHandler}>Add</BlueButton>
+          <BlueButton onClick={userSaveHandler}>{sendStatus ? "Adding..." : "Add"}</BlueButton>
         </div>
       </CreateModalContainer>
     </CreateModalOverlay>
