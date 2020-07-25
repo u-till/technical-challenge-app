@@ -30,7 +30,7 @@ class CreateChallenge(CreateAPIView):
         hard_questions = random.sample(list(Question.objects.filter(difficulty='H')), 1)
         challenge.questions.set(easy_questions + intermediate_questions + hard_questions)
         email = EmailMultiAlternatives()
-        email.subject = f'Propulsion Academy - You have a new Challenge!'
+        email.subject = 'Propulsion Academy - You have a new Challenge!'
         email.to = [candidate.email]
         email.attach_alternative(generate_challenge_created_content(candidate), "text/html")
         email.send(fail_silently=False)
@@ -133,7 +133,7 @@ class ChallengeScore(UpdateAPIView):
             challenge.score = score
             challenge.save()
             candidate_email = EmailMultiAlternatives()
-            candidate_email.subject = f'Propulsion Academy - Challenge Results'
+            candidate_email.subject = 'Propulsion Academy - Challenge Results'
             candidate_email.to = [candidate.email]
             creator_email = EmailMultiAlternatives()
             creator_email.subject = f'Challenge Results - Candidate: {candidate.first_name} {candidate.last_name}'
@@ -175,7 +175,7 @@ class ResendChallengeCreatedEmail(UpdateAPIView):
         challenge = Challenge.objects.get(id=kwargs['id'])
         candidate = User.objects.get(id=challenge.candidate_id)
         email = EmailMultiAlternatives()
-        email.subject = f'Propulsion Academy - You have a new Challenge!'
+        email.subject = 'Propulsion Academy - You have a new Challenge!'
         email.to = [candidate.email]
         email.attach_alternative(generate_challenge_created_content(candidate), "text/html")
         email.send(fail_silently=False)
@@ -197,7 +197,7 @@ class ResendChallengeScoreEmail(UpdateAPIView):
         candidate = User.objects.get(id=challenge.candidate_id)
         creator = User.objects.get(id=challenge.creator_id)
         candidate_email = EmailMultiAlternatives()
-        candidate_email.subject = f'Propulsion Academy - Challenge Results'
+        candidate_email.subject = 'Propulsion Academy - Challenge Results'
         candidate_email.to = [candidate.email]
         creator_email = EmailMultiAlternatives()
         creator_email.subject = f'Challenge Results - Candidate: {candidate.first_name} {candidate.last_name}'
