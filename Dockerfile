@@ -27,3 +27,4 @@ RUN npm i
 RUN npm run build
 
 WORKDIR /backend
+RUN npm i
