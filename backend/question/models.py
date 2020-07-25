@@ -1,8 +1,6 @@
 from django.contrib.postgres.fields import ArrayField
 from django.db import models
-
 from django.conf import settings
-
 from program.models import Program
 
 
@@ -13,19 +11,40 @@ class Question(models.Model):
         ('H', 'Hard')
     ]
 
-    name = models.CharField(max_length=100, default="Question")
+    name = models.CharField(
+        max_length=100,
+        default="Question"
+    )
 
-    instructions = models.CharField(max_length=2500)
+    instructions = models.CharField(
+        max_length=2500
+    )
 
-    difficulty = models.CharField(max_length=1, choices=DIFFICULTY)
+    difficulty = models.CharField(
+        max_length=1,
+        choices=DIFFICULTY
+    )
 
-    created = models.DateTimeField(auto_now_add=True)
+    created = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    updated = models.DateTimeField(auto_now_add=True)
+    updated = models.DateTimeField(
+        auto_now_add=True
+    )
 
-    question_creator = models.ForeignKey(to=settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, related_name='fk_question_creator', null=True, blank=True)
+    question_creator = models.ForeignKey(
+        to=settings.AUTH_USER_MODEL,
+        on_delete=models.SET_NULL,
+        related_name='fk_question_creator',
+        null=True,
+        blank=True
+    )
 
-    program = models.ManyToManyField(to=Program, related_name='question_program')
+    program = models.ManyToManyField(
+        to=Program,
+        related_name='question_program'
+    )
 
     tests_for_question = ArrayField(
         models.CharField(

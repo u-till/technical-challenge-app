@@ -1,5 +1,4 @@
 from rest_framework import serializers
-
 from challenge.serializers import ChallengeSerializer
 from user.models import User
 
@@ -27,7 +26,8 @@ class ValidationUserSerializer(UserSerializer):
 
     class Meta:
         model = User
-        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'password', 'password_repeat', 'is_active']
+        fields = ['id', 'email', 'first_name', 'last_name', 'phone', 'avatar', 'password', 'password_repeat',
+                  'is_active']
 
     def validate(self, data):
         try:
