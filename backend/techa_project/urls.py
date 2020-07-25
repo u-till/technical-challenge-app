@@ -5,7 +5,6 @@ from django.urls import path, include
 from rest_framework.documentation import include_docs_urls
 from rest_framework_simplejwt import views as jwt_views
 
-
 documented_urls = [
     path('backend/api/admin/', admin.site.urls),
     path('backend/api/users/', include('user.urls')),
@@ -18,9 +17,9 @@ documented_urls = [
     path('backend/api/auth/token/verify/', jwt_views.TokenVerifyView.as_view()),
 ]
 
-
 urlpatterns = documented_urls + [
-    path('backend/api/docs/', include_docs_urls(patterns=documented_urls, title='Technical Challenge API', public=True, permission_classes=[])),
+    path('backend/api/docs/', include_docs_urls(patterns=documented_urls, title='Technical Challenge API', public=True,
+                                                permission_classes=[])),
     path('backend/api/tests/', include('tests.urls')),
 ]
 

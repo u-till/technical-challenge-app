@@ -1,7 +1,6 @@
 from rest_framework.generics import CreateAPIView, ListAPIView, RetrieveUpdateDestroyAPIView, RetrieveAPIView
 from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
-
 from question.models import Question
 from tip.models import Tip
 from tip.serializers import TipSerializer
@@ -10,11 +9,9 @@ from tip.serializers import TipSerializer
 class CreateTipForQuestion(CreateAPIView):
     """
     post:
-    Creates and returns a new tip.
-
-    The discount_value it's a number (float) that will be subtracted from the question total value.
+    Creates and returns a new Tip.
+    Discount_value is a number (float) that will be subtracted from the question total value.
     """
-
     serializer_class = TipSerializer
     queryset = Question
     lookup_url_kwarg = 'question_id'
@@ -29,11 +26,9 @@ class CreateTipForQuestion(CreateAPIView):
 class ListTipByQuestion(ListAPIView):
     """
     get:
-    Returns the list of all tips in a given question.
-
+    Returns a list of all Tips for a given Question.
     Candidates have permission.
     """
-
     permission_classes = [IsAuthenticated]
     serializer_class = TipSerializer
     queryset = Tip.objects.all()
@@ -47,15 +42,13 @@ class ListTipByQuestion(ListAPIView):
 class RetrieveUpdateDestroyTipByID(RetrieveUpdateDestroyAPIView):
     """
     get:
-    Retrieve a tip with the given id.
+    Retrieve a Tip with the given id.
     patch:
-    Update a tip with the given id.
+    Update a Tip with the given id.
     delete:
-    Delete a tip with the given id.
+    Delete a Tip with the given id.
     """
-
     http_method_names = ['get', 'patch', 'delete']
-
     queryset = Tip.objects.all()
     serializer_class = TipSerializer
     lookup_field = 'id'
@@ -68,8 +61,7 @@ class RetrieveUpdateDestroyTipByID(RetrieveUpdateDestroyAPIView):
 class RetrieveTipAsCandidate(RetrieveAPIView):
     """
      get:
-     Retrieve a tip with the given id.
-
+     Retrieve a Tip with the given id.
      Candidates have permission.
      """
 
