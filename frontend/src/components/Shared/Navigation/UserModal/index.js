@@ -101,6 +101,8 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
     avatar: null,
   });
 
+  const [sendStatus, setSendStatus] = useState(false);
+
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
@@ -109,6 +111,7 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
 
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    setSendStatus(true);
     dispatch(resetError());
     const userData = new FormData();
     userData.append("email", userObj.email)
@@ -121,6 +124,7 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
     const response = await dispatch(
       editSpecificUserAction(userObj.id, userData)
     );
+    setSendStatus(false);
     if (response.status === 200) {
       dispatch(setLoggedInUserAction());
       dispatch(getAllUsersAction());
@@ -192,7 +196,7 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
         />
         <ButtonWrapper>
           <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
-          <BlueButton onClick={onSubmitForm}>Save</BlueButton>
+          <BlueButton onClick={onSubmitForm}>{sendStatus ? "Saving..." : "Save"}</BlueButton>
         </ButtonWrapper>
       </UserModalContainer>
     </>
