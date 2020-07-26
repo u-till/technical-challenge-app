@@ -55,7 +55,11 @@ const GenericDeleteModal = ({
                                 from,
                             }) => {
     const dispatch = useDispatch();
-
+    // Used by delete button during delete item request, each component provides it a "type" and "typeId" of item being
+    // deleted, this is used to target the correct endpoint during deleteItemAction(). The type is then used in the
+    // switch to dispatch the appropriate action to rerender that types display. In the case where type is "challenges",
+    // and additional prop "from" is used to correctly rerender either the users or challenges, depending on which
+    // component that request came from.
     const onDeleteHandler = async (e) => {
         e.preventDefault();
         const response = await dispatch(deleteItemAction(type, typeId));

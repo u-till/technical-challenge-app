@@ -10,6 +10,7 @@ import {connect, useDispatch} from "react-redux";
 import { logoutUser } from "../../../store/actions/loginActions";
 import Fade from "react-reveal/Fade";
 import {resetError} from "../../../store/actions/verificationAction";
+
 //////////
 // STYLE
 //////////
@@ -128,21 +129,21 @@ const StyledFade = styled.div`
 //////////
 // REACT
 //////////
+
 const Navigation = ({ children, userObj, logoutUser }) => {
   const history = useHistory();
   const dispatch = useDispatch();
-
+  // Used to manage the display of the edit User modal
   const [isProfileModalVisible, setProfileModalVisible] = useState(false);
-
   const showProfileContextHandler = () => {
     setProfileModalVisible(!isProfileModalVisible);
   };
-
+  // Used by the Login button during login request
   const handleLoginClick = () => {
     dispatch(resetError());
     history.push("/login");
   };
-
+  // Used by the Logout button during logout request
   const handleLogoutClick = () => {
     logoutUser();
   };

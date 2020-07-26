@@ -1,4 +1,4 @@
-// Sort / Filter Methods used in components
+// --- Sort / Filter Methods used in components ---
 export const sortByCreated = (arr) => {
     return arr.sort((a, b) => a.created > b.created ? -1 : b.created > a.created ? 1 : 0)
 };

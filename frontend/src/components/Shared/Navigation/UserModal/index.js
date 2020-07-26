@@ -93,22 +93,21 @@ const ButtonWrapper = styled.div`
 
 const UserModal = ({ userObj, showProfileContextHandler }) => {
   const dispatch = useDispatch();
-
+  // Used to manage the text display of the Save button during edit User request
+  const [sendStatus, setSendStatus] = useState(false);
+  // Used to manage the local state of all inputs of the component
   const [data, setData] = useState({
     first_name: userObj.first_name ? userObj.first_name : "",
     last_name: userObj.last_name ? userObj.last_name : "",
     phone: userObj.phone ? userObj.phone : "",
     avatar: null,
   });
-
-  const [sendStatus, setSendStatus] = useState(false);
-
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
   };
-
+  // Used by the save button during edit User request
   const onSubmitForm = async (e) => {
     e.preventDefault();
     setSendStatus(true);
@@ -131,13 +130,11 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
       showProfileContextHandler();
     }
   };
-
+  // Used to manage the Avatar upload button display
   const hiddenFileInput = React.useRef(null);
-
   const handleClick = () => {
     hiddenFileInput.current.click();
   };
-
   const imageSelectHandler = (e) => {
     if (e.target.files[0]) {
       setData({ ...data, avatar: e.target.files[0] });

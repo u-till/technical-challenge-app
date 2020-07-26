@@ -74,13 +74,12 @@ const StyledLabel = styled.label`
 
 const TipAddModal = ({ ModalTipAddOpenCloseHandler, questionId }) => {
   const dispatch = useDispatch();
-
+  // Used to manage the local state of the input of the component
   const [content, setContent] = useState("");
-
   const inputHandler = (e) => {
     setContent(e.target.value);
   };
-
+  // Used by the Add button during create tip request
   const submitHandler = async (e) => {
     e.preventDefault();
     const tipData = {
