@@ -130,7 +130,7 @@ const Login = ({
           <Error errorMessage={fieldErrors["password"]} />
           <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
           <Error errorMessage={non_field_error} />
-          <StyledLink to="/sendpasswordreset">Forgot Password?</StyledLink>
+          <StyledLink to="/sendpasswordreset" onClick={(e) => {dispatch(resetError())}}>Forgot Password?</StyledLink>
         </InteriorContainer>
       </LoginContainer>
     </PageContainer>

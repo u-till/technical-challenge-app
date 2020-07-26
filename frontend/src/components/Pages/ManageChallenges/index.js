@@ -92,17 +92,18 @@ const ManageChallenges = ({getAllChallengesAction, allChallenges}) => {
         getAllChallengesAction();
     }, [getAllChallengesAction]);
     // Used by search input to filter Challenges by candidate last name
-    const searchChallenges = allChallenges
-        ? allChallenges.filter(
-            (challenge) =>
-                challenge.candidate.first_name
-                    .toLowerCase()
-                    .indexOf(search.toLowerCase()) !== -1 ||
-                challenge.candidate.last_name
-                    .toLowerCase()
-                    .indexOf(search.toLowerCase()) !== -1
-        )
-        : null;
+    const searchChallenges =
+        allChallenges ?
+            allChallenges.filter(
+                (challenge) =>
+                    challenge.candidate.first_name
+                        .toLowerCase()
+                        .indexOf(search.toLowerCase()) !== -1 ||
+                    challenge.candidate.last_name
+                        .toLowerCase()
+                        .indexOf(search.toLowerCase()) !== -1
+            )
+            : null;
     // Renders Challenge Card based on returns from sort/filter/search functions
     const renderChallenges = (searchChallenges) => {
         const mapChallengeCard = (arr) => {
