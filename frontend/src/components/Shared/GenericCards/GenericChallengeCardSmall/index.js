@@ -53,13 +53,12 @@ const SendButton = styled(BlueButton)`
 
 const GenericChallengeCardSmall = ({ challenge }) => {
   const dispatch = useDispatch();
-
+  // Used to control the display of Delete Modal
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
-
   const ModalDeleteOpenCloseHandler = () => {
     setModalDeleteOpen(!isModalDeleteOpen);
   };
-
+  // Used by Resend Invitation button during the request
   const resendInvitationEmail = async (e) => {
     e.preventDefault();
     //start animation
@@ -70,7 +69,7 @@ const GenericChallengeCardSmall = ({ challenge }) => {
       //stop animation
     }
   };
-
+  // Used by the Resend Results button during the request
   const resendResultEmail = async (e) => {
     e.preventDefault();
     //start animation

@@ -104,6 +104,7 @@ const StyledLabel = styled.label`
 //////////
 // REACT
 //////////
+
 const UserAddModal = ({
   ModalCreateOpenCloseHandler,
   createUserAction,
@@ -111,7 +112,9 @@ const UserAddModal = ({
   fieldErrors,
 }) => {
   const dispatch = useDispatch();
-
+  // Used to manage the text display of the Add button during create User request
+  const [sendStatus, setSendStatus] = useState(false);
+  // Used to manage the local state of all inputs of the component
   const [data, setData] = useState({
     email: "",
     first_name: "",
@@ -120,9 +123,12 @@ const UserAddModal = ({
     avatar: null,
     is_staff: false,
   });
-
-  const [sendStatus, setSendStatus] = useState(false);
-
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData({ ...data, [name]: value });
+  };
+  // Used by the save button during create User request
   const userSaveHandler = async (e) => {
     e.preventDefault();
     setSendStatus(true);
@@ -144,17 +150,11 @@ const UserAddModal = ({
       dispatch(getAllUsersAction());
     }
   };
-
+  // Used by the cancel button to toggle the add User modal
   const userCancelHandler = (e) => {
     e.preventDefault();
     dispatch(resetError());
     ModalCreateOpenCloseHandler();
-  };
-
-  const handleInput = (e) => {
-    const name = e.target.name;
-    const value = e.target.value;
-    setData({ ...data, [name]: value });
   };
 
   return (

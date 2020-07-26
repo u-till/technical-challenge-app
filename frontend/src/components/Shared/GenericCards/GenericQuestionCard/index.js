@@ -40,7 +40,7 @@ const SmallText = styled.p`
 
 const GenericQuestionCard = ({ question, setData }) => {
   const dispatch = useDispatch();
-
+  // Used by the Edit button to populate the edit question area of the ManageQuestion component during request
   const onClickHandler = async () => {
     dispatch(resetError());
     const response = await dispatch(getTipsForQuestionAction(question.id));

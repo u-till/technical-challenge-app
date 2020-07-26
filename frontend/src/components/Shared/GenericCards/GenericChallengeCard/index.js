@@ -46,7 +46,7 @@ const Challengeh2 = styled(Styledh2)`
 
 const GenericChallengeCard = ({ challenge }) => {
   const history = useHistory();
-
+  // Used fby start button to push Candidate to the start page of their Challenge
   const onStartHandler = (e) => {
     e.preventDefault();
     history.push(`/startchallenge/${challenge.id}/`);

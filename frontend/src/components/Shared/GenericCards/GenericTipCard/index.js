@@ -96,29 +96,28 @@ const NumberInput = styled(BaseInput)`
 
 const GenericTipCard = ({ tip, questionId }) => {
   const dispatch = useDispatch();
-
+   // Used to control the display of Delete Modal
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
-
   const ModalDeleteOpenCloseHandler = () => {
     setModalDeleteOpen(!isModalDeleteOpen);
   };
-
+  // Used to control the display of the Tip Edit display
   const [isTipEditing, setTipEditing] = useState(false);
+  // Used to manage the locale state of the inputs of the component
   const [tipData, setTipData] = useState({
     content: tip.content,
     discount_value: tip.discount_value,
   });
-
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setTipData({ ...tipData, [name]: value });
   };
-
+  // Used by the edit button to toggle the display of the edit tip component
   const editTipHandler = () => {
     setTipEditing(!isTipEditing);
   };
-
+  // Used by the save button during edit tip request
   const saveHandler = async (e) => {
     e.preventDefault();
     const tipForm = new FormData();
