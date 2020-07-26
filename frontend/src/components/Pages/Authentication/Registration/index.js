@@ -115,11 +115,12 @@ const Registration = ({
   non_field_error,
 }) => {
   const dispatch = useDispatch();
-
   const match = useRouteMatch();
-
+  // Used to populate the verification fields from the querystring in the Url contained in the email the User receives
   const queryStringObject = queryString.parse(location.search);
-
+  // Used to manage the text display of the Register button during request
+  const [sendStatus, setSendStatus] = useState(false);
+  // Used to manage the local state of all inputs on the component
   const [data, setData] = useState({
     email: queryStringObject.email,
     first_name: queryStringObject.first_name,
@@ -129,15 +130,15 @@ const Registration = ({
     password_repeat: "",
     avatar: null,
   });
-
   const handleInput = (e) => {
     const name = e.target.name;
     const value = e.target.value;
     setData({ ...data, [name]: value });
   };
-
+  // Used by the Register button during user verification request
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    setSendStatus(true);
     dispatch(resetError());
     const msgData = new FormData();
     msgData.append("email", data.email);
@@ -150,17 +151,16 @@ const Registration = ({
       msgData.append("avatar", data.avatar);
     }
     const response = await verificationAction(match.params.userId, msgData);
+    setSendStatus(false);
     if (response.status === 202) {
       history.push("/");
     }
   };
-
+  // Used to manage the upload avatar button logic
   const hiddenFileInput = React.useRef(null);
-
   const handleClick = (event) => {
     hiddenFileInput.current.click();
   };
-
   const imageSelectHandler = (e) => {
     if (e.target.files[0]) {
       setData({ ...data, avatar: e.target.files[0] });
@@ -214,7 +214,7 @@ const Registration = ({
               <StyledLabel>Avatar:</StyledLabel>
               <BtnWrapper>
                 <UploadButton onClick={handleClick}>
-                  Upload an Avatar...
+                  {data.avatar ? "File Uploaded" : "Upload an Avatar..."}
                 </UploadButton>
                 <input
                   type="file"
@@ -269,7 +269,7 @@ const Registration = ({
             <InputLabelDiv>
               <RegisterBtnWrapper>
                 <RegistrationButton onClick={onSubmitForm}>
-                  Register
+                  {sendStatus ? "Registering..." : "Register"}
                 </RegistrationButton>
               </RegisterBtnWrapper>
               <Error errorMessage={non_field_error} />

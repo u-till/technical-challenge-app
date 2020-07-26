@@ -93,7 +93,6 @@ const ManageUsers = ({allUsers, getAllUsersAction, notEmpty}) => {
     const [filterRole, setFilterRole] = useState("all");
     const [sort, setSort] = useState("last_name");
     const [search, setSearch] = useState("");
-    // Used to change all local state values
     const inputHandler = (e, func) => {
         func(e.currentTarget.value);
     };

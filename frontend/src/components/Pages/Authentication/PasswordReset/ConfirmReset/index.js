@@ -97,13 +97,12 @@ const ConfirmPasswordReset = ({
         password: "",
         password_repeat: "",
     });
-    // Used to change all local state values
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setData({...data, [name]: value});
     };
-    // Used by Confirm button during password reset
+    // Used by Confirm button during password reset request
     const onSubmitForm = async (e) => {
         console.log('click')
         e.preventDefault();

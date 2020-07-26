@@ -79,14 +79,13 @@ const Login = ({
   setLoggedInUserAction,
 }) => {
   const dispatch = useDispatch();
-
+  // Used for managing the local state of inputs of the Component
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-
   const inputHandler = (e, func) => {
     func(e.currentTarget.value);
   };
-
+  // Used by Login button to process the login action
   const onSubmitForm = async (e) => {
     e.preventDefault();
     dispatch(resetError());
