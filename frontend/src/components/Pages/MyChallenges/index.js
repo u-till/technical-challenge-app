@@ -36,11 +36,7 @@ const ChallengesListContainer = styled.div`
 //////////
 // REACT
 //////////
-const MyChallenges = ({
-                          getAllUserChallengesAction,
-                          userChallenges,
-                          notEmpty,
-                      }) => {
+const MyChallenges = ({ getAllUserChallengesAction, userChallenges }) => {
     // Fetches all a logged in User's Challenges on component loading
     useEffect(() => {
         getAllUserChallengesAction();
@@ -71,7 +67,7 @@ const MyChallenges = ({
                 <StyledPageTitles>My Challenges</StyledPageTitles>
                 <ChallengesListContainer>
                     {userChallenges === null ?
-                        <GenericSpinner/> : userChallenges && notEmpty ? filterCandidateChallenges() : null}
+                        <GenericSpinner/> : filterCandidateChallenges()}
                 </ChallengesListContainer>
             </ChallengesContainer>
         </PageContainer>
@@ -79,10 +75,8 @@ const MyChallenges = ({
 };
 
 const mapStateToProps = (state) => {
-    const notEmpty = state.challengeReducer.userChallenges.length;
     return {
         userChallenges: state.challengeReducer.userChallenges,
-        notEmpty: notEmpty,
     };
 };
 

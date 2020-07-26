@@ -53,11 +53,11 @@ class Challenge(models.Model):
 
     candidate = models.ForeignKey(
         to=settings.AUTH_USER_MODEL,
-        on_delete=models.SET_NULL,
+        on_delete=models.CASCADE,
         related_name='fk_challenges_assigned',
         null=True,
         blank=True
     )
 
     def __str__(self):
-        return f'Challenge #{self.pk}'
+        return f'Challenge #{self.pk} for {self.candidate.first_name} {self.candidate.last_name}'

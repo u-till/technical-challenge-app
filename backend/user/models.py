@@ -13,6 +13,18 @@ class User(AbstractUser):
 
     REQUIRED_FIELDS = ['username', 'first_name', 'last_name']
 
+    first_name = models.CharField(
+        max_length=30,
+        blank=False,
+        null=False
+    )
+
+    last_name = models.CharField(
+        max_length=150,
+        blank=False,
+        null=False
+    )
+
     email = models.EmailField(
         unique=True
     )
