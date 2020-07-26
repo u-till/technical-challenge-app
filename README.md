@@ -2,8 +2,7 @@
 
 ## Description:
 
-App to automate Propulsion Academy interview process. Staff are able to create questions and generate challenges for candidates. Candidates can take the challenge and receive their score right after.
-
+App to automate Propulsion Academy technical interview process. Staff are able to create questions and generate challenges for candidates. Candidates can take a code challenge and receive their score right after.
 
 ## Key functionalities:
 
