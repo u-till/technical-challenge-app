@@ -64,14 +64,14 @@ const SendPasswordReset = ({
   non_field_error,
 }) => {
   const dispatch = useDispatch();
-
-  const [email, setEmail] = useState("");
+  // Used to manage the text display of the Send Code button during the request action
   const [sendStatus, setSendStatus] = useState(false);
-
+  // Used to manage the local state of inputs of the component
+  const [email, setEmail] = useState("");
   const inputHandler = (e, func) => {
     func(e.currentTarget.value);
   };
-
+  // Used by the Send Code button during password reset creation request
   const onSubmitForm = async (e) => {
     e.preventDefault();
     setSendStatus(true);

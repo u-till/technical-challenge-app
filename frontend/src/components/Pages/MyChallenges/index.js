@@ -41,11 +41,11 @@ const MyChallenges = ({
                           userChallenges,
                           notEmpty,
                       }) => {
-
+    // Fetches all a logged in User's Challenges on component loading
     useEffect(() => {
         getAllUserChallengesAction();
     }, [getAllUserChallengesAction]);
-
+    // Filters so only challenges the User can still do are displayed, or "No Challenges to Display" if none
     const filterCandidateChallenges = () => {
         const filteredChallenges = userChallenges.filter((challenge) =>
             !(
@@ -54,7 +54,6 @@ const MyChallenges = ({
                 challenge.status === "NEEDS REVIEW"
             )
         );
-        console.log(filteredChallenges);
         if (filteredChallenges.length) {
             return filteredChallenges.map((challenge) => (
                 <GenericChallengeCard

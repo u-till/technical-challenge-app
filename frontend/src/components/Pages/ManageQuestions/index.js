@@ -124,6 +124,9 @@ const Questions = ({
     // Used to sort by difficulty, points, and date created
     const [sort, setSort] = useState("date");
     const [search, setSearch] = useState("");
+    const inputSortSearchHandler = (e, func) => {
+        func(e.currentTarget.value);
+    };
     // Used to manage displaying Question Data for adding / editing
     const [questionData, setQuestionData] = useState({
         name: "",
@@ -132,6 +135,28 @@ const Questions = ({
         difficulty: "E",
         tests_for_question: ["", "", ""],
     });
+    const handleTextInput = (e) => {
+        const name = e.target.name;
+        const value = e.target.value;
+        setQuestionData({...questionData, [name]: value});
+    };
+    // Used to change local state of Program Selector input
+    const handleProgramSelectorChange = (e) => {
+        let options = e.target.options;
+        let value = [];
+        for (let i = 0, l = options.length; i < l; i++) {
+            if (options[i].selected) {
+                value.push(options[i].value);
+            }
+        }
+        setQuestionData({...questionData, program: value});
+    };
+    // Used to change local state of Test Case Examples inputs
+    const handleTestsChange = (e, index) => {
+        let newArray = [...questionData.tests_for_question];
+        newArray[index] = e.target.value;
+        setQuestionData({...questionData, tests_for_question: newArray});
+    };
     // Used to manage the Delete / Tip Modal display status
     const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
     const [isModalTipAddOpen, setModalTipAddOpen] = useState(false);
@@ -146,33 +171,6 @@ const Questions = ({
         resetTargetQuestion();
         getAllQuestionsAction();
     }, [getAllQuestionsAction, resetTargetQuestion]);
-    // Used to change local state of search input
-    const inputSortSearchHandler = (e, func) => {
-        func(e.currentTarget.value);
-    };
-    // Used to change local state of all question data text inputs, except Test Case Examples
-    const handleTextInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setQuestionData({...questionData, [name]: value});
-    };
-    // Used to change local state of Test Case Examples inputs
-    const handleTestsChange = (e, index) => {
-        let newArray = [...questionData.tests_for_question];
-        newArray[index] = e.target.value;
-        setQuestionData({...questionData, tests_for_question: newArray});
-    };
-    // Used to change local state of Program Selector input
-    const handleProgramSelectorChange = (e) => {
-        let options = e.target.options;
-        let value = [];
-        for (let i = 0, l = options.length; i < l; i++) {
-            if (options[i].selected) {
-                value.push(options[i].value);
-            }
-        }
-        setQuestionData({...questionData, program: value});
-    };
     // Used by Save button during editing a Question
     const handleSave = async (e) => {
         e.preventDefault();
