@@ -86,7 +86,7 @@ const GenericChallengeCardSmall = ({ challenge }) => {
     await dispatch(resendChallengeResultAction(challenge.id));
     setResultStatus(false);
   };
-  // Conditionally changes the background colors of the cards based on Status
+  // Conditionally change the background colors of the cards based on Status
   const renderBackground = () => {
     if (challenge.status === "PASSED") {
       return {backgroundColor: "blue"}
