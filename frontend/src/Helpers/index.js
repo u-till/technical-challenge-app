@@ -1,7 +1,7 @@
 // --- Sort / Filter Methods used in components ---
 export const sortByCreated = (arr) => {
   return arr.sort((a, b) =>
-    a.updated > b.updated ? git 1 : b.updated > a.updated ? -1 : 0
+    a.updated > b.updated ? 1 : b.updated > a.updated ? -1 : 0
   );
 };
 
