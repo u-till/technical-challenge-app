@@ -32,7 +32,10 @@ class CreateChallenge(CreateAPIView):
         email = EmailMultiAlternatives()
         email.subject = 'Propulsion Academy - You have a new Challenge!'
         email.to = [candidate.email]
-        email.attach_alternative(generate_challenge_created_content(candidate), "text/html")
+        if candidate.is_active:
+            email.attach_alternative(generate_challenge_created_content(candidate), "text/html")
+        else:
+            email.attach_alternative(generate_challenge_created_when_inactive_content(candidate), "text/html")
         email.send(fail_silently=False)
         return Response(status=200)
 
