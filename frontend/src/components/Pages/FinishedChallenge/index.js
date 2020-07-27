@@ -1,8 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {Styledh1} from "../../../style/GlobalTitles/index";
-import {BaseContainer, PageContainer} from "../../../style/GlobalWrappers/index";
+import { rem } from "polished";
+import { Styledh1 } from "../../../style/GlobalTitles/index";
+import {
+  BaseContainer,
+  PageContainer,
+} from "../../../style/GlobalWrappers/index";
 
 //////////
 // STYLE
@@ -78,32 +81,32 @@ const RightSideContainer = styled.div`
 //////////
 
 const FinishedChallenge = () => {
-    return (
-        <PageContainer>
-            <InformationContainer>
-                <Styledh1>Done!</Styledh1>
-                <ChallengeDoneContainer>
-                    <LeftSideContainer>
-                        <ExampleImage/>
-                    </LeftSideContainer>
-                    <RightSideContainer>
-                        <ChallengeDone>
-                            <div>
-                                <H2>Good job!</H2>
-                                <br/>
-                                <P>
-                                    You will receive an email in your mailbox with information
-                                    about the challenge results.
-                                </P>
-                                <br/>
-                                <P>Keep coding!</P>
-                            </div>
-                        </ChallengeDone>
-                    </RightSideContainer>
-                </ChallengeDoneContainer>
-            </InformationContainer>
-        </PageContainer>
-    );
+  return (
+    <PageContainer>
+      <InformationContainer>
+        <Styledh1>Done!</Styledh1>
+        <ChallengeDoneContainer>
+          <LeftSideContainer>
+            <ExampleImage />
+          </LeftSideContainer>
+          <RightSideContainer>
+            <ChallengeDone>
+              <div>
+                <H2>Good job!</H2>
+                <br />
+                <P>
+                  You will receive an email in your mailbox with information
+                  about the challenge results.
+                </P>
+                <br />
+                <P>Keep coding!</P>
+              </div>
+            </ChallengeDone>
+          </RightSideContainer>
+        </ChallengeDoneContainer>
+      </InformationContainer>
+    </PageContainer>
+  );
 };
 
 export default FinishedChallenge;

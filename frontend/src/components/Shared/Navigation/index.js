@@ -6,10 +6,10 @@ import { HeaderLogo } from "../../../style/GlobalIcons";
 import { RedButton } from "../../../style/GlobalButtons";
 import { NavLink, useHistory } from "react-router-dom";
 import UserModal from "./UserModal";
-import {connect, useDispatch} from "react-redux";
+import { connect, useDispatch } from "react-redux";
 import { logoutUser } from "../../../store/actions/loginActions";
 import Fade from "react-reveal/Fade";
-import {resetError} from "../../../store/actions/verificationAction";
+import { resetError } from "../../../store/actions/verificationAction";
 
 //////////
 // STYLE

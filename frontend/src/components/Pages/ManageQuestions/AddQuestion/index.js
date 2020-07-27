@@ -1,9 +1,9 @@
 import React from "react";
 import styled from "styled-components";
 import Error from "../../../Shared/Error";
-import {BlueButton} from "../../../../style/GlobalButtons";
-import {rem} from "polished";
-import {BaseInput, BaseTextArea} from "../../../../style/GlobalInputs";
+import { BlueButton } from "../../../../style/GlobalButtons";
+import { rem } from "polished";
+import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 
 //////////
 // STYLE
@@ -128,124 +128,120 @@ const DeleteSave = styled.div`
 //////////
 
 const AddQuestion = ({
-                         questionData,
-                         handleTextInput,
-                         fieldErrors,
-                         handleProgramSelectorChange,
-                         handleTestsChange,
-                         handleAddQuestion
-                     }) => {
-    return (<>
-        <EditTop>
-            <InputLabelDiv>
-                <StyledLabel>Name:</StyledLabel>
-                <NameInput
-                    type="text"
-                    placeholder="Question Name"
-                    value={questionData.name}
-                    required
-                    name="name"
-                    onChange={handleTextInput}
-                />
-                <Error errorMessage={fieldErrors["name"]}/>
-            </InputLabelDiv>
-            <InputLabelDiv>
-                <StyledLabel>Points:</StyledLabel>
-                <NumberInput
-                    type="text"
-                    placeholder="0"
-                    required
-                    value={
-                        questionData.difficulty === "H"
-                            ? "8"
-                            : questionData.difficulty === "I"
-                            ? "5"
-                            : "3"
-                    }
-                    disabled
-                />
-                <Error/>
-            </InputLabelDiv>
-            <InputLabelDiv>
-                <StyledLabel>Difficulty:</StyledLabel>
-                <DifficultyDropdown
-                    id="difficulty"
-                    name="difficulty"
-                    value={questionData.difficulty}
-                    onChange={handleTextInput}
-                >
-                    <option value="E">Easy</option>
-                    <option value="I">Intermediate</option>
-                    <option value="H">Hard</option>
-                </DifficultyDropdown>
-                <Error/>
-            </InputLabelDiv>
-        </EditTop>
-        <EditMiddleBig>
-            <InputLabelDiv>
-                <StyledLabel>Description:</StyledLabel>
-                <DescriptionInput
-                    type="text"
-                    placeholder="Description"
-                    value={questionData.instructions}
-                    required
-                    name="instructions"
-                    onChange={handleTextInput}
-                />
-                <Error errorMessage={fieldErrors["instructions"]}/>
-            </InputLabelDiv>
-            <InputLabelDiv>
-                <StyledLabel>Catergories:</StyledLabel>
-                <CategorySelect
-                    name="program"
-                    multiple
-                    value={questionData.program}
-                    onChange={handleProgramSelectorChange}
-                >
-                    <option value="1">Full Stack</option>
-                    <option value="2">Data Science</option>
-                    <option value="3">React & Redux</option>
-                    <option value="4">Docker & Deployment</option>
-                    <option value="5">AI for Leaders</option>
-                    <option value="6">Python programming</option>
-                </CategorySelect>
-                <Error errorMessage={fieldErrors["program"]}/>
-            </InputLabelDiv>
-        </EditMiddleBig>
-        <TestInputContainerAdd>
-            <InputLabelDiv>
-                <StyledLabel>Test Case Examples:</StyledLabel>
-                <TestInput
-                    type="text"
-                    value={questionData.tests_for_question[0]}
-                    onChange={(e) => handleTestsChange(e, 0)}
-                />
-                <Error
-                    errorMessage={fieldErrors["tests_for_question"][0]}
-                />
-                <TestInput
-                    type="text"
-                    value={questionData.tests_for_question[1]}
-                    onChange={(e) => handleTestsChange(e, 1)}
-                />
-                <Error
-                    errorMessage={fieldErrors["tests_for_question"][1]}
-                />
-                <TestInput
-                    type="text"
-                    value={questionData.tests_for_question[2]}
-                    onChange={(e) => handleTestsChange(e, 2)}
-                />
-                <Error
-                    errorMessage={fieldErrors["tests_for_question"][2]}
-                />
-            </InputLabelDiv>
-        </TestInputContainerAdd>
+  questionData,
+  handleTextInput,
+  fieldErrors,
+  handleProgramSelectorChange,
+  handleTestsChange,
+  handleAddQuestion,
+}) => {
+  return (
+    <>
+      <EditTop>
+        <InputLabelDiv>
+          <StyledLabel>Name:</StyledLabel>
+          <NameInput
+            type="text"
+            placeholder="Question Name"
+            value={questionData.name}
+            required
+            name="name"
+            onChange={handleTextInput}
+          />
+          <Error errorMessage={fieldErrors["name"]} />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Points:</StyledLabel>
+          <NumberInput
+            type="text"
+            placeholder="0"
+            required
+            value={
+              questionData.difficulty === "H"
+                ? "8"
+                : questionData.difficulty === "I"
+                ? "5"
+                : "3"
+            }
+            disabled
+          />
+          <Error />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Difficulty:</StyledLabel>
+          <DifficultyDropdown
+            id="difficulty"
+            name="difficulty"
+            value={questionData.difficulty}
+            onChange={handleTextInput}
+          >
+            <option value="E">Easy</option>
+            <option value="I">Intermediate</option>
+            <option value="H">Hard</option>
+          </DifficultyDropdown>
+          <Error />
+        </InputLabelDiv>
+      </EditTop>
+      <EditMiddleBig>
+        <InputLabelDiv>
+          <StyledLabel>Description:</StyledLabel>
+          <DescriptionInput
+            type="text"
+            placeholder="Description"
+            value={questionData.instructions}
+            required
+            name="instructions"
+            onChange={handleTextInput}
+          />
+          <Error errorMessage={fieldErrors["instructions"]} />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Catergories:</StyledLabel>
+          <CategorySelect
+            name="program"
+            multiple
+            value={questionData.program}
+            onChange={handleProgramSelectorChange}
+          >
+            <option value="1">Full Stack</option>
+            <option value="2">Data Science</option>
+            <option value="3">React & Redux</option>
+            <option value="4">Docker & Deployment</option>
+            <option value="5">AI for Leaders</option>
+            <option value="6">Python programming</option>
+          </CategorySelect>
+          <Error errorMessage={fieldErrors["program"]} />
+        </InputLabelDiv>
+      </EditMiddleBig>
+      <TestInputContainerAdd>
+        <InputLabelDiv>
+          <StyledLabel>Test Case Examples:</StyledLabel>
+          <TestInput
+            type="text"
+            value={questionData.tests_for_question[0]}
+            onChange={(e) => handleTestsChange(e, 0)}
+          />
+          <Error errorMessage={fieldErrors["tests_for_question"][0]} />
+          <TestInput
+            type="text"
+            value={questionData.tests_for_question[1]}
+            onChange={(e) => handleTestsChange(e, 1)}
+          />
+          <Error errorMessage={fieldErrors["tests_for_question"][1]} />
+          <TestInput
+            type="text"
+            value={questionData.tests_for_question[2]}
+            onChange={(e) => handleTestsChange(e, 2)}
+          />
+          <Error errorMessage={fieldErrors["tests_for_question"][2]} />
+        </InputLabelDiv>
+      </TestInputContainerAdd>
 
-        <DeleteSave>
-            <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
-        </DeleteSave>
-    </>)
+      <DeleteSave>
+        <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
+      </DeleteSave>
+    </>
+  );
 };
 
-export default AddQuestion
+export default AddQuestion;
