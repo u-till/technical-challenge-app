@@ -56,7 +56,7 @@ const TipCardEditing = styled.div`
 
 const EditTipDiv = styled.div`
   display: inline-flex;
-
+  height: 100%;
   width: 100%;
 
   > div:first-child {
@@ -147,14 +147,6 @@ const GenericTipCard = ({ tip, questionId }) => {
               />
             </div>
             <div>
-              <NumberInput
-                type="text"
-                placeholder="0"
-                disabled
-                name="discount_value"
-                value={tipData.discount_value}
-                onChange={handleInput}
-              />
               <RedButton onClick={ModalDeleteOpenCloseHandler}>
                 Delete
               </RedButton>
@@ -175,11 +167,11 @@ const GenericTipCard = ({ tip, questionId }) => {
       ) : (
         <TipCard>
           <p>
-            {tip.content.length > 130
-              ? `${tip.content.slice(0, 130)}...`
+
+            {tip.content.length > 160
+              ? `${tip.content.slice(0, 160)}...`
               : tip.content}
           </p>
-          <p>{`Minus: ${tip.discount_value}`}</p>
           <RoundGreyButton onClick={editTipHandler}>
             <FontAwesomeIcon icon={["fas", "pencil-alt"]} />
           </RoundGreyButton>
