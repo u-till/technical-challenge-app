@@ -12,7 +12,7 @@ class ListQuestionSerializer(serializers.ModelSerializer):
     class Meta:
         model = Question
         fields = ['id', 'name', 'program', 'instructions', 'difficulty', 'question_creator', 'tests_for_question',
-                  'fk_tip_question']
+                  'fk_tip_question', 'created', 'updated']
 
 
 class CreateQuestionSerializer(serializers.ModelSerializer):

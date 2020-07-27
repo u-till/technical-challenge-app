@@ -79,6 +79,7 @@ const Login = ({
   setLoggedInUserAction,
 }) => {
   const dispatch = useDispatch();
+  const [loginStatus, setLoginStatus] = useState(false);
   // Used for managing the local state of inputs of the Component
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
@@ -88,9 +89,11 @@ const Login = ({
   // Used by Login button to process the login action
   const onSubmitForm = async (e) => {
     e.preventDefault();
+    setLoginStatus(true);
     dispatch(resetError());
     const loginData = { email, password };
     const response = await loginAction(loginData);
+    setLoginStatus(false);
     if (response.status === 200) {
       const [setUserResponse, isStaff] = await dispatch(setLoggedInUserAction);
       setUserResponse.status === 200 && isStaff
@@ -128,7 +131,7 @@ const Login = ({
             />
           </PasswordField>
           <Error errorMessage={fieldErrors["password"]} />
-          <BigRedButton onClick={onSubmitForm}>Login</BigRedButton>
+          <BigRedButton onClick={onSubmitForm}>{loginStatus ? "Please Wait..." : "Login"}</BigRedButton>
           <Error errorMessage={non_field_error} />
           <StyledLink
             to="/sendpasswordreset"
