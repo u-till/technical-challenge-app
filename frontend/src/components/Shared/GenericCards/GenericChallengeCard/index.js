@@ -1,10 +1,10 @@
 import React from "react";
-import {rem} from "polished";
+import { rem } from "polished";
 import styled from "styled-components";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {BlueButton} from "../../../../style/GlobalButtons";
-import {Styledh2} from "../../../../style/GlobalTitles";
-import {useHistory} from "react-router";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { BlueButton } from "../../../../style/GlobalButtons";
+import { Styledh2 } from "../../../../style/GlobalTitles";
+import { useHistory } from "react-router";
 
 //////////
 // STYLES
@@ -44,27 +44,32 @@ const Challengeh2 = styled(Styledh2)`
 // REACT
 //////////
 
-const GenericChallengeCard = ({challenge}) => {
-    const history = useHistory();
-    // Used fby start button to push Candidate to the start page of their Challenge
-    const onStartHandler = (e) => {
-        e.preventDefault();
-        history.push(`/startchallenge/${challenge.id}/`);
-    };
+const GenericChallengeCard = ({ challenge }) => {
+  const history = useHistory();
+  // Used fby start button to push Candidate to the start page of their Challenge
+  const onStartHandler = (e) => {
+    e.preventDefault();
+    history.push(`/startchallenge/${challenge.id}/`);
+  };
 
-    return (
-        <ChallengeCard>
-            <Challengeh2>{`Technical Challenge ${challenge.id}`}</Challengeh2>
-            {challenge.status === "PASSED" || challenge.status === "NEEDS REVIEW" || challenge.status === "FAILED" ?
-                (<p>{`Score: ${challenge.score}%`}</p>) :
-                (<><p>{`Status: ${challenge.status}`}</p>
-                    <StartChallengeButton onClick={onStartHandler}>
-                        <p>Start</p>
-                        <FontAwesomeIcon icon={["fas", "play"]}/>
-                    </StartChallengeButton>
-                </>)}
-        </ChallengeCard>
-    );
+  return (
+    <ChallengeCard>
+      <Challengeh2>{`Technical Challenge ${challenge.id}`}</Challengeh2>
+      {challenge.status === "PASSED" ||
+      challenge.status === "NEEDS REVIEW" ||
+      challenge.status === "FAILED" ? (
+        <p>{`Score: ${challenge.score}%`}</p>
+      ) : (
+        <>
+          <p>{`Status: ${challenge.status}`}</p>
+          <StartChallengeButton onClick={onStartHandler}>
+            <p>Start</p>
+            <FontAwesomeIcon icon={["fas", "play"]} />
+          </StartChallengeButton>
+        </>
+      )}
+    </ChallengeCard>
+  );
 };
 
 export default GenericChallengeCard;
