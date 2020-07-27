@@ -31,7 +31,7 @@ const CreateModalContainer = styled(BaseContainer)`
   position: fixed;
   background: white;
   width: ${rem("640px")};
-  height: ${rem("420px")};
+  height: ${rem("360px")};
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
@@ -111,13 +111,6 @@ const TipAddModal = ({ ModalTipAddOpenCloseHandler, questionId }) => {
               value={content}
               onChange={inputHandler}
             />
-            <Error />
-          </InputLabelDiv>
-        </div>
-        <div>
-          <InputLabelDiv>
-            <StyledLabel>Point Discount:</StyledLabel>
-            <NumberInput type="number" placeholder="1" name="discount_value" />
             <Error />
           </InputLabelDiv>
         </div>

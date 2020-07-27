@@ -15,6 +15,7 @@ import { setLoggedInUserAction } from "../../../../store/actions/loginActions";
 import ReactTooltip from "react-tooltip";
 import { createUserChallengeAction } from "../../../../store/actions/challengeActions";
 import BigCard from "./UserCardBig";
+import { GenericSpinnerSmallBtn } from "../../GenericSpinner";
 
 //////////
 // STYLES
@@ -203,7 +204,7 @@ const GenericUserCard = ({
             data-tip="Resend Verification Email"
           >
             {resendStatus ? (
-              <FontAwesomeIcon icon={["fas", "spinner"]} />
+              <GenericSpinnerSmallBtn />
             ) : (
               <FontAwesomeIcon icon={["far", "paper-plane"]} />
             )}
