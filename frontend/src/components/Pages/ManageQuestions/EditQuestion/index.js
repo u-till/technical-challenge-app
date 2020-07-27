@@ -1,14 +1,18 @@
 import React from "react";
 import styled from "styled-components";
 import Error from "../../../Shared/Error";
-import {BlueButton, RedButton, RoundGreyButton} from "../../../../style/GlobalButtons";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import {
+  BlueButton,
+  RedButton,
+  RoundGreyButton,
+} from "../../../../style/GlobalButtons";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import TipAddModal from "../../../Shared/Modals/TipAddModal/TipAddModal";
-import {GenericSpinner} from "../../../Shared/GenericSpinner";
+import { GenericSpinner } from "../../../Shared/GenericSpinner";
 import GenericTipCard from "../../../Shared/GenericCards/GenericTipCard";
 import GenericDeleteModal from "../../../Shared/Modals/GenericDeleteModal/GenericDeleteModal";
-import {rem} from "polished";
-import {BaseInput, BaseTextArea} from "../../../../style/GlobalInputs";
+import { rem } from "polished";
+import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
 
 //////////
 // STYLE
@@ -166,175 +170,172 @@ const DeleteSave = styled.div`
 //////////
 
 const EditQuestion = ({
-                          questionData,
-                          handleTextInput,
-                          fieldErrors,
-                          handleProgramSelectorChange,
-                          handleTestsChange,
-                          ModalTipAddOpenCloseHandler,
-                          isModalTipAddOpen,
-                          targetQuestion,
-                          targetQuestionTips,
-                          ModalDeleteOpenCloseHandler,
-                          isModalDeleteOpen,
-                          setQuestionData,
-                          handleSave,
-                          handleCancel
-                      }) => {
-    return (<>
-            <EditTop>
-                <InputLabelDiv>
-                    <StyledLabel>Name:</StyledLabel>
-                    <NameInput
-                        type="text"
-                        placeholder="Question Name"
-                        required
-                        name="name"
-                        value={questionData.name}
-                        onChange={handleTextInput}
+  questionData,
+  handleTextInput,
+  fieldErrors,
+  handleProgramSelectorChange,
+  handleTestsChange,
+  ModalTipAddOpenCloseHandler,
+  isModalTipAddOpen,
+  targetQuestion,
+  targetQuestionTips,
+  ModalDeleteOpenCloseHandler,
+  isModalDeleteOpen,
+  setQuestionData,
+  handleSave,
+  handleCancel,
+}) => {
+  return (
+    <>
+      <EditTop>
+        <InputLabelDiv>
+          <StyledLabel>Name:</StyledLabel>
+          <NameInput
+            type="text"
+            placeholder="Question Name"
+            required
+            name="name"
+            value={questionData.name}
+            onChange={handleTextInput}
+          />
+          <Error errorMessage={fieldErrors["name"]} />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Points:</StyledLabel>
+          <NumberInput
+            type="text"
+            placeholder="0"
+            required
+            value={
+              questionData.difficulty === "H"
+                ? "8"
+                : questionData.difficulty === "I"
+                ? "5"
+                : "3"
+            }
+            disabled
+          />
+          <Error />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Difficulty:</StyledLabel>
+          <DifficultyDropdown
+            id="difficulty"
+            value={questionData.difficulty}
+            onChange={handleTextInput}
+            name="difficulty"
+          >
+            <option value="E">Easy</option>
+            <option value="I">Intermediate</option>
+            <option value="H">Hard</option>
+          </DifficultyDropdown>
+          <Error />
+        </InputLabelDiv>
+      </EditTop>
+      <EditMiddle>
+        <InputLabelDiv>
+          <StyledLabel>Description:</StyledLabel>
+          <DescriptionInput
+            type="text"
+            placeholder="Description"
+            required
+            name="instructions"
+            value={questionData.instructions}
+            onChange={handleTextInput}
+          />
+          <Error errorMessage={fieldErrors["instructions"]} />
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <StyledLabel>Catergories:</StyledLabel>
+          <CategorySelect
+            name="program"
+            multiple
+            value={questionData.program}
+            onChange={handleProgramSelectorChange}
+          >
+            <option value="1">Full Stack</option>
+            <option value="2">Data Science</option>
+            <option value="3">React & Redux</option>
+            <option value="4">Docker & Deployment</option>
+            <option value="5">AI for Leaders</option>
+            <option value="6">Python programming</option>
+          </CategorySelect>
+          <Error errorMessage={fieldErrors["program"]} />
+        </InputLabelDiv>
+      </EditMiddle>
+      <EditBottom>
+        <InputLabelDiv>
+          <StyledLabel>Test Case Examples:</StyledLabel>
+          <TestInputContainer>
+            {questionData.tests_for_question
+              ? questionData.tests_for_question.map((test, index) => {
+                  return (
+                    <TestInput
+                      type="text"
+                      index={index}
+                      value={questionData.tests_for_question[index]}
+                      key={`test_for_question ${index}`}
+                      onChange={(e) => handleTestsChange(e, index)}
                     />
-                    <Error errorMessage={fieldErrors["name"]}/>
-                </InputLabelDiv>
-                <InputLabelDiv>
-                    <StyledLabel>Points:</StyledLabel>
-                    <NumberInput
-                        type="text"
-                        placeholder="0"
-                        required
-                        value={
-                            questionData.difficulty === "H"
-                                ? "8"
-                                : questionData.difficulty === "I"
-                                ? "5"
-                                : "3"
-                        }
-                        disabled
-                    />
-                    <Error/>
-                </InputLabelDiv>
-                <InputLabelDiv>
-                    <StyledLabel>Difficulty:</StyledLabel>
-                    <DifficultyDropdown
-                        id="difficulty"
-                        value={questionData.difficulty}
-                        onChange={handleTextInput}
-                        name="difficulty"
-                    >
-                        <option value="E">Easy</option>
-                        <option value="I">Intermediate</option>
-                        <option value="H">Hard</option>
-                    </DifficultyDropdown>
-                    <Error/>
-                </InputLabelDiv>
-            </EditTop>
-            <EditMiddle>
-                <InputLabelDiv>
-                    <StyledLabel>Description:</StyledLabel>
-                    <DescriptionInput
-                        type="text"
-                        placeholder="Description"
-                        required
-                        name="instructions"
-                        value={questionData.instructions}
-                        onChange={handleTextInput}
-                    />
-                    <Error errorMessage={fieldErrors["instructions"]}/>
-                </InputLabelDiv>
-                <InputLabelDiv>
-                    <StyledLabel>Catergories:</StyledLabel>
-                    <CategorySelect
-                        name="program"
-                        multiple
-                        value={questionData.program}
-                        onChange={handleProgramSelectorChange}
-                    >
-                        <option value="1">Full Stack</option>
-                        <option value="2">Data Science</option>
-                        <option value="3">React & Redux</option>
-                        <option value="4">Docker & Deployment</option>
-                        <option value="5">AI for Leaders</option>
-                        <option value="6">Python programming</option>
-                    </CategorySelect>
-                    <Error errorMessage={fieldErrors["program"]}/>
-                </InputLabelDiv>
-            </EditMiddle>
-            <EditBottom>
-                <InputLabelDiv>
-                    <StyledLabel>Test Case Examples:</StyledLabel>
-                    <TestInputContainer>
-                        {questionData.tests_for_question
-                            ? questionData.tests_for_question.map((test, index) => {
-                                return (
-                                    <TestInput
-                                        type="text"
-                                        index={index}
-                                        value={questionData.tests_for_question[index]}
-                                        key={`test_for_question ${index}`}
-                                        onChange={(e) => handleTestsChange(e, index)}
-                                    />
-                                );
-                            })
-                            : null}
-                    </TestInputContainer>
-                </InputLabelDiv>
-                <InputLabelDiv>
-                    <LabelAndBtn>
-                        <StyledLabel>Tips:</StyledLabel>
-                        <RoundGreyButton onClick={ModalTipAddOpenCloseHandler}>
-                            <FontAwesomeIcon icon={["fas", "plus"]}/>
-                        </RoundGreyButton>
-                        {isModalTipAddOpen ? (
-                            <TipAddModal
-                                ModalTipAddOpenCloseHandler={
-                                    ModalTipAddOpenCloseHandler
-                                }
-                                questionId={targetQuestion.id}
-                            />
-                        ) : null}
-                    </LabelAndBtn>
-                    <TipsList>
-                        {targetQuestionTips === null ? (
-                            <GenericSpinner/>
-                        ) : targetQuestionTips.length > 0 ? (
-                            targetQuestionTips.map((tip) => {
-                                return (
-                                    <GenericTipCard
-                                        key={`Tip ${tip.id}`}
-                                        tip={tip}
-                                        questionId={targetQuestion.id}
-                                    />
-                                );
-                            })
-                        ) : (
-                            <div>No Tips to Display</div>
-                        )}
-                    </TipsList>
-                </InputLabelDiv>
-            </EditBottom>
-            <DeleteSave>
-                <RedButton onClick={ModalDeleteOpenCloseHandler}>
-                    Delete
-                </RedButton>
-                {isModalDeleteOpen ? (
-                    <GenericDeleteModal
-                        ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                        type="questions"
-                        typeId={questionData.id}
-                        setQuestionData={setQuestionData}
-                    >
-                        <p>
-                            Are you sure you want to delete the Question "
-                            {questionData.name}"?
-                        </p>
-                    </GenericDeleteModal>
-                ) : null}
-                <div>
-                    <BlueButton onClick={handleCancel}>Cancel</BlueButton>
-                    <BlueButton onClick={handleSave}>Save</BlueButton>
-                </div>
-            </DeleteSave>
-        </>
-    )
+                  );
+                })
+              : null}
+          </TestInputContainer>
+        </InputLabelDiv>
+        <InputLabelDiv>
+          <LabelAndBtn>
+            <StyledLabel>Tips:</StyledLabel>
+            <RoundGreyButton onClick={ModalTipAddOpenCloseHandler}>
+              <FontAwesomeIcon icon={["fas", "plus"]} />
+            </RoundGreyButton>
+            {isModalTipAddOpen ? (
+              <TipAddModal
+                ModalTipAddOpenCloseHandler={ModalTipAddOpenCloseHandler}
+                questionId={targetQuestion.id}
+              />
+            ) : null}
+          </LabelAndBtn>
+          <TipsList>
+            {targetQuestionTips === null ? (
+              <GenericSpinner />
+            ) : targetQuestionTips.length > 0 ? (
+              targetQuestionTips.map((tip) => {
+                return (
+                  <GenericTipCard
+                    key={`Tip ${tip.id}`}
+                    tip={tip}
+                    questionId={targetQuestion.id}
+                  />
+                );
+              })
+            ) : (
+              <div>No Tips to Display</div>
+            )}
+          </TipsList>
+        </InputLabelDiv>
+      </EditBottom>
+      <DeleteSave>
+        <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
+        {isModalDeleteOpen ? (
+          <GenericDeleteModal
+            ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+            type="questions"
+            typeId={questionData.id}
+            setQuestionData={setQuestionData}
+          >
+            <p>
+              Are you sure you want to delete the Question "{questionData.name}
+              "?
+            </p>
+          </GenericDeleteModal>
+        ) : null}
+        <div>
+          <BlueButton onClick={handleCancel}>Cancel</BlueButton>
+          <BlueButton onClick={handleSave}>Save</BlueButton>
+        </div>
+      </DeleteSave>
+    </>
+  );
 };
 
-export default EditQuestion
+export default EditQuestion;

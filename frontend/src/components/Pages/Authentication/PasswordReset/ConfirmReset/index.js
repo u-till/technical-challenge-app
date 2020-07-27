@@ -1,17 +1,17 @@
-import React, {useState} from "react";
+import React, { useState } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {connect, useDispatch} from "react-redux";
-import {resetError} from "../../../../../store/actions/verificationAction";
+import { rem } from "polished";
+import { connect, useDispatch } from "react-redux";
+import { resetError } from "../../../../../store/actions/verificationAction";
 import Error from "../../../../Shared/Error";
-import {BigRedButton} from "../../../../../style/GlobalButtons";
-import {BaseInput} from "../../../../../style/GlobalInputs";
-import {Styledh1} from "../../../../../style/GlobalTitles";
+import { BigRedButton } from "../../../../../style/GlobalButtons";
+import { BaseInput } from "../../../../../style/GlobalInputs";
+import { Styledh1 } from "../../../../../style/GlobalTitles";
 import {
-    BaseContainer,
-    PageContainer,
+  BaseContainer,
+  PageContainer,
 } from "../../../../../style/GlobalWrappers";
-import {confirmPasswordResetAction} from "../../../../../store/actions/passwordResetAction";
+import { confirmPasswordResetAction } from "../../../../../store/actions/passwordResetAction";
 
 //////////
 // STYLE
@@ -82,122 +82,125 @@ const StyledLabel = styled.label`
 //////////
 
 const ConfirmPasswordReset = ({
-                                  history,
-                                  fieldErrors,
-                                  non_field_error,
-                                  confirmPasswordResetAction
-                              }) => {
-    const dispatch = useDispatch();
-    // Used to toggle text of button during Password Reset request
-    const [sendStatus, setSendStatus] = useState(false);
-    // Used to manage local state of text input for Password Reset
-    const [data, setData] = useState({
-        email: "",
-        code: "",
-        password: "",
-        password_repeat: "",
-    });
-    const handleInput = (e) => {
-        const name = e.target.name;
-        const value = e.target.value;
-        setData({...data, [name]: value});
+  history,
+  fieldErrors,
+  non_field_error,
+  confirmPasswordResetAction,
+}) => {
+  const dispatch = useDispatch();
+  // Used to toggle text of button during Password Reset request
+  const [sendStatus, setSendStatus] = useState(false);
+  // Used to manage local state of text input for Password Reset
+  const [data, setData] = useState({
+    email: "",
+    code: "",
+    password: "",
+    password_repeat: "",
+  });
+  const handleInput = (e) => {
+    const name = e.target.name;
+    const value = e.target.value;
+    setData({ ...data, [name]: value });
+  };
+  // Used by Confirm button during password reset request
+  const onSubmitForm = async (e) => {
+    console.log("click");
+    e.preventDefault();
+    setSendStatus(true);
+    dispatch(resetError());
+    const userData = {
+      email: data.email,
+      code: data.code,
+      password: data.password,
+      password_repeat: data.password_repeat,
     };
-    // Used by Confirm button during password reset request
-    const onSubmitForm = async (e) => {
-        console.log('click')
-        e.preventDefault();
-        setSendStatus(true);
-        dispatch(resetError());
-        const userData = {
-            email: data.email,
-            code: data.code,
-            password: data.password,
-            password_repeat: data.password_repeat
-        };
-        const response = await confirmPasswordResetAction(userData);
-        setSendStatus(false);
-        if (response.status === 202) {
-            history.push("/login");
-        }
-    };
+    const response = await confirmPasswordResetAction(userData);
+    setSendStatus(false);
+    if (response.status === 202) {
+      history.push("/login");
+    }
+  };
 
-    return (
-        <PageContainer>
-            <ConfirmResetContainer>
-                <Styledh1>Confirm Password Reset</Styledh1>
-                <ResetSplitContainer>
-                    <div>
-                        <InputLabelDiv>
-                            <StyledLabel>Email:</StyledLabel>
-                            <ConfirmInput
-                                name="email"
-                                value={data.email}
-                                type="email"
-                                placeholder="Email"
-                                onChange={handleInput}
-                            />
-                            <Error errorMessage={fieldErrors["email"]}/>
-                        </InputLabelDiv>
+  return (
+    <PageContainer>
+      <ConfirmResetContainer>
+        <Styledh1>Confirm Password Reset</Styledh1>
+        <ResetSplitContainer>
+          <div>
+            <InputLabelDiv>
+              <StyledLabel>Email:</StyledLabel>
+              <ConfirmInput
+                name="email"
+                value={data.email}
+                type="email"
+                placeholder="Email"
+                onChange={handleInput}
+              />
+              <Error errorMessage={fieldErrors["email"]} />
+            </InputLabelDiv>
 
-                        <InputLabelDiv>
-                            <StyledLabel>Code:</StyledLabel>
-                            <ConfirmInput
-                                name="code"
-                                value={data.first_name}
-                                type="text"
-                                placeholder="Confirmation Code"
-                                required
-                                onChange={handleInput}
-                            />{" "}
-                            <Error errorMessage={fieldErrors["code"]}/>
-                        </InputLabelDiv>
-                    </div>
-                    <div>
-                        <InputLabelDiv>
-                            <StyledLabel>Password:</StyledLabel>
-                            <ConfirmInput
-                                name="password"
-                                value={data.password}
-                                type="password"
-                                placeholder="Password"
-                                required
-                                onChange={handleInput}
-                            />
-                            <Error errorMessage={fieldErrors["password"]}/>
-                        </InputLabelDiv>
+            <InputLabelDiv>
+              <StyledLabel>Code:</StyledLabel>
+              <ConfirmInput
+                name="code"
+                value={data.first_name}
+                type="text"
+                placeholder="Confirmation Code"
+                required
+                onChange={handleInput}
+              />{" "}
+              <Error errorMessage={fieldErrors["code"]} />
+            </InputLabelDiv>
+          </div>
+          <div>
+            <InputLabelDiv>
+              <StyledLabel>Password:</StyledLabel>
+              <ConfirmInput
+                name="password"
+                value={data.password}
+                type="password"
+                placeholder="Password"
+                required
+                onChange={handleInput}
+              />
+              <Error errorMessage={fieldErrors["password"]} />
+            </InputLabelDiv>
 
-                        <InputLabelDiv>
-                            <StyledLabel>Repeat Password:</StyledLabel>
-                            <ConfirmInput
-                                name="password_repeat"
-                                value={data.password_repeat}
-                                type="password"
-                                placeholder="Repeat Password"
-                                required
-                                onChange={handleInput}
-                            />
-                            <Error errorMessage={fieldErrors["password_repeat"]}/>
-                        </InputLabelDiv>
-                    </div>
+            <InputLabelDiv>
+              <StyledLabel>Repeat Password:</StyledLabel>
+              <ConfirmInput
+                name="password_repeat"
+                value={data.password_repeat}
+                type="password"
+                placeholder="Repeat Password"
+                required
+                onChange={handleInput}
+              />
+              <Error errorMessage={fieldErrors["password_repeat"]} />
+            </InputLabelDiv>
+          </div>
 
-                    <InputLabelDiv>
-                        <ConfirmBtnWrapper>
-                            <ConfirmButton
-                                onClick={onSubmitForm}>{sendStatus ? "Confirming..." : "Confirm"}</ConfirmButton>
-                        </ConfirmBtnWrapper>
-                        <Error errorMessage={non_field_error}/>
-                    </InputLabelDiv>
-                </ResetSplitContainer>
-            </ConfirmResetContainer>
-        </PageContainer>
-    );
+          <InputLabelDiv>
+            <ConfirmBtnWrapper>
+              <ConfirmButton onClick={onSubmitForm}>
+                {sendStatus ? "Confirming..." : "Confirm"}
+              </ConfirmButton>
+            </ConfirmBtnWrapper>
+            <Error errorMessage={non_field_error} />
+          </InputLabelDiv>
+        </ResetSplitContainer>
+      </ConfirmResetContainer>
+    </PageContainer>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        fieldErrors: state.verificationReducer.verificationErrors,
-        non_field_error: state.verificationReducer.non_field_error,
-    };
+  return {
+    fieldErrors: state.verificationReducer.verificationErrors,
+    non_field_error: state.verificationReducer.non_field_error,
+  };
 };
 
-export default connect(mapStateToProps, {confirmPasswordResetAction})(ConfirmPasswordReset);
+export default connect(mapStateToProps, { confirmPasswordResetAction })(
+  ConfirmPasswordReset
+);
