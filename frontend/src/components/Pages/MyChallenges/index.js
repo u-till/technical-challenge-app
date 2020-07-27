@@ -41,18 +41,10 @@ const MyChallenges = ({ getAllUserChallengesAction, userChallenges }) => {
   useEffect(() => {
     getAllUserChallengesAction();
   }, [getAllUserChallengesAction]);
-  // Filters so only challenges the User can still do are displayed, or "No Challenges to Display" if none
-  const filterCandidateChallenges = () => {
-    const filteredChallenges = userChallenges.filter(
-      (challenge) =>
-        !(
-          challenge.status === "PASSED" ||
-          challenge.status === "FAILED" ||
-          challenge.status === "NEEDS REVIEW"
-        )
-    );
-    if (filteredChallenges.length) {
-      return filteredChallenges.map((challenge) => (
+  // Used to render Candidate's challenges, if none to display, shows "No Challenges to Display"
+  const renderCandidateChallenges = () => {
+    if (userChallenges.length) {
+      return userChallenges.map((challenge) => (
         <GenericChallengeCard
           key={`Challenge ${challenge.id}`}
           challenge={challenge}
@@ -71,7 +63,7 @@ const MyChallenges = ({ getAllUserChallengesAction, userChallenges }) => {
           {userChallenges === null ? (
             <GenericSpinner />
           ) : (
-            filterCandidateChallenges()
+            renderCandidateChallenges()
           )}
         </ChallengesListContainer>
       </ChallengesContainer>
