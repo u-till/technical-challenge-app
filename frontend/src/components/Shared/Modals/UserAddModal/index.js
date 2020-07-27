@@ -44,9 +44,6 @@ const CreateModalContainer = styled(BaseContainer)`
     display: flex;
     justify-content: space-between;
   }
-  > div:last-child {
-    margin-top: 32px;
-  }
 `;
 
 const EditUserInfo = styled.div`
@@ -76,18 +73,19 @@ const RoleDropdown = styled.select`
   border: 1px solid #dbdbdb;
   box-sizing: border-box;
   border-radius: 5px;
-  height: ${rem("38px")};
+  height: 40px;
   width: 100%;
+  padding-bottom: 0px;
   &:focus {
     outline: none;
   }
 `;
 
 const InputLabelDiv = styled.div`
-  height: ${rem("98px")};
   display: flex;
   justify-content: space-between;
   flex-direction: column;
+  padding-bottom: 20px;
 `;
 
 const StyledInput = styled(BaseInput)`

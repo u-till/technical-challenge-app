@@ -525,7 +525,6 @@ const Challenge = ({
     setHintOpen(false);
   };
 
-
   const renderControlPanelV2 = (progressValue) => {
     return (
       <>
@@ -544,9 +543,7 @@ const Challenge = ({
         {progressValue === 5 ? (
           <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
         ) : (
-          <PrevNextButton onClick={nextButtonHandler}>
-            Next
-          </PrevNextButton>
+          <PrevNextButton onClick={nextButtonHandler}>Next</PrevNextButton>
         )}
       </>
     );
@@ -592,7 +589,10 @@ const Challenge = ({
                               <p>Hide Hint</p>
                             </HintButton>
                             <p>
-                              {targetChallenge.questions[progressValue].fk_tip_question[0].content}
+                              {
+                                targetChallenge.questions[progressValue]
+                                  .fk_tip_question[0].content
+                              }
                             </p>
                           </div>
                         </Slide>
