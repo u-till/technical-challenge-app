@@ -181,12 +181,12 @@ const ConfirmPasswordReset = ({
           </div>
 
           <InputLabelDiv>
+            <Error errorMessage={non_field_error} />
             <ConfirmBtnWrapper>
               <ConfirmButton onClick={onSubmitForm}>
                 {sendStatus ? "Confirming..." : "Confirm"}
               </ConfirmButton>
             </ConfirmBtnWrapper>
-            <Error errorMessage={non_field_error} />
           </InputLabelDiv>
         </ResetSplitContainer>
       </ConfirmResetContainer>
