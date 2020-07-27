@@ -11,6 +11,10 @@ import {
   resendChallengeInvitationAction,
   resendChallengeResultAction,
 } from "../../../../store/actions/challengeActions";
+import {
+  GenericSpinnerSmall,
+  GenericSpinnerSmallBtn,
+} from "../../GenericSpinner";
 
 //////////
 // STYLES
@@ -158,7 +162,7 @@ const GenericChallengeCardSmall = ({ challenge }) => {
               onClick={resendResultEmail}
             >
               {resultStatus ? (
-                <FontAwesomeIcon icon={["fas", "spinner"]} />
+                <GenericSpinnerSmallBtn />
               ) : (
                 <FontAwesomeIcon icon={["fas", "trophy"]} />
               )}
@@ -170,7 +174,7 @@ const GenericChallengeCardSmall = ({ challenge }) => {
               onClick={resendInvitationEmail}
             >
               {inviteStatus ? (
-                <FontAwesomeIcon icon={["fas", "spinner"]} />
+                <GenericSpinnerSmallBtn />
               ) : (
                 <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
               )}

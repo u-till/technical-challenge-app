@@ -11,6 +11,7 @@ import {
   resendChallengeResultAction,
 } from "../../../../store/actions/challengeActions";
 import { useDispatch } from "react-redux";
+import { GenericSpinnerSmallBtn } from "../../GenericSpinner";
 
 //////////
 // STYLES
@@ -149,7 +150,7 @@ const GenericChallengeCardManage = ({ challenge }) => {
               onClick={resendResultEmail}
             >
               {resultStatus ? (
-                <FontAwesomeIcon icon={["fas", "spinner"]} />
+                <GenericSpinnerSmallBtn />
               ) : (
                 <FontAwesomeIcon icon={["fas", "trophy"]} />
               )}
@@ -161,7 +162,7 @@ const GenericChallengeCardManage = ({ challenge }) => {
               onClick={resendInvitationEmail}
             >
               {inviteStatus ? (
-                <FontAwesomeIcon icon={["fas", "spinner"]} />
+                <GenericSpinnerSmallBtn />
               ) : (
                 <FontAwesomeIcon icon={["fas", "envelope-open-text"]} />
               )}
