@@ -19,6 +19,26 @@ def generate_challenge_created_content(candidate):
             <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68"></table>"""
 
 
+def generate_challenge_created_when_inactive_content(candidate):
+    return f"""<table border="0" align="center" cellpadding="0" cellspacing="0"><h2 style="font-weight:normal">Hi, {candidate.first_name}! You have been assigned a Propulsion Academy Technical Challenge!</h2>
+            <br></br>
+            <h3 style="font-weight:normal">In order to start your challenge you need to you need to verify your email.</h3>
+            <h3 style="font-weight:normal">Please click the button below to confirm your user information:</h3>
+            <br></br>
+            <a href="https://tech-challenge.propulsion-learn.ch/verification/{candidate.id}?email={candidate.email}&first_name={candidate.first_name}&last_name={candidate.last_name}&phone={candidate.phone}"><button style="outline:none; background: #EF485C; border-radius: 40px; width: 180px; height: 40px; color: white; font-size: 16px; border: none;" >Go to verification</button></a>
+            <br></br>
+            <br></br>
+            <h3> After verification you can login and go to Challenges on your personal area.</h3>
+            <br></br>
+            <h3 style="font-weight:normal">If after clicking the button you are not redirected to the verification page please send us an email to support@propulsionacademy.com</h3>
+            <h3 style="font-weight:normal">Regards,</h3>
+            <p><strong>Full-Stack Propulsion Team</strong><br>
+            Technoparkstrasse 1<br>
+            8005 Zürich, Switzerland<br>
+            https://propulsion.academy/full-stack</p>
+            <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68"></table>"""
+
+
 def generate_challenge_score_failed_candidate(candidate):
     return f"""<h3 style="font-weight:normal">Dear {candidate.first_name},</h3>
             <h3 style="font-weight:normal">Though you demonstrated excellent motivation and willingness to learn in trying to pass the technical challenge, additional work is required to reach the level needed to get into the program. We recommend that you keep practicing with the intention of joining a future program.</h3>
@@ -128,3 +148,4 @@ def generate_password_reset(target_user):
             https://propulsion.academy/full-stack</p>
             <img src="https://ci6.googleusercontent.com/proxy/D1srIpj53axfX_D5ZAZRlbc5aW_wo_qIcq9U0HynZroJDhCh-sS_cobQ8ulokzLaAm29-KHvII6JPVqy3tkJueK7TNtoX12ac-XXZg33ARbMSnZFJaozKxXKg6jrbks2O1NuFOGYPTDs0g0l0asVzEhuJLh7aYGPxZZejS1B5fmSlo_8CWH8Siri5c8dy4kn0yZPYly-oIw4lNS2LA=s0-d-e1-ft#https://docs.google.com/uc?export=download&amp;id=1O94ewGHQ6a9Ys8n9oZvgDoaEBUEOdAKx&amp;revid=0B5Six9hxnFnSWmtZUGFXQWpxZFUyS0wxdjlpci9IWEcveE9NPQ" width="200" height="68" class="CToWUd">
             """
+
