@@ -513,13 +513,26 @@ const Challenge = ({
     }
   };
 
+  const previousButtonHandler = (e) => {
+    e.preventDefault();
+    setProgressValue(progressValue - 1);
+    setHintOpen(false);
+  };
+
+  const nextButtonHandler = (e) => {
+    e.preventDefault();
+    setProgressValue(progressValue + 1);
+    setHintOpen(false);
+  };
+
+
   const renderControlPanelV2 = (progressValue) => {
     return (
       <>
         {progressValue === 0 ? (
           <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
         ) : (
-          <PrevNextButton onClick={(e) => setProgressValue(progressValue - 1)}>
+          <PrevNextButton onClick={previousButtonHandler}>
             Previous
           </PrevNextButton>
         )}
@@ -531,7 +544,7 @@ const Challenge = ({
         {progressValue === 5 ? (
           <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
         ) : (
-          <PrevNextButton onClick={(e) => setProgressValue(progressValue + 1)}>
+          <PrevNextButton onClick={nextButtonHandler}>
             Next
           </PrevNextButton>
         )}
@@ -579,16 +592,7 @@ const Challenge = ({
                               <p>Hide Hint</p>
                             </HintButton>
                             <p>
-                              Lorem ipsum dolor sit amet, consectetur adipiscing
-                              elit, sed do eiusmod tempor incididunt ut labore
-                              et dolore magna aliqua. Ut enim ad minim veniam,
-                              quis nostrud exercitation ullamco laboris nisi ut
-                              aliquip ex ea commodo consequat. Duis aute irure
-                              dolor in reprehenderit in voluptate velit esse
-                              cillum dolore eu fugiat nulla pariatur. Excepteur
-                              sint occaecat cupidatat non proident, sunt in
-                              culpa qui officia deserunt mollit anim id est
-                              laborum.
+                              {targetChallenge.questions[progressValue].fk_tip_question[0].content}
                             </p>
                           </div>
                         </Slide>
@@ -598,7 +602,7 @@ const Challenge = ({
                             <FontAwesomeIcon
                               icon={["far", "question-circle"]}
                             />
-                            <p>Hide Hint</p>
+                            <p>{isHintOpen ? "Hide Hint" : "Show Hint"}</p>
                           </HintButton>
                         </div>
                       )}
