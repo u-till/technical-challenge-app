@@ -126,27 +126,29 @@ const StartChallenge = () => {
                 </P>
                 <br></br>
                 <P>
-                  On the the Upper Left Panel is your Coding Challenge Instructions.
-                  Pay close attention to the naming of functions, functions with
-                  the wrong name will not be tested. If you need some assistance
-                  feel free to click the " Get Hint " button for some suggestions.
+                  On the the Upper Left Panel is your Coding Challenge
+                  Instructions. Pay close attention to the naming of functions,
+                  functions with the wrong name will not be tested. If you need
+                  some assistance feel free to click the " Get Hint " button for
+                  some suggestions.
                 </P>
                 <br></br>
                 <P>
-                  On the Lower Right Panel is the tests your code will be evaluated
-                  against. The result of each test will be displayed to the right
-                  of the test as a green checkmark or red X. A green checkmark means
-                  a test passed, a red X means the test failed. If tests fail, feel
-                  free to change your code and submit again.
+                  On the Lower Right Panel is the tests your code will be
+                  evaluated against. The result of each test will be displayed
+                  to the right of the test as a green checkmark or red X. A
+                  green checkmark means a test passed, a red X means the test
+                  failed. If tests fail, feel free to change your code and
+                  submit again.
                 </P>
-                 <br></br>
+                <br></br>
                 <P>
-                  On the Right Panel is your coding input window. You will
-                  enter your code here, paying close attention to naming and
-                  syntax. When you think your code is correct, click the Submit
-                  button to submit and evaluate your answer to the question against
-                  the listed tests. If the tests Fail, you are welcome to adjust your
-                  code and try again.
+                  On the Right Panel is your coding input window. You will enter
+                  your code here, paying close attention to naming and syntax.
+                  When you think your code is correct, click the Submit button
+                  to submit and evaluate your answer to the question against the
+                  listed tests. If the tests Fail, you are welcome to adjust
+                  your code and try again.
                 </P>
                 <br></br>
                 <P>Best of Luck with your Technical Coding Challenge!!</P>

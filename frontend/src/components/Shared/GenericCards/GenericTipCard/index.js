@@ -167,7 +167,6 @@ const GenericTipCard = ({ tip, questionId }) => {
       ) : (
         <TipCard>
           <p>
-
             {tip.content.length > 160
               ? `${tip.content.slice(0, 160)}...`
               : tip.content}
