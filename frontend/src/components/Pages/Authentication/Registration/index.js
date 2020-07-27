@@ -43,6 +43,7 @@ const SignupSplitContainer = styled.div`
     align-items: center;
     padding-left: 16px;
     padding-right: 16px;
+    padding-bottom: 32px;
   }
 `;
 
@@ -272,9 +273,9 @@ const Registration = ({
                   {sendStatus ? "Registering..." : "Register"}
                 </RegistrationButton>
               </RegisterBtnWrapper>
-              <Error errorMessage={non_field_error} />
             </InputLabelDiv>
           </div>
+          <Error errorMessage={non_field_error} />
         </SignupSplitContainer>
       </SignupContainer>
     </PageContainer>
