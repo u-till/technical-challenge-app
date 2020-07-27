@@ -3,7 +3,11 @@ import styled from "styled-components";
 import { rem } from "polished";
 import { BaseContainer } from "../../../style/GlobalWrappers";
 import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
-import { BlueButton, RedButton } from "../../../style/GlobalButtons";
+import {
+  BaseButton,
+  BlueButton,
+  RedButton,
+} from "../../../style/GlobalButtons";
 import {
   Container as ResizeContainer,
   Section,
@@ -25,6 +29,7 @@ import Error from "../../Shared/Error";
 import { GenericSpinnerSmall } from "../../Shared/GenericSpinner";
 import Timer from "react-compound-timer";
 import GenericDoneModal from "../../Shared/Modals/GenericDoneModal/GenericDoneModal";
+import Slide from "react-reveal/Slide";
 
 //////////
 // STYLE
@@ -89,6 +94,35 @@ const ChallengeTitle = styled(Styledh1)`
 
 const DescriptionContent = styled.div`
   overflow-y: auto;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 100%;
+`;
+
+const GetHintContainer = styled.div`
+  display: flex;
+  flex-direction: column;
+  transition: all 0.5s ease;
+  color: #767676;
+  padding-top: 24px;
+  p {
+    padding-top: 8px;
+  }
+`;
+
+const HintButton = styled.button`
+  color: #767676;
+  border: none;
+  background: none;
+  width: 100px;
+  p {
+    display: inline;
+    padding-left: 8px;
+  }
+  :hover {
+    color: #363636;
+  }
 `;
 
 const InputColumn = styled(Section)`
@@ -345,6 +379,11 @@ const Challenge = ({
     setModalDoneOpen(!isModalDoneOpen);
   };
 
+  const [isHintOpen, setHintOpen] = useState(false);
+  const HintDoneOpenCloseHandler = () => {
+    setHintOpen(!isHintOpen);
+  };
+
   const [isRunningCode, setRunningCode] = useState(false);
   const [timerValue, setTimerValue] = useState(null);
   const [progressValue, setProgressValue] = useState(0);
@@ -529,6 +568,41 @@ const Challenge = ({
                     <p>
                       {targetChallenge.questions[progressValue].instructions}
                     </p>
+                    <GetHintContainer>
+                      {isHintOpen ? (
+                        <Slide bottom>
+                          <div>
+                            <HintButton onClick={HintDoneOpenCloseHandler}>
+                              <FontAwesomeIcon
+                                icon={["far", "question-circle"]}
+                              />
+                              <p>Hide Hint</p>
+                            </HintButton>
+                            <p>
+                              Lorem ipsum dolor sit amet, consectetur adipiscing
+                              elit, sed do eiusmod tempor incididunt ut labore
+                              et dolore magna aliqua. Ut enim ad minim veniam,
+                              quis nostrud exercitation ullamco laboris nisi ut
+                              aliquip ex ea commodo consequat. Duis aute irure
+                              dolor in reprehenderit in voluptate velit esse
+                              cillum dolore eu fugiat nulla pariatur. Excepteur
+                              sint occaecat cupidatat non proident, sunt in
+                              culpa qui officia deserunt mollit anim id est
+                              laborum.
+                            </p>
+                          </div>
+                        </Slide>
+                      ) : (
+                        <div>
+                          <HintButton onClick={HintDoneOpenCloseHandler}>
+                            <FontAwesomeIcon
+                              icon={["far", "question-circle"]}
+                            />
+                            <p>Hide Hint</p>
+                          </HintButton>
+                        </div>
+                      )}
+                    </GetHintContainer>
                   </DescriptionContent>
                 </DescriptionContainer>
                 <TestsContainer>
