@@ -32,7 +32,18 @@ const ChallengeCard = styled.div`
 `;
 
 const Challengeh2 = styled(Styledh2)`
-  font-size: ${rem("18px")};
+  font-size: ${rem("16px")};
+`;
+
+const StatusText = styled.p`
+  font-size: ${rem("14px")};
+`;
+
+const RightContainer = styled.div`
+  width: 60%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
 `;
 
 const DeleteButton = styled(RedButton)`
@@ -75,11 +86,25 @@ const GenericChallengeCardSmall = ({ challenge }) => {
     await dispatch(resendChallengeResultAction(challenge.id));
     setResultStatus(false);
   };
+  // Conditionally change the background colors of the cards based on Status
+  const renderBackground = () => {
+    if (challenge.status === "PASSED") {
+      return {backgroundColor: "blue"}
+    }
+    if (challenge.status === "FAILED") {
+      return {backgroundColor: "red"}
+    }
+    if (challenge.status === "NEEDS REVIEW") {
+      return {backgroundColor: "green"}
+    }
+    return {backgroundColor: "yellow"}
+  };
 
   return (
-    <ChallengeCard>
+    <ChallengeCard style={renderBackground()}>
       <Challengeh2>{`Challenge ${challenge.id}`}</Challengeh2>
-      <p>{`Status: ${challenge.status}`}</p>
+      <RightContainer>
+      <StatusText>{`Status: ${challenge.status}`}</StatusText>
       <DeleteButton
         onClick={ModalDeleteOpenCloseHandler}
         data-tip="Delete Challenge"
@@ -122,6 +147,7 @@ const GenericChallengeCardSmall = ({ challenge }) => {
           <ReactTooltip place="top" type="dark" effect="solid" />
         </SendButton>
       )}
+      </RightContainer>
     </ChallengeCard>
   );
 };
