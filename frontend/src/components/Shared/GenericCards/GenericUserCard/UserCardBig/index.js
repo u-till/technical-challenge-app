@@ -1,11 +1,15 @@
 import Error from "../../../Error";
-import {BaseButton, BlueButton, RedButton} from "../../../../../style/GlobalButtons";
+import {
+  BaseButton,
+  BlueButton,
+  RedButton,
+} from "../../../../../style/GlobalButtons";
 import GenericChallengeCardSmall from "../../GenericChallengeCardSmall";
 import GenericDeleteModal from "../../../Modals/GenericDeleteModal/GenericDeleteModal";
 import React from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {BaseInput} from "../../../../../style/GlobalInputs";
+import { rem } from "polished";
+import { BaseInput } from "../../../../../style/GlobalInputs";
 
 //////////
 // STYLES
@@ -167,165 +171,162 @@ const DeleteSave = styled.div`
 //////////
 
 const BigCard = ({
-                     data,
-                     handleInput,
-                     fieldErrors,
-                     user,
-                     handleClick,
-                     hiddenFileInput,
-                     imageSelectHandler,
-                     handleChallengeCreate,
-                     isCreating,
-                     ModalDeleteOpenCloseHandler,
-                     isModalDeleteOpen,
-                     non_field_error,
-                     editUserHandler,
-                     userSaveHandler
-                 }) => {
-    return (
-        <UserCardBig>
-            <div>
-                <EditUserInfo>
-                    <div>
-                        <InputLabelDiv>
-                            <StyledLabel>First Name:</StyledLabel>
-                            <StyledInput
-                                type="text"
-                                placeholder="First Name"
-                                required
-                                value={data.first_name}
-                                onChange={handleInput}
-                                name="first_name"
-                            />
-                            <Error errorMessage={fieldErrors["first_name"]}/>
-                        </InputLabelDiv>
-                        <InputLabelDiv>
-                            <StyledLabel>Last Name:</StyledLabel>
-                            <StyledInput
-                                type="text"
-                                placeholder="Last Name"
-                                required
-                                value={data.last_name}
-                                onChange={handleInput}
-                                name="last_name"
-                            />
-                            <Error errorMessage={fieldErrors["last_name"]}/>
-                        </InputLabelDiv>
-                        <InputLabelDiv>
-                            <StyledLabel>Email:</StyledLabel>
-                            <StyledInput
-                                type="email"
-                                placeholder="Email"
-                                required
-                                value={data.email}
-                                onChange={handleInput}
-                                name="email"
-                            />
-                            <Error errorMessage={fieldErrors["email"]}/>
-                        </InputLabelDiv>
-                    </div>
-                    <div>
-                        <InputLabelDiv>
-                            <StyledLabel>Phone:</StyledLabel>
-                            <StyledInput
-                                type="¨tel"
-                                placeholder="Phone Nr."
-                                required
-                                value={data.phone}
-                                onChange={handleInput}
-                                name="phone"
-                            />
-                            <Error errorMessage={fieldErrors["phone"]}/>
-                        </InputLabelDiv>
-                        <InputLabelDiv>
-                            <StyledLabel>Role:</StyledLabel>
-                            <RoleDropdown
-                                id="role"
-                                name="Role"
-                                defaultValue={user.is_staff ? true : false}
-                                disabled
-                            >
-                                <option value={true}>Staff</option>
-                                <option value={false}>Candidate</option>
-                            </RoleDropdown>
-                            <Error/>
-                        </InputLabelDiv>
-                        <InputLabelDiv>
-                            <StyledLabel>Avatar:</StyledLabel>
-                            <BtnWrapper>
-                                <UploadButton onClick={handleClick}>
-                                    {data.avatar ? "File Uploaded" : "Upload Avatar"}
-                                </UploadButton>
-                                <input
-                                    type="file"
-                                    name="avatar"
-                                    ref={hiddenFileInput}
-                                    onChange={imageSelectHandler}
-                                    style={{display: "none"}}
-                                />
-                            </BtnWrapper>
-                        </InputLabelDiv>
-                    </div>
-                </EditUserInfo>
-                <EditUserChallenge>
-                    <AddChallenge>
-                        <InputLabelDiv>
-                            <StyledLabel>Add Challenge:</StyledLabel>
-                            <ChallengeCategoryDropdown>
-                                <option value="fullstack">Full Stack</option>
-                                <option value="datascience">Data Science</option>
-                                <option value="reactredux">React & Redux</option>
-                                <option value="dockerdeployment">
-                                    Docker & Deployment
-                                </option>
-                                <option value="aiforleaders">AI for Leaders</option>
-                                <option value="pythonprogramming">
-                                    Python programming
-                                </option>
-                            </ChallengeCategoryDropdown>
-                        </InputLabelDiv>
-                        <BlueButton onClick={handleChallengeCreate}>
-                            {isCreating ? "Creating..." : "Create Challenge"}
-                        </BlueButton>
-                        <InputLabelDiv>
-                            <StyledLabel>User Created:</StyledLabel>
-                            <p>{`on ${user.date_joined.slice(0, 10)}`}</p>
-                        </InputLabelDiv>
-                    </AddChallenge>
-                    <ChallengeList>
-                        {user.fk_challenges_assigned
-                            ? user.fk_challenges_assigned.map((challenge) => (
-                                <GenericChallengeCardSmall
-                                    key={`challenge ${challenge.id}`}
-                                    challenge={challenge}
-                                />
-                            ))
-                            : null}
-                    </ChallengeList>
-                </EditUserChallenge>
-            </div>
-            <DeleteSave>
-                <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
-                {isModalDeleteOpen ? (
-                    <GenericDeleteModal
-                        ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
-                        type="users"
-                        typeId={user.id}
-                        from="manageusers"
-                    >
-                        <p>
-                            Are you sure you want to delete the User{" "}
-                            {user.first_name + " " + user.last_name}?
-                        </p>
-                    </GenericDeleteModal>
-                ) : null}
-                <Error errorMessage={non_field_error}/>
-                <div>
-                    <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
-                    <BlueButton onClick={userSaveHandler}>Save</BlueButton>
-                </div>
-            </DeleteSave>
-        </UserCardBig>)
+  data,
+  handleInput,
+  fieldErrors,
+  user,
+  handleClick,
+  hiddenFileInput,
+  imageSelectHandler,
+  handleChallengeCreate,
+  isCreating,
+  ModalDeleteOpenCloseHandler,
+  isModalDeleteOpen,
+  non_field_error,
+  editUserHandler,
+  userSaveHandler,
+}) => {
+  return (
+    <UserCardBig>
+      <div>
+        <EditUserInfo>
+          <div>
+            <InputLabelDiv>
+              <StyledLabel>First Name:</StyledLabel>
+              <StyledInput
+                type="text"
+                placeholder="First Name"
+                required
+                value={data.first_name}
+                onChange={handleInput}
+                name="first_name"
+              />
+              <Error errorMessage={fieldErrors["first_name"]} />
+            </InputLabelDiv>
+            <InputLabelDiv>
+              <StyledLabel>Last Name:</StyledLabel>
+              <StyledInput
+                type="text"
+                placeholder="Last Name"
+                required
+                value={data.last_name}
+                onChange={handleInput}
+                name="last_name"
+              />
+              <Error errorMessage={fieldErrors["last_name"]} />
+            </InputLabelDiv>
+            <InputLabelDiv>
+              <StyledLabel>Email:</StyledLabel>
+              <StyledInput
+                type="email"
+                placeholder="Email"
+                required
+                value={data.email}
+                onChange={handleInput}
+                name="email"
+              />
+              <Error errorMessage={fieldErrors["email"]} />
+            </InputLabelDiv>
+          </div>
+          <div>
+            <InputLabelDiv>
+              <StyledLabel>Phone:</StyledLabel>
+              <StyledInput
+                type="¨tel"
+                placeholder="Phone Nr."
+                required
+                value={data.phone}
+                onChange={handleInput}
+                name="phone"
+              />
+              <Error errorMessage={fieldErrors["phone"]} />
+            </InputLabelDiv>
+            <InputLabelDiv>
+              <StyledLabel>Role:</StyledLabel>
+              <RoleDropdown
+                id="role"
+                name="Role"
+                defaultValue={user.is_staff ? true : false}
+                disabled
+              >
+                <option value={true}>Staff</option>
+                <option value={false}>Candidate</option>
+              </RoleDropdown>
+              <Error />
+            </InputLabelDiv>
+            <InputLabelDiv>
+              <StyledLabel>Avatar:</StyledLabel>
+              <BtnWrapper>
+                <UploadButton onClick={handleClick}>
+                  {data.avatar ? "File Uploaded" : "Upload Avatar"}
+                </UploadButton>
+                <input
+                  type="file"
+                  name="avatar"
+                  ref={hiddenFileInput}
+                  onChange={imageSelectHandler}
+                  style={{ display: "none" }}
+                />
+              </BtnWrapper>
+            </InputLabelDiv>
+          </div>
+        </EditUserInfo>
+        <EditUserChallenge>
+          <AddChallenge>
+            <InputLabelDiv>
+              <StyledLabel>Add Challenge:</StyledLabel>
+              <ChallengeCategoryDropdown>
+                <option value="fullstack">Full Stack</option>
+                <option value="datascience">Data Science</option>
+                <option value="reactredux">React & Redux</option>
+                <option value="dockerdeployment">Docker & Deployment</option>
+                <option value="aiforleaders">AI for Leaders</option>
+                <option value="pythonprogramming">Python programming</option>
+              </ChallengeCategoryDropdown>
+            </InputLabelDiv>
+            <BlueButton onClick={handleChallengeCreate}>
+              {isCreating ? "Creating..." : "Create Challenge"}
+            </BlueButton>
+            <InputLabelDiv>
+              <StyledLabel>User Created:</StyledLabel>
+              <p>{`on ${user.date_joined.slice(0, 10)}`}</p>
+            </InputLabelDiv>
+          </AddChallenge>
+          <ChallengeList>
+            {user.fk_challenges_assigned
+              ? user.fk_challenges_assigned.map((challenge) => (
+                  <GenericChallengeCardSmall
+                    key={`challenge ${challenge.id}`}
+                    challenge={challenge}
+                  />
+                ))
+              : null}
+          </ChallengeList>
+        </EditUserChallenge>
+      </div>
+      <DeleteSave>
+        <RedButton onClick={ModalDeleteOpenCloseHandler}>Delete</RedButton>
+        {isModalDeleteOpen ? (
+          <GenericDeleteModal
+            ModalDeleteOpenCloseHandler={ModalDeleteOpenCloseHandler}
+            type="users"
+            typeId={user.id}
+            from="manageusers"
+          >
+            <p>
+              Are you sure you want to delete the User{" "}
+              {user.first_name + " " + user.last_name}?
+            </p>
+          </GenericDeleteModal>
+        ) : null}
+        <Error errorMessage={non_field_error} />
+        <div>
+          <BlueButton onClick={editUserHandler}>Cancel</BlueButton>
+          <BlueButton onClick={userSaveHandler}>Save</BlueButton>
+        </div>
+      </DeleteSave>
+    </UserCardBig>
+  );
 };
 
-export default BigCard
+export default BigCard;

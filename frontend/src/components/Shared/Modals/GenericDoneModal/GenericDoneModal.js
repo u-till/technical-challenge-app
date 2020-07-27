@@ -40,7 +40,11 @@ const DoneModalContainer = styled(BaseContainer)`
   }
 `;
 
-const GenericDoneModal = ({ ModalDoneOpenCloseHandler, doneHandler, sendStatus }) => {
+const GenericDoneModal = ({
+  ModalDoneOpenCloseHandler,
+  doneHandler,
+  sendStatus,
+}) => {
   return (
     <DoneModalOverlay>
       <DoneModalContainer>
@@ -53,7 +57,9 @@ const GenericDoneModal = ({ ModalDoneOpenCloseHandler, doneHandler, sendStatus }
         </p>
         <div>
           <BlueButton onClick={ModalDoneOpenCloseHandler}>Cancel</BlueButton>
-          <RedButton onClick={doneHandler}>{sendStatus ? "Sending..." : "Submit & Finish"}</RedButton>
+          <RedButton onClick={doneHandler}>
+            {sendStatus ? "Sending..." : "Submit & Finish"}
+          </RedButton>
         </div>
       </DoneModalContainer>
     </DoneModalOverlay>

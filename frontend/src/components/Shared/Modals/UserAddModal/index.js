@@ -233,7 +233,9 @@ const UserAddModal = ({
         <div>
           <RedButton onClick={userCancelHandler}>Cancel</RedButton>
           <Error errorMessage={non_field_error} />
-          <BlueButton onClick={userSaveHandler}>{sendStatus ? "Adding..." : "Add"}</BlueButton>
+          <BlueButton onClick={userSaveHandler}>
+            {sendStatus ? "Adding..." : "Add"}
+          </BlueButton>
         </div>
       </CreateModalContainer>
     </CreateModalOverlay>

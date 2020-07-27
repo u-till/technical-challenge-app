@@ -113,7 +113,7 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
     setSendStatus(true);
     dispatch(resetError());
     const userData = new FormData();
-    userData.append("email", userObj.email)
+    userData.append("email", userObj.email);
     userData.append("first_name", data.first_name);
     userData.append("last_name", data.last_name);
     userData.append("phone", data.phone);
@@ -193,7 +193,9 @@ const UserModal = ({ userObj, showProfileContextHandler }) => {
         />
         <ButtonWrapper>
           <RedButton onClick={showProfileContextHandler}>Cancel</RedButton>
-          <BlueButton onClick={onSubmitForm}>{sendStatus ? "Saving..." : "Save"}</BlueButton>
+          <BlueButton onClick={onSubmitForm}>
+            {sendStatus ? "Saving..." : "Save"}
+          </BlueButton>
         </ButtonWrapper>
       </UserModalContainer>
     </>

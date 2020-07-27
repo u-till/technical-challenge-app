@@ -96,7 +96,7 @@ const NumberInput = styled(BaseInput)`
 
 const GenericTipCard = ({ tip, questionId }) => {
   const dispatch = useDispatch();
-   // Used to control the display of Delete Modal
+  // Used to control the display of Delete Modal
   const [isModalDeleteOpen, setModalDeleteOpen] = useState(false);
   const ModalDeleteOpenCloseHandler = () => {
     setModalDeleteOpen(!isModalDeleteOpen);
