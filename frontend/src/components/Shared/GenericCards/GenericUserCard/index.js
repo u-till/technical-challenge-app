@@ -91,12 +91,13 @@ const GenericUserCard = ({
         avatar: null,
         is_staff: user.is_staff,
     });
-    // Used to change all local state User data values
     const handleInput = (e) => {
         const name = e.target.name;
         const value = e.target.value;
         setData({...data, [name]: value});
     };
+    //Used to manage the icon of resend button during request
+    const [resendStatus, setResendStatus] = useState(false);
     // Following used by Avatar button to handle File upload
     const hiddenFileInput = React.useRef(null);
     const handleClick = () => {
@@ -155,11 +156,9 @@ const GenericUserCard = ({
     // Used by resend user validation button
     const resendEmailHandler = async (e) => {
         e.preventDefault();
-        //start animation
-        const response = await resendUserValidationAction(user.id);
-        if (response.status === 200) {
-            //stop animation
-        }
+        setResendStatus(true);
+        await resendUserValidationAction(user.id);
+        setResendStatus(false);
     };
 
     return (
@@ -203,7 +202,8 @@ const GenericUserCard = ({
                         onClick={resendEmailHandler}
                         data-tip="Resend Verification Email"
                     >
-                        <FontAwesomeIcon icon={["far", "paper-plane"]}/>
+                        {resendStatus ? (<FontAwesomeIcon icon={["fas", "spinner"]}/>) : (
+                            <FontAwesomeIcon icon={["far", "paper-plane"]}/>)}
                         <ReactTooltip place="top" type="dark" effect="solid"/>
                     </RoundGreyButton>
                     <RoundGreyButton onClick={editUserHandler}>

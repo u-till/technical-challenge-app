@@ -77,25 +77,22 @@ const GenericChallengeCardManage = ({challenge}) => {
     const ModalDeleteOpenCloseHandler = () => {
         setModalDeleteOpen(!isModalDeleteOpen);
     };
+    // Used to manage icon displayed on resend buttons during request
+    const [resultStatus, setResultStatus] = useState(false);
+    const [inviteStatus, setInviteStatus] = useState(false);
     // Used by Resend Invitation Email button
     const resendInvitationEmail = async (e) => {
         e.preventDefault();
-        //start animation
-        const response = await dispatch(
-            resendChallengeInvitationAction(challenge.id)
-        );
-        if (response.status === 200) {
-            //stop animation
-        }
+        setInviteStatus(true);
+        await dispatch(resendChallengeInvitationAction(challenge.id));
+        setInviteStatus(false);
     };
     // Used by Resend Results Email button
     const resendResultEmail = async (e) => {
         e.preventDefault();
-        //start animation
-        const response = await dispatch(resendChallengeResultAction(challenge.id));
-        if (response.status === 200) {
-            //stop animation
-        }
+        setResultStatus(true);
+        await dispatch(resendChallengeResultAction(challenge.id));
+        setResultStatus(false);
     };
 
     return (
@@ -142,7 +139,8 @@ const GenericChallengeCardManage = ({challenge}) => {
                         data-tip="Resend Challenge Score Email"
                         onClick={resendResultEmail}
                     >
-                        <FontAwesomeIcon icon={["fas", "trophy"]}/>
+                        {resultStatus ? (<FontAwesomeIcon icon={["fas", "spinner"]}/>) : (
+                            <FontAwesomeIcon icon={["fas", "trophy"]}/>)}
                         <ReactTooltip place="top" type="dark" effect="solid"/>
                     </SendButton>
                 ) : (
@@ -150,7 +148,8 @@ const GenericChallengeCardManage = ({challenge}) => {
                         data-tip="Resend Challenge Invitation Email"
                         onClick={resendInvitationEmail}
                     >
-                        <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>
+                        {inviteStatus ? (<FontAwesomeIcon icon={["fas", "spinner"]}/>) : (
+                            <FontAwesomeIcon icon={["fas", "envelope-open-text"]}/>)}
                         <ReactTooltip place="top" type="dark" effect="solid"/>
                     </SendButton>
                 )}
