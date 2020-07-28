@@ -1,10 +1,14 @@
-import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import ChallengeTimer from "../Timer";
 import GenericDoneModal from "../../../Shared/Modals/GenericDoneModal/GenericDoneModal";
 import React from "react";
 import styled from "styled-components";
-import { BlueButton, RedButton } from "../../../../style/GlobalButtons";
-import { rem } from "polished";
+import {BlueButton, RedButton} from "../../../../style/GlobalButtons";
+import {rem} from "polished";
+
+//////////
+// STYLE
+//////////
 
 const Footer = styled.div`
   width: 100%;
@@ -104,116 +108,121 @@ const FooterSectionRight = styled.div`
   }
 `;
 
+//////////
+// REACT
+//////////
+
 const DoneButton = styled(RedButton)``;
 
 const ChallengeFooter = ({
-  progressValue,
-  setProgressValue,
-  setHintOpen,
-  timerValue,
-  doneHandler,
-  isModalDoneOpen,
-  ModalDoneOpenCloseHandler,
-  sendStatus,
-  codeData,
-}) => {
-  const renderControlPanelV2 = (progressValue) => {
-    return (
-      <>
-        {progressValue === 0 ? (
-          <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-        ) : (
-          <PrevNextButton onClick={previousButtonHandler}>
-            Previous
-          </PrevNextButton>
-        )}
-        <StepSelectorLine>
-          <StepSelectorContainer>
-            {[...renderCenter(progressValue)]}
-          </StepSelectorContainer>
-        </StepSelectorLine>
-        {progressValue === 5 ? (
-          <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
-        ) : (
-          <PrevNextButton onClick={nextButtonHandler}>Next</PrevNextButton>
-        )}
-      </>
-    );
-  };
-
-  function renderCenter(progressValue) {
-    let result = [];
-    for (let i = 0; i < 6; i++) {
-      if (i <= progressValue) {
-        codeData[i].status[0] && codeData[i].status[1] && codeData[i].status[2]
-          ? result.push(
-              <StepSelectorBtnActive
-                onClick={(e) => {
-                  setProgressValue(i);
-                }}
-                key={`button ${i}`}
-                style={{ backgroundColor: "green" }}
-              />
-            )
-          : result.push(
-              <StepSelectorBtnActive
-                onClick={(e) => {
-                  setProgressValue(i);
-                }}
-                key={`button ${i}`}
-              />
-            );
-      } else {
-        result.push(
-          <StepSelectorBtn
-            onClick={(e) => {
-              setProgressValue(i);
-            }}
-            key={`button ${i}`}
-          />
+                             progressValue,
+                             setProgressValue,
+                             setHintOpen,
+                             timerValue,
+                             doneHandler,
+                             isModalDoneOpen,
+                             ModalDoneOpenCloseHandler,
+                             sendStatus,
+                             codeData,
+                         }) => {
+    // Used to display the question selection bar across the left of the footer
+    const renderControlPanelV2 = (progressValue) => {
+        return (
+            <>
+                {progressValue === 0 ? (
+                    <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
+                ) : (
+                    <PrevNextButton onClick={previousButtonHandler}>
+                        Previous
+                    </PrevNextButton>
+                )}
+                <StepSelectorLine>
+                    <StepSelectorContainer>
+                        {[...renderCenter(progressValue)]}
+                    </StepSelectorContainer>
+                </StepSelectorLine>
+                {progressValue === 5 ? (
+                    <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
+                ) : (
+                    <PrevNextButton onClick={nextButtonHandler}>Next</PrevNextButton>
+                )}
+            </>
         );
-      }
+    };
+
+    function renderCenter(progressValue) {
+        let result = [];
+        for (let i = 0; i < 6; i++) {
+            if (i <= progressValue) {
+                codeData[i].status[0] && codeData[i].status[1] && codeData[i].status[2]
+                    ? result.push(
+                    <StepSelectorBtnActive
+                        onClick={(e) => {
+                            setProgressValue(i);
+                        }}
+                        key={`button ${i}`}
+                        style={{backgroundColor: "green"}}
+                    />
+                    )
+                    : result.push(
+                    <StepSelectorBtnActive
+                        onClick={(e) => {
+                            setProgressValue(i);
+                        }}
+                        key={`button ${i}`}
+                    />
+                    );
+            } else {
+                result.push(
+                    <StepSelectorBtn
+                        onClick={(e) => {
+                            setProgressValue(i);
+                        }}
+                        key={`button ${i}`}
+                    />
+                );
+            }
+        }
+        return result;
     }
-    return result;
-  }
+    // Used by Previous button to adjust currently displayed question
+    const previousButtonHandler = (e) => {
+        e.preventDefault();
+        setProgressValue(progressValue - 1);
+        setHintOpen(false);
+    };
+    // Used by Next button to adjust currently displayed question
+    const nextButtonHandler = (e) => {
+        e.preventDefault();
+        setProgressValue(progressValue + 1);
+        setHintOpen(false);
+    };
 
-  const previousButtonHandler = (e) => {
-    e.preventDefault();
-    setProgressValue(progressValue - 1);
-    setHintOpen(false);
-  };
-
-  const nextButtonHandler = (e) => {
-    e.preventDefault();
-    setProgressValue(progressValue + 1);
-    setHintOpen(false);
-  };
-
-  return (
-    <Footer>
-      <FooterSectionLeft>
-        {renderControlPanelV2(progressValue)}
-      </FooterSectionLeft>
-      <FooterSectionRight>
-        <div>
-          <p>
-            <FontAwesomeIcon icon={["fas", "hourglass-half"]} />
-          </p>
-          {timerValue ? (
-            <ChallengeTimer timerValue={timerValue} doneHandler={doneHandler} />
-          ) : null}
-        </div>
-        <DoneButton onClick={ModalDoneOpenCloseHandler}>Finish!</DoneButton>
-        {isModalDoneOpen ? (
-          <GenericDoneModal
-            ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
-            doneHandler={doneHandler}
-            sendStatus={sendStatus}
-          />
-        ) : null}
-      </FooterSectionRight>
-    </Footer>
-  );
+    return (
+        <Footer>
+            <FooterSectionLeft>
+                {renderControlPanelV2(progressValue)}
+            </FooterSectionLeft>
+            <FooterSectionRight>
+                <div>
+                    <p>
+                        <FontAwesomeIcon icon={["fas", "hourglass-half"]}/>
+                    </p>
+                    {timerValue ? (
+                        <ChallengeTimer timerValue={timerValue} doneHandler={doneHandler}/>
+                    ) : null}
+                </div>
+                <DoneButton onClick={ModalDoneOpenCloseHandler}>Finish!</DoneButton>
+                {isModalDoneOpen ? (
+                    <GenericDoneModal
+                        ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
+                        doneHandler={doneHandler}
+                        sendStatus={sendStatus}
+                    />
+                ) : null}
+            </FooterSectionRight>
+        </Footer>
+    );
 };
 
 export default ChallengeFooter;

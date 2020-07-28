@@ -175,24 +175,30 @@ const Challenge = ({
   setUserChallengeScoreAction,
   history,
 }) => {
+
   const match = useRouteMatch();
+  // Used to toggle display of the red Naming/Syntax error message
   const [getRunError, setRunError] = useState("");
   // Used in GenericDoneModal to change button text during request
   const [sendStatus, setSendStatus] = useState(false);
+  // Used to manage displaying of the Submit Modal
   const [isModalDoneOpen, setModalDoneOpen] = useState(false);
-
   const ModalDoneOpenCloseHandler = () => {
     setModalDoneOpen(!isModalDoneOpen);
   };
-
+  // Used to manage displaying of the Hint Tab
   const [isHintOpen, setHintOpen] = useState(false);
   const HintDoneOpenCloseHandler = () => {
     setHintOpen(!isHintOpen);
   };
-
+  // Used to manage displaying of the spinner during code evaluation request
   const [isRunningCode, setRunningCode] = useState(false);
-  const [timerValue, setTimerValue] = useState(null);
+  // Used to determine which Question in the Challenge's Question array is currently displayed
   const [progressValue, setProgressValue] = useState(0);
+  // Used to manage the time to be displayed on the Timer
+  const [timerValue, setTimerValue] = useState(null);
+  // Used to manage the local state of what is displayed inside the coding interface, as well as the boolean
+  // results used to display Pass/Fail icons after a code evaluation request
   const [codeData, setCodeData] = useState({
     0: { code: "", status: { 0: null, 1: null, 2: null } },
     1: { code: "", status: { 0: null, 1: null, 2: null } },
@@ -201,7 +207,7 @@ const Challenge = ({
     4: { code: "", status: { 0: null, 1: null, 2: null } },
     5: { code: "", status: { 0: null, 1: null, 2: null } },
   });
-
+  // Used to manage the local state of the candidates score for each question
   const [score, setScore] = useState({
     0: 0,
     1: 0,
@@ -210,7 +216,9 @@ const Challenge = ({
     4: 0,
     5: 0,
   });
-
+  // On page load looks at localStorage to see if data for the matching Challenge is stored there and sets it
+  // in the codeData state if it is found. Prevents a candidate from loosing data they have entered and having
+  // to restart a challenge over from the beginning
   useEffect(() => {
     let prevText = localStorage.getItem("challenge");
     prevText = JSON.parse(prevText);
@@ -218,11 +226,14 @@ const Challenge = ({
       setCodeData(prevText.content);
       setScore(prevText.score);
     }
+    // Fetches a candidates Challenge based on the Challenge Id in the Url
     const challengeStart = async () => {
       const [response, started] = await getUserChallengeAction(
         match.params.challengeId
       );
       if (response.status === 200) {
+        // Sets the duration of the timer based on the initial value created when they clicked Start on the
+        // myChallenge page
         const endTime = 1800000 + parseInt(started);
         const now = new Date();
         const timeLeft = endTime - now.getTime();
@@ -231,7 +242,7 @@ const Challenge = ({
     };
     challengeStart();
   }, [getUserChallengeAction, match.params.challengeId]);
-
+  // Used by the Submit Code button during code evaluation request
   const runTestHandler = async (e) => {
     setRunError(null);
     setRunningCode(true);
@@ -273,6 +284,8 @@ const Challenge = ({
       setRunError("Server Error, contact administrator");
     }
     setRunningCode(false);
+    // Updates the information in localStorage after each evaluation so the candidate does not loose
+    // test results on leaving the challenge or refreshing the page
     localStorage.setItem(
       "challenge",
       JSON.stringify({
@@ -282,7 +295,7 @@ const Challenge = ({
       })
     );
   };
-
+  // Calculates the Max possible Score of the challenge based on questions assigned to the Candidate
   const getMaxScore = () => {
     let perfectScore = 0;
     targetChallenge.questions.forEach(
@@ -292,7 +305,7 @@ const Challenge = ({
     );
     return perfectScore;
   };
-
+  // Used by the Done button and the Timer when reaching 0 during the Score Challenge request
   const doneHandler = async (e) => {
     setSendStatus(true);
     if (e) {
