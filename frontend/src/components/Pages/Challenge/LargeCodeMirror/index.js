@@ -25,7 +25,7 @@ const CodeMirrorWrapper = styled.div`
 
 const LargeCodeMirror = ({codeData, progressValue, challengeId, score, setCodeData}) => {
 
-        const options = {
+    const options = {
         mode: "javascript",
         theme: "material",
         lineNumbers: true,
@@ -58,4 +58,4 @@ const LargeCodeMirror = ({codeData, progressValue, challengeId, score, setCodeDa
     </CodeMirrorWrapper>)
 };
 
-export default LargeCodeMirror
+export default LargeCodeMirror;
