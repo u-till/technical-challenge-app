@@ -300,7 +300,7 @@ const Challenge = ({
     }
     const candidateScore = {
       score:
-        (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100,
+        Math.round((Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100),
     };
     const response = await setUserChallengeScoreAction(
       targetChallenge.id,
