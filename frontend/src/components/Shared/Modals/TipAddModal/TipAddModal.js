@@ -11,7 +11,7 @@ import {
   getTipsForQuestionAction,
 } from "../../../../store/actions/tipActions";
 import Error from "../../Error";
-import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
+import { BaseTextArea } from "../../../../style/GlobalInputs";
 
 const CreateModalOverlay = styled.div`
   position: fixed;
@@ -53,11 +53,6 @@ const DescriptionInput = styled(BaseTextArea)`
   font-size: ${rem("16px")};
   width: 100%;
   height: ${rem("160px")};
-`;
-
-const NumberInput = styled(BaseInput)`
-  height: ${rem("6px")};
-  width: ${rem("80px")};
 `;
 
 const InputLabelDiv = styled.div`

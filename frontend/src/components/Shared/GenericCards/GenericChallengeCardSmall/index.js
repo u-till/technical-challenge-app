@@ -11,10 +11,7 @@ import {
   resendChallengeInvitationAction,
   resendChallengeResultAction,
 } from "../../../../store/actions/challengeActions";
-import {
-  GenericSpinnerSmall,
-  GenericSpinnerSmallBtn,
-} from "../../GenericSpinner";
+import {GenericSpinnerSmallBtn} from "../../GenericSpinner";
 
 //////////
 // STYLES
