@@ -52,6 +52,16 @@ const ChallengeInfo = styled.div`
   }
 `;
 
+const ChallengeInfoAmple = styled.div`
+  display: inline-flex;
+  flex-direction: row;
+  min-width: 200px;
+  height: 100%;
+  p:last-child {
+    font-size: 14px;
+  }
+`;
+
 const Challengeh2 = styled(Styledh2)`
   font-size: ${rem("18px")};
 `;
@@ -73,6 +83,12 @@ const SendButton = styled(BlueButton)`
   width: ${rem("34px")};
   height: ${rem("34px")};
   margin-left: 32px;
+`;
+
+const AmpleLight = styled.div`
+  width: ${rem("8px")};
+  height: ${rem("34px")};
+  margin-right: 8px;
 `;
 
 //////////
@@ -104,19 +120,44 @@ const GenericChallengeCardManage = ({ challenge }) => {
     setResultStatus(false);
   };
 
+  // Conditionally change the background colors of the cards based on Status
+  const renderBackground = () => {
+    if (challenge.status === "PASSED") {
+      return {
+        backgroundColor: "green",
+      };
+    }
+    if (challenge.status === "FAILED") {
+      return {
+        backgroundColor: "#ef485c",
+      };
+    }
+    if (challenge.status === "NEEDS REVIEW") {
+      return {
+        background: "#E6D317",
+      };
+    }
+    return {
+      background: "#00bae5",
+    };
+  };
+
   return (
     <ChallengeCard>
       <div>
         <Challengeh2>{`Full Stack - Challenge #${challenge.id}`}</Challengeh2>
       </div>
       <ChallengeRightContainer>
-        <ChallengeInfo>
-          <p>
-            Candidate:{" "}
-            {`${challenge.candidate.first_name} ${challenge.candidate.last_name}`}
-          </p>
-          <p>Status: {challenge.status}</p>
-        </ChallengeInfo>
+        <ChallengeInfoAmple>
+          <AmpleLight style={renderBackground()}></AmpleLight>
+          <div>
+            <p>
+              Candidate:{" "}
+              {`${challenge.candidate.first_name} ${challenge.candidate.last_name}`}
+            </p>
+            <p>Status: {challenge.status}</p>
+          </div>
+        </ChallengeInfoAmple>
         <ChallengeInfo>
           <p>Created: {challenge.created.slice(0, 10)}</p>
           <p>

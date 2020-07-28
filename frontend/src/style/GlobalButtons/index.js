@@ -38,17 +38,26 @@ export const RoundGreyButton = styled.div`
   width: ${rem("30px")};
   height: ${rem("30px")};
   border-radius: 50%;
-  background-color: #dbdbdb;
+  background-color: transparent;
   display: flex;
   justify-content: center;
   align-items: center;
-  color: white;
-  cursor: pointer;
+  color: #767676;
+  background-color: #fff;
+  border: 1px solid #c4c4c4;
+  font-size: ${rem("14px")};
   :hover {
-    background-color: #bdbdbd;
+    border: 1px solid #9a9a9a;
+    color: #363636;
   }
+  //color: black;
+  //cursor: pointer;
+  //border: 1px solid black;
+  //:hover {
+  //  background-color: #bdbdbd;
+  //}
 `;
-
+//#dbdbdb
 export const StartButton = styled.button`
   width: ${rem("230px")};
   height: ${rem("80.01px")};

@@ -175,7 +175,6 @@ const Challenge = ({
   setUserChallengeScoreAction,
   history,
 }) => {
-
   const match = useRouteMatch();
   // Used to toggle display of the red Naming/Syntax error message
   const [getRunError, setRunError] = useState("");
@@ -312,8 +311,9 @@ const Challenge = ({
       e.preventDefault();
     }
     const candidateScore = {
-      score:
-        Math.round((Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100),
+      score: Math.round(
+        (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100
+      ),
     };
     const response = await setUserChallengeScoreAction(
       targetChallenge.id,
