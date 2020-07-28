@@ -35,7 +35,7 @@ const LoginInput = styled(BaseInput)`
   border: transparent;
 `;
 
-const InteriorContainer = styled.div`
+const InteriorContainer = styled.form`
   height: ${rem("300px")};
   display: flex;
   flex-direction: column;
@@ -88,20 +88,19 @@ const SendPasswordReset = ({
     <PageContainer>
       <LoginContainer>
         <Styledh1>Password Reset</Styledh1>
-        <InteriorContainer>
+        <InteriorContainer onSubmit={onSubmitForm}>
           <EmailField>
             <Icon icon={["fas", "user"]} />
             <LoginInput
               type="email"
               name="email"
               placeholder="Email"
-              required
               value={email}
               onChange={(e) => inputHandler(e, setEmail)}
             />
           </EmailField>
           <Error errorMessage={fieldErrors["email"]} />
-          <BigRedButton onClick={onSubmitForm}>
+          <BigRedButton type="submit">
             {sendStatus ? "Sending..." : "Send code"}
           </BigRedButton>
           <Error errorMessage={non_field_error} />

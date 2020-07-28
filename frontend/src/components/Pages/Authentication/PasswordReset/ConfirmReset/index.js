@@ -26,7 +26,7 @@ const ConfirmResetContainer = styled(BaseContainer)`
   padding: 24px 24px 48px 24px;
 `;
 
-const ResetSplitContainer = styled.div`
+const ResetSplitContainer = styled.form`
   width: 100%;
   height: 100%;
   display: flex;
@@ -104,7 +104,6 @@ const ConfirmPasswordReset = ({
   };
   // Used by Confirm button during password reset request
   const onSubmitForm = async (e) => {
-    console.log("click");
     e.preventDefault();
     setSendStatus(true);
     dispatch(resetError());
@@ -125,7 +124,7 @@ const ConfirmPasswordReset = ({
     <PageContainer>
       <ConfirmResetContainer>
         <Styledh1>Confirm Password Reset</Styledh1>
-        <ResetSplitContainer>
+        <ResetSplitContainer onSubmit={onSubmitForm}>
           <div>
             <InputLabelDiv>
               <StyledLabel>Email:</StyledLabel>
@@ -146,7 +145,6 @@ const ConfirmPasswordReset = ({
                 value={data.first_name}
                 type="text"
                 placeholder="Confirmation Code"
-                required
                 onChange={handleInput}
               />{" "}
               <Error errorMessage={fieldErrors["code"]} />
@@ -160,7 +158,6 @@ const ConfirmPasswordReset = ({
                 value={data.password}
                 type="password"
                 placeholder="Password"
-                required
                 onChange={handleInput}
               />
               <Error errorMessage={fieldErrors["password"]} />
@@ -173,17 +170,15 @@ const ConfirmPasswordReset = ({
                 value={data.password_repeat}
                 type="password"
                 placeholder="Repeat Password"
-                required
                 onChange={handleInput}
               />
               <Error errorMessage={fieldErrors["password_repeat"]} />
             </InputLabelDiv>
           </div>
-
           <InputLabelDiv>
             <Error errorMessage={non_field_error} />
             <ConfirmBtnWrapper>
-              <ConfirmButton onClick={onSubmitForm}>
+              <ConfirmButton type="submit">
                 {sendStatus ? "Confirming..." : "Confirm"}
               </ConfirmButton>
             </ConfirmBtnWrapper>
