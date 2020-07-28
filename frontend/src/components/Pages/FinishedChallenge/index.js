@@ -37,7 +37,6 @@ const ExampleImage = styled.div`
   background-repeat: no-repeat;
   background-size: cover;
   background-image: url("https://thumbs.gfycat.com/ClassicImaginaryFalcon-size_restricted.gif");
-  background-position: center;
 `;
 
 const ChallengeDoneContainer = styled(BaseContainer)`
