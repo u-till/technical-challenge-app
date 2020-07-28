@@ -3,6 +3,10 @@ import Slide from "react-reveal/Slide";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
+//////////
+// STYLE
+//////////
+
 const GetHintContainer = styled.div`
   display: flex;
   flex-direction: column;
@@ -27,6 +31,10 @@ const HintButton = styled.button`
     color: #363636;
   }
 `;
+
+//////////
+// REACT
+//////////
 
 const Hint = ({
   isHintOpen,

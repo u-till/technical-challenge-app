@@ -7,8 +7,11 @@ import "codemirror/mode/javascript/javascript.js";
 import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import { rem } from "polished";
 
+//////////
+// STYLE
+//////////
+
 const SmallCodeMirrorWrapper = styled.div`
-  //overflow: hidden !important;
   background-color: #263238;
   height: 100%;
   display: flex;
@@ -58,6 +61,10 @@ const FontAwesomeIconFail = styled(FontAwesomeIcon)`
   border: 1px solid white;
   background-color: white;
 `;
+
+//////////
+// REACT
+//////////
 
 const SmallCodeMirror = ({ targetChallenge, progressValue, codeData }) => {
   return (
