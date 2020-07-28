@@ -161,7 +161,7 @@ const ChallengeFooter = ({
                             setProgressValue(i);
                         }}
                         key={`button ${i}`}
-                        style={{backgroundColor: "green"}}
+                        style={{backgroundColor: "#018601"}}
                     />
                     )
                     : result.push(
@@ -170,6 +170,7 @@ const ChallengeFooter = ({
                             setProgressValue(i);
                         }}
                         key={`button ${i}`}
+                        style={{backgroundColor: "#ef485c"}}
                     />
                     );
             } else {
