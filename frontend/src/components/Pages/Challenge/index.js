@@ -395,6 +395,7 @@ const Challenge = ({
         isModalDoneOpen={isModalDoneOpen}
         ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
         sendStatus={sendStatus}
+        codeData={codeData}
       />
     </>
   );
