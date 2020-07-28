@@ -46,7 +46,7 @@ const ResetSplitContainer = styled.form`
 
 const ConfirmBtnWrapper = styled.div`
   height: ${rem("72px")};
-  margin-bottom: 56px;
+  //margin-bottom: 56px;
   display: flex;
   flex-direction: column;
   justify-content: center;
@@ -69,6 +69,14 @@ const InputLabelDiv = styled.div`
   height: ${rem("100px")};
   display: flex;
   justify-content: space-between;
+  flex-direction: column;
+`;
+
+const InputLabelDivBtn = styled.div`
+  margin-top: ${rem("26px")};
+  height: ${rem("120px")};
+  display: flex;
+  justify-content: flex-end;
   flex-direction: column;
 `;
 
@@ -175,14 +183,14 @@ const ConfirmPasswordReset = ({
               <Error errorMessage={fieldErrors["password_repeat"]} />
             </InputLabelDiv>
           </div>
-          <InputLabelDiv>
+          <InputLabelDivBtn>
             <Error errorMessage={non_field_error} />
             <ConfirmBtnWrapper>
               <ConfirmButton type="submit">
                 {sendStatus ? "Confirming..." : "Confirm"}
               </ConfirmButton>
             </ConfirmBtnWrapper>
-          </InputLabelDiv>
+          </InputLabelDivBtn>
         </ResetSplitContainer>
       </ConfirmResetContainer>
     </PageContainer>

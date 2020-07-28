@@ -29,7 +29,8 @@ const StyledSmallCodeMirror = styled(CodeMirror)`
   }
 
   /* hide the scrollbars */
-  .editor .CodeMirror-vscrollbar, .editor .CodeMirror-hscrollbar {
+  .editor .CodeMirror-vscrollbar,
+  .editor .CodeMirror-hscrollbar {
     display: none !important;
   }
   * {
