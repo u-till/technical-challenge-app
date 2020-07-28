@@ -1,6 +1,6 @@
 import React from "react";
 import styled from "styled-components";
-import { Controlled as CodeMirror } from "react-codemirror2";
+import {Controlled as CodeMirror} from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript.js";
@@ -23,46 +23,39 @@ const CodeMirrorWrapper = styled.div`
   box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
 `;
 
-const LargeCodeMirror = ({
-  codeData,
-  progressValue,
-  challengeId,
-  score,
-  setCodeData,
-}) => {
-  const options = {
-    mode: "javascript",
-    theme: "material",
-    lineNumbers: true,
-  };
+const LargeCodeMirror = ({codeData, progressValue, challengeId, score, setCodeData}) => {
 
-  return (
-    <CodeMirrorWrapper>
-      <StyledCodeMirror
-        value={codeData[progressValue].code}
-        options={options}
-        onBeforeChange={(editor, data, value) => {
-          setCodeData({
-            ...codeData,
-            [progressValue]: {
-              ...codeData[progressValue],
-              code: value,
-            },
-          });
-        }}
-        onChange={(editor, data, value) => {
-          localStorage.setItem(
-            "challenge",
-            JSON.stringify({
-              challenge: challengeId,
-              content: codeData,
-              score: score,
-            })
-          );
-        }}
-      />
-    </CodeMirrorWrapper>
-  );
+    const options = {
+        mode: "javascript",
+        theme: "material",
+        lineNumbers: true,
+    };
+
+    return (<CodeMirrorWrapper>
+        <StyledCodeMirror
+            value={codeData[progressValue].code}
+            options={options}
+            onBeforeChange={(editor, data, value) => {
+                setCodeData({
+                    ...codeData,
+                    [progressValue]: {
+                        ...codeData[progressValue],
+                        code: value,
+                    },
+                });
+            }}
+            onChange={(editor, data, value) => {
+                localStorage.setItem(
+                    "challenge",
+                    JSON.stringify({
+                        challenge: challengeId,
+                        content: codeData,
+                        score: score,
+                    })
+                );
+            }}
+        />
+    </CodeMirrorWrapper>)
 };
 
 export default LargeCodeMirror;
