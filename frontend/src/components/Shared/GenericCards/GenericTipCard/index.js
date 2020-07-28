@@ -7,7 +7,7 @@ import {
   RedButton,
   RoundGreyButton,
 } from "../../../../style/GlobalButtons";
-import { BaseInput, BaseTextArea } from "../../../../style/GlobalInputs";
+import { BaseTextArea } from "../../../../style/GlobalInputs";
 import {
   getTipsForQuestionAction,
   updateTipForQuestionAction,
@@ -18,6 +18,7 @@ import GenericDeleteModal from "../../Modals/GenericDeleteModal/GenericDeleteMod
 //////////
 // STYLES
 //////////
+
 const TipCard = styled.div`
   box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
 
@@ -83,11 +84,6 @@ const DescriptionInput = styled(BaseTextArea)`
   width: 100%;
 
   height: 100%;
-`;
-
-const NumberInput = styled(BaseInput)`
-  height: ${rem("6px")};
-  width: ${rem("80px")};
 `;
 
 //////////
