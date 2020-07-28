@@ -147,12 +147,14 @@ const StartChallenge = () => {
                 </LI>
                 <br></br>
                 <LI>
-                  On the Lower Right Panel is the tests your code will be
+                  On the Lower Left Panel is the tests your code will be
                   evaluated against. The result of each test will be displayed
                   to the right of the test as a green checkmark or red X. A
                   green checkmark means a test passed, a red X means the test
                   failed. If tests fail, feel free to change your code and
-                  submit again.
+                  submit again. The dots on the bottom bar will show green
+                  for a completed challenge and red for an incomplete
+                  challenge so you can keep track of which you have finished.
                 </LI>
                 <br></br>
                 <LI>
