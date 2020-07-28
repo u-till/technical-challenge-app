@@ -1,6 +1,6 @@
-import React from 'react';
+import React from "react";
 import Slide from "react-reveal/Slide";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
 import styled from "styled-components";
 
 const GetHintContainer = styled.div`
@@ -28,33 +28,44 @@ const HintButton = styled.button`
   }
 `;
 
-const Hint = ({isHintOpen, HintDoneOpenCloseHandler, targetChallenge, progressValue}) => {
-
-
-    return (<GetHintContainer>
-        {isHintOpen ? (
-            <Slide bottom>
-                <div>
-                    <HintButton onClick={HintDoneOpenCloseHandler}>
-                        <FontAwesomeIcon
-                            icon={["far", "question-circle"]}
-                        />
-                        <p>Hide Hint</p>
-                    </HintButton>
-                    <p>{targetChallenge.questions[progressValue].fk_tip_question[Math.floor(Math.random() * targetChallenge.questions[progressValue].fk_tip_question.length)].content}</p>
-                </div>
-            </Slide>
-        ) : (
-            <div>
-                <HintButton onClick={HintDoneOpenCloseHandler}>
-                    <FontAwesomeIcon
-                        icon={["far", "question-circle"]}
-                    />
-                    <p>{isHintOpen ? "Hide Hint" : "Show Hint"}</p>
-                </HintButton>
-            </div>
-        )}
-    </GetHintContainer>)
+const Hint = ({
+  isHintOpen,
+  HintDoneOpenCloseHandler,
+  targetChallenge,
+  progressValue,
+}) => {
+  return (
+    <GetHintContainer>
+      {isHintOpen ? (
+        <Slide bottom>
+          <div>
+            <HintButton onClick={HintDoneOpenCloseHandler}>
+              <FontAwesomeIcon icon={["far", "question-circle"]} />
+              <p>Hide Hint</p>
+            </HintButton>
+            <p>
+              {
+                targetChallenge.questions[progressValue].fk_tip_question[
+                  Math.floor(
+                    Math.random() *
+                      targetChallenge.questions[progressValue].fk_tip_question
+                        .length
+                  )
+                ].content
+              }
+            </p>
+          </div>
+        </Slide>
+      ) : (
+        <div>
+          <HintButton onClick={HintDoneOpenCloseHandler}>
+            <FontAwesomeIcon icon={["far", "question-circle"]} />
+            <p>{isHintOpen ? "Hide Hint" : "Show Hint"}</p>
+          </HintButton>
+        </div>
+      )}
+    </GetHintContainer>
+  );
 };
 
-export default Hint
+export default Hint;
