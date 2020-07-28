@@ -4,20 +4,11 @@ import {rem} from "polished";
 import {BaseContainer} from "../../../style/GlobalWrappers";
 import {Styledh1, Styledh2} from "../../../style/GlobalTitles";
 import {
-    BaseButton,
-    BlueButton,
-    RedButton,
-} from "../../../style/GlobalButtons";
-import {
     Container as ResizeContainer,
     Section,
     Bar,
 } from "react-simple-resizer";
 import {connect} from "react-redux";
-import {Controlled as CodeMirror} from "react-codemirror2";
-import "codemirror/lib/codemirror.css";
-import "codemirror/theme/material.css";
-import "codemirror/mode/javascript/javascript.js";
 import {
     getUserChallengeAction,
     setUserChallengeScoreAction,
@@ -27,9 +18,10 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {runTestAction} from "../../../store/actions/testActions";
 import Error from "../../Shared/Error";
 import {GenericSpinnerSmall} from "../../Shared/GenericSpinner";
-import Timer from "react-compound-timer";
-import GenericDoneModal from "../../Shared/Modals/GenericDoneModal/GenericDoneModal";
-import Slide from "react-reveal/Slide";
+import Hint from "./Hint";
+import SmallCodeMirror from "./SmallCodeMirror";
+import LargeCodeMirror from "./LargeCodeMirror";
+import ChallengeFooter from "./Footer";
 
 //////////
 // STYLE
@@ -100,31 +92,6 @@ const DescriptionContent = styled.div`
   height: 100%;
 `;
 
-const GetHintContainer = styled.div`
-  display: flex;
-  flex-direction: column;
-  transition: all 0.5s ease;
-  color: #767676;
-  padding-top: 24px;
-  p {
-    padding-top: 8px;
-  }
-`;
-
-const HintButton = styled.button`
-  color: #767676;
-  border: none;
-  background: none;
-  width: 100px;
-  p {
-    display: inline;
-    padding-left: 8px;
-  }
-  :hover {
-    color: #363636;
-  }
-`;
-
 const InputColumn = styled(Section)`
   padding: 8px;
   background-color: #adadad;
@@ -192,170 +159,6 @@ const RunButton = styled.button`
     white-space: nowrap;
   }
 `;
-
-/// Footer
-
-const Footer = styled.div`
-  width: 100%;
-  height: ${rem("70px")};
-  padding: 0 ${rem("30px")} 0 ${rem("30px")};
-
-  display: flex;
-  position: fixed;
-  bottom: 0;
-  z-index: 1000;
-  background-color: white;
-  justify-content: space-between;
-  flex-direction: row;
-  border-top: solid 1px #dddddd;
-`;
-
-///Footer Left
-const FooterSectionLeft = styled.div`
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  min-width: 48%;
-`;
-
-const PrevNextButton = styled(BlueButton)``;
-const PrevNextButtonDisabled = styled(BlueButton)`
-  cursor: not-allowed;
-`;
-
-const StepSelectorContainer = styled.div`
-  width: 100%;
-  min-width: 400px;
-  display: flex;
-  justify-content: space-between;
-  //
-`;
-
-const StepSelectorLine = styled.div`
-  width: 100%;
-  min-width: 400px;
-  margin: 0 ${rem("30px")} 0 ${rem("30px")};
-  position: relative;
-  z-index: 1;
-
-  &:before {
-    border-top: 5px solid #000;
-    content: "";
-
-    margin: 0 auto; /* this centers the line to the full width specified */
-    position: absolute; /* positioning must be absolute here, and relative positioning must be applied to the parent */
-    top: 42%;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    width: 95%;
-    z-index: -1;
-  }
-
-  span {
-    /* to hide the lines from behind the text, you have to set the background color the same as the container */
-    background: #fff;
-    padding: 0 15px;
-  }
-`;
-
-const StepSelectorBtn = styled.button`
-  width: ${rem("28px")};
-  height: ${rem("28px")};
-  border-radius: 100%;
-  background-color: #fff;
-  border: 3px solid #000;
-  cursor: pointer;
-  :hover {
-    background-color: #05d0ff;
-  }
-`;
-
-const StepSelectorBtnActive = styled(StepSelectorBtn)`
-  background-color: #00bae5;
-  :hover {
-    background-color: #05d0ff;
-  }
-`;
-
-///Footer Right
-const FooterSectionRight = styled.div`
-  min-width: 20%;
-
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  p {
-    font-size: 24px;
-    padding-left: 12px;
-  }
-  div {
-    display: flex;
-  }
-`;
-
-/// Codemirror
-
-const StyledCodeMirror = styled(CodeMirror)`
-  * {
-    font-size: 18px;
-    font-family: "Courier New", Courier, monospace !important;
-  }
-  height: 100%;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.4);
-  > div {
-    height: 100%;
-  }
-`;
-
-const StyledSmallCodeMirror = styled(CodeMirror)`
-  * {
-    font-size: 18px;
-    font-family: "Courier New", Courier, monospace !important;
-  }
-  height: ${rem("32px")};
-  > div {
-    height: 100%;
-  }
-`;
-
-const SmallCodeMirrorWrapper = styled.div`
-  background-color: #263238;
-  height: 100%;
-  display: flex;
-  justify-content: space-around;
-  flex-direction: column;
-  padding-right: 16px;
-  div {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-  }
-`;
-
-const FontAwesomeIconSuccess = styled(FontAwesomeIcon)`
-  font-size: ${rem("22px")};
-  color: #018601;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: white;
-`;
-
-const FontAwesomeIconFail = styled(FontAwesomeIcon)`
-  font-size: ${rem("22px")};
-  color: #ef485c;
-  border-radius: 50%;
-  border: 1px solid white;
-  background-color: white;
-`;
-
-const CodeMirrorWrapper = styled.div`
-  height: 100%;
-  border-radius: 5px;
-  box-shadow: 0 1px 10px rgba(0, 0, 0, 0.1);
-`;
-
-const DoneButton = styled(RedButton)``;
 
 //////////
 // REACT
@@ -425,12 +228,6 @@ const Challenge = ({
         };
         challengeStart();
     }, [getUserChallengeAction, match.params.challengeId]);
-
-    const options = {
-        mode: "javascript",
-        theme: "material",
-        lineNumbers: true,
-    };
 
     const runTestHandler = async (e) => {
         setRunError(null);
@@ -513,54 +310,6 @@ const Challenge = ({
         }
     };
 
-    const previousButtonHandler = (e) => {
-        e.preventDefault();
-        setProgressValue(progressValue - 1);
-        setHintOpen(false);
-    };
-
-    const nextButtonHandler = (e) => {
-        e.preventDefault();
-        setProgressValue(progressValue + 1);
-        setHintOpen(false);
-    };
-
-    const renderControlPanelV2 = (progressValue) => {
-        return (
-            <>
-                {progressValue === 0 ? (
-                    <PrevNextButtonDisabled>Previous</PrevNextButtonDisabled>
-                ) : (
-                    <PrevNextButton onClick={previousButtonHandler}>
-                        Previous
-                    </PrevNextButton>
-                )}
-                <StepSelectorLine>
-                    <StepSelectorContainer>
-                        {[...renderCenter(progressValue)]}
-                    </StepSelectorContainer>
-                </StepSelectorLine>
-                {progressValue === 5 ? (
-                    <PrevNextButtonDisabled>Next</PrevNextButtonDisabled>
-                ) : (
-                    <PrevNextButton onClick={nextButtonHandler}>Next</PrevNextButton>
-                )}
-            </>
-        );
-    };
-
-    function renderCenter(progressValue) {
-        let result = [];
-        for (let i = 0; i < 6; i++) {
-            if (i <= progressValue) {
-                result.push(<StepSelectorBtnActive key={`button ${i}`}/>);
-            } else {
-                result.push(<StepSelectorBtn key={`button ${i}`}/>);
-            }
-        }
-        return result;
-    }
-
     return (
         <>
             <ChallengeContainer>
@@ -580,35 +329,12 @@ const Challenge = ({
                                         </p>
                                         {targetChallenge.questions[progressValue]
                                             .fk_tip_question.length > 0 ? (
-                                            <GetHintContainer>
-                                                {isHintOpen ? (
-                                                    <Slide bottom>
-                                                        <div>
-                                                            <HintButton onClick={HintDoneOpenCloseHandler}>
-                                                                <FontAwesomeIcon
-                                                                    icon={["far", "question-circle"]}
-                                                                />
-                                                                <p>Hide Hint</p>
-                                                            </HintButton>
-                                                            <p>
-                                                                {
-                                                                    targetChallenge.questions[progressValue]
-                                                                        .fk_tip_question[0].content
-                                                                }
-                                                            </p>
-                                                        </div>
-                                                    </Slide>
-                                                ) : (
-                                                    <div>
-                                                        <HintButton onClick={HintDoneOpenCloseHandler}>
-                                                            <FontAwesomeIcon
-                                                                icon={["far", "question-circle"]}
-                                                            />
-                                                            <p>{isHintOpen ? "Hide Hint" : "Show Hint"}</p>
-                                                        </HintButton>
-                                                    </div>
-                                                )}
-                                            </GetHintContainer>) : null}
+                                            <Hint
+                                                isHintOpen={isHintOpen}
+                                                HintDoneOpenCloseHandler={HintDoneOpenCloseHandler}
+                                                targetChallenge={targetChallenge}
+                                                progressValue={progressValue}/>
+                                        ) : null}
                                     </DescriptionContent>
                                 </DescriptionContainer>
                                 <TestsContainer>
@@ -619,39 +345,16 @@ const Challenge = ({
                                             <Error errorMessage={getRunError}/>
                                         </ErrorDiv>
                                     </TestsHeader>
-                                    <SmallCodeMirrorWrapper>
-                                        {targetChallenge.questions[
-                                            progressValue
-                                            ].tests_for_question.map((test, index) => (
-                                            <div key={`test ${index}`}>
-                                                <StyledSmallCodeMirror
-                                                    value={test}
-                                                    options={{
-                                                        mode: "javascript",
-                                                        theme: "material",
-                                                        lineNumbers: true,
-                                                        firstLineNumber: index + 1,
-                                                    }}
-                                                    onChange={(editor, data, value) => {
-                                                    }}
-                                                />
-                                                {codeData[progressValue].status[index] ===
-                                                null ? null : codeData[progressValue].status[index] ? (
-                                                    <FontAwesomeIconSuccess
-                                                        icon={["fas", "check-circle"]}
-                                                    />
-                                                ) : (
-                                                    <FontAwesomeIconFail icon={["fas", "times-circle"]}/>
-                                                )}
-                                            </div>
-                                        ))}
-                                    </SmallCodeMirrorWrapper>
+                                    <SmallCodeMirror targetChallenge={targetChallenge}
+                                                     progressValue={progressValue}
+                                                     codeData={codeData}
+                                    />
                                     {isRunningCode ? (
                                         <RunButton onClick={runTestHandler} disabled>
-                      <span>
-                        <p>Run Code and Submit</p>
-                        <GenericSpinnerSmall/>
-                      </span>
+                                            <span>
+                                                <p>Run Code and Submit</p>
+                                                <GenericSpinnerSmall/>
+                                            </span>
                                         </RunButton>
                                     ) : (
                                         <RunButton onClick={runTestHandler}>
@@ -666,80 +369,26 @@ const Challenge = ({
                     </DescriptionColumn>
                     <StyledResizeBar/>
                     <InputColumn minSize={400}>
-                        <CodeMirrorWrapper>
-                            <StyledCodeMirror
-                                value={codeData[progressValue].code}
-                                options={options}
-                                onBeforeChange={(editor, data, value) => {
-                                    setCodeData({
-                                        ...codeData,
-                                        [progressValue]: {
-                                            ...codeData[progressValue],
-                                            code: value,
-                                        },
-                                    });
-                                }}
-                                onChange={(editor, data, value) => {
-                                    localStorage.setItem(
-                                        "challenge",
-                                        JSON.stringify({
-                                            challenge: match.params.challengeId,
-                                            content: codeData,
-                                            score: score,
-                                        })
-                                    );
-                                }}
-                            />
-                        </CodeMirrorWrapper>
+                        <LargeCodeMirror
+                            codeData={codeData}
+                            progressValue={progressValue}
+                            challengeId={match.params.challengeId}
+                            score={score}
+                            setCodeData={setCodeData}
+                        />
                     </InputColumn>
                 </StyledResizeContainer>
             </ChallengeContainer>
-            <Footer>
-                <FooterSectionLeft>
-                    {renderControlPanelV2(progressValue)}
-                </FooterSectionLeft>
-                <FooterSectionRight>
-                    <div>
-                        <p>
-                            <FontAwesomeIcon icon={["fas", "hourglass-half"]}/>
-                        </p>
-                        {timerValue ? (
-                            <Timer
-                                initialTime={timerValue}
-                                direction="backward"
-                                checkpoints={[
-                                    {
-                                        time: 0,
-                                        callback: () => doneHandler(),
-                                    },
-                                ]}
-                            >
-                                {() => (
-                                    <React.Fragment>
-                                        <p>
-                                            <Timer.Minutes/>:
-                                            <Timer.Seconds
-                                                formatValue={(value) =>
-                                                    `${value < 10 ? `0${value}` : value}`
-                                                }
-                                            />
-                                        </p>
-                                    </React.Fragment>
-                                )}
-                            </Timer>
-                        ) : null}
-                    </div>
-                    <DoneButton onClick={ModalDoneOpenCloseHandler}>Finish!</DoneButton>
-
-                    {isModalDoneOpen ? (
-                        <GenericDoneModal
-                            ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
-                            doneHandler={doneHandler}
-                            sendStatus={sendStatus}
-                        />
-                    ) : null}
-                </FooterSectionRight>
-            </Footer>
+            <ChallengeFooter
+                progressValue={progressValue}
+                setProgressValue={setProgressValue}
+                setHintOpen={setHintOpen}
+                timerValue={timerValue}
+                doneHandler={doneHandler}
+                isModalDoneOpen={isModalDoneOpen}
+                ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
+                sendStatus={sendStatus}
+            />
         </>
     );
 };
