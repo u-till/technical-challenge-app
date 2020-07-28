@@ -1,7 +1,7 @@
 import styled from "styled-components";
 
 export const PageContainer = styled.div`
-  padding: 70px 5% 90px 5%;
+  padding: 40px 5% 40px 5%;
   display: flex;
   justify-content: center;
 `;

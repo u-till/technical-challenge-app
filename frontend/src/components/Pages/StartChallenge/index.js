@@ -12,7 +12,7 @@ import { useRouteMatch } from "react-router-dom";
 import example from "../../../assets/images/example-screenshot.png";
 import { useDispatch } from "react-redux";
 import { setChallengeStartTimeAction } from "../../../store/actions/challengeActions";
-import {Styledh2} from "../../../style/GlobalTitles";
+import { Styledh2 } from "../../../style/GlobalTitles";
 
 //////////
 // STYLE
@@ -84,7 +84,6 @@ const P = styled.p`
   text-align: justify;
 `;
 
-
 const ReadyButtonContainer = styled.div`
   display: flex;
   justify-content: space-between;
@@ -93,7 +92,7 @@ const ReadyButtonContainer = styled.div`
 
 const Instructionh1 = styled(Styledh1)`
   font-size: ${rem("40px")};
-`
+`;
 
 //////////
 // REACT
@@ -152,9 +151,9 @@ const StartChallenge = () => {
                   to the right of the test as a green checkmark or red X. A
                   green checkmark means a test passed, a red X means the test
                   failed. If tests fail, feel free to change your code and
-                  submit again. The dots on the bottom bar will show green
-                  for a completed challenge and red for an incomplete
-                  challenge so you can keep track of which you have finished.
+                  submit again. The dots on the bottom bar will show green for a
+                  completed challenge and red for an incomplete challenge so you
+                  can keep track of which you have finished.
                 </LI>
                 <br></br>
                 <LI>
