@@ -8,12 +8,14 @@ import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
 import {rem} from "polished";
 
 const SmallCodeMirrorWrapper = styled.div`
+  //overflow: hidden !important;
   background-color: #263238;
   height: 100%;
   display: flex;
   justify-content: space-around;
   flex-direction: column;
   padding-right: 16px;
+  overflow-x: hidden;
   div {
     display: flex;
     justify-content: space-between;
@@ -22,6 +24,14 @@ const SmallCodeMirrorWrapper = styled.div`
 `;
 
 const StyledSmallCodeMirror = styled(CodeMirror)`
+  .CodeMirror-scroll {
+    overflow: hidden !important;
+  }
+
+  /* hide the scrollbars */
+  .editor .CodeMirror-vscrollbar, .editor .CodeMirror-hscrollbar {
+    display: none !important;
+  }
   * {
     font-size: 18px;
     font-family: "Courier New", Courier, monospace !important;
