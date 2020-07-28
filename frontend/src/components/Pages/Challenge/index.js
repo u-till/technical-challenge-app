@@ -1,23 +1,23 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import styled from "styled-components";
-import {rem} from "polished";
-import {BaseContainer} from "../../../style/GlobalWrappers";
-import {Styledh1, Styledh2} from "../../../style/GlobalTitles";
+import { rem } from "polished";
+import { BaseContainer } from "../../../style/GlobalWrappers";
+import { Styledh1, Styledh2 } from "../../../style/GlobalTitles";
 import {
-    Container as ResizeContainer,
-    Section,
-    Bar,
+  Container as ResizeContainer,
+  Section,
+  Bar,
 } from "react-simple-resizer";
-import {connect} from "react-redux";
+import { connect } from "react-redux";
 import {
-    getUserChallengeAction,
-    setUserChallengeScoreAction,
+  getUserChallengeAction,
+  setUserChallengeScoreAction,
 } from "../../../store/actions/challengeActions";
-import {useRouteMatch} from "react-router-dom";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {runTestAction} from "../../../store/actions/testActions";
+import { useRouteMatch } from "react-router-dom";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { runTestAction } from "../../../store/actions/testActions";
 import Error from "../../Shared/Error";
-import {GenericSpinnerSmall} from "../../Shared/GenericSpinner";
+import { GenericSpinnerSmall } from "../../Shared/GenericSpinner";
 import Hint from "./Hint";
 import SmallCodeMirror from "./SmallCodeMirror";
 import LargeCodeMirror from "./LargeCodeMirror";
@@ -85,11 +85,14 @@ const ChallengeTitle = styled(Styledh1)`
 `;
 
 const DescriptionContent = styled.div`
-  overflow-y: auto;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   height: 100%;
+  overflow: hidden;
+  div:first-child {
+    overflow-y: auto;
+  }
 `;
 
 const InputColumn = styled(Section)`
@@ -165,243 +168,247 @@ const RunButton = styled.button`
 //////////
 
 const Challenge = ({
-                       targetChallenge,
-                       getUserChallengeAction,
-                       runTestAction,
-                       userObj,
-                       setUserChallengeScoreAction,
-                       history,
-                   }) => {
-    const match = useRouteMatch();
-    const [getRunError, setRunError] = useState("");
-    // Used in GenericDoneModal to change button text during request
-    const [sendStatus, setSendStatus] = useState(false);
-    const [isModalDoneOpen, setModalDoneOpen] = useState(false);
+  targetChallenge,
+  getUserChallengeAction,
+  runTestAction,
+  userObj,
+  setUserChallengeScoreAction,
+  history,
+}) => {
+  const match = useRouteMatch();
+  const [getRunError, setRunError] = useState("");
+  // Used in GenericDoneModal to change button text during request
+  const [sendStatus, setSendStatus] = useState(false);
+  const [isModalDoneOpen, setModalDoneOpen] = useState(false);
 
-    const ModalDoneOpenCloseHandler = () => {
-        setModalDoneOpen(!isModalDoneOpen);
+  const ModalDoneOpenCloseHandler = () => {
+    setModalDoneOpen(!isModalDoneOpen);
+  };
+
+  const [isHintOpen, setHintOpen] = useState(false);
+  const HintDoneOpenCloseHandler = () => {
+    setHintOpen(!isHintOpen);
+  };
+
+  const [isRunningCode, setRunningCode] = useState(false);
+  const [timerValue, setTimerValue] = useState(null);
+  const [progressValue, setProgressValue] = useState(0);
+  const [codeData, setCodeData] = useState({
+    0: { code: "", status: { 0: null, 1: null, 2: null } },
+    1: { code: "", status: { 0: null, 1: null, 2: null } },
+    2: { code: "", status: { 0: null, 1: null, 2: null } },
+    3: { code: "", status: { 0: null, 1: null, 2: null } },
+    4: { code: "", status: { 0: null, 1: null, 2: null } },
+    5: { code: "", status: { 0: null, 1: null, 2: null } },
+  });
+
+  const [score, setScore] = useState({
+    0: 0,
+    1: 0,
+    2: 0,
+    3: 0,
+    4: 0,
+    5: 0,
+  });
+
+  useEffect(() => {
+    let prevText = localStorage.getItem("challenge");
+    prevText = JSON.parse(prevText);
+    if (prevText && prevText.challenge === match.params.challengeId) {
+      setCodeData(prevText.content);
+      setScore(prevText.score);
+    }
+    const challengeStart = async () => {
+      const [response, started] = await getUserChallengeAction(
+        match.params.challengeId
+      );
+      if (response.status === 200) {
+        const endTime = 1800000 + parseInt(started);
+        const now = new Date();
+        const timeLeft = endTime - now.getTime();
+        timeLeft > 0 ? setTimerValue(timeLeft) : setTimerValue(1);
+      }
     };
+    challengeStart();
+  }, [getUserChallengeAction, match.params.challengeId]);
 
-    const [isHintOpen, setHintOpen] = useState(false);
-    const HintDoneOpenCloseHandler = () => {
-        setHintOpen(!isHintOpen);
+  const runTestHandler = async (e) => {
+    setRunError(null);
+    setRunningCode(true);
+    e.preventDefault();
+    const testData = {
+      code: codeData[progressValue].code,
+      first_name: userObj.first_name,
+      last_name: userObj.last_name,
+      user_id: userObj.id,
     };
-
-    const [isRunningCode, setRunningCode] = useState(false);
-    const [timerValue, setTimerValue] = useState(null);
-    const [progressValue, setProgressValue] = useState(0);
-    const [codeData, setCodeData] = useState({
-        0: {code: "", status: {0: null, 1: null, 2: null}},
-        1: {code: "", status: {0: null, 1: null, 2: null}},
-        2: {code: "", status: {0: null, 1: null, 2: null}},
-        3: {code: "", status: {0: null, 1: null, 2: null}},
-        4: {code: "", status: {0: null, 1: null, 2: null}},
-        5: {code: "", status: {0: null, 1: null, 2: null}},
-    });
-
-    const [score, setScore] = useState({
-        0: 0,
-        1: 0,
-        2: 0,
-        3: 0,
-        4: 0,
-        5: 0,
-    });
-
-    useEffect(() => {
-        let prevText = localStorage.getItem("challenge");
-        prevText = JSON.parse(prevText);
-        if (prevText && prevText.challenge === match.params.challengeId) {
-            setCodeData(prevText.content);
-            setScore(prevText.score);
-        }
-        const challengeStart = async () => {
-            const [response, started] = await getUserChallengeAction(
-                match.params.challengeId
-            );
-            if (response.status === 200) {
-                const endTime = 1800000 + parseInt(started);
-                const now = new Date();
-                const timeLeft = endTime - now.getTime();
-                timeLeft > 0 ? setTimerValue(timeLeft) : setTimerValue(1);
-            }
-        };
-        challengeStart();
-    }, [getUserChallengeAction, match.params.challengeId]);
-
-    const runTestHandler = async (e) => {
-        setRunError(null);
-        setRunningCode(true);
-        e.preventDefault();
-        const testData = {
-            code: codeData[progressValue].code,
-            first_name: userObj.first_name,
-            last_name: userObj.last_name,
-            user_id: userObj.id,
-        };
-        const response = await runTestAction(
-            targetChallenge.questions[progressValue].id,
-            testData
-        );
-        if (response.status === 200) {
-            if (response.data.asserts.length) {
-                let newStatus = {};
-                response.data.asserts.forEach(
-                    (test, index) => (newStatus[index] = test.ok)
-                );
-                setCodeData({
-                    ...codeData,
-                    [progressValue]: {...codeData[progressValue], status: newStatus},
-                });
-                setScore({
-                    ...score,
-                    [progressValue]:
-                        targetChallenge.questions[progressValue].difficulty === "E"
-                            ? 3
-                            : targetChallenge.questions[progressValue].difficulty === "I"
-                            ? 5
-                            : 8,
-                });
-            } else {
-                setRunError("Failed due to Naming/Syntax -- Try Again");
-            }
-        }
-        if (response.status > "399") {
-            setRunError("Server Error, contact administrator");
-        }
-        setRunningCode(false);
-        localStorage.setItem(
-            "challenge",
-            JSON.stringify({
-                challenge: match.params.challengeId,
-                content: codeData,
-                score: score,
-            })
-        );
-    };
-
-    const getMaxScore = () => {
-        let perfectScore = 0;
-        targetChallenge.questions.forEach(
-            (question) =>
-                (perfectScore +=
-                    question.difficulty === "E" ? 3 : question.difficulty === "I" ? 5 : 8)
-        );
-        return perfectScore;
-    };
-
-    const doneHandler = async (e) => {
-        setSendStatus(true);
-        if (e) {
-            e.preventDefault();
-        }
-        const candidateScore = {
-            score:
-                (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100,
-        };
-        const response = await setUserChallengeScoreAction(
-            targetChallenge.id,
-            candidateScore
-        );
-        setSendStatus(false);
-        if (response.status === 200) {
-            localStorage.removeItem("challenge");
-            history.push("/finishedchallenge");
-        }
-    };
-
-    return (
-        <>
-            <ChallengeContainer>
-                <StyledResizeContainer>
-                    <DescriptionColumn defaultSize={600} minSize={400}>
-                        {targetChallenge ? (
-                            <>
-                                <DescriptionContainer>
-                                    <DescriptionHeader>
-                                        <ChallengeTitle>
-                                            {targetChallenge.questions[progressValue].name}
-                                        </ChallengeTitle>
-                                    </DescriptionHeader>
-                                    <DescriptionContent>
-                                        <p>
-                                            {targetChallenge.questions[progressValue].instructions}
-                                        </p>
-                                        {targetChallenge.questions[progressValue]
-                                            .fk_tip_question.length > 0 ? (
-                                            <Hint
-                                                isHintOpen={isHintOpen}
-                                                HintDoneOpenCloseHandler={HintDoneOpenCloseHandler}
-                                                targetChallenge={targetChallenge}
-                                                progressValue={progressValue}/>
-                                        ) : null}
-                                    </DescriptionContent>
-                                </DescriptionContainer>
-                                <TestsContainer>
-                                    <TestsHeader>
-                                        <Styledh2>Tests</Styledh2>
-                                        <ErrorDiv visibility={getRunError}>
-                                            <FontAwesomeIcon icon={["fas", "exclamation-triangle"]}/>
-                                            <Error errorMessage={getRunError}/>
-                                        </ErrorDiv>
-                                    </TestsHeader>
-                                    <SmallCodeMirror targetChallenge={targetChallenge}
-                                                     progressValue={progressValue}
-                                                     codeData={codeData}
-                                    />
-                                    {isRunningCode ? (
-                                        <RunButton onClick={runTestHandler} disabled>
-                                            <span>
-                                                <p>Run Code and Submit</p>
-                                                <GenericSpinnerSmall/>
-                                            </span>
-                                        </RunButton>
-                                    ) : (
-                                        <RunButton onClick={runTestHandler}>
-                                            <div>
-                                                <p>Run Code and Submit</p>
-                                            </div>
-                                        </RunButton>
-                                    )}
-                                </TestsContainer>
-                            </>
-                        ) : null}
-                    </DescriptionColumn>
-                    <StyledResizeBar/>
-                    <InputColumn minSize={400}>
-                        <LargeCodeMirror
-                            codeData={codeData}
-                            progressValue={progressValue}
-                            challengeId={match.params.challengeId}
-                            score={score}
-                            setCodeData={setCodeData}
-                        />
-                    </InputColumn>
-                </StyledResizeContainer>
-            </ChallengeContainer>
-            <ChallengeFooter
-                progressValue={progressValue}
-                setProgressValue={setProgressValue}
-                setHintOpen={setHintOpen}
-                timerValue={timerValue}
-                doneHandler={doneHandler}
-                isModalDoneOpen={isModalDoneOpen}
-                ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
-                sendStatus={sendStatus}
-            />
-        </>
+    const response = await runTestAction(
+      targetChallenge.questions[progressValue].id,
+      testData
     );
+    if (response.status === 200) {
+      if (response.data.asserts.length) {
+        let newStatus = {};
+        response.data.asserts.forEach(
+          (test, index) => (newStatus[index] = test.ok)
+        );
+        setCodeData({
+          ...codeData,
+          [progressValue]: { ...codeData[progressValue], status: newStatus },
+        });
+        setScore({
+          ...score,
+          [progressValue]:
+            targetChallenge.questions[progressValue].difficulty === "E"
+              ? 3
+              : targetChallenge.questions[progressValue].difficulty === "I"
+              ? 5
+              : 8,
+        });
+      } else {
+        setRunError("Failed due to Naming/Syntax -- Try Again");
+      }
+    }
+    if (response.status > "399") {
+      setRunError("Server Error, contact administrator");
+    }
+    setRunningCode(false);
+    localStorage.setItem(
+      "challenge",
+      JSON.stringify({
+        challenge: match.params.challengeId,
+        content: codeData,
+        score: score,
+      })
+    );
+  };
+
+  const getMaxScore = () => {
+    let perfectScore = 0;
+    targetChallenge.questions.forEach(
+      (question) =>
+        (perfectScore +=
+          question.difficulty === "E" ? 3 : question.difficulty === "I" ? 5 : 8)
+    );
+    return perfectScore;
+  };
+
+  const doneHandler = async (e) => {
+    setSendStatus(true);
+    if (e) {
+      e.preventDefault();
+    }
+    const candidateScore = {
+      score:
+        (Object.values(score).reduce((a, b) => a + b) / getMaxScore()) * 100,
+    };
+    const response = await setUserChallengeScoreAction(
+      targetChallenge.id,
+      candidateScore
+    );
+    setSendStatus(false);
+    if (response.status === 200) {
+      localStorage.removeItem("challenge");
+      history.push("/finishedchallenge");
+    }
+  };
+
+  return (
+    <>
+      <ChallengeContainer>
+        <StyledResizeContainer>
+          <DescriptionColumn defaultSize={700} minSize={400}>
+            {targetChallenge ? (
+              <>
+                <DescriptionContainer>
+                  <DescriptionHeader>
+                    <ChallengeTitle>
+                      {targetChallenge.questions[progressValue].name}
+                    </ChallengeTitle>
+                  </DescriptionHeader>
+                  <DescriptionContent>
+                    <div>
+                      <p>
+                        {targetChallenge.questions[progressValue].instructions}
+                      </p>
+                    </div>
+                    {targetChallenge.questions[progressValue].fk_tip_question
+                      .length > 0 ? (
+                      <Hint
+                        isHintOpen={isHintOpen}
+                        HintDoneOpenCloseHandler={HintDoneOpenCloseHandler}
+                        targetChallenge={targetChallenge}
+                        progressValue={progressValue}
+                      />
+                    ) : null}
+                  </DescriptionContent>
+                </DescriptionContainer>
+                <TestsContainer>
+                  <TestsHeader>
+                    <Styledh2>Tests</Styledh2>
+                    <ErrorDiv visibility={getRunError}>
+                      <FontAwesomeIcon icon={["fas", "exclamation-triangle"]} />
+                      <Error errorMessage={getRunError} />
+                    </ErrorDiv>
+                  </TestsHeader>
+                  <SmallCodeMirror
+                    targetChallenge={targetChallenge}
+                    progressValue={progressValue}
+                    codeData={codeData}
+                  />
+                  {isRunningCode ? (
+                    <RunButton onClick={runTestHandler} disabled>
+                      <span>
+                        <p>Run Code and Submit</p>
+                        <GenericSpinnerSmall />
+                      </span>
+                    </RunButton>
+                  ) : (
+                    <RunButton onClick={runTestHandler}>
+                      <div>
+                        <p>Run Code and Submit</p>
+                      </div>
+                    </RunButton>
+                  )}
+                </TestsContainer>
+              </>
+            ) : null}
+          </DescriptionColumn>
+          <StyledResizeBar />
+          <InputColumn minSize={400}>
+            <LargeCodeMirror
+              codeData={codeData}
+              progressValue={progressValue}
+              challengeId={match.params.challengeId}
+              score={score}
+              setCodeData={setCodeData}
+            />
+          </InputColumn>
+        </StyledResizeContainer>
+      </ChallengeContainer>
+      <ChallengeFooter
+        progressValue={progressValue}
+        setProgressValue={setProgressValue}
+        setHintOpen={setHintOpen}
+        timerValue={timerValue}
+        doneHandler={doneHandler}
+        isModalDoneOpen={isModalDoneOpen}
+        ModalDoneOpenCloseHandler={ModalDoneOpenCloseHandler}
+        sendStatus={sendStatus}
+      />
+    </>
+  );
 };
 
 const mapStateToProps = (state) => {
-    return {
-        targetChallenge: state.challengeReducer.targetChallenge,
-        userObj: state.authReducer.userObj,
-    };
+  return {
+    targetChallenge: state.challengeReducer.targetChallenge,
+    userObj: state.authReducer.userObj,
+  };
 };
 
 export default connect(mapStateToProps, {
-    getUserChallengeAction,
-    runTestAction,
-    setUserChallengeScoreAction,
+  getUserChallengeAction,
+  runTestAction,
+  setUserChallengeScoreAction,
 })(Challenge);

@@ -1,11 +1,11 @@
 import React from "react";
 import styled from "styled-components";
-import {Controlled as CodeMirror} from "react-codemirror2";
+import { Controlled as CodeMirror } from "react-codemirror2";
 import "codemirror/lib/codemirror.css";
 import "codemirror/theme/material.css";
 import "codemirror/mode/javascript/javascript.js";
-import {FontAwesomeIcon} from "@fortawesome/react-fontawesome";
-import {rem} from "polished";
+import { FontAwesomeIcon } from "@fortawesome/react-fontawesome";
+import { rem } from "polished";
 
 const SmallCodeMirrorWrapper = styled.div`
   background-color: #263238;
@@ -48,34 +48,34 @@ const FontAwesomeIconFail = styled(FontAwesomeIcon)`
   background-color: white;
 `;
 
-const SmallCodeMirror = ({targetChallenge, progressValue, codeData}) => {
-    return (<SmallCodeMirrorWrapper>
-        {targetChallenge.questions[
-            progressValue
-            ].tests_for_question.map((test, index) => (
-            <div key={`test ${index}`}>
-                <StyledSmallCodeMirror
-                    value={test}
-                    options={{
-                        mode: "javascript",
-                        theme: "material",
-                        lineNumbers: true,
-                        firstLineNumber: index + 1,
-                    }}
-                    onChange={(editor, data, value) => {
-                    }}
-                />
-                {codeData[progressValue].status[index] ===
-                null ? null : codeData[progressValue].status[index] ? (
-                    <FontAwesomeIconSuccess
-                        icon={["fas", "check-circle"]}
-                    />
-                ) : (
-                    <FontAwesomeIconFail icon={["fas", "times-circle"]}/>
-                )}
-            </div>
-        ))}
-    </SmallCodeMirrorWrapper>)
+const SmallCodeMirror = ({ targetChallenge, progressValue, codeData }) => {
+  return (
+    <SmallCodeMirrorWrapper>
+      {targetChallenge.questions[progressValue].tests_for_question.map(
+        (test, index) => (
+          <div key={`test ${index}`}>
+            <StyledSmallCodeMirror
+              value={test}
+              options={{
+                mode: "javascript",
+                theme: "material",
+                lineNumbers: true,
+                firstLineNumber: index + 1,
+              }}
+              onChange={(editor, data, value) => {}}
+            />
+            {codeData[progressValue].status[index] === null ? null : codeData[
+                progressValue
+              ].status[index] ? (
+              <FontAwesomeIconSuccess icon={["fas", "check-circle"]} />
+            ) : (
+              <FontAwesomeIconFail icon={["fas", "times-circle"]} />
+            )}
+          </div>
+        )
+      )}
+    </SmallCodeMirrorWrapper>
+  );
 };
 
-export default SmallCodeMirror
+export default SmallCodeMirror;
