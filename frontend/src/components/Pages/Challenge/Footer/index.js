@@ -32,9 +32,12 @@ const FooterSectionLeft = styled.div`
   min-width: 48%;
 `;
 
-const PrevNextButton = styled(BlueButton)``;
+const PrevNextButton = styled(BlueButton)`
+  width: 150px
+`;
 const PrevNextButtonDisabled = styled(BlueButton)`
   cursor: not-allowed;
+  width: 150px;
 `;
 
 const StepSelectorContainer = styled.div`

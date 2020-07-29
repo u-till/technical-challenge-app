@@ -91,7 +91,7 @@ const FinishedChallenge = () => {
           <RightSideContainer>
             <ChallengeDone>
               <div>
-                <H2>Good job!</H2>
+                <H2>Thanks for submitting your challenge!</H2>
                 <br />
                 <P>
                   You will receive an email in your mailbox with information
