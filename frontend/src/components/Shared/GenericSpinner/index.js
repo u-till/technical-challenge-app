@@ -45,3 +45,9 @@ export const GenericSpinnerSmallBtn = () => (
     <ClipLoader size={16} sizeUnit={"px"} color={"#fff"} />
   </Center>
 );
+
+export const GenericSpinnerSmallBtnBlk = () => (
+  <Center>
+    <ClipLoader size={16} sizeUnit={"px"} color={"#000"} />
+  </Center>
+);
