@@ -5,6 +5,18 @@ from tests.helpers import *
 from tests.tape_tests import *
 
 
+class GetCandidateCodeView(GenericAPIView):
+
+    def post(self, request):
+        num = request.data['question_id']
+        first_name = request.data['first_name']
+        last_name = request.data['last_name']
+        candidate_id = request.data['candidate_id']
+
+        data = read_the_candidate_code(num, candidate_id, first_name, last_name);
+        return Response(data=data)
+
+
 class RunTestOne(GenericAPIView):
     permission_classes = [IsAuthenticated]
     tape_one = question_one_tapes["one"]
@@ -16,14 +28,14 @@ class RunTestOne(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "one"
+        num = 1
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -38,14 +50,14 @@ class RunTestTwo(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "two"
+        num = 2
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -60,14 +72,14 @@ class RunTestThree(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "three"
+        num = 3
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -82,14 +94,14 @@ class RunTestFour(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "four"
+        num = 4
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -104,14 +116,14 @@ class RunTestFive(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "five"
+        num = 5
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -126,14 +138,14 @@ class RunTestSix(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "six"
+        num = 6
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -148,14 +160,14 @@ class RunTestSeven(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "seven"
+        num = 7
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -170,14 +182,14 @@ class RunTestEight(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "eight"
+        num = 8
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -192,14 +204,14 @@ class RunTestNine(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "nine"
+        num = 9
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
 
 
@@ -214,12 +226,12 @@ class RunTestTen(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         user_id = request.data['user_id']
-        num_word = "ten"
+        num = 10
 
-        make_directory(num_word, user_id, first_name, last_name)
-        f = open_test_file(num_word, user_id, first_name, last_name)
+        make_directory(num, user_id, first_name, last_name)
+        f = open_test_file(num, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        data = read_the_test_result(num_word, user_id, first_name, last_name)
+        run_the_test_code(num, user_id, first_name, last_name)
+        data = read_the_test_result(num, user_id, first_name, last_name)
         return Response(data=data)
