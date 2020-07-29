@@ -177,7 +177,7 @@ const ManageUsers = ({ allUsers, getAllUsersAction, notEmpty }) => {
                 onChange={(e) => inputHandler(e, setSort)}
               >
                 <option value="last_name">Last Name</option>
-                <option value="date">Date Created</option>
+                <option value="date">Date Joined</option>
               </SortUDropdown>
               <SearchUInput
                 type="text"

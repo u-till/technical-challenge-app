@@ -10,7 +10,7 @@ import { getAllChallengesAction } from "../../../store/actions/challengeActions"
 import { GenericSpinner } from "../../Shared/GenericSpinner";
 import {
   sortByCandidateLastName,
-  sortByCreated,
+  sortByUpdated,
   sortByStatus,
 } from "../../../Helpers";
 
@@ -125,7 +125,7 @@ const ManageChallenges = ({ getAllChallengesAction, allChallenges }) => {
         return mapChallengeCard(sortByStatus(searchChallenges));
       }
       default:
-        return mapChallengeCard(sortByCreated(searchChallenges));
+        return mapChallengeCard(sortByUpdated(searchChallenges));
     }
   };
 
@@ -145,7 +145,7 @@ const ManageChallenges = ({ getAllChallengesAction, allChallenges }) => {
               >
                 <option value="status">Status</option>
                 <option value="last_name">Candidate Name</option>
-                <option value="date">Date Created</option>
+                <option value="date">Date Updated</option>
               </SortCDropdown>
               <SearchCInput
                 type="text"

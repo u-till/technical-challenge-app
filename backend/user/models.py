@@ -36,7 +36,7 @@ class User(AbstractUser):
     )
 
     updated = models.DateTimeField(
-        auto_now_add=True
+        auto_now=True
     )
 
     avatar = models.ImageField(

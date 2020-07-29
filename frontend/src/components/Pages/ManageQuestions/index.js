@@ -18,11 +18,7 @@ import { GenericSpinner } from "../../Shared/GenericSpinner";
 import { resetError } from "../../../store/actions/verificationAction";
 import EditQuestion from "./EditQuestion";
 import AddQuestion from "./AddQuestion";
-import {
-  sortByCreated,
-  sortByDifficulty,
-  sortByPointValue,
-} from "../../../Helpers";
+import {sortByDifficulty, sortByUpdated} from "../../../Helpers";
 
 //////////
 // STYLE
@@ -94,7 +90,7 @@ const SortQDropdown = styled.select`
   box-sizing: border-box;
   border-radius: 5px;
   height: ${rem("38px")};
-  width: ${rem("120px")};
+  width: ${rem("130px")};
   &:focus {
     outline: none;
   }
@@ -126,7 +122,7 @@ const Questions = ({
 }) => {
   const dispatch = useDispatch();
   // Used to sort by difficulty, points, and date created
-  const [sort, setSort] = useState("date");
+  const [sort, setSort] = useState("difficulty");
   const [search, setSearch] = useState("");
   const inputSortSearchHandler = (e, func) => {
     func(e.currentTarget.value);
@@ -273,12 +269,12 @@ const Questions = ({
       ));
     };
     if (sort === "date") {
-      return mapQuestionCard(sortByCreated(searchedQuestions));
+      return mapQuestionCard(sortByUpdated(searchedQuestions));
     }
     if (sort === "difficulty") {
       return mapQuestionCard(sortByDifficulty(searchedQuestions));
     }
-    return mapQuestionCard(sortByPointValue(searchedQuestions));
+    // return mapQuestionCard(sortByPointValue(searchedQuestions));
   };
 
   return (
@@ -328,9 +324,9 @@ const Questions = ({
                   value={sort}
                   onChange={(e) => inputSortSearchHandler(e, setSort)}
                 >
-                  <option value="date">Date</option>
                   <option value="difficulty">Difficulty</option>
-                  <option value="points">Points</option>
+                  <option value="date">Date Updated</option>
+                  {/*<option value="points">Points</option>*/}
                 </SortQDropdown>
                 <SearchQInput
                   type="text"
