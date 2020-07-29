@@ -220,5 +220,6 @@ class RunTestTen(GenericAPIView):
         f = open_test_file(num_word, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
+        run_the_test_code(num_word, user_id, first_name, last_name)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
