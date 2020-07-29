@@ -113,9 +113,9 @@ const TestInput = styled(BaseInput)`
   height: ${rem("6px")};
 `;
 
-const DeleteSave = styled.div`
+const AddBtn = styled.div`
   display: flex;
-  justify-content: space-between;
+  justify-content: flex-end;
   > div:last-child {
     display: flex;
     justify-content: space-between;
@@ -237,9 +237,9 @@ const AddQuestion = ({
         </InputLabelDiv>
       </TestInputContainerAdd>
 
-      <DeleteSave>
+      <AddBtn>
         <BlueButton onClick={handleAddQuestion}>Add</BlueButton>
-      </DeleteSave>
+      </AddBtn>
     </>
   );
 };

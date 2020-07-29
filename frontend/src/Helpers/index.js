@@ -56,3 +56,4 @@ export const filterByStaff = (arr, bool) => {
     return arr.filter((user) => !user.is_staff);
   }
 };
+
