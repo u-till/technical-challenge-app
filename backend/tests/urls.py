@@ -12,4 +12,5 @@ urlpatterns = [
     path('8/', RunTestEight.as_view()),
     path('9/', RunTestNine.as_view()),
     path('10/', RunTestTen.as_view()),
+    path('getcode/', GetCandidateCodeView.as_view())
 ]
