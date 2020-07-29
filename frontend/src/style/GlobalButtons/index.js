@@ -50,6 +50,7 @@ export const RoundGreyButton = styled.div`
     border: 1px solid #9a9a9a;
     color: #363636;
   }
+  cursor: pointer;
   //color: black;
   //cursor: pointer;
   //border: 1px solid black;
