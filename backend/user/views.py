@@ -133,7 +133,7 @@ class ResendUserValidationEmail(UpdateAPIView):
     def patch(self, request, *args, **kwargs):
         new_user = User.objects.get(id=kwargs['id'])
         email = EmailMultiAlternatives()
-        email.subject = 'Propulsion Academy - New Candidate Validation'
+        email.subject = 'Propulsion Academy - New User Validation'
         email.to = [new_user.email]
         html_content = generate_new_user(new_user)
         email.attach_alternative(html_content, "text/html")
