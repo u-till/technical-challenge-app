@@ -70,6 +70,11 @@ const ChallengeRightContainer = styled.div`
   display: flex;
   width: 70%;
   justify-content: space-between;
+  > div:last-child {
+    width: 100px;
+    display: flex;
+    justify-content: space-between;
+  }
 `;
 
 const DeleteButton = styled(RedButton)`
@@ -83,6 +88,11 @@ const SendButton = styled(BlueButton)`
   width: ${rem("34px")};
   height: ${rem("34px")};
   margin-left: 32px;
+  overflow: hidden;
+
+  * {
+    overflow: hidden;
+  }
 `;
 
 const AmpleLight = styled.div`

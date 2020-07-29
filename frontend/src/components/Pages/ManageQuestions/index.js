@@ -18,7 +18,7 @@ import { GenericSpinner } from "../../Shared/GenericSpinner";
 import { resetError } from "../../../store/actions/verificationAction";
 import EditQuestion from "./EditQuestion";
 import AddQuestion from "./AddQuestion";
-import {sortByDifficulty, sortByUpdated} from "../../../Helpers";
+import { sortByDifficulty, sortByUpdated } from "../../../Helpers";
 
 //////////
 // STYLE
