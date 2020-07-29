@@ -13,7 +13,7 @@ class GetCandidateCodeView(GenericAPIView):
         last_name = request.data['last_name']
         candidate_id = request.data['candidate_id']
 
-        data = read_the_candidate_code(num, candidate_id, first_name, last_name);
+        data = read_the_candidate_code(num, candidate_id, first_name, last_name)
         return Response(data=data)
 
 
