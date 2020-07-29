@@ -37,7 +37,7 @@ const StyledSmallCodeMirror = styled(CodeMirror)`
     display: none !important;
   }
   * {
-    font-size: 18px;
+    font-size: 16px;
     font-family: "Courier New", Courier, monospace !important;
   }
   height: ${rem("32px")};
