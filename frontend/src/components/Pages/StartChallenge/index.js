@@ -27,7 +27,7 @@ const InformationContainer = styled.div`
 `;
 
 const ExampleImage = styled.div`
-  min-height: ${rem("535px")};
+  min-height: ${rem("585px")};
   min-width: ${rem("820px")};
   background-repeat: no-repeat;
   background-size: contain;
@@ -60,6 +60,14 @@ const LeftSideContainer = styled.div`
 const ChallengeInstructions = styled.div`
   width: 100%;
   text-justify: auto;
+  ul {
+    width: 90%;
+    margin-left: 16px;
+    margin-bottom: 16px;
+  }
+  li {
+    font-size: 14px;
+  }
 `;
 
 const RightSideContainer = styled.div`
@@ -91,6 +99,7 @@ const ReadyButtonContainer = styled.div`
 `;
 
 const Instructionh1 = styled(Styledh1)`
+  padding-top: 0px;
   font-size: ${rem("40px")};
 `;
 
@@ -129,23 +138,23 @@ const StartChallenge = () => {
             <ChallengeInstructions>
               <Instructionh1>Instructions</Instructionh1>
               <ul>
-                <LI>
+                <li>
                   Welcome to your Technical Coding Challenge. You will have 30
                   minutes to pass 6 coding questions. The questions will have
                   varying levels of difficulty. You may move freely between each
                   question with the Next and Previous buttons. When you are
                   finished, click the Done button to submit your final results.
-                </LI>
+                </li>
                 <br></br>
-                <LI>
+                <li>
                   On the the Upper Left Panel is your Coding Challenge
                   Instructions. Pay close attention to the naming of functions,
                   functions with the wrong name will not be tested. If you need
                   some assistance feel free to click the " Get Hint " button for
                   some suggestions.
-                </LI>
+                </li>
                 <br></br>
-                <LI>
+                <li>
                   On the Lower Left Panel is the tests your code will be
                   evaluated against. The result of each test will be displayed
                   to the right of the test as a green checkmark or red X. A
@@ -154,16 +163,16 @@ const StartChallenge = () => {
                   submit again. The dots on the bottom bar will show green for a
                   completed challenge and red for an incomplete challenge so you
                   can keep track of which you have finished.
-                </LI>
+                </li>
                 <br></br>
-                <LI>
+                <li>
                   On the Right Panel is your coding input window. You will enter
                   your code here, paying close attention to naming and syntax.
                   When you think your code is correct, click the Submit button
                   to submit and evaluate your answer to the question against the
                   listed tests. If the tests Fail, you are welcome to adjust
                   your code and try again.
-                </LI>
+                </li>
                 <br></br>
                 <P>Best of Luck with your Technical Coding Challenge!!</P>
               </ul>
