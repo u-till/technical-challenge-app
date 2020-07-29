@@ -17,7 +17,7 @@ class Tip(models.Model):
     )
 
     updated = models.DateTimeField(
-        auto_now_add=True
+        auto_now=True
     )
 
     question = models.ForeignKey(

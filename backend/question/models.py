@@ -30,7 +30,7 @@ class Question(models.Model):
     )
 
     updated = models.DateTimeField(
-        auto_now_add=True
+        auto_now=True
     )
 
     question_creator = models.ForeignKey(

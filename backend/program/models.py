@@ -12,7 +12,7 @@ class Program(models.Model):
     )
 
     updated = models.DateTimeField(
-        auto_now_add=True
+        auto_now=True
     )
 
     def __str__(self):
