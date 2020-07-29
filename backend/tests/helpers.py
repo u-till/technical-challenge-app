@@ -1,5 +1,6 @@
 import os
 import json
+from subprocess import Popen, PIPE
 
 
 # ----- Functions used by all Tests run in tests/views.py to execute Tape tests ----
@@ -39,8 +40,9 @@ def write_test_file(file, code_to_test, tape_one, tape_two, tape_three):
 def run_the_test_code(num_word, user_id, first_name, last_name):
     result = f'tests/question_{num_word}/user_{user_id}_{first_name}_{last_name}/question_{num_word}_test_results.json'
     test = f'tests/question_{num_word}/user_{user_id}_{first_name}_{last_name}/question_{num_word}_tester.test.js'
-    os.popen(
-        f'RESULT={result} TEST={test} npm run test')
+    command = f'RESULT={result} TEST={test} npm run test'
+    process = Popen(command, shell=True, stdout=PIPE)
+    process.wait()
 
 
 # Reads the results of the Tape test piped through Tap Json and output to the file in candidates directory

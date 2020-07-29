@@ -3,7 +3,6 @@ from rest_framework.permissions import IsAuthenticated
 from rest_framework.response import Response
 from tests.helpers import *
 from tests.tape_tests import *
-import time
 
 
 class RunTestOne(GenericAPIView):
@@ -24,7 +23,6 @@ class RunTestOne(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -47,7 +45,6 @@ class RunTestTwo(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -70,7 +67,6 @@ class RunTestThree(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -93,7 +89,6 @@ class RunTestFour(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -116,7 +111,6 @@ class RunTestFive(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -139,7 +133,6 @@ class RunTestSix(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -162,7 +155,6 @@ class RunTestSeven(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -185,7 +177,6 @@ class RunTestEight(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -208,7 +199,6 @@ class RunTestNine(GenericAPIView):
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
         run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)
 
@@ -230,7 +220,5 @@ class RunTestTen(GenericAPIView):
         f = open_test_file(num_word, user_id, first_name, last_name)
         write_test_file(f, code_to_test, self.tape_one, self.tape_two, self.tape_three)
         f.close()
-        run_the_test_code(num_word, user_id, first_name, last_name)
-        time.sleep(3)
         data = read_the_test_result(num_word, user_id, first_name, last_name)
         return Response(data=data)

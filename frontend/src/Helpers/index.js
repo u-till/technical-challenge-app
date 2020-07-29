@@ -1,20 +1,17 @@
 // --- Sort / Filter Methods used in components ---
 export const sortByUpdated = (arr) => {
-  console.log("updated", arr)
   return arr.sort((a, b) =>
     a.updated > b.updated ? -1 : b.updated > a.updated ? 1 : 0
   );
 };
 
 export const sortByDifficulty = (arr) => {
-  console.log("difficulty", arr)
   return arr.sort((a, b) =>
     a.difficulty > b.difficulty ? 1 : b.difficulty > a.difficulty ? -1 : 0
   );
 };
 
 export const sortByPointValue = (arr) => {
-  console.log("points", arr)
   return arr.sort((a, b) =>
     a.points_value > b.points_value
       ? 1
