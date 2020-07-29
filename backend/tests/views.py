@@ -12,8 +12,10 @@ class GetCandidateCodeView(GenericAPIView):
         first_name = request.data['first_name']
         last_name = request.data['last_name']
         candidate_id = request.data['candidate_id']
-
-        data = read_the_candidate_code(num, candidate_id, first_name, last_name)
+        try:
+            data = read_the_candidate_code(num, candidate_id, first_name, last_name)
+        except FileNotFoundError:
+            return Response(data="No Code to Display")
         return Response(data=data)
 
 

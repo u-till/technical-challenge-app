@@ -12,7 +12,6 @@ import { useRouteMatch } from "react-router-dom";
 import example from "../../../assets/images/example-screenshot.png";
 import { useDispatch } from "react-redux";
 import { setChallengeStartTimeAction } from "../../../store/actions/challengeActions";
-import { Styledh2 } from "../../../style/GlobalTitles";
 
 //////////
 // STYLE
@@ -78,12 +77,6 @@ const RightSideContainer = styled.div`
   display: flex;
   flex-direction: column;
   margin-bottom: 24px;
-`;
-
-const LI = styled.li`
-  font-weight: normal;
-  font-size: ${rem("14px")};
-  text-align: justify;
 `;
 
 const P = styled.p`

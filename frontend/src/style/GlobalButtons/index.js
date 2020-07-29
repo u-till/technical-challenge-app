@@ -34,7 +34,7 @@ export const EditButton = styled.div`
   color: white;
 `;
 
-export const RoundGreyButton = styled.div`
+export const RoundGreyButton = styled.button`
   width: ${rem("30px")};
   height: ${rem("30px")};
   border-radius: 50%;
