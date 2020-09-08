@@ -2,6 +2,8 @@
 
 ## Description:
 
+Final Project for Propulsion Academy.
+
 App to automate Propulsion Academy technical interview process. Staff are able to create questions and generate challenges for candidates. Candidates can take a code challenge and receive their score by email.
 
 ## Key functionalities:
